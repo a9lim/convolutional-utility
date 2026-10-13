@@ -9,3 +9,6 @@
   `python formalism/checks.py`
 - `pathwise.py` — pathwise simulation of the recursive model with felt news, and the
   component plot; `python formalism/pathwise.py [out.png]`
+- `playground/` — the interactive page (`index.html`, published as an artifact) and
+  `model.js`, a JS port of `pathwise.py` that matches it to rounding, plus the direct model
+  and exact root-counting past the despair threshold

@@ -1,0 +1,649 @@
+<title>Convolutional Utility Playground</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,500;1,500&display=swap">
+<style>
+/* Layout: a chart-recorder strip on top (the life), the decomposition equation as its legend,
+   instrument-style control panels below in a wrapping grid; one column on a phone. */
+:root {
+  --bg: #f3f5f5;
+  --surface: #ffffff;
+  --ink: #1b2226;
+  --muted: #59646b;
+  --rule: #d9e0e1;
+  --grid: #e8eded;
+  --accent: #1d6a73;
+  --accent-soft: #dcecee;
+  --s-e: #1b2226;
+  --s-base: #8a949a;
+  --s-ant: #2d63ad;
+  --s-mem: #ad7410;
+  --s-news: #bf3727;
+  --ok: #2b7a4b;
+  --warn: #a96300;
+  --bad: #b1261d;
+  --bad-wash: rgba(177, 38, 29, 0.08);
+  --font-display: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10161a; --surface: #172025; --ink: #e5ebee; --muted: #97a4ac; --rule: #29343a;
+    --grid: #1e282d; --accent: #58b8c2; --accent-soft: #1d3338;
+    --s-e: #f1f4f6; --s-base: #8c979e; --s-ant: #6fa6ee; --s-mem: #e2a945; --s-news: #f0705e;
+    --ok: #5cc48a; --warn: #e6a23a; --bad: #f0736a; --bad-wash: rgba(240, 115, 106, 0.10);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10161a; --surface: #172025; --ink: #e5ebee; --muted: #97a4ac; --rule: #29343a;
+  --grid: #1e282d; --accent: #58b8c2; --accent-soft: #1d3338;
+  --s-e: #f1f4f6; --s-base: #8c979e; --s-ant: #6fa6ee; --s-mem: #e2a945; --s-news: #f0705e;
+  --ok: #5cc48a; --warn: #e6a23a; --bad: #f0736a; --bad-wash: rgba(240, 115, 106, 0.10);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px;
+  line-height: 1.5; padding-inline: 16px; padding-block: 20px 40px;
+}
+.wrap { max-width: 1080px; margin-inline: auto; display: grid; gap: 18px; }
+
+header { display: grid; gap: 6px; }
+h1 {
+  font-family: var(--font-display); font-weight: 500; font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+  line-height: 1.15; margin: 0; text-wrap: balance; letter-spacing: -0.01em;
+}
+.lede { margin: 0; color: var(--muted); max-width: 68ch; }
+
+.presets { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font: 500 0.85rem var(--font-body); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 999px; padding: 6px 12px; cursor: pointer;
+}
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.chip:focus-visible, button:focus-visible, input:focus-visible, .term:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+
+.strip {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 10px;
+  padding: 14px 14px 10px; display: grid; gap: 10px; min-width: 0;
+}
+.equation {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px;
+  font-family: var(--font-display); font-size: 1.12rem;
+}
+.equation .eq-lhs { font-style: italic; }
+.equation .op { color: var(--muted); }
+.term {
+  font: inherit; background: none; border: 0; padding: 0 2px; cursor: pointer; color: var(--ink);
+  border-bottom: 2px solid var(--c); line-height: 1.3;
+}
+.term[aria-pressed="false"] { opacity: 0.38; border-bottom-style: dashed; }
+.term .sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin-right: 5px; vertical-align: 0.08em; }
+.eq-note { font-family: var(--font-body); font-size: 0.78rem; color: var(--muted); }
+
+.chart-box { position: relative; width: 100%; min-width: 0; }
+svg.chart { display: block; width: 100%; height: auto; touch-action: pan-y; user-select: none; }
+svg.chart text { font-family: var(--font-data); font-size: 10.5px; fill: var(--muted); }
+svg.chart .evlabel { font-family: var(--font-body); font-size: 11px; fill: var(--ink); }
+
+.readout {
+  display: flex; flex-wrap: wrap; gap: 6px 14px; font-family: var(--font-data); font-size: 0.82rem;
+  font-variant-numeric: tabular-nums; color: var(--muted);
+}
+.readout b { font-weight: 500; color: var(--ink); }
+.readout .r { display: inline-flex; align-items: center; gap: 5px; }
+.readout .r i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); display: inline-block; }
+
+.status { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill {
+  font: 500 0.8rem var(--font-body); padding: 4px 10px; border-radius: 999px;
+  border: 1px solid var(--pc, var(--rule)); color: var(--pc, var(--ink)); background: var(--surface);
+  font-variant-numeric: tabular-nums;
+}
+.pill.ok { --pc: var(--ok); } .pill.warn { --pc: var(--warn); } .pill.bad { --pc: var(--bad); }
+.pill.plain { --pc: var(--rule); color: var(--ink); }
+
+.note { margin: 0; color: var(--muted); font-size: 0.9rem; max-width: 76ch; }
+.note strong { color: var(--ink); font-weight: 600; }
+
+.panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.panel {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px;
+  display: grid; gap: 12px; align-content: start; min-width: 0;
+}
+.panel h2 {
+  margin: 0; font: 600 0.74rem var(--font-body); text-transform: uppercase; letter-spacing: 0.09em;
+  color: var(--muted);
+}
+.ctl { display: grid; gap: 4px; }
+.ctl label { display: flex; justify-content: space-between; gap: 8px; font-size: 0.88rem; }
+.ctl label span.v { font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); }
+.ctl .hint { font-size: 0.76rem; color: var(--muted); }
+input[type="range"] { width: 100%; accent-color: var(--accent); margin: 0; }
+
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+.seg button {
+  font: 500 0.82rem var(--font-body); background: var(--surface); color: var(--ink); border: 0;
+  padding: 6px 10px; cursor: pointer;
+}
+.seg button + button { border-left: 1px solid var(--rule); }
+.seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
+.seg-row { display: grid; gap: 4px; }
+.toolbar { display: flex; align-items: center; gap: 8px; justify-content: flex-end; font-size: 0.84rem; color: var(--muted); }
+.seg-row > span { font-size: 0.88rem; }
+
+.events-panel { grid-column: 1 / -1; }
+.table-scroll { overflow-x: auto; }
+table.events { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 0.86rem; }
+table.events th {
+  text-align: left; font: 600 0.72rem var(--font-body); text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--muted); padding: 4px 6px; border-bottom: 1px solid var(--rule);
+}
+table.events td { padding: 4px 6px; border-bottom: 1px solid var(--grid); }
+table.events input {
+  width: 100%; font: 0.86rem var(--font-data); color: var(--ink); background: var(--bg);
+  border: 1px solid var(--rule); border-radius: 6px; padding: 4px 6px; font-variant-numeric: tabular-nums;
+}
+table.events input.name { font-family: var(--font-body); min-width: 110px; }
+.btn {
+  font: 500 0.84rem var(--font-body); border: 1px solid var(--rule); background: var(--surface);
+  color: var(--ink); border-radius: 8px; padding: 6px 12px; cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.x { padding: 3px 8px; color: var(--muted); }
+.events-foot { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
+.events-foot .hint { font-size: 0.78rem; color: var(--muted); }
+
+footer { color: var(--muted); font-size: 0.8rem; display: grid; gap: 4px; max-width: 80ch; }
+footer a { color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Convolutional Utility Playground</h1>
+    <p class="lede">A life's felt experience, built from base utility plus felt anticipation, memory, and news. Pick a scenario, move the sliders, and watch how a moment's experience echoes forward and back.</p>
+  </header>
+
+  <div class="presets" id="presets" role="group" aria-label="Scenarios"></div>
+
+  <section class="strip" aria-label="Simulated life">
+    <div class="equation" id="equation">
+      <span class="eq-lhs">e<sub>t</sub></span><span class="op">=</span>
+      <button class="term" id="term-base" style="--c: var(--s-base)" aria-pressed="true"><span class="sw"></span>base u<sub>t</sub></button>
+      <span class="op">+</span>
+      <button class="term" id="term-anticipation" style="--c: var(--s-ant)" aria-pressed="true"><span class="sw"></span>anticipation</button>
+      <span class="op">+</span>
+      <button class="term" id="term-memory" style="--c: var(--s-mem)" aria-pressed="true"><span class="sw"></span>memory</button>
+      <span class="op">+</span>
+      <button class="term" id="term-news" style="--c: var(--s-news)" aria-pressed="true"><span class="sw"></span>news</button>
+      <span class="eq-note">Tap a term to hide or show it. The black line is e<sub>t</sub>, felt experience.</span>
+    </div>
+    <div class="toolbar">
+      <span>Scale</span>
+      <div class="seg" role="group" aria-label="Vertical scale">
+        <button id="zoom-full" aria-pressed="true">Whole life</button>
+        <button id="zoom-close" aria-pressed="false">Close-up</button>
+      </div>
+    </div>
+    <div class="chart-box" id="chart-box">
+      <svg class="chart" id="chart" role="img" aria-label="Felt experience over time and its components"></svg>
+    </div>
+    <div class="readout" id="readout" aria-live="polite"></div>
+    <div class="status" id="status"></div>
+  </section>
+
+  <p class="note" id="preset-note"></p>
+
+  <div class="panels">
+    <section class="panel" aria-labelledby="h-model">
+      <h2 id="h-model">Model</h2>
+      <div class="seg-row">
+        <span>Echoes</span>
+        <div class="seg" role="group" aria-label="Echo model">
+          <button id="rec-on" aria-pressed="true">Recursive</button>
+          <button id="rec-off" aria-pressed="false">Direct</button>
+        </div>
+      </div>
+      <div class="seg-row">
+        <span>News is about</span>
+        <div class="seg" role="group" aria-label="What news is about">
+          <button id="over-e" aria-pressed="true">How life will feel</button>
+          <button id="over-u" aria-pressed="false">Base utility</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label for="c-ghost"><span>Show the other news setting as a dashed line</span><input type="checkbox" id="c-ghost" checked></label>
+      </div>
+      <div class="ctl"><label for="c-T"><span>Life length T</span><span class="v" id="v-T"></span></label><input type="range" id="c-T" min="20" max="100" step="1"></div>
+      <div class="ctl"><label for="c-base"><span>Baseline u</span><span class="v" id="v-base"></span></label><input type="range" id="c-base" min="-1" max="1" step="0.05"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="h-ant">
+      <h2 id="h-ant">Anticipation k(j) = a·β<sup>j</sup></h2>
+      <div class="ctl"><label for="c-a"><span>Strength a</span><span class="v" id="v-a"></span></label><input type="range" id="c-a" min="0" max="0.3" step="0.005"></div>
+      <div class="ctl"><label for="c-b"><span>Reach β</span><span class="v" id="v-b"></span></label><input type="range" id="c-b" min="0.3" max="0.97" step="0.01"></div>
+      <span class="hint" id="hint-ant"></span>
+    </section>
+
+    <section class="panel" aria-labelledby="h-mem">
+      <h2 id="h-mem">Memory k(−j) = m·α<sup>j</sup></h2>
+      <div class="ctl"><label for="c-m"><span>Strength m</span><span class="v" id="v-m"></span></label><input type="range" id="c-m" min="0" max="0.3" step="0.005"></div>
+      <div class="ctl"><label for="c-al"><span>Reach α</span><span class="v" id="v-al"></span></label><input type="range" id="c-al" min="0.3" max="0.97" step="0.01"></div>
+      <span class="hint" id="hint-mem"></span>
+    </section>
+
+    <section class="panel" aria-labelledby="h-news">
+      <h2 id="h-news">News</h2>
+      <div class="ctl"><label for="c-nu0"><span>Surprise when it happens ν(0)</span><span class="v" id="v-nu0"></span></label><input type="range" id="c-nu0" min="0" max="0.8" step="0.01"></div>
+      <div class="ctl"><label for="c-nu1"><span>News about the future ν(1)</span><span class="v" id="v-nu1"></span></label><input type="range" id="c-nu1" min="0" max="0.4" step="0.005"></div>
+      <div class="ctl"><label for="c-nuDecay"><span>How far ahead news is felt</span><span class="v" id="v-nuDecay"></span></label><input type="range" id="c-nuDecay" min="0.3" max="0.99" step="0.01"></div>
+      <div class="ctl"><label for="c-lam"><span>Loss aversion λ</span><span class="v" id="v-lam"></span></label><input type="range" id="c-lam" min="1" max="4" step="0.05"></div>
+    </section>
+
+    <section class="panel events-panel" aria-labelledby="h-events">
+      <h2 id="h-events">Events</h2>
+      <div class="table-scroll">
+        <table class="events">
+          <thead><tr><th>What</th><th>Happens at</th><th>Value</th><th>Announced at</th><th>Cancelled at</th><th><span class="sr" hidden>Remove</span></th></tr></thead>
+          <tbody id="events-body"></tbody>
+        </table>
+      </div>
+      <div class="events-foot">
+        <button class="btn" id="add-event">Add event</button>
+        <span class="hint">Leave "announced at" empty for a surprise. Times run from 0 to T − 1.</span>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <span>Each self solves for its own felt experience and its forecast of the rest of its life, given what it knows. Forecasts expect no further news. News is loss-averse: bad revisions count λ times. Kernels and news weights are geometric.</span>
+    <span>Model: <a href="https://github.com/a9lim/convolutional-utility" target="_blank" rel="noopener">a9lim/convolutional-utility</a>, <code>formalism/core.md</code> (felt news, N1–N4) and <code>formalism/pathwise.py</code>, which this page reproduces.</span>
+  </footer>
+</div>
+
+<script src="model.js"></script>
+<script>
+(function () {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+
+  const SHARED = { a: 0.09, b: 0.88, m: 0.05, al: 0.75, nu0: 0.3, nu1: 0.06, nuDecay: 0.97, lam: 2, base: 0, T: 50 };
+  const PRESETS = [
+    { key: "disneyland", name: "Disneyland",
+      note: "<strong>A big trip, announced early.</strong> The news lands as a jolt. The excitement fades into a lull while the trip is far away, then anticipation ramps up as it gets close. Afterwards, memory carries an afterglow. The close-up scale clips the trip itself so the build-up is visible.",
+      params: { ...SHARED }, over: "e", recursive: true, zoom: "close",
+      events: [{ name: "Disneyland", at: 34, value: 5, announce: 6, cancel: null }] },
+    { key: "trips", name: "Two trips and a surprise",
+      note: "<strong>The scenario from the project figure.</strong> The first trip happens as planned, so it brings no news when it arrives. A surprise loss hits with base utility and news together, then lingers in memory. The second trip is cancelled: with news about how life will feel, that costs the anticipation you were counting on.",
+      params: { a: 0.1, b: 0.85, m: 0.1, al: 0.75, nu0: 0.3, nu1: 0.07, nuDecay: 0.7, lam: 2, base: 0, T: 60 }, over: "e", recursive: true,
+      events: [{ name: "Trip 1", at: 20, value: 3, announce: 5, cancel: null },
+               { name: "Trip 2", at: 45, value: 3, announce: 25, cancel: 40 },
+               { name: "Surprise loss", at: 33, value: -3, announce: null, cancel: null }] },
+    { key: "cancelled", name: "A cancelled plan",
+      note: "<strong>Planned, looked forward to, then called off.</strong> Compare the two news settings: when news is about how life will feel, the cancellation takes back the anticipation too, and the life-sum ends near zero.",
+      params: { ...SHARED }, over: "e", recursive: true,
+      events: [{ name: "Holiday", at: 35, value: 4, announce: 5, cancel: 28 }] },
+    { key: "badnews", name: "Bad news in advance",
+      note: "<strong>A loss you learn about long before it happens.</strong> The news hits early and hard, then dread builds as the day approaches. Delete the announcement time to turn it into a surprise and compare the life-sum.",
+      params: { ...SHARED }, over: "e", recursive: true,
+      events: [{ name: "Loss", at: 38, value: -4, announce: 10, cancel: null }] },
+    { key: "threshold", name: "Past the threshold",
+      note: "<strong>Strong surprise weight and high loss aversion.</strong> The news loop gain λ(ν·g) is above 1. Good news then has two possible felt states (the chart keeps the brighter one), and the first bad news has none, so the life stops there. Lower λ or ν(0) to bring it back.",
+      params: { a: 0.1, b: 0.85, m: 0.1, al: 0.75, nu0: 0.45, nu1: 0.07, nuDecay: 0.7, lam: 2.5, base: 0, T: 50 }, over: "e", recursive: true,
+      events: [{ name: "Good news", at: 12, value: 3, announce: null, cancel: null },
+               { name: "Bad news", at: 28, value: -3, announce: null, cancel: null }] },
+  ];
+
+  const SLIDERS = [
+    ["T", 0], ["base", 2], ["a", 3], ["b", 2], ["m", 3], ["al", 2], ["nu0", 2], ["nu1", 3], ["nuDecay", 2], ["lam", 2],
+  ];
+  const SERIES = [
+    { key: "base", color: "--s-base", label: "base" },
+    { key: "anticipation", color: "--s-ant", label: "anticipation" },
+    { key: "memory", color: "--s-mem", label: "memory" },
+    { key: "news", color: "--s-news", label: "news" },
+  ];
+
+  const state = { params: {}, over: "e", recursive: true, events: [], visible: { base: true, anticipation: true, memory: true, news: true },
+                  ghost: true, preset: null, hoverT: null, zoom: "full" };
+  let result = null, ghost = null;
+
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  // ---------- presets ----------
+  const presetBox = $("presets");
+  for (const pr of PRESETS) {
+    const b = document.createElement("button");
+    b.className = "chip"; b.id = "preset-" + pr.key; b.textContent = pr.name; b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", () => loadPreset(pr.key));
+    presetBox.appendChild(b);
+  }
+  function loadPreset(key) {
+    const pr = PRESETS.find((p) => p.key === key) || PRESETS[0];
+    state.params = { ...pr.params };
+    state.over = pr.over; state.recursive = pr.recursive;
+    state.events = pr.events.map((e) => ({ ...e }));
+    state.preset = pr.key; state.hoverT = null; state.zoom = pr.zoom || "full";
+    for (const p of PRESETS) $("preset-" + p.key).setAttribute("aria-pressed", String(p.key === pr.key));
+    $("preset-note").innerHTML = pr.note;
+    syncControls(); renderEvents(); recompute();
+  }
+  function markCustom() {
+    if (state.preset === null) return;
+    state.preset = null;
+    for (const p of PRESETS) $("preset-" + p.key).setAttribute("aria-pressed", "false");
+  }
+
+  // ---------- controls ----------
+  function fmt(v, d) { return Number(v).toFixed(d); }
+  function syncControls() {
+    for (const [k, d] of SLIDERS) {
+      $("c-" + k).value = state.params[k];
+      $("v-" + k).textContent = fmt(state.params[k], d);
+    }
+    $("rec-on").setAttribute("aria-pressed", String(state.recursive));
+    $("rec-off").setAttribute("aria-pressed", String(!state.recursive));
+    $("over-e").setAttribute("aria-pressed", String(state.over === "e"));
+    $("over-u").setAttribute("aria-pressed", String(state.over === "u"));
+    $("c-ghost").checked = state.ghost;
+    $("zoom-full").setAttribute("aria-pressed", String(state.zoom === "full"));
+    $("zoom-close").setAttribute("aria-pressed", String(state.zoom === "close"));
+    hints();
+  }
+  function hints() {
+    const p = state.params;
+    const ant = p.b < 1 ? (p.a * p.b) / (1 - p.b) : Infinity, mem = p.al < 1 ? (p.m * p.al) / (1 - p.al) : Infinity;
+    $("hint-ant").textContent = `Total weight ${fmt(ant, 2)}, mean reach ${fmt(1 / (1 - p.b), 1)} periods ahead.`;
+    $("hint-mem").textContent = `Total weight ${fmt(mem, 2)}, mean reach ${fmt(1 / (1 - p.al), 1)} periods back.`;
+  }
+  for (const [k, d] of SLIDERS) {
+    $("c-" + k).addEventListener("input", (ev) => {
+      state.params[k] = Number(ev.target.value);
+      $("v-" + k).textContent = fmt(state.params[k], d);
+      if (k === "T") clampEvents();
+      markCustom(); hints(); schedule();
+    });
+  }
+  $("rec-on").addEventListener("click", () => { state.recursive = true; markCustom(); syncControls(); schedule(); });
+  $("rec-off").addEventListener("click", () => { state.recursive = false; markCustom(); syncControls(); schedule(); });
+  $("over-e").addEventListener("click", () => { state.over = "e"; markCustom(); syncControls(); schedule(); });
+  $("over-u").addEventListener("click", () => { state.over = "u"; markCustom(); syncControls(); schedule(); });
+  $("c-ghost").addEventListener("change", (ev) => { state.ghost = ev.target.checked; schedule(); });
+  $("zoom-full").addEventListener("click", () => { state.zoom = "full"; syncControls(); draw(); });
+  $("zoom-close").addEventListener("click", () => { state.zoom = "close"; syncControls(); draw(); });
+  for (const s of SERIES) {
+    $("term-" + s.key).addEventListener("click", (ev) => {
+      state.visible[s.key] = !state.visible[s.key];
+      ev.currentTarget.setAttribute("aria-pressed", String(state.visible[s.key]));
+      draw();
+    });
+  }
+
+  // ---------- events editor ----------
+  function clampEvents() {
+    const T = state.params.T;
+    for (const e of state.events) {
+      e.at = Math.min(Math.max(0, e.at), T - 1);
+      if (e.announce != null) e.announce = Math.min(Math.max(0, e.announce), T - 1);
+      if (e.cancel != null) e.cancel = Math.min(Math.max(0, e.cancel), T - 1);
+    }
+    renderEvents();
+  }
+  function cell(input) { const td = document.createElement("td"); td.appendChild(input); return td; }
+  function numInput(id, value, opt, onChange) {
+    const i = document.createElement("input");
+    i.type = "number"; i.id = id; i.inputMode = "decimal"; i.step = opt.step || "1";
+    if (opt.min != null) i.min = opt.min;
+    if (opt.max != null) i.max = opt.max;
+    if (opt.placeholder) i.placeholder = opt.placeholder;
+    i.value = value == null ? "" : value;
+    i.addEventListener("input", () => onChange(i.value));
+    return i;
+  }
+  function renderEvents() {
+    const body = $("events-body"); body.textContent = "";
+    const T = state.params.T;
+    state.events.forEach((ev, idx) => {
+      const tr = document.createElement("tr");
+      const name = document.createElement("input");
+      name.type = "text"; name.className = "name"; name.id = `ev-${idx}-name`; name.value = ev.name;
+      name.setAttribute("aria-label", "Event name");
+      name.addEventListener("input", () => { ev.name = name.value; markCustom(); draw(); });
+      tr.appendChild(cell(name));
+      const intOrNull = (v) => (v === "" || isNaN(Number(v)) ? null : Math.round(Number(v)));
+      tr.appendChild(cell(numInput(`ev-${idx}-at`, ev.at, { min: 0, max: T - 1 }, (v) => {
+        const n = intOrNull(v); if (n == null) return; ev.at = Math.min(Math.max(0, n), T - 1); markCustom(); schedule(); })));
+      tr.appendChild(cell(numInput(`ev-${idx}-value`, ev.value, { step: "0.5" }, (v) => {
+        if (v === "" || isNaN(Number(v))) return; ev.value = Number(v); markCustom(); schedule(); })));
+      tr.appendChild(cell(numInput(`ev-${idx}-ann`, ev.announce, { min: 0, max: T - 1, placeholder: "surprise" }, (v) => {
+        const n = intOrNull(v); ev.announce = n == null ? null : Math.min(Math.max(0, n), T - 1); markCustom(); schedule(); })));
+      tr.appendChild(cell(numInput(`ev-${idx}-cancel`, ev.cancel, { min: 0, max: T - 1, placeholder: "—" }, (v) => {
+        const n = intOrNull(v); ev.cancel = n == null ? null : Math.min(Math.max(0, n), T - 1); markCustom(); schedule(); })));
+      const del = document.createElement("button");
+      del.className = "btn x"; del.textContent = "Remove"; del.setAttribute("aria-label", `Remove ${ev.name || "event"}`);
+      del.addEventListener("click", () => { state.events.splice(idx, 1); markCustom(); renderEvents(); schedule(); });
+      tr.appendChild(cell(del));
+      body.appendChild(tr);
+    });
+  }
+  $("add-event").addEventListener("click", () => {
+    const T = state.params.T;
+    state.events.push({ name: "New event", at: Math.min(T - 1, Math.round(T * 0.6)), value: 2, announce: Math.round(T * 0.2), cancel: null });
+    markCustom(); renderEvents(); schedule();
+  });
+
+  // ---------- compute ----------
+  let pending = false;
+  function schedule() { if (!pending) { pending = true; requestAnimationFrame(() => { pending = false; recompute(); }); } }
+  function recompute() {
+    const base = { ...state.params, events: state.events.map((e) => ({ at: e.at, value: e.value, announce: e.announce, cancel: e.cancel })), recursive: state.recursive };
+    result = ConvModel.simulate({ ...base, over: state.over });
+    ghost = state.ghost ? ConvModel.simulate({ ...base, over: state.over === "e" ? "u" : "e" }) : null;
+    draw(); status();
+  }
+
+  // ---------- chart ----------
+  const NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent) {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  function niceTicks(lo, hi, count) {
+    const span = hi - lo || 1, raw = span / count, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => span / s <= count) || 10 * mag;
+    const ticks = [];
+    for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) ticks.push(Math.abs(v) < 1e-12 ? 0 : v);
+    return { ticks, step };
+  }
+  let geom = null;
+  function draw() {
+    if (!result) return;
+    const svg = $("chart"), box = $("chart-box");
+    const W = Math.max(300, box.clientWidth), H = Math.round(Math.min(440, Math.max(270, W * 0.46)));
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.textContent = "";
+    const T = state.params.T, n = result.T;
+    const narrow = W < 520;
+    const m = { l: 40, r: 10, t: narrow ? 40 : 34, b: 26 };
+    const pw = W - m.l - m.r, ph = H - m.t - m.b;
+    const xs = (t) => m.l + (T <= 1 ? 0 : (t / (T - 1)) * pw);
+
+    // y range over visible series
+    let lo = 0, hi = 0;
+    const close = state.zoom === "close";
+    const spike = new Set();
+    if (close) for (let t = 0; t < n; t++) if (Math.abs(result.comp.base[t] - state.params.base) > 1e-9) spike.add(t);
+    const scan = (arr, len) => { for (let i = 0; i < len; i++) { if (spike.has(i)) continue; if (arr[i] < lo) lo = arr[i]; if (arr[i] > hi) hi = arr[i]; } };
+    scan(result.e, n);
+    for (const s of SERIES) if (state.visible[s.key] && !(close && s.key === "base")) scan(result.comp[s.key], n);
+    if (ghost) scan(ghost.e, ghost.T);
+    const pad = (hi - lo || 1) * 0.08; lo -= pad; hi += pad;
+    const { ticks } = niceTicks(lo, hi, narrow ? 4 : 6);
+    lo = Math.min(lo, ticks[0]); hi = Math.max(hi, ticks[ticks.length - 1]);
+    const ys = (v) => m.t + (1 - (v - lo) / (hi - lo)) * ph;
+    geom = { xs, ys, m, pw, ph, W, H, T };
+
+    // grid
+    const g = el("g", {}, svg);
+    for (const v of ticks) {
+      el("line", { x1: m.l, x2: m.l + pw, y1: ys(v), y2: ys(v), stroke: css(v === 0 ? "--rule" : "--grid"), "stroke-width": v === 0 ? 1.2 : 1 }, g);
+      const tx = el("text", { x: m.l - 6, y: ys(v) + 3.5, "text-anchor": "end" }, g); tx.textContent = fmtTick(v);
+    }
+    const xt = niceTicks(0, T - 1, narrow ? 5 : 10).ticks.filter((v) => Number.isInteger(v));
+    for (const v of xt) {
+      el("line", { x1: xs(v), x2: xs(v), y1: m.t, y2: m.t + ph, stroke: css("--grid"), "stroke-width": 1 }, g);
+      const tx = el("text", { x: xs(v), y: m.t + ph + 16, "text-anchor": "middle" }, g); tx.textContent = v;
+    }
+    const tl = el("text", { x: m.l + pw, y: m.t + ph + 16, "text-anchor": "end" }, g);
+    if (!xt.includes(T - 1)) tl.textContent = "t";
+
+    // failure wash
+    if (result.failAt != null) {
+      el("rect", { x: xs(result.failAt) - (pw / Math.max(1, T - 1)) / 2, y: m.t, width: m.l + pw - xs(result.failAt) + (pw / Math.max(1, T - 1)) / 2, height: ph, fill: css("--bad-wash") }, svg);
+      const t2 = el("text", { x: Math.min(xs(result.failAt) + 6, m.l + pw - 4), y: m.t + 14, "text-anchor": xs(result.failAt) > m.l + pw - 120 ? "end" : "start" }, svg);
+      t2.style.fill = css("--bad"); t2.textContent = "no felt state";
+    }
+
+    // events
+    const evg = el("g", {}, svg);
+    const placed = [];
+    state.events.forEach((ev) => {
+      const col = ev.value >= 0 ? css("--accent") : css("--bad");
+      if (ev.announce != null && ev.announce < ev.at) {
+        el("line", { x1: xs(ev.announce), x2: xs(ev.announce), y1: m.t, y2: m.t + ph, stroke: col, "stroke-width": 1, "stroke-dasharray": "3 4", opacity: 0.55 }, evg);
+        el("path", { d: `M ${xs(ev.announce) - 4} ${m.t - 2} L ${xs(ev.announce) + 4} ${m.t - 2} L ${xs(ev.announce)} ${m.t + 4} Z`, fill: col }, evg);
+      }
+      const cancelled = ev.cancel != null && ev.cancel <= ev.at;
+      if (cancelled) {
+        el("line", { x1: xs(ev.cancel), x2: xs(ev.cancel), y1: m.t, y2: m.t + ph, stroke: col, "stroke-width": 1, "stroke-dasharray": "1 3", opacity: 0.6 }, evg);
+        const cx = xs(ev.cancel), cy = m.t - 2;
+        el("path", { d: `M ${cx - 4} ${cy - 4} L ${cx + 4} ${cy + 4} M ${cx - 4} ${cy + 4} L ${cx + 4} ${cy - 4}`, stroke: col, "stroke-width": 1.6 }, evg);
+      }
+      el("line", { x1: xs(ev.at), x2: xs(ev.at), y1: m.t, y2: m.t + ph, stroke: col, "stroke-width": 1, opacity: cancelled ? 0.25 : 0.45 }, evg);
+      el("circle", { cx: xs(ev.at), cy: m.t - 2, r: 4, fill: cancelled ? css("--surface") : col, stroke: col, "stroke-width": 1.5 }, evg);
+      // label, stacked to avoid collisions
+      const label = (ev.name || "event") + (cancelled ? " (cancelled)" : "");
+      const w = label.length * 6.2 + 8;
+      let x = Math.min(Math.max(xs(ev.at) - w / 2, m.l), m.l + pw - w);
+      let row = 0;
+      while (placed.some((p) => p.row === row && x < p.x + p.w && p.x < x + w)) row++;
+      placed.push({ x, w, row });
+      const ty = m.t - 10 - row * 13;
+      const lt = el("text", { x: x + w / 2, y: ty, "text-anchor": "middle", class: "evlabel" }, evg);
+      lt.textContent = label;
+    });
+
+    // series, clipped to the plot area
+    const clip = el("clipPath", { id: "plotclip" }, el("defs", {}, svg));
+    el("rect", { x: m.l, y: m.t, width: pw, height: ph }, clip);
+    const sg = el("g", { "clip-path": "url(#plotclip)" }, svg);
+    const path = (arr, len) => { let d = ""; for (let t = 0; t < len; t++) d += (t ? "L" : "M") + xs(t).toFixed(2) + " " + ys(arr[t]).toFixed(2) + " "; return d; };
+    if (ghost && ghost.T > 0) el("path", { d: path(ghost.e, ghost.T), fill: "none", stroke: css("--s-e"), "stroke-width": 1.6, "stroke-dasharray": "5 4", opacity: 0.45 }, sg);
+    for (const s of SERIES) {
+      if (!state.visible[s.key] || n === 0) continue;
+      el("path", { d: path(result.comp[s.key], n), fill: "none", stroke: css(s.color), "stroke-width": 1.6, "stroke-linejoin": "round" }, sg);
+    }
+    if (n > 0) el("path", { d: path(result.e, n), fill: "none", stroke: css("--s-e"), "stroke-width": 2.6, "stroke-linejoin": "round" }, sg);
+    for (let t = 0; t < n; t++) {
+      const v = result.e[t];
+      if (v > hi || v < lo) {
+        const up = v > hi, x = xs(t), y = up ? m.t + 2 : m.t + ph - 2, d = up ? 6 : -6;
+        el("path", { d: `M ${x - 5} ${y + d} L ${x} ${y} L ${x + 5} ${y + d} Z`, fill: css("--s-e") }, svg);
+        const lab = el("text", { x: x + 8, y: up ? y + 9 : y - 3 }, svg); lab.textContent = (v >= 0 ? "+" : "") + v.toFixed(1);
+      }
+    }
+
+    // two felt states markers
+    for (const t of result.multiAt) {
+      const x = xs(t), y = ys(result.e[t]);
+      el("path", { d: `M ${x} ${y - 7} L ${x + 6} ${y} L ${x} ${y + 7} L ${x - 6} ${y} Z`, fill: "none", stroke: css("--warn"), "stroke-width": 1.6 }, svg);
+    }
+
+    // crosshair
+    const t0 = state.hoverT != null ? Math.min(state.hoverT, Math.max(0, n - 1)) : defaultT();
+    if (n > 0) {
+      const ch = el("g", {}, svg);
+      el("line", { x1: xs(t0), x2: xs(t0), y1: m.t, y2: m.t + ph, stroke: css("--muted"), "stroke-width": 1, opacity: 0.6 }, ch);
+      const inside = (v) => v >= lo && v <= hi;
+      if (inside(result.e[t0])) el("circle", { cx: xs(t0), cy: ys(result.e[t0]), r: 4, fill: css("--s-e"), stroke: css("--surface"), "stroke-width": 1.5 }, ch);
+      for (const s of SERIES) if (state.visible[s.key] && inside(result.comp[s.key][t0])) el("circle", { cx: xs(t0), cy: ys(result.comp[s.key][t0]), r: 3, fill: css(s.color) }, ch);
+      readout(t0);
+    } else readout(null);
+
+    // hit area
+    el("rect", { x: m.l, y: 0, width: pw, height: H, fill: "transparent", id: "hit" }, svg);
+  }
+  function fmtTick(v) { const a = Math.abs(v); return a >= 10 || a === 0 ? String(Math.round(v)) : v.toFixed(a < 1 ? 2 : 1).replace(/\.?0+$/, ""); }
+  function defaultT() {
+    // the most eventful moment: largest |e|
+    let best = 0, bv = -1;
+    for (let t = 0; t < result.T; t++) { const v = Math.abs(result.e[t]); if (v > bv) { bv = v; best = t; } }
+    return best;
+  }
+  function readout(t) {
+    const r = $("readout"); r.textContent = "";
+    if (t == null) { r.textContent = "No felt state from the start: lower λ or ν(0)."; return; }
+    const add = (label, v, color) => {
+      const s = document.createElement("span"); s.className = "r";
+      if (color) { const i = document.createElement("i"); i.style.setProperty("--c", css(color)); s.appendChild(i); }
+      const b = document.createElement("b"); b.textContent = (v >= 0 ? "+" : "") + v.toFixed(2);
+      s.append(label + " ", b); r.appendChild(s);
+    };
+    const ts = document.createElement("span"); ts.className = "r"; const tb = document.createElement("b"); tb.textContent = String(t); ts.append("t ", tb); r.appendChild(ts);
+    add("e", result.e[t], "--s-e");
+    for (const s of SERIES) add(s.label, result.comp[s.key][t], s.color);
+  }
+  function pointerT(ev) {
+    if (!geom) return null;
+    const svg = $("chart"), rect = svg.getBoundingClientRect();
+    const x = ((ev.clientX - rect.left) / rect.width) * geom.W;
+    const t = Math.round(((x - geom.m.l) / geom.pw) * (geom.T - 1));
+    return Math.min(Math.max(0, t), geom.T - 1);
+  }
+  const chartEl = $("chart");
+  chartEl.addEventListener("pointermove", (ev) => { const t = pointerT(ev); if (t !== state.hoverT) { state.hoverT = t; draw(); } });
+  chartEl.addEventListener("pointerdown", (ev) => { state.hoverT = pointerT(ev); draw(); });
+
+  // ---------- status ----------
+  function status() {
+    const box = $("status"); box.textContent = "";
+    const pill = (cls, text, title) => { const s = document.createElement("span"); s.className = "pill " + cls; s.textContent = text; if (title) s.title = title; box.appendChild(s); };
+    pill("plain", `Life-sum ${result.lifeSum >= 0 ? "+" : ""}${result.lifeSum.toFixed(2)}`, "Sum of felt experience over the life");
+    if (ghost) {
+      const other = state.over === "e" ? "news about base utility" : "news about how life will feel";
+      pill("plain", `With ${other}: ${ghost.failAt != null ? "stops at t = " + ghost.failAt : (ghost.lifeSum >= 0 ? "+" : "") + ghost.lifeSum.toFixed(2)}`);
+    }
+    const M = result.M;
+    if (state.recursive) {
+      if (M < 1) pill("ok", `Echo share M = ${M.toFixed(2)}`, "Below 1: the echoes of echoes converge");
+      else pill("bad", `Echo share M = ${M.toFixed(2)}: echoes don't converge`, "At or above 1 the recursive model is not well-founded; results can explode or flip sign");
+    } else pill("plain", `Echo weight M = ${M.toFixed(2)}`);
+    if (state.over === "e") {
+      const L = result.maxLoop;
+      if (result.failAt != null) pill("bad", `No felt state at t = ${result.failAt}: bad news past the threshold`, "λ(ν·g) ≥ 1: disappointment about disappointment does not settle");
+      else if (L >= 1) pill("warn", `News loop λ(ν·g) = ${L.toFixed(2)}: past the threshold`);
+      else pill("ok", `News loop λ(ν·g) = ${L.toFixed(2)}`, "Below 1: every piece of news has exactly one felt state");
+      if (result.multiAt.length) pill("warn", `Two felt states at t = ${result.multiAt.join(", ")} (showing the brighter)`);
+    }
+  }
+
+  // ---------- boot ----------
+  window.addEventListener("resize", () => draw());
+  if (window.matchMedia) {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", () => draw());
+  }
+  new MutationObserver(() => draw()).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  const fromHash = (location.hash || "").replace("#", "");
+  loadPreset(PRESETS.some((p) => p.key === fromHash) ? fromHash : "disneyland");
+})();
+</script>

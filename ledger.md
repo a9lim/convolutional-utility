@@ -42,3 +42,5 @@ Periodically compacted to git history.
   agent found prior art for both: Gollier & Muermann 2010 and van Dijk et al. 2003 for
   N3's optimism/bracing condition, Pagel 2018 for affect policies, Soares 2015 as the
   LessWrong precedent. Downgraded both from "not found" to "known in kind".
+- Built the interactive playground (`formalism/playground/`), checked against
+  `pathwise.py`. Published as a private artifact for a9.
