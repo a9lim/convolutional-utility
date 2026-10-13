@@ -63,6 +63,11 @@ described via the secondary named. Files are in `references/`. First verificatio
   - Memory and anticipation each have a consumption effect and a contrast effect.
     Stronger backward contrast favours improvement.
 
+- **Sommervoll, D. E. (2010).** Self-delusion in the pursuit of happiness. Statistics
+  Norway DP 604. **WP** · `papers/sommervoll-2010-self-delusion-in-the-pursuit-of-happiness-ssb-dp604.txt`
+  - Discounted utility with memories and anticipations. Notes that anticipations of
+    memories and memories of anticipations exist, but models first order only.
+
 ## Recursion and altruism math
 
 - **Sáez-Martí, M. & Weibull, J. (2005).** Discounting and altruism to future
@@ -163,10 +168,20 @@ described via the secondary named. Files are in `references/`. First verificatio
     Optimists are surprised downward on average (Prop. 4). Later resolution can be
     preferred because information removes the ability to distort (pp. 1108–09).
   - The nearest prior art for D5's optimist. No felt disappointment term.
-- **Kimball, M. & Willis, R. (2006).** Utility and happiness. U. Michigan WP. **WP**
-  (keyword scan only) · `papers/kimball-2006-utility-and-happiness-*.txt`
-  - News utility. With rational expectations, linear terms in lifetime-utility news leave
-    preferences unchanged (the iterated-expectations point).
+- **Kimball, M. & Willis, R. (2006).** Utility and happiness. U. Michigan WP. **WP** (§8
+  read by the literature agent; pins checked) · `papers/kimball-2006-utility-and-happiness-*.txt`
+  - Affect = baseline mood + elation, elation an increasing function of current and past
+    news about lifetime utility (p. 29).
+  - §8: putting elation in the utility function means solving simultaneously for elation
+    and lifetime utility (p. 38). Prop. 2 (p. 39): under rational expectations, adding a
+    linear function of lifetime-utility news with coefficients summing below one leaves
+    preferences unchanged.
+  - §8E (pp. 42–44): loss-averse elation (slope 1 for good news, `ψ > 1` for bad); the
+    fixed point is unique since the maximum slope `θψ < 1`. Core N4's threshold.
+  - §8B (p. 40): imperfect memory of past expectations "may provide an opening for gaming
+    the system".
+  - Their utility is a decision construct, kept apart from happiness. The prior art for
+    core N4.
 - **Frederick, S., Loewenstein, G. & O'Donoghue, T. (2002).** Time discounting and time
   preference: a critical review. *JEL* 40(2): 351–401. doi:10.1257/002205102320161311.
   **FT** · `papers/frederick-2002-time-discounting-and-time-preference-review.txt`
@@ -769,6 +784,143 @@ LessWrong on truth, comfort and anticipation (all `web/`, **FT**):
   intrinsically costly through felt anticipation in a decision-theoretic setting, or of
   memory as utility in one. The literature agent's search relied on web search, so
   coverage is not exhaustive.
+
+## Recollection, recursive news and rumination (core N4 and the recollection sketch)
+
+Recursive gain-loss:
+- **Skiadas, C. (1998).** Recursive utility and preferences for information. *Economic
+  Theory* 12(2): 293–312. doi:10.1007/s001990050222. **FT** ·
+  `papers/skiadas-1998-recursive-utility-and-preferences-for-information.txt`
+  - `V_t = f(c_t, E[V_t | F_{t−1}], E[V_{t+1} | F_t])`, decreasing in the prior expectation
+    of `V_t` itself: disappointment over a utility index that contains it (pp. 303–304).
+    Unique by monotonicity; no loss-aversion kink.
+- **Routledge, B. & Zin, S. (2010).** Generalized disappointment aversion and asset
+  prices. *J. Finance* 65(4): 1303–1332. doi:10.1111/j.1540-6261.2010.01571.x. **WP** (NBER
+  w10107) · `papers/routledge-2003-generalized-disappointment-aversion-and-asset-prices-nber-w10107.txt`
+  - The disappointment threshold sits on a recursive utility index (eq. 16); an ex-ante
+    risk preference, not a felt flow.
+- **Artstein-Avidan, S. & Dillenberger, D. (2015).** Dynamic disappointment aversion. **WP**
+  · `papers/artstein-avidan-2015-dynamic-disappointment-aversion-wp.txt`
+  - Gul applied at every node: splitting resolution into stages lowers value ("I prefer to
+    wait and hear only the final result").
+
+Recollection and motivated memory:
+- **Mitchell, T., Thompson, L., Peterson, E. & Cronk, R. (1997).** Temporal adjustments in
+  the evaluation of events: the "rosy view". *J. Experimental Social Psychology* 33(4):
+  421–448. doi:10.1006/jesp.1997.1333. **ABS** ·
+  `papers/mitchell-1997-temporal-adjustments-in-the-evaluation-of-events-the-rosy-view-abs.txt`
+  - Three field studies (a Europe trip, Thanksgiving, a bike trip): expectations and later
+    recollection both exceeded experience.
+- **Walker, W. R., Vogl, R. & Thompson, C. (1997).** Autobiographical memory:
+  unpleasantness fades faster than pleasantness over time. *Applied Cognitive Psychology*
+  11(5): 399–413. **ABS** · `papers/walker-1997-autobiographical-memory-unpleasantness-fades-faster-than-pleasantness-abs.txt`
+- **Walker, W. R., Skowronski, J. & Thompson, C. (2003).** Life is pleasant—and memory helps
+  to keep it that way! *Review of General Psychology* 7(2): 203–210.
+  doi:10.1037/1089-2680.7.2.203. **ABS** · `papers/walker-2003-life-is-pleasant-and-memory-helps-to-keep-it-that-way-abs.txt`
+  - The fading affect bias; dysphoria disrupts it.
+- **Sedikides, C. & Skowronski, J. (2020).** In human memory, good can be stronger than
+  bad. *Current Directions* 29(1): 86–91. doi:10.1177/0963721419896363. **ABS** ·
+  `papers/sedikides-2020-in-human-memory-good-can-be-stronger-than-bad-abs.txt`
+- **Hoehne, S. & Zimprich, D. (2024).** Predicting the likelihood and amount of fading:
+  fixed, flourishing, flexible affect. *Memory & Cognition* 52(4): 872–893.
+  doi:10.3758/s13421-023-01507-2. **FT** ·
+  `papers/hoehne-2024-predicting-the-likelihood-and-amount-of-fading-fixed-flourishing-flexible-affect.txt`
+  - 1,748 memories: negative affect fades in 30% against 12% for positive; positive
+    flourishes in 34% against 10%; valence flips negative-to-positive 13% against 4%.
+- **Hoehne, S. & Zimprich, D. (2025).** Evidence for a fading affect bias in subjectively
+  assessed affect changes. *Frontiers in Psychology* 16: 1608751.
+  doi:10.3389/fpsyg.2025.1608751. **FT** ·
+  `papers/hoehne-2025-evidence-for-a-fading-affect-bias-in-subjectively-assessed-affect-changes.txt`
+  - 12,314 memories; the fading affect bias holds in directly reported change.
+- **Walker, W. R., Yancu, C. & Skowronski, J. (2014).** Trait anxiety reduces affective
+  fading for both positive and negative autobiographical memories. *Advances in Cognitive
+  Psychology* 10(3): 81–89. doi:10.5709/acp-0159-0. **FT** ·
+  `papers/walker-2014-trait-anxiety-reduces-affective-fading-for-both-positive-and-negative-autobiographical-memories.txt`
+- **Marsh, C., Hammond, M. & Crawford, M. (2019).** Thinking about negative life events as
+  a mediator between depression and fading affect bias. *PLoS ONE* 14(1): e0211147.
+  doi:10.1371/journal.pone.0211147. **FT** ·
+  `papers/marsh-2019-thinking-about-negative-life-events-mediator-depression-fading-affect-bias.txt`
+  - More thinking about a negative memory means less fading; reminders preserve negative
+    affect.
+- **Devitt, A. & Schacter, D. (2018).** An optimistic outlook creates a rosy past.
+  *Psychological Science* 29(6): 936–946. doi:10.1177/0956797617753936. **FT** (author
+  manuscript) · `papers/devitt-2018-an-optimistic-outlook-creates-a-rosy-past.txt`
+  - Positive simulation beforehand makes an event remembered more favourably.
+- **Rasmussen, A. & Berntsen, D. (2013).** The reality of the past versus the ideality of
+  the future. *Memory & Cognition* 41(2): 187–200. doi:10.3758/s13421-012-0260-y. **ABS** ·
+  `papers/rasmussen-2013-the-reality-of-the-past-versus-the-ideality-of-the-future-abs.txt`
+  - Imagined futures are more positively biased; the past is constrained by what happened.
+- **Newby-Clark, I. & Ross, M. (2003).** Conceiving the past and future. *PSPB* 29(7):
+  807–818. doi:10.1177/0146167203029007001. **ABS** ·
+  `papers/newby-clark-2003-conceiving-the-past-and-future-abs.txt`
+- **Wilson, A. & Ross, M. (2001).** From chump to champ. *JPSP* 80(4): 572–584.
+  doi:10.1037/0022-3514.80.4.572. **ABS** ·
+  `papers/wilson-2001-from-chump-to-champ-peoples-appraisals-of-their-earlier-and-present-selves-abs.txt`
+- **Wirtz, D., Kruger, J., Scollon, C. & Diener, E. (2003).** What to do on spring break?
+  *Psychological Science* 14(5): 520–524. doi:10.1111/1467-9280.03455. **ABS** (open copy
+  behind a bot check) · `papers/wirtz-2003-what-to-do-on-spring-break-abs.txt`
+  - Remembered, not on-line or anticipated, experience predicted the desire to repeat.
+- **Speer, M., Ibrahim, S., Schiller, D. & Delgado, M. (2021).** Finding positive meaning
+  in memories of negative events adaptively updates memory. *Nature Communications* 12:
+  6601. doi:10.1038/s41467-021-26906-4. **FT** ·
+  `papers/speer-2021-finding-positive-meaning-in-memories-of-negative-events-adaptively-updates-memory.txt`
+  - Reappraisal changes a memory's later affect, after a reminder and a 24-hour delay.
+- **Roy-Chowdhury, V. (2022).** Self-confidence and motivated memory loss. Cambridge CWPE
+  2213. **WP** · `papers/roy-chowdhury-2022-self-confidence-and-motivated-memory-loss-wp.txt`
+  - Reality constraints on recall loosen with time since the information; most of the
+    later positive recall bias is tied to decay.
+- **Heath, R. & Roy-Chowdhury, V. (2025).** Recall distortion and past choices. *JEBO* 240:
+  107302. **WP** · `papers/heath-2025-recall-distortion-and-past-choices-wp.txt`
+  - Recall favours past choices; distortion was the same whether the truth would be
+    revealed or not.
+- **Huffman, D., Raymond, C. & Shvets, J. (2022).** Persistent overconfidence and biased
+  memory: evidence from managers. *AER* 112(10): 3141–3175. **WP** (IZA DP 16283) ·
+  `papers/huffman-2023-persistent-overconfidence-and-biased-memory-evidence-from-managers-iza-dp16283.txt`
+  - Rosy memory of feedback sustains overconfidence (p. 3); fn. 15: memory distortion as a
+    way to manage disappointment.
+- **Walters, D. & Fernbach, P. (2021).** Investor memory of past performance is positively
+  biased. *PNAS* 118(36): e2026680118. **FT** ·
+  `papers/walters-2021-investor-memory-of-past-performance-is-positively-biased.txt`
+  - Recalled returns exceed actual; looking them up reduces overconfidence and trading.
+- **Amelio, A. & Zimmermann, F. (2023).** Motivated memory in economics: a review. *Games*
+  14(1): 15. **WP** (ECONtribute DP 213) ·
+  `papers/amelio-2022-motivated-memory-in-economics-a-review-econtribute-dp213.txt`
+  - Announcing a later recall test or raising stakes reduces motivated memory (p. 18).
+- Abstract level: Zimmermann (2020), *AER* 110(2), positive feedback persists and negative
+  fades; Chew, Huang & Zhao (2020), *JPE* 128(10), motivated false memory; Greenwald (1980),
+  *Am. Psychologist* 35(7), the totalitarian ego; Kunda (1990), *Psych. Bull.* 108(3),
+  motivated reasoning. Also saved: Eyster, Li & Ridout, ex post rationalization (arXiv
+  2107.07491, **WP**); Thomas & König (2018), *Frontiers* 9: 760 (**FT**).
+
+Meta-emotion, rumination and bistability:
+- Abstract level: Mayer & Gaschke (1988), *JPSP* 55(1), meta-experience of mood; Gottman,
+  Katz & Hooven (1996), *J. Family Psychology* 10(3), meta-emotion; Nolen-Hoeksema (1991),
+  *J. Abnormal Psychology* 100(4), response styles.
+- **Nolen-Hoeksema, S., Wisco, B. & Lyubomirsky, S. (2008).** Rethinking rumination.
+  *Perspectives on Psychological Science* 3(5): 400–424. **FT** ·
+  `papers/nolen-hoeksema-2008-rethinking-rumination.txt`
+  - Rumination pulls up negative memories (p. 402) and can tip into self-perpetuating
+    episodes (p. 404).
+- **Watkins, E. (2008).** Constructive and unconstructive repetitive thought. *Psych.
+  Bull.* 134(2): 163–206. **FT** (author manuscript) ·
+  `papers/watkins-2008-constructive-and-unconstructive-repetitive-thought.txt`
+  - A vicious cycle of mood and thought; the amplification could run for positive mood too.
+- **Cramer, A. et al. (2016).** Major depression as a complex dynamic system. *PLoS ONE*
+  11(12): e0167490. **FT** · `papers/cramer-2016-major-depression-as-a-complex-dynamic-system.txt`
+  - Strong connectivity gives two attractors, tipping points and hysteresis.
+- **van de Leemput, I. et al. (2014).** Critical slowing down as early warning for the
+  onset and termination of depression. *PNAS* 111(1): 87–92. **FT** ·
+  `papers/van-de-leemput-2014-critical-slowing-down-as-early-warning-for-depression.txt`
+- **Kuppens, P., Allen, N. & Sheeber, L. (2010).** Emotional inertia and psychological
+  maladjustment. *Psychological Science* 21(7): 984–991. **FT** (accepted manuscript) ·
+  `papers/kuppens-2010-emotional-inertia-and-psychological-maladjustment.txt`
+- **Robinaugh, D. et al. (2024).** A network theory of panic disorder. *Psych. Review*
+  131(6): 1482–1508. **WP** (preprint) ·
+  `papers/robinaugh-2019-network-theory-of-panic-disorder-computational-model-preprint.txt`
+  - An arousal–threat loop whose strength crosses into a second, runaway stable state.
+- **Hosseinichimeh, N. et al. (2018).** Feedback mechanisms among depression, rumination
+  and stressors in adolescents. *PLoS ONE* 13(9): e0204389. **FT** ·
+  `papers/hosseinichimeh-2018-feedback-mechanisms-among-depression-rumination-and-stressors-in-adolescents.txt`
 
 ## Anthropics and imperfect recall
 

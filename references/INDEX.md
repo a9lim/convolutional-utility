@@ -84,6 +84,30 @@ Disappointment, bracing and evaluation periods
 - `benartzi-1993-myopic-loss-aversion-and-the-equity-premium-puzzle-nber-w4369.txt` — WP of Benartzi & Thaler 1995
 - `gneezy-1997-an-experiment-on-risk-taking-and-evaluation-periods.txt`
 
+Recursive gain-loss
+- `skiadas-1998-recursive-utility-and-preferences-for-information.txt`
+- `routledge-2003-generalized-disappointment-aversion-and-asset-prices-nber-w10107.txt` — WP of Routledge & Zin 2010
+- `artstein-avidan-2015-dynamic-disappointment-aversion-wp.txt` — WP
+
+Recollection and motivated memory
+- `mitchell-1997-temporal-adjustments-in-the-evaluation-of-events-the-rosy-view-abs.txt`, `walker-1997-autobiographical-memory-unpleasantness-fades-faster-than-pleasantness-abs.txt`, `walker-2003-life-is-pleasant-and-memory-helps-to-keep-it-that-way-abs.txt`, `sedikides-2020-in-human-memory-good-can-be-stronger-than-bad-abs.txt` — abstracts
+- `hoehne-2024-predicting-the-likelihood-and-amount-of-fading-fixed-flourishing-flexible-affect.txt`, `hoehne-2025-evidence-for-a-fading-affect-bias-in-subjectively-assessed-affect-changes.txt`
+- `walker-2014-trait-anxiety-reduces-affective-fading-for-both-positive-and-negative-autobiographical-memories.txt`, `marsh-2019-thinking-about-negative-life-events-mediator-depression-fading-affect-bias.txt`
+- `devitt-2018-an-optimistic-outlook-creates-a-rosy-past.txt` — author manuscript
+- `rasmussen-2013-the-reality-of-the-past-versus-the-ideality-of-the-future-abs.txt`, `newby-clark-2003-conceiving-the-past-and-future-abs.txt`, `wilson-2001-from-chump-to-champ-peoples-appraisals-of-their-earlier-and-present-selves-abs.txt`, `wirtz-2003-what-to-do-on-spring-break-abs.txt` — abstracts
+- `speer-2021-finding-positive-meaning-in-memories-of-negative-events-adaptively-updates-memory.txt`
+- `roy-chowdhury-2022-self-confidence-and-motivated-memory-loss-wp.txt`, `heath-2025-recall-distortion-and-past-choices-wp.txt`, `huffman-2023-persistent-overconfidence-and-biased-memory-evidence-from-managers-iza-dp16283.txt`, `amelio-2022-motivated-memory-in-economics-a-review-econtribute-dp213.txt` — WPs
+- `walters-2021-investor-memory-of-past-performance-is-positively-biased.txt`
+- `zimmermann-2020-the-dynamics-of-motivated-beliefs-abs.txt`, `chew-2020-motivated-false-memory-abs.txt`, `greenwald-1980-the-totalitarian-ego-fabrication-and-revision-of-personal-history-abs.txt`, `kunda-1990-the-case-for-motivated-reasoning-abs.txt` — abstracts
+- `eyster-2022-a-theory-of-ex-post-rationalization-arxiv.txt`, `thomas-2018-knowledge-of-previous-tasks-task-similarity-influences-bias-in-task-duration-predictions.txt`
+- `sommervoll-2010-self-delusion-in-the-pursuit-of-happiness-ssb-dp604.txt` — WP
+
+Meta-emotion, rumination and bistability
+- `mayer-1988-the-experience-and-meta-experience-of-mood-abs.txt`, `gottman-1996-parental-meta-emotion-philosophy-and-the-emotional-life-of-families-abs.txt`, `nolen-hoeksema-1991-responses-to-depression-and-their-effects-on-the-duration-of-depressive-episodes-abs.txt` — abstracts
+- `nolen-hoeksema-2008-rethinking-rumination.txt`, `watkins-2008-constructive-and-unconstructive-repetitive-thought.txt`
+- `cramer-2016-major-depression-as-a-complex-dynamic-system.txt`, `van-de-leemput-2014-critical-slowing-down-as-early-warning-for-depression.txt`, `kuppens-2010-emotional-inertia-and-psychological-maladjustment.txt`, `hosseinichimeh-2018-feedback-mechanisms-among-depression-rumination-and-stressors-in-adolescents.txt`
+- `robinaugh-2019-network-theory-of-panic-disorder-computational-model-preprint.txt` — preprint
+
 Anthropics and imperfect recall
 - `armstrong-2011-anthropic-decision-theory-arxiv-v1.txt`, `armstrong-2017-anthropic-decision-theory-arxiv-v3.txt`
 - `elga-2000-self-locating-belief-and-the-sleeping-beauty-problem.txt`

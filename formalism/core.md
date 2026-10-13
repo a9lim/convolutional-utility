@@ -210,6 +210,9 @@ condition and quantile not found; checked]
   notice or with heavily remembered disappointment. As an event nears, the remaining window
   shrinks and the optimum moves toward bracing, but a self-revised forecast is itself felt
   as news. [speculation]
+- Remembered disappointment fades faster than remembered pleasure (the fading affect bias:
+  negative affect fades in ~30% of memories against ~12% for positive; Hoehne & Zimprich
+  2024). That shrinks `B` for disappointment and tilts N3 toward optimism.
 - Evidence. Bracing is documented: estimates fall as feedback nears, with no new
   information (Shepperd, Ouellette & Fernandez 1996; van Dijk, Zeelenberg & van der Pligt
   2003, who state the remote-savor, imminent-brace timing). Its hedonic payoff is not.
@@ -222,6 +225,12 @@ condition and quantile not found; checked]
 **N4. News over experienced utility.** `n_t = Σ_{j≥0} ν(j) μ(Ê_t[e_{t+j}] − Ê_{t−1}[e_{t+j}])`:
 news about how your life will *feel*, including your anticipations and memories. The
 `j = 0` term compares `e_t` with its own forecast, so news is self-referential.
+[known in kind: Kimball & Willis 2006 §8 put elation over news about lifetime utility into
+flow utility and solve for both simultaneously, with linear neutrality (Prop. 2,
+coefficients summing below one) and a loss-averse kink unique iff `θψ < 1` (§8E). Theirs
+is decision utility kept apart from happiness; the felt reading, the echo kernels and the
+reading of the threshold are new here. Formal cousins: Skiadas 1998; Routledge & Zin 2010;
+Artstein-Avidan & Dillenberger 2015]
 - `λ = 1`: neutral in expectation, equal to base R. [checked] Linear, so on ℤ it is news
   over `u` with an echoed news kernel, as in P2. [structural; unchecked]
 - `λ > 1`: genuinely different from news over `u`. [checked]
@@ -233,9 +242,14 @@ news about how your life will *feel*, including your anticipations and memories.
     is preferred; with decaying `ν` the ranking is mixed.
 - Well-foundedness: let `g` be the felt-now column of the remaining-life resolvent (how a
   unit felt now moves forecasts of later experience). The felt news is unique iff
-  `λ (ν · g) < 1`. Beyond it, bad news has no felt state and good news has two, one of them
-  a self-sustaining despairing state. [checked on an example; reading as rumination or a
-  despair spiral is speculation]
+  `λ (ν · g) < 1`, Kimball & Willis's `θψ < 1` in this setting. Beyond it, bad news of any
+  size has no felt state and good news has two, one of them a self-sustaining despairing
+  state. [checked on an example]
+  - Reading it as a despair spiral is speculation, with company: depression and panic as
+    bistable systems whose positive feedback crosses a threshold (Cramer et al. 2016;
+    van de Leemput et al. 2014, critical slowing down; Robinaugh et al. 2024, panic as a
+    runaway arousal–threat loop). Rumination keeps negative memories from fading (Marsh,
+    Hammond & Crawford 2019).
 - Recursion has content exactly where the model is nonlinear: P2 makes linear recursion
   a reparametrization, while dread asymmetry (D5) and loss-averse news (N4) make it bite.
   [synthesis]
@@ -253,10 +267,57 @@ news about how your life will *feel*, including your anticipations and memories.
   anything: losing a good memory is a small loss, a bad one fading a relief.
 - Evidence about the past is a martingale if recollection is Bayesian, so it is neutral in
   expectation at `λ = 1` and a schedulable pain at `λ > 1`, as in N2.
-- The forward–backward asymmetry: every forecast meets its realization, but a recollection
-  meets only reminders. A rosy bias in memory earns the memory level term with no
-  realization bill; its costs are reminders and decisions (repeating experiences
-  remembered as better than they were). Hedonically motivated distortion should therefore
-  be cheaper backward than forward, which is where rationalization may mostly live.
-  [prior art to check: rosy retrospection, the fading affect bias, remembered versus
-  experienced utility in repeat choices]
+- Not found in the literature as a felt term: gain-loss over revisions of the remembered
+  past. The ingredients are documented:
+  - the backward kernel is sign-asymmetric (the fading affect bias; Walker, Skowronski &
+    Thompson 2003; Hoehne & Zimprich 2024, 2025);
+  - recollection drifts rosy (Mitchell et al. 1997) and is revised by reappraisal (Speer
+    et al. 2021);
+  - remembered rather than experienced utility drives repeat choices (Wirtz et al. 2003);
+  - motivated memory sustains overconfidence against feedback (Zimmermann 2020; Huffman,
+    Raymond & Shvets 2022; Walters & Fernbach 2021).
+- The forward–backward asymmetry, refined. Each kind of belief is anchored differently: a
+  forecast by its realization, which comes later; a recollection by memory traces, which
+  are there from the start and fade. Distortion is cheapest far from the anchor: long
+  before realization (optimism, which collapses into bracing near feedback) and long after
+  the event (rosy retrospection, which grows as traces fade; Roy-Chowdhury 2022 finds
+  reality constraints on recall loosen with time). [speculation]
+  - Against a simple "cheaper backward": imagined futures are more positively biased than
+    recollections (Rasmussen & Berntsen 2013; Newby-Clark & Ross 2003), and a known
+    eventual reveal did not restrain recall distortion (Heath & Roy-Chowdhury 2025).
+  - For the memory side of rationalization: rosy memory is how overconfidence survives
+    repeated feedback, and Huffman et al. (fn. 15) suggest memory distortion as a way to
+    manage disappointment.
+- Costs of backward bias: reminders (Walters & Fernbach: looking up actual returns
+  reduced overconfidence) and decisions (repeating experiences remembered as better than
+  they were).
+
+**The 2×2: echoes × news.** Echoes are direct (anticipation and memory of base utility) or
+recursive (of experienced utility); news is direct (about base utility) or recursive (about
+experienced utility). [checked where numbers are given; `formalism/playground` spans all
+four]
+- With `λ = 1` and linear kernels, all four are reparametrizations of one another on ℤ (P2
+  and N4), so the choice shows only through boundaries, nonlinearity and restrictions on
+  the kernel family.
+- The echo axis carries: remembered excitement and anticipated memories; present bias
+  from exponential primitives (P3, P4); information aversion from dread asymmetry (D5);
+  the condition `M < 1`.
+- The news axis carries: how much a far-off event's news is felt now; cancellation costing
+  the lost anticipation; disappointment about disappointment; the threshold
+  `λ(ν·g) < 1`.
+- Signatures (`a = 0.09, β = 0.88, m = 0.05, α = 0.75, ν(0) = 0.3, ν(1) = 0.06`, decay
+  0.97, `λ = 2`): the news felt on hearing of a +5 event 5 / 15 / 30 periods ahead, and the
+  life-sum of a plan announced and later cancelled:
+
+  | echoes / news | jolt at 5 / 15 / 30 | cancelled plan's life-sum |
+  |---|---|---|
+  | direct / direct | 0.27 / 0.20 / 0.12 | +0.68 |
+  | direct / recursive | 0.65 / 0.54 / 0.36 | −0.74 |
+  | recursive / direct | 0.27 / 0.20 / 0.12 | +5.99 |
+  | recursive / recursive | 0.84 / 0.96 / 0.93 | +4.03 |
+
+  - Under recursive / recursive the jolt barely depends on how far off the event is.
+    Recursive echoes keep a cancelled plan's remembered excitement; recursive news charges
+    for the lost anticipation.
+- A soft version replaces the corners with two reflexivity dials, anticipating and
+  remembering `θ e + (1−θ) u`, and likewise for news. [speculation; unbuilt]

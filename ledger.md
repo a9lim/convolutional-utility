@@ -44,3 +44,8 @@ Periodically compacted to git history.
   LessWrong precedent. Downgraded both from "not found" to "known in kind".
 - Built the interactive playground (`formalism/playground/`), checked against
   `pathwise.py`. Published as a private artifact for a9.
+- A fourth literature agent found Kimball & Willis 2006 §8 to be the prior art for news
+  over experienced utility, including the threshold. Its control-character cleanup touched
+  15 existing reference files; it restored them by re-extraction, and three spot-checks
+  matched their PDFs byte for byte.
+- a9 raised the 2×2 (echoes × news); added to core with measured signatures.

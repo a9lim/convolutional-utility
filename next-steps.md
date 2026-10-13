@@ -10,7 +10,10 @@ Ordered by dependency.
    - dread of dread: the recursive-model information price, analytically (when does the
      felt forecast straddle the kink?), its size, and whether path-dependent felt
      utility escapes Eliaz & Spiegler's prior-reversal impossibility;
-   - felt news (core N1–N4): pick news over `u` or over `e` as the default; N3 under news
+   - the 2×2 (core): pick the default regime, or build the soft version with reflexivity
+     dials; the cleanest discriminating evidence (jolt against distance, the cost of
+     cancellation, dread-of-dread information aversion);
+   - felt news (core N1–N4): N3 under news
      over `e`; the dynamic bracing path, with self-revision felt as news; the despair
      threshold `λ(ν·g)` analytically; how `λ` and `ν` are pinned (P10);
    - recollection news (core sketch): formalize; the backward version of N3 with

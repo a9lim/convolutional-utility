@@ -86,7 +86,12 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
     - News over experienced utility (N4): good news about far events is felt now,
       because tomorrow you'll be looking forward; cancelling a plan costs the
       anticipation too. Needs `λ(ν·g) < 1`, and beyond it bad news has no felt state:
-      a despair spiral. *checked; reading speculative*
+      a despair spiral. *checked; reading speculative.* Credit Kimball & Willis (elation
+      over lifetime-utility news, solved simultaneously, the same threshold) and the
+      bistability models of depression and panic.
+    - The 2×2, echoes × news: the echo axis carries remembered excitement, present bias and
+      dread-of-dread; the news axis carries the jolt, the cost of cancellation and the
+      despair threshold. Linear, all four are one model. Regime choice is open (a9).
     - Recursion has content exactly where the model is nonlinear. *synthesis*
   - Recollection news, the mirror of news: felt changes in how the past is remembered.
     Forecasts meet their realization, recollections only meet reminders, so rosy bias is
