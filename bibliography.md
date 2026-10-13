@@ -140,13 +140,29 @@ described via the secondary named. Files are in `references/`. First verificatio
   utility; anticipation excluded). **WP** · `papers/minardi-2023-time-for-memorable-consumption.txt`
   - Citation details still to pin down.
 - **Caplin, A. & Leahy, J. (2001).** Psychological expected utility theory and anticipatory
-  feelings. *QJE* 116(1): 55–79. doi:10.1162/003355301556347. **ABS**
-  - Anticipatory feelings in expected utility. They generate time inconsistency and
-    preferences over information.
+  feelings. *QJE* 116(1): 55–79. doi:10.1162/003355301556347. **FT** (third-party copy of
+  the published article) · `papers/caplin-2001-psychological-expected-utility-theory-and-anticipatory-feelings.txt`
+  - Prizes are psychological states; anticipation without memory (fn. 8, p. 63).
+    Period-1 utility depends on the period-2 policy, so plans are time-inconsistent
+    (pp. 64–66); Kreps–Porteus is the consistent special case.
+  - Information preferences are motivated qualitatively (blunters and monitors; BRCA
+    testing, p. 60), with no concave/convex theorem.
+  - p. 75: rejecting the substitution axiom is valid only if there can be no complete model
+    of psychological states, as with anticipatory feelings about anticipatory feelings ad
+    infinitum. Core P1 is a complete model of that regress when `M < 1`.
 - **Brunnermeier, M. & Parker, J. (2005).** Optimal expectations. *AER* 95(4): 1092–1118.
-  **2ND** (Codex)
-  - Felicity includes memory, current flow and anticipated utility. Beliefs are chosen to
-    trade anticipatory benefit against decision cost.
+  doi:10.1257/0002828054825493. **FT** (author copy, AER pagination; proofs unread) ·
+  `papers/brunnermeier-2005-optimal-expectations.txt`
+  - Felicity = memory utility + current flow + anticipatory utility (§I.A, p. 1095), with
+    a memory discount separate from the future discount; only `δ = 1/β` keeps rankings
+    time-invariant (p. 1098). Formally the direct model with exponential kernels.
+  - Well-being is the objective expectation of average felicity (Def. 1, p. 1096).
+    Beliefs are chosen once, then updated by Bayes, by agents unaware of the distortion
+    (p. 1097).
+  - Small optimism: first-order anticipatory gain, second-order decision cost (p. 1093).
+    Optimists are surprised downward on average (Prop. 4). Later resolution can be
+    preferred because information removes the ability to distort (pp. 1108–09).
+  - The nearest prior art for D5's optimist. No felt disappointment term.
 - **Kimball, M. & Willis, R. (2006).** Utility and happiness. U. Michigan WP. **WP**
   (keyword scan only) · `papers/kimball-2006-utility-and-happiness-*.txt`
   - News utility. With rational expectations, linear terms in lifetime-utility news leave
@@ -314,9 +330,17 @@ described via the secondary named. Files are in `references/`. First verificatio
     relatedness × contrast. Satisfaction and choice come apart.
 - **Diener, E., Wirtz, D. & Oishi, S. (2001).** End effects of rated life quality: the
   James Dean effect. *Psychological Science* 12(2): 124–128. doi:10.1111/1467-9280.00321.
-  **ABS**
-  - Adding mildly pleasant years makes a wonderful life rated worse. Years added in the
-    middle matter less than years added at the end.
+  **FT** (third-party copy of the published article) ·
+  `papers/diener-2001-end-effects-of-rated-life-quality-james-dean-effect.txt`
+  - Vignettes of a fictitious third person ("Jen") who dies suddenly, rated for
+    desirability and for total happiness (9-point scales; p. 125).
+  - Adding five mildly pleasant years lowers the rating of a very happy life (about 6.1
+    to 5.4); five mildly unhappy years raise a depressed one (2.4 to 3.0). Age at death
+    has no effect: duration neglect. Studies 1–2, N = 115 and 55.
+  - Years added in the middle behave like none; at the end they lower the rating (Study 3,
+    N = 34, flagged as small).
+  - A choice follow-up weakened the effect (p. 127, no numbers). Evaluative evidence, so
+    it bears on the evaluative reading, not on felt experience.
 - **Fredrickson, B. & Kahneman, D. (1993).** Duration neglect in retrospective
   evaluations of affective episodes. *JPSP* 65(1): 45–55. doi:10.1037/0022-3514.65.1.45.
   **ABS**
@@ -451,6 +475,118 @@ described via the secondary named. Files are in `references/`. First verificatio
   - Dread outweighs savoring in survey estimates.
 
 ## Value of information: beliefs as welfare (D5)
+
+Economics (Brunnermeier & Parker 2005 and Caplin & Leahy 2001 are under anticipatory
+utility above):
+- **Epstein, L. (2008).** Living with risk. *RES* 75(4): 1121–1141.
+  doi:10.1111/j.1467-937X.2008.00504.x. **FT** (abstract and intro) ·
+  `papers/epstein-2008-living-with-risk.txt`
+  - Expected-utility agents are indifferent to when risk resolves (p. 1121): D5's "truth
+    is free in expectation" in one line. His axioms allow seeking information when good
+    news is likely and avoiding it when bad is likely. Anticipatory feelings imply a
+    demand for commitment (p. 1122).
+- **Eliaz, K. & Spiegler, R. (2006).** Can anticipatory feelings explain anomalous choices
+  of information sources? *GEB* 56(1): 87–104. doi:10.1016/j.geb.2005.06.004. **FT** ·
+  `papers/eliaz-2006-anticipatory-feelings-anomalous-information-sources.txt`
+  - Prop. 1 (p. 96): `u(z)` and `u(z) − Σcᵢzᵢ` give the same information choices, using
+    only iterated expectations. Information choices cannot reveal which beliefs are good.
+  - Props. 2–3 (pp. 98–99): Bayesian belief-utility cannot make information attitudes
+    reverse with the prior (seek when good news is likely, avoid when bad is).
+  - Remark 1 (p. 100): two states, concave `u` gives information aversion, convex gives
+    seeking; "not an original result".
+  - Escapes: non-expected utility; prior-dependent utility, which they criticise for an
+    infinite regress and lost identifiability (p. 102); non-Bayesian updating, which they
+    favour.
+- **Kőszegi, B. & Rabin, M. (2009).** Reference-dependent consumption plans. *AER* 99(3):
+  909–936. doi:10.1257/aer.99.3.909. **FT** (§§I–II closely) ·
+  `papers/koszegi-2009-reference-dependent-consumption-plans.txt`
+  - Consumption utility plus loss-averse gain-loss over changes in rational beliefs, with
+    prospective weight `γ` (p. 910). Information tastes are derived, not assumed.
+  - Fully revealing signals: early information preferred iff `γ < 1`, indifference iff
+    `γ = 1` (pp. 917–19, Prop. 2).
+  - Clumping (Props. 1, 3, 4): collapsing signals helps, a weak early signal hurts;
+    learning everything at once is weakly best (p. 919). Avoidance is of *partial*
+    information.
+- **Pagel, M. (2018).** A news-utility theory for inattention and delegation in portfolio
+  choice. *Econometrica* 86(2): 491–522. doi:10.3982/ECTA14417. **WP** (intro, §§3.1,
+  4.1–4.2) · `papers/pagel-2018-news-utility-theory-inattention-delegation-portfolio-choice-wp.txt`
+  - Loss-averse news utility under rational expectations makes looking a first-order
+    loss: inattention, delegation, and an ostrich effect after adverse signals (pp. 3–6).
+- **Bénabou, R. & Tirole, J. (2002).** Self-confidence and personal motivation. *QJE*
+  117(3): 871–915. doi:10.1162/003355302760193913. **WP** (2001; intro, §§I, IV, V.B) ·
+  `papers/benabou-2002-self-confidence-and-personal-motivation-wp.txt`
+  - Three motives for confidence: hedonic, signalling, motivation; Bayesian agents with
+    endogenous memory.
+  - §IV: self-deception spoils good news with self-doubt; with free repression, partial
+    recall never beats full recall.
+  - §V.B: concave hedonic utility of self-image gives information avoidance, convex gives
+    seeking.
+- **Bénabou, R. & Tirole, J. (2004).** Willpower and personal rules. *JPE* 112(4):
+  848–886. doi:10.1086/421167. **WP** (2003; §§1–3) ·
+  `papers/benabou-2004-willpower-and-personal-rules-wp.txt`
+  - Self-reputation over willpower with imperfect recall: lapses are precedents and
+    evidence about type (pp. 2–3, 10–11). Confidence raises self-control and ex-ante
+    welfare (Prop. 1); over-rigid rules produce compulsion. The payoff is instrumental.
+- **Bénabou, R. & Tirole, J. (2016).** Mindful economics: the production, consumption, and
+  value of beliefs. *JEP* 30(3): 141–164. doi:10.1257/jep.30.3.141. **ABS** (full text
+  blocked)
+- **Bénabou, R. (2015).** The economics of motivated beliefs. *Revue d'économie politique*
+  125(5): 665–685. doi:10.3917/redp.255.0665. **FT** ·
+  `papers/benabou-2015-the-economics-of-motivated-beliefs.txt`
+  - Affective plus instrumental demand for beliefs; anticipatory flow `s·E[U₂]`
+    (pp. 671–73). With distorted information, iterated expectations fail (fn. 8).
+  - p. 677: for a near-Bayesian agent with anticipation linear in beliefs, the gain from
+    censoring bad news and the loss from self-doubt cancel, leaving only costs. Fn. 16:
+    linear is the benchmark; concave favours coarser posteriors, convex more dispersed;
+    the shape is empirical.
+  - Asymmetric updating and information avoidance as predictions (pp. 674–75), citing
+    Möbius et al., Eil & Rao, Oster et al., Karlsson et al.
+
+Field and lab evidence:
+- **Oster, E., Shoulson, I. & Dorsey, E. R. (2013).** Optimal expectations and limited
+  medical testing: evidence from Huntington disease. *AER* 103(2): 804–830.
+  doi:10.1257/aer.103.2.804. **WP** (NBER w17629, 2011; intro, §§4–6) ·
+  `papers/oster-2011-optimal-expectations-and-limited-medical-testing-nber-w17629.txt`
+  - Under 10% of 1,001 at-risk people test; untested people report risk well below
+    clinical risk and act like non-carriers. Model: Brunnermeier–Parker with linear
+    anticipation; testing destroys the option to hold chosen beliefs (Prop. 3).
+  - Corrigendum (*AER* 106(6): 1562–65, 2016; **ABS**): corrected risk series shows less
+    over-optimism, concentrated at advanced symptoms. The AER sample may differ from the WP.
+- **Karlsson, N., Loewenstein, G. & Seppi, D. (2009).** The ostrich effect: selective
+  attention to information. *J. Risk and Uncertainty* 38(2): 95–115.
+  doi:10.1007/s11166-009-9060-6. **FT** (OCR) ·
+  `papers/karlsson-2009-the-ostrich-effect-selective-attention-to-information.txt`
+  - Attend after good preliminary news, avoid after bad (Prop. 1, p. 101). Aggregate
+    login data, Sweden and Vanguard: modest effects (pp. 104–08).
+- **Sicherman, N., Loewenstein, G., Seppi, D. & Utkus, S. (2016).** Financial attention.
+  *RFS* 29(4): 863–897. doi:10.1093/rfs/hhv073. **FT** · `papers/sicherman-2016-financial-attention.txt`
+  - Individual-level: logins fall 9.5% after market declines; the trait is stable.
+- **Gherzi, S., Egan, D., Stewart, N., Haisley, E. & Ayton, P. (2014).** The meerkat
+  effect: personality and market returns affect investors' portfolio monitoring
+  behaviour. *JEBO* 107: 512–526. doi:10.1016/j.jebo.2014.07.013. **WP** (accepted
+  manuscript) · `papers/gherzi-2014-the-meerkat-effect-portfolio-monitoring-am.txt`
+  - 617 clients: monitoring rises after both up and down days. No ostrich effect.
+- **Falk, A. & Zimmermann, F. (2016).** Beliefs and utility: experimental evidence on
+  preferences for information. IZA DP 10172. **WP** ·
+  `papers/falk-2016-beliefs-and-utility-preferences-for-information-iza-dp10172.txt`
+  - Real electric shocks, N = 376. 76% prefer sooner information, distraction shifts
+    people later, ~90% prefer clumped to piecemeal, priors don't matter. Table 2 sets out
+    each model's predictions; Brunnermeier–Parker's later-information prediction fails.
+- **Eil, D. & Rao, J. (2011).** The good news-bad news effect: asymmetric processing of
+  objective information about yourself. *AEJ: Micro* 3(2): 114–138.
+  doi:10.1257/mic.3.2.114. **ABS** (full text blocked)
+  - Near-Bayesian on good news; on bad news, signal strength ignored and new information
+    avoided.
+- **Sharot, T., Korn, C. & Dolan, R. (2011).** How unrealistic optimism is maintained in
+  the face of reality. *Nature Neuroscience* 14(11): 1475–1479. doi:10.1038/nn.2949.
+  **FT** (behavioural results) ·
+  `papers/sharot-2011-how-unrealistic-optimism-is-maintained-in-the-face-of-reality.txt`
+  - Larger updates to desirable than to undesirable information about life events.
+  - Contested, via the literature agent (**ABS**): Shah et al. 2016 (*Cognitive
+    Psychology* 90) and Harris & Hahn 2011 (*Psych. Review* 118) argue statistical
+    artifact; Garrett & Sharot 2017 reply. Möbius et al. 2022 (*Mgmt Sci* 68) find
+    asymmetry plus conservatism; Coutts 2019 and Barron 2021 (*Exp. Econ.*) find no
+    valence asymmetry beyond conservatism.
 
 Philosophy and decision theory:
 - **Good, I. J. (1967).** On the principle of total evidence. *BJPS* 17(4): 319–321.

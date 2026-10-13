@@ -7,18 +7,22 @@ Ordered by dependency.
 2. **Beliefs are welfare** (`decision.md` D5), the formal work the spine needs:
    - the news structure: when anticipation updates, and what a single piece of news does
      to `e` pathwise, D and R;
-   - concave anticipation: the information-aversion result and its size;
-   - the delusional optimist: welfare gain from a biased forecast, then its price with a
-     disappointment term (realized versus anticipated) and with decisions at stake;
-   - rationalization as asymmetric updating: when it pays hedonically;
+   - dread of dread: the recursive-model information price, analytically (when does the
+     felt forecast straddle the kink?), its size, and whether path-dependent felt
+     utility escapes Eliaz & Spiegler's prior-reversal impossibility;
+   - the loss-averse news extension (Kőszegi & Rabin 2009) in kernel form: one term that
+     prices both optimism (disappointment) and information;
+   - the delusional optimist: unaware (Brunnermeier & Parker) versus sophisticated
+     (Bénabou's cancellation), under the extension;
+   - rationalization as asymmetric updating: when it pays hedonically, given the cancellation;
    - updateless affect: state it precisely and check it against a disappointment term;
    - does reflective consistency force linear anticipation (HonoreDB 2011, contested;
      Caplin & Leahy 2001 on time inconsistency)?
    - answer the LessWrong objections: "Not for the Sake of Happiness (Alone)" and
      "Doublethink".
 3. **Close prior-art gaps** that could hit the claimed results:
-   - D5/D6: Brunnermeier & Parker 2005, Caplin & Leahy 2001, Kőszegi & Rabin 2009,
-     Bénabou & Tirole 2002/2004/2016, Eliaz & Spiegler 2006 (being read);
+   - D5: Bénabou & Tirole 2016 and Eil & Rao 2011 full texts (blocked so far);
+     Kőszegi & Rabin 2009 §§III–IV;
    - Bernheim & Thomadsen 2005, "Memory and anticipation" (paywalled; library copy) — the
      nearest prior art for D1;
    - read Cosaert & Potoms 2024 closely (saved) — any first-moment or ramp results?

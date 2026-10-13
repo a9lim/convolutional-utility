@@ -15,8 +15,9 @@ Working abstract:
 - For the momentary self, recursion turns exponential primitives into strict present
   bias; memory weakens it.
 - Beliefs are welfare: felt anticipation is a forecast, so learning is not hedonically
-  neutral. The truth is free in expectation but not pathwise, dread prices information,
-  and optimism buys experienced utility at the cost of decisions.
+  neutral. The truth is free in expectation but not pathwise. Dread outweighing savoring
+  prices information only in the recursive model, where you anticipate your own future
+  dread. Unaware optimism buys experienced utility at the cost of decisions.
 - Felt anticipation that tracks a prediction of your later choice makes that choice
   Newcomb-like. Decision rules differ in how much they let the present choice move the
   already-felt past.

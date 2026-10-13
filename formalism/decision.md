@@ -116,31 +116,58 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
 - This compares boundary treatments, not a theorem about FDT. Momentary hedonists at
   different times also have different objectives.
 
-**D5. Beliefs are welfare.** [synthesis unless marked; the sources marked "to verify" are
-being read]
+**D5. Beliefs are welfare.** [synthesis unless marked]
 - Felt anticipation makes payoffs belief-dependent: psychological games (Geanakoplos,
   Pearce & Stacchetti) and personal equilibrium (Kőszegi 2010).
-- **In expectation, the truth is free.** Linear model, fixed kernels, rational
-  expectations: felt anticipation is a martingale, so by the tower property expected
-  welfare does not depend on whether or when information arrives. [standard; Kimball &
-  Willis 2006 make the same point for news utility]
+- **Which probability scores welfare.** Welfare is the objective expectation of the felt
+  life-sum, as in Brunnermeier & Parker's well-being (2005, Def. 1). The agent's beliefs
+  shape what is felt; they do not score it.
+- **In expectation, the truth is free.** Anticipation linear in beliefs, Bayesian
+  updating: forecasts are martingales, so by the tower property expected welfare does not
+  depend on whether or when information arrives. [standard: Epstein 2008 p. 1121;
+  Eliaz & Spiegler 2006 Prop. 1; Kőszegi & Rabin 2009 Prop. 2 (`γ = 1`); Bénabou 2015
+  fn. 16; Kimball & Willis 2006]
 - **Pathwise, it is not.** Good news raises `e` at once and bad news lowers it; the swings
   cancel only on average.
-- **Asymmetric kernels price information.** If felt anticipation is concave in the
-  forecast (dread outweighs savoring), information is a mean-preserving spread of the
-  forecast, so by Jensen it lowers expected welfare even when no decision depends on it.
-  Convex gives information seeking. [known in kind: Caplin & Leahy 2001; Kőszegi & Rabin
-  2009 — to verify; on LessWrong, jimrandomh 2011's utility-of-belief example]
-- **Optimism is welfare; the bill is decisions and disappointment.** An upward-biased
-  forecast raises anticipation now, and under R it is remembered too. The linear model
-  charges for it only through worse decisions, so it endorses delusion wherever no
-  decision hangs on the belief. A real price needs a disappointment term (realized versus
-  anticipated, as in Kőszegi–Rabin gain-loss utility) or memory of the forecast error.
-  [known: Brunnermeier & Parker 2005, optimal expectations — to verify]
-- **Rationalization as hedonic arbitrage.** Updating less on bad news than on good keeps
-  anticipation high now and moves the cost into later disappointment or decisions. A
-  candidate mechanism for asymmetric updating. [speculation; Bénabou & Tirole on motivated
-  beliefs — to verify]
+- **What prices information is nonlinearity in beliefs**, not in outcomes.
+  - Utility concave in the posterior gives information aversion, convex gives seeking.
+    [known: Eliaz & Spiegler 2006 Remark 1, two states, "not an original result";
+    Bénabou & Tirole 2002 §V.B; on LessWrong, jimrandomh 2011]
+  - Dread outweighing savoring as a *kernel on outcomes* keeps anticipation linear in
+    beliefs, so in the direct model information timing stays neutral. [checked]
+  - In the recursive model it does not: a self anticipates its own later *felt
+    forecasts*, so the asymmetry lands on a belief, and earlier information lowers
+    expected welfare. Recursion has content here. [not found; checked]
+  - Other routes to avoidance: loss-averse news utility (Kőszegi & Rabin 2009 Props. 1–4:
+    partial information hurts, clumped information helps; Pagel 2018: inattention), and
+    chosen beliefs with linear anticipation (Brunnermeier & Parker 2005 pp. 1108–09;
+    Oster, Shoulson & Dorsey 2013).
+  - Limits. Bayesian belief-utility cannot produce attitudes that reverse with the prior
+    (Eliaz & Spiegler Props. 2–3), and information choices cannot reveal which beliefs
+    are good (their ordinality result, an analogue of P10). In the lab, 76% prefer sooner
+    information and ~90% clumped (Falk & Zimmermann 2016).
+- **Optimism is welfare; who pays.** [known: Brunnermeier & Parker 2005]
+  - An upward-biased forecast raises anticipation now (first order) at a decision cost
+    (second order). Brunnermeier & Parker's felicity is memory + flow + anticipation, so
+    this is the direct model under objective probabilities.
+  - The linear model charges only through decisions, so for an *unaware* optimist it
+    endorses delusion wherever no decision hangs on the belief.
+  - For a sophisticated near-Bayesian with linear anticipation, self-deception gains
+    nothing: censoring bad news makes good news suspect, and the two effects cancel
+    (Bénabou 2015 p. 677; Bénabou & Tirole 2002 §IV). This is Yudkowsky's "Doublethink"
+    as a theorem. Delusion pays only for unaware agents, under nonlinear anticipation, or
+    for instrumental reasons.
+  - Not in Brunnermeier & Parker: a felt disappointment term. Loss-averse gain-loss over
+    belief changes (Kőszegi & Rabin 2009) supplies both the price of optimism (the news
+    at realization) and a price on information, in one extension.
+- **Rationalization as hedonic arbitrage.** [speculation]
+  - Updating less on bad news keeps anticipation high now and moves the cost into later
+    disappointment or decisions.
+  - Bénabou's cancellation says it pays only for agents who don't see themselves doing
+    it, or under nonlinearity.
+  - The evidence for asymmetric updating is contested. Supporting: Eil & Rao 2011;
+    Möbius et al. 2022; Sharot et al. 2011. Against, as artifact or plain conservatism:
+    Shah et al. 2016; Coutts 2019; Barron 2021.
 - **Instrumental versus intrinsic value of information.** [known: Kadane, Schervish &
   Seidenfeld 2008; Skyrms 1990]
   - Good's theorem: free information has nonnegative expected value because the agent can
@@ -158,9 +185,14 @@ being read]
     felt forecast, not the action. [synthesis]
 - **Updateless affect.** An agent whose felt anticipation tracks its prior forecast while
   its actions use the posterior keeps the decisions and drops the swings. Expected welfare
-  is equal in the linear model and strictly higher under concave anticipation, before any
-  disappointment term. A formal reading of equanimity. Not found on LessWrong; HonoreDB
-  (2011) pins *belief* at the prior, a different split. [speculation]
+  is equal in the linear model, and strictly higher where beliefs enter nonlinearly
+  (concave belief-utility, or R with dread asymmetry), before any disappointment term.
+  - Beliefs stay accurate, so this is not belief choice (Brunnermeier & Parker), and
+    Bénabou's self-doubt cancellation does not bite.
+  - A formal reading of equanimity. The open question is whether affect can come apart
+    from belief at all.
+  - Not found on LessWrong. HonoreDB (2011) pins *belief* at the prior, a different
+    split. [speculation]
 - **Reflective consistency and linearity.** HonoreDB (2011) argues that a reflectively
   consistent UDT agent's utility of belief must be linear (contested). Linear anticipation
   is exactly the case where information is neutral in expectation. Whether reflective
@@ -176,8 +208,11 @@ being read]
 - Two channels. Acausal: past forecasts tracked the policy (`J ≠ 0`, D2), which a
   fixed-past self at the moment of defection ignores. Causal: following through now
   raises later selves' forecasts of their own reliability (self-reputation), which a CDT
-  self can count. [precedent to verify: Bénabou & Tirole 2004, personal rules; Bodner &
-  Prelec 2003, self-signaling]
+  self can count.
+- Precedent for the mechanism: Bénabou & Tirole 2004 (personal rules; lapses are
+  diagnostic of willpower, and self-confidence is an asset) and Bodner & Prelec 2003
+  (self-signaling). Their payoff is instrumental: confidence sustains future effort. The
+  hedonic payoff here, anticipation earned by being believed by yourself, was not found.
 - D3 has the same structure: past anticipation, sunk for the fixed-past self.
 - A past self having looked forward to the plan is not, by itself, a reason.
 

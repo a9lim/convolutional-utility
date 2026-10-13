@@ -36,6 +36,10 @@ Status tags: **[standard]** textbook math · **[known: …]** in the literature,
   finite life, yet constant `u = 1` gives `e_mid ≈ 10¹⁹` at `T = 400`. [checked]
 - Reading: `ρ(K_T) < 1` means monotone on this life; `M < 1` means bounded echo at any
   lifespan.
+- The regress objection. Caplin & Leahy (2001, p. 75) treat "anticipatory feelings about
+  anticipatory feelings … ad infinitum" as the case with no complete model of
+  psychological states. R is that regress, and its fixed point exists iff `M < 1`.
+  [synthesis]
 
 **P2. D and R are two readings of one agent on ℤ.** [standard; the reading is synthesis]
 - `I + K_D = (I − K_R)^{-1}`: every recursive agent has a direct twin and vice versa.
@@ -121,10 +125,11 @@ neutral, and the life-sum tilts by `μ₁`. [numerical]
 - The effect is a failure of the monotonicity P1(a) treats as well-foundedness. With
   signed kernels non-monotonicity is the phenomenon, and the well-foundedness condition
   becomes absolute convergence (`ρ(|K_T|) < 1`; on ℤ, `Σ|k| < 1`).
-- Diener, Wirtz & Oishi (2001) measured ratings of described lives: evaluative evidence.
-  The hedonic claim is different and unsupported: post-peak years are *felt* as net
-  negative. Whether memory's net kernel is negative is empirical (Tversky & Griffin's
-  endowment versus contrast).
+- Diener, Wirtz & Oishi (2001) had people rate a vignette of a third person's life
+  ("Jen"), on desirability and total happiness: evaluative evidence. Their choice
+  follow-up weakened the effect. The hedonic claim is different and unsupported:
+  post-peak years are *felt* as net negative. Whether memory's net kernel is negative is
+  empirical (Tversky & Griffin's endowment versus contrast).
 
 **P9. Intervention semantics.** [known in kind: Hori & Kanaya 1989 "mortality" vs
 "eternity"; Ray, Vellodi & Wang 2024 fn. 4]

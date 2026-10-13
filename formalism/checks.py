@@ -266,6 +266,39 @@ for a, b, m, al in stable_draws(100):
     err = max(err, abs(f[0] - 1 / H), abs(f[1] / (f[0] * f[2] / f[1]) - (1 - H / (1 + a))))
 report("D4 half-line row closed form", err, tol=1e-8)
 
+
+# D5: timing of information. Causal form with state-contingent paths and sign-dependent
+# kernels; two equiprobable states differ in the last period's u, revealed at time r.
+def info_welfare(r, rec, kp, km, T=6, b=0.7, mp=0.15, mm=0.15, al=0.6):
+    u = np.full((2, T), 0.3)
+    u[0, -1], u[1, -1] = 1.0, -1.0
+    e = u.copy()
+    for _ in range(2000):
+        X = e if rec else u
+        new = u.copy()
+        for t in range(T):
+            for j in range(1, T - t):
+                v = np.where(X[:, t + j] >= 0, kp, km) * b ** j * X[:, t + j]
+                new[:, t] += v if t >= r else v.mean()
+            for j in range(1, t + 1):
+                new[:, t] += np.where(X[:, t - j] >= 0, mp, mm) * al ** j * X[:, t - j]
+        if np.max(np.abs(new - e)) < 1e-13:
+            break
+        e = new
+    return e.sum(axis=1).mean()
+
+
+spread = {}
+for name, kp, km in [("symmetric", 0.2, 0.2), ("dread > savoring", 0.1, 0.35)]:
+    for rec in (False, True):
+        W = [info_welfare(r, rec, kp, km) for r in range(6)]
+        spread[(name, rec)] = np.ptp(W)
+        print(f"D5  {name}, {'R' if rec else 'D'}: welfare by reveal time 0..5: "
+              + " ".join(f"{w:.5f}" for w in W))
+report("D5 timing-neutral unless R with dread asymmetry",
+       max(spread[("symmetric", False)], spread[("symmetric", True)], spread[("dread > savoring", False)]))
+print(f"     R with dread asymmetry: later revelation is better, spread {spread[('dread > savoring', True)]:.5f}")
+
 # A1: recursive memory-only kernel, mirror of P3: r(-j) = (m/(1+m))((1+m)al)^j
 m, al = 1.0, 0.3
 r = resolvent_line(0.0, 0.5, m, al)

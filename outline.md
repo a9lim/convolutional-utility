@@ -64,15 +64,20 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
     footnote).
 - **Beliefs are welfare.** (D5) *synthesis / speculation*
   - Felt anticipation is a forecast, so learning changes how your life feels now.
-  - In expectation the truth is free (tower property). Pathwise it is not: bad news
-    hurts now.
-  - Dread outweighing savoring prices information: hedonic information aversion, with no
-    decision at stake.
-  - The delusional optimist feels better than the realist on the same base utility. In
-    the linear model the only bill is decisions; a real price needs disappointment.
-    Prior art: Brunnermeier & Parker's optimal expectations.
+    Welfare is scored by the objective expectation of the felt life.
+  - In expectation the truth is free (tower property; a textbook benchmark). Pathwise
+    it is not: bad news hurts now.
+  - What prices information is nonlinearity in beliefs. Dread outweighing savoring does
+    it only in the recursive model, where you anticipate your own future dread.
+    *not found; checked*
+  - The delusional optimist feels better than the realist on the same base utility, if
+    unaware. Prior art: Brunnermeier & Parker's optimal expectations.
+  - A sophisticated near-Bayesian gains nothing from self-deception: doubt spoils the
+    good news (Bénabou). "Doublethink" as a theorem.
+  - Loss-averse news utility (Kőszegi–Rabin) prices optimism (disappointment) and
+    information in one extension.
   - Rationalization as hedonic arbitrage: updating less on bad news keeps anticipation
-    high now. *speculation*
+    high now. *speculation*; asymmetric updating is empirically contested.
   - Instrumental value of information (Good's theorem, FDT) versus intrinsic hedonic
     value: information can be ignorable without being cost-free (Kadane, Schervish &
     Seidenfeld). LessWrong's updatelessness discussion covers only the ignorable half.
@@ -81,8 +86,8 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
   - LessWrong precedents to credit: Raemon on the Litany of Gendlin; jimrandomh's
     utility-of-belief example; Yudkowsky on pleasant surprises; Bostrom's psychological
     reaction hazards.
-  - Objections to answer: "Not for the Sake of Happiness (Alone)" (value is not only
-    hedonic) and "Doublethink" (you cannot knowingly choose bias).
+  - Objection to answer: "Not for the Sake of Happiness (Alone)" (value is not only
+    hedonic). "Doublethink" is an ally: Bénabou's cancellation formalizes it.
 - **Decision theory: your past self as predictor.** (`decision.md`)
   - A choice is Newcomb-like when already-felt anticipation depends on an accurate
     prediction of it (D1). *synthesis*

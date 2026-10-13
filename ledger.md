@@ -31,3 +31,10 @@ Periodically compacted to git history.
   of one agent) replaced "recursion has no content".
 - Re-reading turned up the P6 size caveat (`≈ 4μ₁/T`) and the D3 exceptions as
   preemption; both checked.
+- Two literature agents (economics; LessWrong and philosophy) covered D5's prior art.
+  The economics pass corrected a claim made to a9 in chat: dread outweighing savoring,
+  as a kernel on outcomes, does not price information in the direct model, because
+  anticipation stays linear in beliefs. `checks.py` confirms it, and shows the recursive
+  model does price it.
+- Blocked and not circumvented: AEA PDFs, Eil & Rao, Bénabou & Tirole 2016, Good 1967,
+  Buchak 2010, philsci-archive, Philosophers' Imprint, the old LessWrong wiki.

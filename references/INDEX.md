@@ -50,6 +50,20 @@ Timing of pleasures and pains
 - `dawson-2026-asymmetric-anticipatory-emotions.txt`
 
 Value of information
+- `brunnermeier-2005-optimal-expectations.txt` — author copy, AER pagination
+- `caplin-2001-psychological-expected-utility-theory-and-anticipatory-feelings.txt` — third-party copy of the published article
+- `epstein-2008-living-with-risk.txt`
+- `eliaz-2006-anticipatory-feelings-anomalous-information-sources.txt`
+- `koszegi-2009-reference-dependent-consumption-plans.txt`
+- `pagel-2018-news-utility-theory-inattention-delegation-portfolio-choice-wp.txt` — WP
+- `benabou-2002-self-confidence-and-personal-motivation-wp.txt`, `benabou-2004-willpower-and-personal-rules-wp.txt` — WPs
+- `benabou-2015-the-economics-of-motivated-beliefs.txt`
+- `oster-2011-optimal-expectations-and-limited-medical-testing-nber-w17629.txt` — WP of Oster, Shoulson & Dorsey 2013
+- `karlsson-2009-the-ostrich-effect-selective-attention-to-information.txt` — OCR
+- `sicherman-2016-financial-attention.txt`
+- `gherzi-2014-the-meerkat-effect-portfolio-monitoring-am.txt` — accepted manuscript
+- `falk-2016-beliefs-and-utility-preferences-for-information-iza-dp10172.txt` — WP
+- `sharot-2011-how-unrealistic-optimism-is-maintained-in-the-face-of-reality.txt`
 - `skyrms-1990-the-value-of-knowledge.txt`
 - `kadane-schervish-seidenfeld-2008-is-ignorance-bliss.txt` — author-hosted JSTOR copy
 - `ahmed-salow-2019-dont-look-now.txt` — author draft
@@ -91,6 +105,7 @@ Time biases
 
 Psychology
 - `ariely-1998-combining-experiences-over-time.txt`
+- `diener-2001-end-effects-of-rated-life-quality-james-dean-effect.txt` — third-party copy of the published article
 - `griffin-gonzalez-2013-endowment-contrast-model.pdf` / `.txt` — OCR partly garbled
 - `bryant-2021-progress-and-future-directions-on-savoring.txt`
 
