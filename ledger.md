@@ -1,0 +1,26 @@
+# Ledger
+
+Periodically compacted to git history.
+
+## 2026-10-12 — premise check
+
+- Two parallel literature agents (economics; philosophy/psychology) verified and saved
+  sources. Codex (gpt-6-astra) did an adversarial pass on the math sketch: gaslamp job
+  `cx-20261012-230641-77eb`, thread `conv-utility-premise`.
+- Codex caught two errors in the first sketch: finite-section spectral radius ≠ mass,
+  and the unqualified sign claim in the ramp theorem. It also pointed to Bergstrom 1999 §5
+  and Ray, Vellodi & Wang 2024 as direct precursors.
+- Blocked and not circumvented: Dorsey 2015 (KU 403), SSRN and Chicago journals
+  (Cloudflare), JET/JPET/JME closed copies, Slote (lending-only).
+- Codex's full reply, with the closed forms in `formalism/core.md` P4–P6, is kept at
+  `~/.gaslamp/jobs/cx-20261012-230641-77eb/reply.md`.
+
+## 2026-10-13 — decision theory and anthropics
+
+- a9 chose the hedonic reading.
+- First draft of `decision.md` identified CDT/FDT with the mortality/eternity split.
+  Codex (job `cx-20261013-000724-0a6a`, same thread) showed that this overreaches. The
+  defensible split is fixed-past choice versus advance commitment, parametrized by `J`.
+- Codex also pointed to Kőszegi 2010 as prior art for the savoring-trap mechanism, and
+  supplied the exact stopping conditions now in D3 (checked over 1500 draws).
+- `checks.py` caught an A2 limit error before review (the odds go to 0, not to 1:1).
