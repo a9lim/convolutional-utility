@@ -10,8 +10,11 @@ Ordered by dependency.
    - dread of dread: the recursive-model information price, analytically (when does the
      felt forecast straddle the kink?), its size, and whether path-dependent felt
      utility escapes Eliaz & Spiegler's prior-reversal impossibility;
-   - felt news (core N1–N3): the recursive version of N3; the dynamic bracing path, with
-     self-revision felt as news; how `λ` and `ν(0)` are pinned (P10);
+   - felt news (core N1–N4): pick news over `u` or over `e` as the default; N3 under news
+     over `e`; the dynamic bracing path, with self-revision felt as news; the despair
+     threshold `λ(ν·g)` analytically; how `λ` and `ν` are pinned (P10);
+   - recollection news (core sketch): formalize; the backward version of N3 with
+     reminders; prior art on rosy retrospection and the fading affect bias;
    - the delusional optimist: unaware (Brunnermeier & Parker) versus sophisticated
      (Bénabou's cancellation), under felt news;
    - rationalization as asymmetric updating: when it pays hedonically, given the cancellation;

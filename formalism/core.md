@@ -165,6 +165,11 @@ data or by a structural family.
 - The felt base `f = u + n` replaces `u`: D is `e = (I+K)f` in the causal form, R is
   `e = f + Ke`. News is felt, anticipated (anxiety about pending news), and remembered.
 - `n` depends only on forecasts of `u`, so well-foundedness is unchanged (P1).
+- News can instead be over experienced utility (N4). The full term, with `X = u` or `X = e`:
+  `e_t = u_t + Σ_{j≥1} k(j) Ê_t[X_{t+j}] + Σ_{j≥1} k(−j) X_{t−j} + Σ_{j≥0} ν(j) μ(ΔÊ_t[X_{t+j}])`:
+  base, anticipation, memory, news. A recollection-news term would complete the pattern
+  (sketch below).
+- `formalism/pathwise.py` simulates a life pathwise and plots the four components.
 
 **N1. Linear news is neutral in expectation.** With `λ = 1` and Bayesian forecasts,
 `E_{t−1}[n_t] = 0`: expected welfare equals the base model's, and news adds only pathwise
@@ -213,3 +218,45 @@ condition and quantile not found; checked]
   find little benefit. If disappointment fades that fast, `ν(0)` is brief and `B` small.
 - Level anticipation, news and memory are not separately identified from behaviour (P10;
   Eliaz & Spiegler's ordinality result).
+
+**N4. News over experienced utility.** `n_t = Σ_{j≥0} ν(j) μ(Ê_t[e_{t+j}] − Ê_{t−1}[e_{t+j}])`:
+news about how your life will *feel*, including your anticipations and memories. The
+`j = 0` term compares `e_t` with its own forecast, so news is self-referential.
+- `λ = 1`: neutral in expectation, equal to base R. [checked] Linear, so on ℤ it is news
+  over `u` with an echoed news kernel, as in P2. [structural; unchecked]
+- `λ > 1`: genuinely different from news over `u`. [checked]
+  - Reach: news about a far event is felt now through the near-term echo (tomorrow you
+    will be looking forward to it), so a short `ν` suffices. Cancelling a plan costs the
+    anticipation and the anticipated memories too.
+  - Size: a revision is felt across the whole echo path, so losses are amplified.
+  - Timing: with flat `ν` an early revision changes many forecasts, and late information
+    is preferred; with decaying `ν` the ranking is mixed.
+- Well-foundedness: let `g` be the felt-now column of the remaining-life resolvent (how a
+  unit felt now moves forecasts of later experience). The felt news is unique iff
+  `λ (ν · g) < 1`. Beyond it, bad news has no felt state and good news has two, one of them
+  a self-sustaining despairing state. [checked on an example; reading as rumination or a
+  despair spiral is speculation]
+- Recursion has content exactly where the model is nonlinear: P2 makes linear recursion
+  a reparametrization, while dread asymmetry (D5) and loss-averse news (N4) make it bite.
+  [synthesis]
+
+**Sketch: recollection news.** [speculation]
+- The mirror of news. `R_t[X_s]` is the remembered value at `t` of experience at `s < t`;
+  the base model has perfect recall, with fading carried by the kernel weight. The memory
+  term uses `R_t`, and felt changes in recollection add
+  `Σ_{j≥1} ρ(j) μ(R_t[X_{t−j}] − R_{t−1}[X_{t−j}])`.
+- Completes a 2×2: anticipation and memory are levels, forward and backward; news and
+  recollection news are changes, forward and backward.
+- Recollection moves by drift (forgetting; fading affect bias), by evidence about the
+  past (reminders, discoveries), and by motivated revision (repression, reinterpretation).
+- Pure fading of content is absorbed into the memory kernel (P10). Only *felt* fading adds
+  anything: losing a good memory is a small loss, a bad one fading a relief.
+- Evidence about the past is a martingale if recollection is Bayesian, so it is neutral in
+  expectation at `λ = 1` and a schedulable pain at `λ > 1`, as in N2.
+- The forward–backward asymmetry: every forecast meets its realization, but a recollection
+  meets only reminders. A rosy bias in memory earns the memory level term with no
+  realization bill; its costs are reminders and decisions (repeating experiences
+  remembered as better than they were). Hedonically motivated distortion should therefore
+  be cheaper backward than forward, which is where rationalization may mostly live.
+  [prior art to check: rosy retrospection, the fading affect bias, remembered versus
+  experienced utility in repeat choices]

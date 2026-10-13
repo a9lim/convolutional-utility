@@ -83,6 +83,15 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
       disappointment: optimism for long-awaited events, bracing for short-notice ones.
       Credit Gollier & Muermann (the model) and van Dijk et al. (the timing claim);
       bracing is documented, its hedonic payoff is not (Golub, Gilbert & Wilson).
+    - News over experienced utility (N4): good news about far events is felt now,
+      because tomorrow you'll be looking forward; cancelling a plan costs the
+      anticipation too. Needs `λ(ν·g) < 1`, and beyond it bad news has no felt state:
+      a despair spiral. *checked; reading speculative*
+    - Recursion has content exactly where the model is nonlinear. *synthesis*
+  - Recollection news, the mirror of news: felt changes in how the past is remembered.
+    Forecasts meet their realization, recollections only meet reminders, so rosy bias is
+    cheaper backward. Rationalization may live mostly on the memory side.
+    *speculation*
   - Rationalization as hedonic arbitrage: updating less on bad news keeps anticipation
     high now. *speculation*; asymmetric updating is empirically contested.
   - Instrumental value of information (Good's theorem, FDT) versus intrinsic hedonic

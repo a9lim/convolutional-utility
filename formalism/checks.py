@@ -394,3 +394,61 @@ report("A1 memory-only resolvent", max(abs(r[-j] - (m / (1 + m)) * ((1 + m) * al
 print(f"A1  b=2, m=1, al=0.3: per-observer M = {m * al / (1 - al):.3f} (< 1); copy-counted "
       f"total ratio b(1+m)al = {2 * (1 + m) * al:.2f} (>= 1 diverges); measure-weighted ratio "
       f"(1+m)al = {(1 + m) * al:.2f}")
+
+
+# N4: news over experienced utility. e_t = u_t + anticipation + memory
+#     + sum_{j>=0} nu(j) mu(E[e_{t+j}|G_t] - E[e_{t+j}|G_{t-1}]), the j = 0 term being e_t itself.
+def news_e_welfare(u, G, p, nu, lam, kf, kb, damp=0.5):
+    T, S = u.shape
+    mu = lambda x: np.where(x >= 0, x, lam * x)
+    prior = np.zeros(S, int)
+    e = u.copy()
+    for _ in range(20000):
+        new = u.copy()
+        for t in range(T):
+            for j in range(1, T - t):
+                new[t] += kf(j) * cond(e[t + j], G[t], p)
+            for j in range(1, t + 1):
+                new[t] += kb(j) * e[t - j]
+            for j in range(T - t):
+                now = e[t] if j == 0 else cond(e[t + j], G[t], p)
+                new[t] += nu(j) * mu(now - cond(e[t + j], G[t - 1] if t else prior, p))
+        if np.max(np.abs(new - e)) < 1e-12:
+            return p @ e.sum(axis=0)
+        e = damp * new + (1 - damp) * e
+
+
+T = 8
+u = np.full((T, 4), 0.2)
+u[T - 1] = Y.sum(axis=1)
+schedules = {"clumped at 2": sched(2, 2), "piecemeal 2,5": sched(2, 5), "clumped at 5": sched(5, 5),
+             "at realization": sched(7, 7)}
+kf, kb = (lambda j: 0.25 * 0.7 ** j), (lambda j: 0.2 * 0.6 ** j)
+base = news_welfare(u, schedules["at realization"], p, lambda j: 0.3, 1.0, kf, kb, True)[0]
+err = max(abs(news_e_welfare(u, G, p, nu, 1.0, kf, kb) - base)
+          for G in schedules.values() for nu in (lambda j: 0.3, lambda j: 0.3 * 0.7 ** j))
+report("N4 news over e, lam = 1: neutral in expectation, equal to base R", err, tol=1e-9)
+for nu_name, nu in [("flat", lambda j: 0.3), ("decaying", lambda j: 0.3 * 0.7 ** j)]:
+    W = {k: news_e_welfare(u, G, p, nu, 2.0, kf, kb) for k, G in schedules.items()}
+    print(f"     lam = 2, {nu_name} nu: " + ", ".join(f"{k} {v:.4f}" for k, v in W.items()))
+
+# N4: well-foundedness. Felt news at a surprise solves h(s) = s - sum_j nu_j mu(x0_j + s g_j) = 0;
+# unique iff lam (nu . g) < 1. Beyond it a bad shock has no felt state.
+T, t0 = 40, 20
+j = np.arange(T)
+kf_v, kb_v = np.where(j > 0, 0.1 * 0.85 ** j, 0), np.where(j > 0, 0.1 * 0.75 ** j, 0)
+n = T - t0
+A_ = np.array([[kf_v[c - r] if c > r else kb_v[r - c] if r > c else 0 for c in range(n)] for r in range(n)])
+Rinv = np.linalg.inv(np.eye(n) - A_)
+g = Rinv[:, 0]
+grid = np.linspace(-200, 50, 5001)
+rows = []
+for nu0, lam in [(0.3, 2.0), (0.45, 2.5)]:
+    nu = np.array([nu0] + [0.1 * 0.7 ** q for q in range(1, n)])
+    mu = lambda x: np.where(x >= 0, x, lam * x)
+    counts = []
+    for shock in (-3.0, 3.0):
+        hv = np.array([s - nu @ mu(g * shock + s * g) for s in grid])
+        counts.append(int(np.sum(np.sign(hv[:-1]) != np.sign(hv[1:]))))
+    rows.append(f"lam (nu.g) = {lam * nu @ g:.3f}: felt states after bad / good shock = {counts[0]} / {counts[1]}")
+print("N4  " + "; ".join(rows))
