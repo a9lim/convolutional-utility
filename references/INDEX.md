@@ -70,6 +70,20 @@ Value of information
 - `buchak-2010-instrumental-rationality-epistemic-rationality-and-evidence-gathering.txt` — abstract and notes only
 - `bostrom-2011-information-hazards.txt` — author PDF
 
+Disappointment, bracing and evaluation periods
+- `bell-1985-disappointment-in-decision-making-under-uncertainty-abs.txt`, `loomes-1986-disappointment-and-dynamic-consistency-in-choice-under-uncertainty-abs.txt`, `gul-1991-a-theory-of-disappointment-aversion-abs.txt` — abstract stubs with forms from secondary sources
+- `abdellaoui-2007-eliciting-guls-theory-of-disappointment-aversion-by-the-tradeoff-method.txt`
+- `chauveau-2005-a-theory-of-disappointment-wp.txt` — WP, review section only
+- `mellers-1997-decision-affect-theory-emotional-reactions-to-outcomes-of-risky-options.txt` — poor OCR
+- `gollier-2006-optimal-choice-and-beliefs-with-ex-ante-savoring-and-ex-post-disappointment-cfs-wp.txt` — WP of Gollier & Muermann 2010
+- `van-dijk-2003-blessed-are-those-who-expect-nothing.txt`
+- `shepperd-1996-abandoning-unrealistic-optimism-performance-estimates-and-temporal-proximity-of-feedback.txt`, `shepperd-2000-bracing-for-loss.txt`, `shepperd-2002-the-affective-consequences-of-expected-and-unexpected-outcomes.txt`
+- `sweeny-2006-is-optimism-always-best-future-outlooks-and-preparedness.txt`, `sweeny-2010-the-costs-of-optimism-and-the-benefits-of-pessimism-abs.txt`
+- `golub-2009-anticipating-ones-troubles-the-costs-and-benefits-of-negative-expectations.txt`
+- `marshall-2006-emotional-reactions-to-achievement-outcomes-is-it-really-best-to-expect-the-worst-abs.txt`, `taylor-1998-bracing-for-the-worst-abs.txt`, `norem-1986-defensive-pessimism-harnessing-anxiety-as-motivation-abs.txt`
+- `benartzi-1993-myopic-loss-aversion-and-the-equity-premium-puzzle-nber-w4369.txt` — WP of Benartzi & Thaler 1995
+- `gneezy-1997-an-experiment-on-risk-taking-and-evaluation-periods.txt`
+
 Anthropics and imperfect recall
 - `armstrong-2011-anthropic-decision-theory-arxiv-v1.txt`, `armstrong-2017-anthropic-decision-theory-arxiv-v3.txt`
 - `elga-2000-self-locating-belief-and-the-sleeping-beauty-problem.txt`
@@ -129,6 +143,12 @@ Updatelessness and information
 - `demski-2019-conceptual-problems-with-udt-and-policy-selection.md`
 - `kokotajlo-2019-the-commitment-races-problem.md`
 - `garrabrant-2016-updatelessness-and-son-of-x.md`
+
+Feeling versus acting on LessWrong
+- `soares-2015-detach-the-grim-o-meter.md`, `soares-2015-simply-locate-yourself.md`
+- `mayer-2023-being-at-peace-with-doom.md`
+- `turntrout-2022-emotionally-confronting-a-probably-doomed-world.md`
+- `sabien-2023-a-way-to-be-okay.md`
 
 Truth, comfort and anticipation on LessWrong
 - `lesswrong-wiki-litany-of-gendlin-and-litany-of-tarski.md`

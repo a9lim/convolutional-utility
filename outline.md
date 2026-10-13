@@ -81,6 +81,8 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
       Feel it clumped, early if news about the far future is felt less.
     - Optimism pays iff anticipation mass beats remembered, loss-weighted
       disappointment: optimism for long-awaited events, bracing for short-notice ones.
+      Credit Gollier & Muermann (the model) and van Dijk et al. (the timing claim);
+      bracing is documented, its hedonic payoff is not (Golub, Gilbert & Wilson).
   - Rationalization as hedonic arbitrage: updating less on bad news keeps anticipation
     high now. *speculation*; asymmetric updating is empirically contested.
   - Instrumental value of information (Good's theorem, FDT) versus intrinsic hedonic
@@ -95,6 +97,9 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
     - Updateless action is what makes it feasible: once a policy acts for you, you can
       stop watching.
     - P(doom): act on the forecast, feel it in batches. *speculation as psychology*
+    - Credit Pagel (the formal case: ignore the portfolio, delegate, commit to
+      inattention) and Soares ("Detach the grim-o-meter"; "Simply locate yourself", the
+      updateless structure, which ties back to measure-weighting in the anthropics coda).
   - LessWrong precedents to credit: Raemon on the Litany of Gendlin; jimrandomh's
     utility-of-belief example; Yudkowsky on pleasant surprises; Bostrom's psychological
     reaction hazards.

@@ -209,7 +209,8 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
 - D3 has the same structure: past anticipation, sunk for the fixed-past self.
 - A past self having looked forward to the plan is not, by itself, a reason.
 
-**D7. Affect policies and updateless affect.** [synthesis; speculation where marked]
+**D7. Affect policies and updateless affect.** [known in kind: Pagel 2018; the framing
+against Good's theorem and updatelessness is synthesis; speculation where marked]
 - **Two policies.** Actions are measurable with respect to the agent's information `F_t`.
   Felt forecasts and felt news are computed on an *affect filtration* `G_t ⊆ F_t`, coarser
   or delayed. Realized base utility is felt when it happens. Strict **updateless affect**:
@@ -226,18 +227,31 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   costs (KSS's cost-free half). A hedonic agent chooses both, and Good's theorem says
   nothing about the second.
 - **Updateless action makes batched affect feasible.** `G ⊊ F` means acting on information
-  one does not attend to: delegation (Pagel 2018), rules executed without fresh
-  deliberation, long evaluation periods (Benartzi & Thaler 1995, to verify). Once a policy
-  is acting for you, you can stop watching. [synthesis]
+  one does not attend to: delegation, rules executed without fresh deliberation, long
+  evaluation periods. Once a policy is acting for you, you can stop watching. Pagel's
+  news-utility investor is the formal case: he prefers to ignore his portfolio, pays a
+  manager to rebalance for him, and would like to commit to inattention.
 - **Not belief choice.** Beliefs stay accurate, so this is not Brunnermeier & Parker, and
   Bénabou's self-doubt cancellation does not bite. Whether affect can come apart from
   belief within one mind is open; attention and delegation are the known routes. Not
-  found on LessWrong; HonoreDB (2011) pins *belief* at the prior, a different split.
+  found as a formal object on LessWrong; HonoreDB (2011) pins *belief* at the prior, a
+  different split. Informal precedents below.
 - **Example: P(doom).** A high forecast lowers felt anticipation, but that level effect is
   neutral ex ante in the linear model. Following every update piecemeal is pure expected
   loss when `λ > 1`. The hedonic prescription: settle a policy, act on it, and feel the
-  forecast in batches. Informal precedent to verify: Soares, "Detach the grim-o-meter".
-  [speculation as psychology]
+  forecast in batches. [speculation as psychology]
+- **Informal precedents on LessWrong.** None batches or feels by a prior, but each splits
+  affect from action.
+  - Soares, "Detach the grim-o-meter" (2015): stop calibrating the grim-o-meter against
+    the state of the world; keep it for local work.
+  - Soares, "Simply locate yourself" (2015): treat bad news as information about where you
+    ended up, not as the world going wrong. This has the updateless structure; with
+    measure-weighted anticipation (A1) it is feeling by the prior over branches.
+  - Mayer, "Being at peace with doom" (2023); TurnTrout, "Emotionally confronting a
+    probably-doomed world" (2022: feelings are not beliefs); Sabien, "A way to be okay"
+    (2023).
+  - The constraint: the affect policy must not corrupt the beliefs action uses (Ruby, "A
+    quick guide to confronting doom").
 - **Open.** Fixed-past selves hurry pains (D3), and a body of news is a pain. Does that make
   them feel news piecemeal, i.e. over-check? Subadditivity pulls the other way; untested.
 

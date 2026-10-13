@@ -38,3 +38,7 @@ Periodically compacted to git history.
   model does price it.
 - Blocked and not circumvented: AEA PDFs, Eil & Rao, Bénabou & Tirole 2016, Good 1967,
   Buchak 2010, philsci-archive, Philosophers' Imprint, the old LessWrong wiki.
+- Felt news (core N1–N3) and affect policies (D7) built and checked. A third literature
+  agent found prior art for both: Gollier & Muermann 2010 and van Dijk et al. 2003 for
+  N3's optimism/bracing condition, Pagel 2018 for affect policies, Soares 2015 as the
+  LessWrong precedent. Downgraded both from "not found" to "known in kind".

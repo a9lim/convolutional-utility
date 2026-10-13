@@ -158,7 +158,10 @@ data or by a structural family.
   `x ≥ 0` and `λx` for `x < 0`, `λ ≥ 1`. `Ê_t` is the felt forecast; `ν(j)` weighs news about
   `j` steps ahead.
 - `j = 0` is realization: elation or disappointment against the last forecast. This is the
-  disappointment term.
+  disappointment term. Classical disappointment theory is its static, realization-only
+  case, with the reference point set by the lottery (Bell 1985, kinked; Loomes & Sugden
+  1986, symmetric; Gul 1991, asymmetry as a parameter). In data, disappointment outweighs
+  elation and surprise amplifies both (Mellers et al. 1997).
 - The felt base `f = u + n` replaces `u`: D is `e = (I+K)f` in the causal form, R is
   `e = f + Ke`. News is felt, anticipated (anxiety about pending news), and remembered.
 - `n` depends only on forecasts of `u`, so well-foundedness is unchanged (P1).
@@ -167,11 +170,13 @@ data or by a structural family.
 `E_{t−1}[n_t] = 0`: expected welfare equals the base model's, and news adds only pathwise
 swings. [standard; checked]
 
-**N2. News is a schedulable pain.** [not found in this form; checked]
+**N2. News is a schedulable pain.** [life-weight form not found; checked]
 - In D and R, `E[W] = E[W_base] + Σ_r w(r) E[n_r]`, with `w` the life weights of P5. With
   `λ > 1`, `E[n_r] = −(λ−1) Σ_j ν(j) E[(Δ_{r,j})⁻]`, where `Δ` is the forecast revision.
 - Clumping: `x⁻` is subadditive, so splitting a revision into pieces raises the expected
-  loss. [known: Kőszegi & Rabin 2009 Prop. 1]
+  loss. [known: Kőszegi & Rabin 2009 Prop. 1; Pagel 2018 Prop. 1, longer evaluation
+  periods] Benartzi & Thaler (1995) and Gneezy & Potters (1997) are choice evidence about
+  evaluation periods, not measurements of felt loss.
 - Timing: a clumped revision at `r` about `u_s` costs in proportion to `ν(s−r) w(r)`.
   - Decaying `ν` favours early news (Kőszegi & Rabin's `γ < 1`).
   - With flat `ν`, the flat interior of `w` makes timing neutral. Near the ends, news goes
@@ -180,7 +185,9 @@ swings. [standard; checked]
 - Anxiety and remembered disappointment are the two halves of `w(r)`: pending news is
   anticipated, past news remembered.
 
-**N3. Optimism against disappointment** (D, one event). [not found; checked]
+**N3. Optimism against disappointment** (D, one event). [known in kind: Gollier & Muermann
+2010, anticipated payoff rising with savoring weight; Brunnermeier & Parker 2005; kernel-form
+condition and quantile not found; checked]
 - Setup: the felt forecast of `u_s` is biased by `b` over the window before realization.
   The agent believes itself unbiased, and welfare is scored objectively. Let `A` be the
   anticipation mass on the event over the window, `B` the memory mass after it, and `Z`
@@ -198,5 +205,11 @@ swings. [standard; checked]
   notice or with heavily remembered disappointment. As an event nears, the remaining window
   shrinks and the optimum moves toward bracing, but a self-revised forecast is itself felt
   as news. [speculation]
+- Evidence. Bracing is documented: estimates fall as feedback nears, with no new
+  information (Shepperd, Ouellette & Fernandez 1996; van Dijk, Zeelenberg & van der Pligt
+  2003, who state the remote-savor, imminent-brace timing). Its hedonic payoff is not.
+  Golub et al. (2009) find a dread cost and no post-event cushion, with expectation effects
+  gone within minutes; Shepperd & McNulty (2002) find a cushion; Marshall & Brown (2006)
+  find little benefit. If disappointment fades that fast, `ν(0)` is brief and `B` small.
 - Level anticipation, news and memory are not separately identified from behaviour (P10;
   Eliaz & Spiegler's ordinality result).

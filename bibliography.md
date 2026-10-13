@@ -588,6 +588,102 @@ Field and lab evidence:
     asymmetry plus conservatism; Coutts 2019 and Barron 2021 (*Exp. Econ.*) find no
     valence asymmetry beyond conservatism.
 
+Disappointment, bracing and evaluation periods (core N1–N3):
+- **Bell, D. (1985).** Disappointment in decision making under uncertainty. *Operations
+  Research* 33(1): 1–27. doi:10.1287/opre.33.1.1. **ABS** (form via Abdellaoui &
+  Bleichrodt 2007; Mellers et al. 1997) ·
+  `papers/bell-1985-disappointment-in-decision-making-under-uncertainty-abs.txt`
+  - Linear, kinked disappointment/elation term against the lottery's mean; disappointment
+    aversion (`d > e`) is allowed, not forced.
+- **Loomes, G. & Sugden, R. (1986).** Disappointment and dynamic consistency in choice
+  under uncertainty. *RES* 53(2): 271–282. doi:10.2307/2297651. **ABS** (form via
+  Abdellaoui & Bleichrodt 2007; Chauveau & Nalpas WP) ·
+  `papers/loomes-1986-disappointment-and-dynamic-consistency-in-choice-under-uncertainty-abs.txt`
+  - `u(w) + D(u(w) − E[u])`, `D` odd-symmetric: no built-in asymmetry.
+- **Gul, F. (1991).** A theory of disappointment aversion. *Econometrica* 59(3): 667–686.
+  doi:10.2307/2938223. **ABS** (form via Abdellaoui & Bleichrodt 2007) ·
+  `papers/gul-1991-a-theory-of-disappointment-aversion-abs.txt`
+  - Outcomes below the certainty equivalent reweighted by `β`; asymmetry is a parameter.
+    A choice theory with a static reference point.
+- **Abdellaoui, M. & Bleichrodt, H. (2007).** Eliciting Gul's theory of disappointment
+  aversion by the tradeoff method. *J. Economic Psychology* 28(6): 631–645.
+  doi:10.1016/j.joep.2007.07.009. **FT** ·
+  `papers/abdellaoui-2007-eliciting-guls-theory-of-disappointment-aversion-by-the-tradeoff-method.txt`
+  - The secondary source for the Bell, Loomes–Sugden and Gul forms above (pp. 634, 642–43).
+- **Mellers, B., Schwartz, A., Ho, K. & Ritov, I. (1997).** Decision affect theory:
+  emotional reactions to the outcomes of risky options. *Psychological Science* 8(6):
+  423–429. doi:10.1111/j.1467-9280.1997.tb00455.x. **FT** (poor OCR) ·
+  `papers/mellers-1997-decision-affect-theory-emotional-reactions-to-outcomes-of-risky-options.txt`
+  - Felt reactions to outcomes: surprise amplifies both elation and disappointment
+    (p. 425); disappointment exceeds elation in the fits (pp. 427–28).
+- **Gollier, C. & Muermann, A. (2010).** Optimal choice and beliefs with ex ante savoring
+  and ex post disappointment. *Management Science* 56(8): 1272–1284.
+  doi:10.1287/mnsc.1100.1185. **WP** (CFS 2006/28) ·
+  `papers/gollier-2006-optimal-choice-and-beliefs-with-ex-ante-savoring-and-ex-post-disappointment-cfs-wp.txt`
+  - Anticipated payoff chosen to trade savoring against disappointment; Prop. 1: it rises
+    with the intensity of anticipatory feelings. The formal precedent for core N3.
+- **van Dijk, W., Zeelenberg, M. & van der Pligt, J. (2003).** Blessed are those who expect
+  nothing: lowering expectations as a way of avoiding disappointment. *J. Economic
+  Psychology* 24(4): 505–516. doi:10.1016/S0167-4870(02)00211-8. **FT** ·
+  `papers/van-dijk-2003-blessed-are-those-who-expect-nothing.txt`
+  - Estimates fall only when feedback is self-relevant and imminent (n = 80, p. 512).
+    States the timing logic, savor when remote and brace when imminent (p. 508, citing an
+    unpublished Loewenstein & Linville 1986). Felt disappointment not measured.
+- **Shepperd, J., Ouellette, J. & Fernandez, J. (1996).** Abandoning unrealistic optimism:
+  performance estimates and the temporal proximity of self-relevant feedback. *JPSP*
+  70(4): 844–855. doi:10.1037/0022-3514.70.4.844. **FT** ·
+  `papers/shepperd-1996-abandoning-unrealistic-optimism-performance-estimates-and-temporal-proximity-of-feedback.txt`
+  - Estimates fall just before feedback with no new information (Study 2). Effects are
+    small; few cite avoiding disappointment as the reason.
+- **Sweeny, K., Carroll, P. & Shepperd, J. (2006).** Is optimism always best? *Current
+  Directions in Psychological Science* 15(6): 302–306. doi:10.1111/j.1467-8721.2006.00457.x.
+  **FT** · `papers/sweeny-2006-is-optimism-always-best-future-outlooks-and-preparedness.txt`
+  - Review: optimism yields as feedback nears, as stakes rise, and as bad outcomes become
+    easy to imagine; the affective payoffs are flagged as needing confirmation.
+- **Shepperd, J. & McNulty, J. (2002).** The affective consequences of expected and
+  unexpected outcomes. *Psychological Science* 13(1): 85–88. doi:10.1111/1467-9280.00416.
+  **FT** · `papers/shepperd-2002-the-affective-consequences-of-expected-and-unexpected-outcomes.txt`
+  - Expectations cushion bad news and amplify good, symmetrically, but expectations were
+    supplied as base rates.
+- **Golub, S., Gilbert, D. & Wilson, T. (2009).** Anticipating one's troubles: the costs
+  and benefits of negative expectations. *Emotion* 9(2): 277–281. doi:10.1037/a0014716.
+  **FT** · `papers/golub-2009-anticipating-ones-troubles-the-costs-and-benefits-of-negative-expectations.txt`
+  - Negative expectations cost dread beforehand and gave no measurable cushion afterwards;
+    expectation effects gone within minutes. Table 1 is the savoring/dread versus
+    cushion/amplification matrix.
+- Also saved at abstract level: Shepperd, Findley-Klein, Kwavnick, Walker & Perez (2000),
+  bracing for loss, *JPSP* 78(4) (**FT**, intro and discussion); Taylor & Shepperd (1998),
+  *PSPB* 24(9); Marshall & Brown (2006), *Cognition & Emotion* 20(1), little benefit of low
+  expectancies; Sweeny & Shepperd (2010), *Emotion* 10(5); Norem & Cantor (1986), *JPSP*
+  51(6), defensive pessimism as anxiety management (all **ABS**).
+- **Benartzi, S. & Thaler, R. (1995).** Myopic loss aversion and the equity premium
+  puzzle. *QJE* 110(1): 73–92. doi:10.2307/2118511. **WP** (NBER w4369) ·
+  `papers/benartzi-1993-myopic-loss-aversion-and-the-equity-premium-puzzle-nber-w4369.txt`
+  - Loss-averse investors take more risk when they evaluate rarely; the residual premium
+    is "the price of excessive vigilance" (WP p. 16). A valuation model, not felt affect.
+- **Gneezy, U. & Potters, J. (1997).** An experiment on risk taking and evaluation periods.
+  *QJE* 112(2): 631–645. doi:10.1162/003355397555217. **FT** ·
+  `papers/gneezy-1997-an-experiment-on-risk-taking-and-evaluation-periods.txt`
+  - Less frequent feedback raises betting (67% vs 51%), already in round 1, before any loss
+    is experienced (p. 639); the low-frequency arm also changes information.
+
+LessWrong on feeling versus acting (D7; all `web/`, **FT**):
+- **Soares, N. (2015).** Detach the grim-o-meter. *Minding Our Way* / LessWrong.
+  - Stop calibrating the grim-o-meter against the state of the world; it is built for
+    local occasions. Resolve stays.
+- **Soares, N. (2015).** Simply locate yourself.
+  - Treat bad news as information about where you ended up, not as the world going wrong.
+    The nearest informal precedent for updateless affect.
+- **Mayer (2023).** Being at peace with doom. Silences the emotional components while
+  reasoning stays aimed at preventing doom; not self-deception.
+- **TurnTrout (2022).** Emotionally confronting a probably-doomed world. Feelings are not
+  beliefs.
+- **Sabien, D. (2023).** A way to be okay. The emotional victory condition is best effort,
+  not outcome.
+- Noted, not saved: Ruby, "A quick guide to confronting doom" (coping must keep you in
+  touch with reality); Yudkowsky, "MIRI announces new Death With Dignity strategy" (2022);
+  Soares, "Dark, not colorless".
+
 Philosophy and decision theory:
 - **Good, I. J. (1967).** On the principle of total evidence. *BJPS* 17(4): 319–321.
   **2ND** (Skyrms 1990; Ahmed & Salow 2019; closed)
