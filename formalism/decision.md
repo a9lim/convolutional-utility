@@ -138,10 +138,10 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   - In the recursive model it does not: a self anticipates its own later *felt
     forecasts*, so the asymmetry lands on a belief, and earlier information lowers
     expected welfare. Recursion has content here. [not found; checked]
-  - Other routes to avoidance: loss-averse news utility (Kőszegi & Rabin 2009 Props. 1–4:
-    partial information hurts, clumped information helps; Pagel 2018: inattention), and
-    chosen beliefs with linear anticipation (Brunnermeier & Parker 2005 pp. 1108–09;
-    Oster, Shoulson & Dorsey 2013).
+  - Other routes to avoidance: loss-averse news utility (core N2; Kőszegi & Rabin 2009
+    Props. 1–4: partial information hurts, clumped information helps; Pagel 2018:
+    inattention), and chosen beliefs with linear anticipation (Brunnermeier & Parker 2005
+    pp. 1108–09; Oster, Shoulson & Dorsey 2013).
   - Limits. Bayesian belief-utility cannot produce attitudes that reverse with the prior
     (Eliaz & Spiegler Props. 2–3), and information choices cannot reveal which beliefs
     are good (their ordinality result, an analogue of P10). In the lab, 76% prefer sooner
@@ -157,9 +157,11 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     (Bénabou 2015 p. 677; Bénabou & Tirole 2002 §IV). This is Yudkowsky's "Doublethink"
     as a theorem. Delusion pays only for unaware agents, under nonlinear anticipation, or
     for instrumental reasons.
-  - Not in Brunnermeier & Parker: a felt disappointment term. Loss-averse gain-loss over
-    belief changes (Kőszegi & Rabin 2009) supplies both the price of optimism (the news
-    at realization) and a price on information, in one extension.
+  - Not in Brunnermeier & Parker: a felt disappointment term. The felt-news extension
+    (core N2–N3) supplies both the price of optimism (the news at realization) and a price
+    on information. Disappointment is first-order, so the sign of the hedonically optimal
+    bias depends on anticipation mass against remembered, loss-weighted disappointment:
+    optimism for long-awaited events, bracing otherwise.
 - **Rationalization as hedonic arbitrage.** [speculation]
   - Updating less on bad news keeps anticipation high now and moves the cost into later
     disappointment or decisions.
@@ -183,16 +185,7 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     strategicness under logical uncertainty (Soto 2024; Demski 2019; Kokotajlo 2019).
   - So updatelessness about actions does not remove the hedonic cost: it lands on the
     felt forecast, not the action. [synthesis]
-- **Updateless affect.** An agent whose felt anticipation tracks its prior forecast while
-  its actions use the posterior keeps the decisions and drops the swings. Expected welfare
-  is equal in the linear model, and strictly higher where beliefs enter nonlinearly
-  (concave belief-utility, or R with dread asymmetry), before any disappointment term.
-  - Beliefs stay accurate, so this is not belief choice (Brunnermeier & Parker), and
-    Bénabou's self-doubt cancellation does not bite.
-  - A formal reading of equanimity. The open question is whether affect can come apart
-    from belief at all.
-  - Not found on LessWrong. HonoreDB (2011) pins *belief* at the prior, a different
-    split. [speculation]
+- **Updateless affect**: feel by a coarser information flow than you act on. D7.
 - **Reflective consistency and linearity.** HonoreDB (2011) argues that a reflectively
   consistent UDT agent's utility of belief must be linear (contested). Linear anticipation
   is exactly the case where information is neutral in expectation. Whether reflective
@@ -215,6 +208,38 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   hedonic payoff here, anticipation earned by being believed by yourself, was not found.
 - D3 has the same structure: past anticipation, sunk for the fixed-past self.
 - A past self having looked forward to the plan is not, by itself, a reason.
+
+**D7. Affect policies and updateless affect.** [synthesis; speculation where marked]
+- **Two policies.** Actions are measurable with respect to the agent's information `F_t`.
+  Felt forecasts and felt news are computed on an *affect filtration* `G_t ⊆ F_t`, coarser
+  or delayed. Realized base utility is felt when it happens. Strict **updateless affect**:
+  `G_t` is the prior until realization.
+- **Free in linear models.** Without felt news or nonlinearity, expected welfare does not
+  depend on `G` (tower property). [standard]
+- **Which `G` is best depends on the nonlinearity.** [checked]
+  - R with dread asymmetry (D5): the coarsest `G`. Strict updateless affect is optimal.
+  - Loss-averse felt news (core N2): *batching*. Feel each body of news once it is
+    complete, at the time where `ν(s−r) w(r)` is lowest — usually as soon as the picture
+    is complete. Strict updateless affect is optimal only if realization is that time.
+- **The split in decision-theory terms.** Good's theorem and updatelessness concern the
+  action policy, where information is ignorable. The affect policy is where information
+  costs (KSS's cost-free half). A hedonic agent chooses both, and Good's theorem says
+  nothing about the second.
+- **Updateless action makes batched affect feasible.** `G ⊊ F` means acting on information
+  one does not attend to: delegation (Pagel 2018), rules executed without fresh
+  deliberation, long evaluation periods (Benartzi & Thaler 1995, to verify). Once a policy
+  is acting for you, you can stop watching. [synthesis]
+- **Not belief choice.** Beliefs stay accurate, so this is not Brunnermeier & Parker, and
+  Bénabou's self-doubt cancellation does not bite. Whether affect can come apart from
+  belief within one mind is open; attention and delegation are the known routes. Not
+  found on LessWrong; HonoreDB (2011) pins *belief* at the prior, a different split.
+- **Example: P(doom).** A high forecast lowers felt anticipation, but that level effect is
+  neutral ex ante in the linear model. Following every update piecemeal is pure expected
+  loss when `λ > 1`. The hedonic prescription: settle a policy, act on it, and feel the
+  forecast in batches. Informal precedent to verify: Soares, "Detach the grim-o-meter".
+  [speculation as psychology]
+- **Open.** Fixed-past selves hurry pains (D3), and a body of news is a pain. Does that make
+  them feel news piecemeal, i.e. over-check? Subadditivity pulls the other way; untested.
 
 ## Anthropics
 

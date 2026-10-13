@@ -74,15 +74,27 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
     unaware. Prior art: Brunnermeier & Parker's optimal expectations.
   - A sophisticated near-Bayesian gains nothing from self-deception: doubt spoils the
     good news (Bénabou). "Doublethink" as a theorem.
-  - Loss-averse news utility (Kőszegi–Rabin) prices optimism (disappointment) and
-    information in one extension.
+  - Felt news (core N1–N3, Kőszegi–Rabin in kernel form): elation and disappointment
+    when forecasts change, realization included. One term prices optimism and
+    information.
+    - News is a schedulable pain: its cost is its size times the life weight `w(r)`.
+      Feel it clumped, early if news about the far future is felt less.
+    - Optimism pays iff anticipation mass beats remembered, loss-weighted
+      disappointment: optimism for long-awaited events, bracing for short-notice ones.
   - Rationalization as hedonic arbitrage: updating less on bad news keeps anticipation
     high now. *speculation*; asymmetric updating is empirically contested.
   - Instrumental value of information (Good's theorem, FDT) versus intrinsic hedonic
     value: information can be ignorable without being cost-free (Kadane, Schervish &
     Seidenfeld). LessWrong's updatelessness discussion covers only the ignorable half.
-  - Updateless affect: feel by the prior, act on the posterior. A formal reading of
-    equanimity. *speculation*
+  - Affect policies (D7): act on everything you know, feel by a coarser or batched
+    information flow.
+    - A hedonic agent picks an action policy and an affect policy. Good's theorem and
+      updatelessness govern the first only.
+    - Strict updateless affect (feel by the prior) is optimal against dread-of-dread;
+      against loss-averse news the optimum is batching.
+    - Updateless action is what makes it feasible: once a policy acts for you, you can
+      stop watching.
+    - P(doom): act on the forecast, feel it in batches. *speculation as psychology*
   - LessWrong precedents to credit: Raemon on the Litany of Gendlin; jimrandomh's
     utility-of-belief example; Yudkowsky on pleasant surprises; Bostrom's psychological
     reaction hazards.

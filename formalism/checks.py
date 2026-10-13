@@ -3,6 +3,8 @@
 Conventions: K[t, s] is the weight of e(s) (recursive model R) or u(s) (direct model D)
 in e(t). Geometric family: forward a*b**(s-t) for s > t, backward m*al**(t-s) for s < t.
 """
+import math
+
 import numpy as np
 
 rng = np.random.default_rng(0)
@@ -298,6 +300,92 @@ for name, kp, km in [("symmetric", 0.2, 0.2), ("dread > savoring", 0.1, 0.35)]:
 report("D5 timing-neutral unless R with dread asymmetry",
        max(spread[("symmetric", False)], spread[("symmetric", True)], spread[("dread > savoring", False)]))
 print(f"     R with dread asymmetry: later revelation is better, spread {spread[('dread > savoring', True)]:.5f}")
+
+
+# N (core extension): felt news n_t = sum_j nu(j) mu(E[u_{t+j}|G_t] - E[u_{t+j}|G_{t-1}]), f = u + n
+def cond(Y, cells, p):
+    out = np.empty(len(Y))
+    for c in np.unique(cells):
+        out[cells == c] = p[cells == c] @ Y[cells == c] / p[cells == c].sum()
+    return out
+
+
+def news_welfare(u, G, p, nu, lam, kf, kb, rec):
+    """Expected life-sum with felt news. u: (T, S) base utility by state; G: (T, S) felt-information
+    cell labels (realized u_t is felt at t). Returns (welfare, expected news by period)."""
+    T, S = u.shape
+    fc = lambda t, s: u[s] if s <= t else cond(u[s], np.zeros(S, int) if t < 0 else G[t], p)
+    mu = lambda x: np.where(x >= 0, x, lam * x)
+    n = np.array([sum(nu(s - t) * mu(fc(t, s) - fc(t - 1, s)) for s in range(t, T)) for t in range(T)])
+    f = u + n
+    e = f.copy()
+    for _ in range(5000):
+        X = e if rec else f
+        new = f.copy()
+        for t in range(T):
+            for j in range(1, T - t):
+                new[t] += kf(j) * cond(X[t + j], G[t], p)
+            for j in range(1, t + 1):
+                new[t] += kb(j) * X[t - j]
+        if not rec or np.max(np.abs(new - e)) < 1e-13:
+            return p @ new.sum(axis=0), n @ p
+        e = new
+
+
+T = 8
+Y = np.array([[.5, .5], [.5, -.5], [-.5, .5], [-.5, -.5]])  # u_7 = Y1 + Y2
+p = np.full(4, .25)
+u = np.full((T, 4), 0.2)
+u[T - 1] = Y.sum(axis=1)
+sched = lambda r1, r2: np.array([2 * (Y[:, 0] > 0) * (t >= r1) + (Y[:, 1] > 0) * (t >= r2) for t in range(T)])
+schedules = {"clumped at 2": sched(2, 2), "piecemeal 2,5": sched(2, 5), "clumped at 5": sched(5, 5),
+             "at realization": sched(7, 7)}
+kf, kb = (lambda j: 0.25 * 0.7 ** j), (lambda j: 0.2 * 0.6 ** j)
+Kn = np.array([[kf(s - t) if s > t else kb(t - s) if t > s else 0 for s in range(T)] for t in range(T)])
+wts = {False: 1 + Kn.sum(axis=0), True: np.linalg.solve(np.eye(T) - Kn.T, np.ones(T))}
+err_neutral, err_id, rows = 0.0, 0.0, []
+for rec in (False, True):
+    base = news_welfare(u, schedules["at realization"], p, lambda j: 0.5, 1.0, kf, kb, rec)[0]
+    for nu_name, nu in [("flat", lambda j: 0.5), ("decaying", lambda j: 0.5 * 0.8 ** j)]:
+        Ws = {}
+        for name, G in schedules.items():
+            err_neutral = max(err_neutral, abs(news_welfare(u, G, p, nu, 1.0, kf, kb, rec)[0] - base))
+            Ws[name], En = news_welfare(u, G, p, nu, 2.5, kf, kb, rec)
+            err_id = max(err_id, abs(Ws[name] - base - wts[rec] @ En))
+        rows.append(f"{'R' if rec else 'D'} {nu_name} nu: " + ", ".join(f"{k} {v:.4f}" for k, v in Ws.items()))
+report("N1 lam = 1: information timing neutral (D, R)", err_neutral)
+report("N2 news cost = sum_r w(r) E[n_r] (D, R)", err_id)
+for row in rows:
+    print("     " + row)
+
+# N3: optimism with felt disappointment (direct model). One event u_s = Z ~ N(0, 1), revealed at s.
+Phi = np.vectorize(lambda x: 0.5 * (1 + math.erf(x / np.sqrt(2))))
+T, s, lam = 12, 7, 2.5
+z = np.linspace(-6, 6, 4001)
+pz = np.exp(-z ** 2 / 2)
+pz /= pz.sum()
+kf, kb = (lambda j: 0.3 * 0.8 ** j), (lambda j: 0.25 * 0.6 ** j)
+A, B = sum(kf(s - t) for t in range(s)), sum(kb(t - s) for t in range(s + 1, T))
+mu = lambda x: np.where(x >= 0, x, lam * x)
+
+
+def W_bias(b, nu0):
+    """Event-related welfare when the felt forecast of u_s is biased by b before s; the agent
+    believes itself unbiased, so its anticipated news has the unbiased shape."""
+    realized = pz @ (z + nu0 * mu(z - b))
+    return A * (b + pz @ (nu0 * mu(z))) + (1 + B) * realized
+
+
+err_slope, err_q = 0.0, 0.0
+for nu0 in (0.3, 0.5):
+    h = 1e-5
+    err_slope = max(err_slope, abs((W_bias(h, nu0) - W_bias(-h, nu0)) / (2 * h)
+                                   - (A - nu0 * (1 + B) * (1 + lam) / 2)))
+    bs = np.linspace(-4, 4, 8001)
+    b_star = bs[np.argmax([W_bias(b, nu0) for b in bs])]
+    err_q = max(err_q, abs(Phi(b_star) - (A / (nu0 * (1 + B)) - 1) / (lam - 1)))
+report("N3 optimism slope at b = 0: A - nu0 (1+B)(1+lam)/2", err_slope)
+report("N3 optimal bias at quantile (A/(nu0(1+B)) - 1)/(lam - 1)", err_q, tol=1e-3)
 
 # A1: recursive memory-only kernel, mirror of P3: r(-j) = (m/(1+m))((1+m)al)^j
 m, al = 1.0, 0.3

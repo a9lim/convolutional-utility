@@ -150,3 +150,53 @@ neutral, and the life-sum tilts by `μ₁`. [numerical]
 **P10. Identification.** Absent restrictions on `k` or independent measurement of `u`,
 any `e` is fit by `u = (I − K)e`. The kernel explains something only once it is pinned by
 data or by a structural family.
+
+## Extension: felt news
+
+**Objects.** [Kőszegi & Rabin 2009's gain-loss news utility, in kernel form]
+- Felt news: `n_t = Σ_{j≥0} ν(j) μ(Ê_t[u_{t+j}] − Ê_{t−1}[u_{t+j}])`, with `μ(x) = x` for
+  `x ≥ 0` and `λx` for `x < 0`, `λ ≥ 1`. `Ê_t` is the felt forecast; `ν(j)` weighs news about
+  `j` steps ahead.
+- `j = 0` is realization: elation or disappointment against the last forecast. This is the
+  disappointment term.
+- The felt base `f = u + n` replaces `u`: D is `e = (I+K)f` in the causal form, R is
+  `e = f + Ke`. News is felt, anticipated (anxiety about pending news), and remembered.
+- `n` depends only on forecasts of `u`, so well-foundedness is unchanged (P1).
+
+**N1. Linear news is neutral in expectation.** With `λ = 1` and Bayesian forecasts,
+`E_{t−1}[n_t] = 0`: expected welfare equals the base model's, and news adds only pathwise
+swings. [standard; checked]
+
+**N2. News is a schedulable pain.** [not found in this form; checked]
+- In D and R, `E[W] = E[W_base] + Σ_r w(r) E[n_r]`, with `w` the life weights of P5. With
+  `λ > 1`, `E[n_r] = −(λ−1) Σ_j ν(j) E[(Δ_{r,j})⁻]`, where `Δ` is the forecast revision.
+- Clumping: `x⁻` is subadditive, so splitting a revision into pieces raises the expected
+  loss. [known: Kőszegi & Rabin 2009 Prop. 1]
+- Timing: a clumped revision at `r` about `u_s` costs in proportion to `ν(s−r) w(r)`.
+  - Decaying `ν` favours early news (Kőszegi & Rabin's `γ < 1`).
+  - With flat `ν`, the flat interior of `w` makes timing neutral. Near the ends, news goes
+    where `w` is lowest (the P5 deficits), so the direction is anticipation against memory
+    again.
+- Anxiety and remembered disappointment are the two halves of `w(r)`: pending news is
+  anticipated, past news remembered.
+
+**N3. Optimism against disappointment** (D, one event). [not found; checked]
+- Setup: the felt forecast of `u_s` is biased by `b` over the window before realization.
+  The agent believes itself unbiased, and welfare is scored objectively. Let `A` be the
+  anticipation mass on the event over the window, `B` the memory mass after it, and `Z`
+  the forecast error (symmetric, continuous).
+- `dW/db|₀ = A − ν(0)(1+B)(1+λ)/2`. Optimism pays locally iff `A` exceeds that; otherwise
+  lowering expectations does.
+- With `Θ = A / (ν(0)(1+B))`, the optimal bias satisfies `P(Z < b*) = (Θ−1)/(λ−1)` for
+  `1 < Θ < λ`. Calibration is optimal only at `Θ = (1+λ)/2`.
+- `Θ ≤ 1` gives unbounded pessimism and `Θ ≥ λ` unbounded optimism. Decision costs,
+  plausibility, or sophistication (Bénabou's cancellation) must bound the corners.
+- Brunnermeier & Parker's optimism gain is first-order and its decision cost second-order.
+  Felt disappointment is first-order too, which turns the sign of the hedonically optimal
+  bias into a parameter question.
+- Reading: optimism about long-awaited events (large `A`), bracing for events at short
+  notice or with heavily remembered disappointment. As an event nears, the remaining window
+  shrinks and the optimum moves toward bracing, but a self-revised forecast is itself felt
+  as news. [speculation]
+- Level anticipation, news and memory are not separately identified from behaviour (P10;
+  Eliaz & Spiegler's ordinality result).

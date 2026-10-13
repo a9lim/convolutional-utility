@@ -10,12 +10,13 @@ Ordered by dependency.
    - dread of dread: the recursive-model information price, analytically (when does the
      felt forecast straddle the kink?), its size, and whether path-dependent felt
      utility escapes Eliaz & Spiegler's prior-reversal impossibility;
-   - the loss-averse news extension (Kőszegi & Rabin 2009) in kernel form: one term that
-     prices both optimism (disappointment) and information;
+   - felt news (core N1–N3): the recursive version of N3; the dynamic bracing path, with
+     self-revision felt as news; how `λ` and `ν(0)` are pinned (P10);
    - the delusional optimist: unaware (Brunnermeier & Parker) versus sophisticated
-     (Bénabou's cancellation), under the extension;
+     (Bénabou's cancellation), under felt news;
    - rationalization as asymmetric updating: when it pays hedonically, given the cancellation;
-   - updateless affect: state it precisely and check it against a disappointment term;
+   - affect policies (D7): the optimal batching rule for a stream of news; whether
+     fixed-past selves over-check (D3's pain-hurrying against subadditivity);
    - does reflective consistency force linear anticipation (HonoreDB 2011, contested;
      Caplin & Leahy 2001 on time inconsistency)?
    - answer the LessWrong objections: "Not for the Sake of Happiness (Alone)" and
