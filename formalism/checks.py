@@ -128,6 +128,24 @@ E = [np.linalg.solve(np.eye(T) - K_matrix(T, a, b, m, al).T, np.ones(T)) @ (np.a
      for T in (T1, T2)]
 report("P6 asymptotic slope", abs((E[1] - E[0]) / (T2 - T1) - mu1 / (2 * (1 - M) ** 2)), tol=1e-6)
 
+# P6: size of the shape preference relative to the base utility rearranged, 4 mu1 / T (D),
+# 4 mu1 / ((1-M)^2 T) (R)
+a, b, m, al = 0.15, 0.8, 0.1, 0.5
+mu1, M = a * b / (1 - b) ** 2 - m * al / (1 - al) ** 2, mass(a, b, m, al)
+rows = []
+for T in [100, 1000, 3000]:
+    K, u = K_matrix(T, a, b, m, al), np.arange(T) - (T - 1) / 2
+    gD = 2 * (1 + K.sum(axis=0)) @ u / np.abs(u).sum()
+    gR = 2 * np.linalg.solve(np.eye(T) - K.T, np.ones(T)) @ u / np.abs(u).sum()
+    rows.append(f"T={T}: D {gD:.4f} vs {4 * mu1 / T:.4f}, R {gR:.4f} vs {4 * mu1 / ((1 - M) ** 2 * T):.4f}")
+print("P6  relative gap:", "; ".join(rows))
+
+# P2: two-sided one-step R has exponential twin (beta_L = 1)
+f, g = 0.3, 0.25
+z = np.exp(2j * np.pi * np.arange(4096) / 4096)
+r = np.real(np.fft.fft(1 / (1 - f * z - g / z)) / 4096)
+report("P2 one-step R -> exponential", np.ptp([r[n + 1] / r[n] for n in range(5)]))
+
 # P9: causal semantics -- decision weights are the first row on the remaining life
 a, b, m, al = 1, 0.3, 1, 0.2
 for L in [60, 5, 3]:
@@ -192,10 +210,6 @@ for name, L, row in [("bilateral", 600, 300), ("fixed-past", 300, 0)]:
     f = R[row, row:row + 3]
     print(f"D4  {name}: r0={f[0]:.4f}  beta_L={f[1] / (f[0] * f[2] / f[1]):.4f}")
 
-# A2: Sleeping Beauty, asymmetric erasure; tails:heads weight 2(1+a):(1+a+xM)
-for a_s, xM in [(0, 0), (1, 1), (1, 100)]:
-    print(f"A2  a={a_s} xM={xM}: tails:heads = {2 * (1 + a_s) / (1 + a_s + xM):.3f} : 1")
-
 # D3 analytic (direct geometric model): stopping conditions for the CDT equilibrium
 bad, n = 0, 0
 for _ in range(1500):
@@ -227,6 +241,20 @@ for rec in (False, True):
     print(f"D3  long-memory exception ({'R' if rec else 'D'}): CDT {cp}, commitment {fp}, "
           f"loss {1 - w[cp] / w[fp]:.3f}")
 
+# D3: the exception is preemption. Continuation times and each self's own optimum (D)
+a, b, m, al, T = 0.0465, 0.896, 0.0196, 0.964, 40
+K = K_matrix(T, a, b, m, al)
+tau = [0] * T
+tau[T - 1] = T - 1
+for t in range(T - 2, -1, -1):
+    c = weights_cdt(K, t, False)
+    tau[t] = t if c[0] >= c[tau[t + 1] - t] else tau[t + 1]
+own = [t + int(np.argmax(weights_cdt(K, t, False))) for t in range(T)]
+A = lambda h: a * b * (1 - b ** h) / (1 - b)
+B = lambda h: m * al * (1 - al ** h) / (1 - al)
+print(f"D3  preemption: tau[0..5] = {tau[:6]}, own optima[0..5] = {own[:6]}, "
+      f"first h with B_h >= A_h: {min(h for h in range(1, T) if B(h) >= A(h))}")
+
 # D4: half-line (fixed past) row: R+_00 = 1/H, beta_L = 1 - H/(1+a)
 err = 0.0
 for a, b, m, al in stable_draws(100):
@@ -242,10 +270,6 @@ report("D4 half-line row closed form", err, tol=1e-8)
 m, al = 1.0, 0.3
 r = resolvent_line(0.0, 0.5, m, al)
 report("A1 memory-only resolvent", max(abs(r[-j] - (m / (1 + m)) * ((1 + m) * al) ** j) for j in range(1, 6)))
-print(f"A1  b=2, m=1, al=0.3: per-observer M = {m * al / (1 - al):.3f} (< 1); "
-      f"total-welfare ratio b(1+m)al = {2 * (1 + m) * al:.2f} (>= 1 diverges)")
-
-# A2: Sunday conventions. per-event: 2(1+a):(1+a+xM); normalized: (2+a):(1+a+xM)
-a_s, xM = 1, 1
-print(f"A2  a=xM=1: per-event {2 * (1 + a_s) / (1 + a_s + xM):.3f}:1, normalized "
-      f"{(2 + a_s) / (1 + a_s + xM):.3f}:1")
+print(f"A1  b=2, m=1, al=0.3: per-observer M = {m * al / (1 - al):.3f} (< 1); copy-counted "
+      f"total ratio b(1+m)al = {2 * (1 + m) * al:.2f} (>= 1 diverges); measure-weighted ratio "
+      f"(1+m)al = {(1 + m) * al:.2f}")

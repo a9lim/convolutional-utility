@@ -7,12 +7,27 @@ pieces, new assembly) · *speculation*. Math is in `formalism/core.md` and
 Reading: **hedonic**. Anticipation and memory are felt, and welfare is the life-sum of
 experienced utility.
 
-## Candidate spine
+Audience: LessWrong. The premise is old in economics and absent from LessWrong; the post's
+value is the reframing, bringing anticipation, memory and belief-dependent welfare into the
+familiar decision-theory vocabulary. Economists' results are support to cite, not a
+deflation.
+
+Spine, leading candidate: **beliefs are welfare** (D5), with your past self as predictor
+(D1, D3, D6) as the second act and the life-sum results (P5, P6) as setup. Alternatives:
+centrality ("moments matter by their echo"), discounting ("discounting is an echo").
+
+## Sections
 
 - **Hook.** Discounting looks forward. Run the same kernel backward for memory, let
   echoes echo, and treat a life as a signal convolved with a kernel.
 - **The model.** Base `u` and a kernel `k` (anticipation for `τ > 0`, memory for
   `τ < 0`); direct `e = (I+K)u` or recursive `e = (I−K)^{-1}u`. *synthesis*
+  - Direct and recursive are two readings of one agent (P2). An agent that cares only
+    about the next and previous moments already acts on its whole life, exponentially.
+  - Present bias is the signature of caring directly about more than the next moment
+    (P2, P3).
+  - The kernel family is free (exponential, hyperbolic): the model is a frame for
+    interpreting utility, not a fit (P10).
 - **Lineage.** Credit the premise, claim the synthesis and the results. *standard*
   - Jevons and Bentham
   - Bergstrom's one-paragraph sketch
@@ -21,25 +36,47 @@ experienced utility.
   - Hersch & Weltman's atomism
 - **Well-foundedness.** *synthesis*
   - Echo share `M` (P1b): the echo must be less than the whole.
-  - Bounded at every lifespan (`M < 1`) is a different condition from monotone on this
-    life (`ρ(K_T) < 1`) (P1c).
+  - Bounded at every lifespan (`M < 1`) differs from monotone on this life
+    (`ρ(K_T) < 1`) (P1c). Footnote.
   - Why hedonic. Echoes are real experiences, so `Σ_t e(t)` counts them honestly. This
     is Caplin & Leahy's Jevonian defence and Kahneman et al.'s instant-utility axiom.
 - **What the life-sum says: moments as centrality.** *synthesis*
   - Moments matter in proportion to their echo.
   - The interior is flat: the planner has no pure time preference (Ramsey).
-  - Deficits at birth and death.
-  - Shape: the first-moment theorem (P6) — anticipation's lever arm against memory's. It
-    is a boundary effect, not a slope effect.
+  - Deficits at birth and death. A kernel with no forward or backward bias favours a good
+    midlife.
+  - No moment of a life sees these weights. Each moment rates the life through its own
+    anticipation and memory, never from the god's-eye view.
+  - Shape: the first-moment theorem (P6) — anticipation's lever arm against memory's.
+    - In a linear echo model shape is a boundary effect, not a slope effect.
+    - Its size is about reach over lifespan (`4μ₁/T`): sizeable for whole lives only if
+      anticipation and memory reach across decades; strongest for short sequences.
   - Directionality: improvement wins iff anticipation reaches further, *or* memory works
     by contrast.
-  - Each self is a lens (P7): judging a whole life from its end inherits recency.
-  - The James Dean effect from contrast memory (P8). *speculation* as psychology.
+  - Each self is a lens (P7): judging a life from its end inherits recency. Two lines.
+  - The James Dean effect from contrast memory (P8). *speculation*; evidence is
+    evaluative. Cut candidate.
 - **What the momentary self does.** *synthesis*
   - Discounting is the forward resolvent.
   - Recursion makes exponential primitives present-biased: one-sided case *standard*;
     two-sided P4 *not found*.
-  - Anticipated remembering weakens the bias.
+  - Anticipated remembering weakens the bias. The size depends on the boundary (D4,
+    footnote).
+- **Beliefs are welfare.** (D5) *synthesis / speculation*
+  - Felt anticipation is a forecast, so learning changes how your life feels now.
+  - In expectation the truth is free (tower property). Pathwise it is not: bad news
+    hurts now.
+  - Dread outweighing savoring prices information: hedonic information aversion, with no
+    decision at stake.
+  - The delusional optimist feels better than the realist on the same base utility. In
+    the linear model the only bill is decisions; a real price needs disappointment.
+    Prior art: Brunnermeier & Parker's optimal expectations.
+  - Rationalization as hedonic arbitrage: updating less on bad news keeps anticipation
+    high now. *speculation*
+  - Instrumental value of information (Good's theorem, FDT) versus intrinsic hedonic
+    value. Updatelessness about actions does not remove the hedonic cost.
+  - Updateless affect: feel by the prior, act on the posterior. A formal reading of
+    equanimity. *speculation*
 - **Decision theory: your past self as predictor.** (`decision.md`)
   - A choice is Newcomb-like when already-felt anticipation depends on an accurate
     prediction of it (D1). *synthesis*
@@ -49,23 +86,23 @@ experienced utility.
     - `J = J_pf` is advance commitment, i.e. the planner.
     - FDT and EDT pick `J` by their own dependence theories. Neither equals the planner
       by default.
+    - Economists' commitment and personal-equilibrium tools line up with this
+      (Kőszegi–Rabin).
   - The savoring trap (D3). Selves sharing the life-sum objective, with the past held
     fixed, push pleasures toward the unremembered end and hurry pains. Mechanism
     *standard* (Kőszegi 2010; Caplin & Leahy 2001). Exact stopping conditions *not
-    found*.
+    found*. The exceptions are sophisticated preemption.
   - Its sign is opposite to present bias's preproperation. Savoring delay and
     procrastinated pleasures have rival explanations. *speculation*
-  - The momentary hedonist's present bias depends on the boundary treatment (D4).
-  - Beliefs are welfare (D5). In the linear model, information timing is neutral (tower
-    property).
-- **Anthropics.** (`decision.md` A1–A3) *synthesis / speculation*
-  - Branching copies: copy-counting anticipation is well-founded only if it fades faster
-    than copying.
-  - Bounded utility per observer ≠ summable total welfare across observers
-    (`b(1+m)α < 1`).
-  - Two dials: how a mind represents its successors, and how welfare aggregates across
-    them. These are utility weights, not SSA/SIA credences.
-  - Sleeping Beauty: memory protocols move utility-adjusted betting weights.
+  - Reliability is worth its anticipation (D6). A flaky self anticipates every plan at a
+    discount, so follow-through pays across all plans. Parfit's hitchhiker inside one
+    life.
+- **Anthropics.** (`decision.md` A1–A2) *synthesis* Coda.
+  - Anticipation is a forecast, so it is measure-weighted. Doom branches count as zero,
+    so a likely early end discounts the future correctly.
+  - Copy-counting would let a branching future outweigh a single past without bound.
+  - Under measure-weighting, branching is welfare-invisible: it adds up to normality.
+  - Utility weights, not SSA/SIA credences.
 - **Utilitarian corollaries.** *synthesis / speculation*
   - Forgotten pain counts less, but not zero (Parfit's amnesia case; Lee 2022; Shardlow
     2025).

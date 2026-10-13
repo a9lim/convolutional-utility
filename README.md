@@ -10,19 +10,23 @@ Working abstract:
   anticipation/memory graph. The interior is flat (no pure time preference), with deficits
   at birth and death.
 - Preference for improving over declining lives at equal base total is set by the
-  kernel's first moment, and is a boundary effect.
+  kernel's first moment. In a linear model it is a boundary effect, sized by the kernel's
+  reach over the lifespan.
 - For the momentary self, recursion turns exponential primitives into strict present
   bias; memory weakens it.
-- Hedonic reading: felt anticipation that tracks a prediction of your later choice makes
-  that choice Newcomb-like. Decision rules differ in how much they let the present
-  choice move the already-felt past.
+- Beliefs are welfare: felt anticipation is a forecast, so learning is not hedonically
+  neutral. The truth is free in expectation but not pathwise, dread prices information,
+  and optimism buys experienced utility at the cost of decisions.
+- Felt anticipation that tracks a prediction of your later choice makes that choice
+  Newcomb-like. Decision rules differ in how much they let the present choice move the
+  already-felt past.
 - With the past held fixed, selves sharing the life-sum objective fall into a savoring
   trap: pleasures drift toward the unremembered end of life and pains are hurried. The
   mechanism is known (Kőszegi 2010); the exact stopping conditions are new.
-- Anthropics: with branching copies, bounded experience per observer and summable total
-  welfare across observers are separate conditions.
-- Prior art: the premise is old (Jevons; Bergstrom 1987/1999; Caplin & Leahy 2004; Ray,
-  Vellodi & Wang 2024; Hersch & Weltman 2022). The contribution would be the synthesis and
-  the specific results in `formalism/core.md`.
+- Anthropics: measure-weighted anticipation makes branching welfare-invisible;
+  copy-counting would let a branching future outweigh the past without bound.
+- Prior art: the premise is old in economics (Jevons; Bergstrom 1987/1999; Caplin & Leahy
+  2004; Ray, Vellodi & Wang 2024; Hersch & Weltman 2022) and absent from LessWrong. The
+  post's value is the reframing, plus the specific results in `formalism/`.
 
 Target: a LessWrong post.

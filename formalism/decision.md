@@ -83,9 +83,17 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
 - **Numerics, D and R.** Over 900 draws, fixed-past timing is not earlier than
   commitment for pleasures in 99% of cases, and not later for pains in 100%. Pleasure
   loss: median ~7.5%, max ~54% of the event's life-value.
-- **Exceptions with long memory are not always small.** `a = 0.0465, β = 0.896,
-  m = 0.0196, α = 0.964, T = 40`: fixed-past takes the pleasure at 1 against commitment's
-  15 (D, ~12% loss), and at 4 against 16 (R).
+- **The exceptions are preemption.** When fixed-past takes a pleasure *earlier* than
+  commitment, the terminal region has unravelled to the front. Example (`β < α`, outside
+  the closed form): `a = 0.0465, β = 0.896, m = 0.0196, α = 0.964, T = 40`. [checked]
+  - Each self compares only "now" against what later selves will do. `B_h ≥ A_h` first
+    at `h = 38`, so every self from `t = 2` on prefers death to now and the continuation
+    is `t = 39`, though each self's own optimum is interior (15–30).
+  - Self 1 foresees this and takes the pleasure at once; self 0 waits one step for the
+    anticipation. Fixed-past takes it at 1 against commitment's 15 (D, ~12% loss); at 4
+    against 16 in R.
+  - The logic of sophisticated preproperation (O'Donoghue & Rabin 1999): the trap seen
+    one step earlier, not a counterexample to it.
 - **Commitment versus FDT.** A causal agent with a binding commitment at news time
   reaches the commitment optimum. FDT's claimed advantage is reaching it without a
   device, *if* past forecasts track the policy (D2).
@@ -108,69 +116,85 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
 - This compares boundary treatments, not a theorem about FDT. Momentary hedonists at
   different times also have different objectives.
 
-**D5. Beliefs are welfare.** [synthesis]
+**D5. Beliefs are welfare.** [synthesis unless marked; the sources marked "to verify" are
+being read]
 - Felt anticipation makes payoffs belief-dependent: psychological games (Geanakoplos,
   Pearce & Stacchetti) and personal equilibrium (Kőszegi 2010).
-- In the linear model with fixed kernels and rational expectations, the tower property
-  removes any ex-ante value of changing when information arrives.
-- Information preferences return with nonlinearity, disappointment, attention, or policy
-  effects (Caplin & Leahy 2001; Brunnermeier & Parker 2005; Golman, Hagmann & Loewenstein
-  2017).
-- FDT's "information never hurts" is a claim about *instrumental* value. Under the
-  hedonic reading, information can carry intrinsic negative value (dread: Berns et al.
-  2006; Kőszegi 2010 §3.3).
+- **In expectation, the truth is free.** Linear model, fixed kernels, rational
+  expectations: felt anticipation is a martingale, so by the tower property expected
+  welfare does not depend on whether or when information arrives. [standard; Kimball &
+  Willis 2006 make the same point for news utility]
+- **Pathwise, it is not.** Good news raises `e` at once and bad news lowers it; the swings
+  cancel only on average.
+- **Asymmetric kernels price information.** If felt anticipation is concave in the
+  forecast (dread outweighs savoring), information is a mean-preserving spread of the
+  forecast, so by Jensen it lowers expected welfare even when no decision depends on it.
+  Convex gives information seeking. [known in kind: Caplin & Leahy 2001; Kőszegi & Rabin
+  2009 — to verify]
+- **Optimism is welfare; the bill is decisions and disappointment.** An upward-biased
+  forecast raises anticipation now, and under R it is remembered too. The linear model
+  charges for it only through worse decisions, so it endorses delusion wherever no
+  decision hangs on the belief. A real price needs a disappointment term (realized versus
+  anticipated, as in Kőszegi–Rabin gain-loss utility) or memory of the forecast error.
+  [known: Brunnermeier & Parker 2005, optimal expectations — to verify]
+- **Rationalization as hedonic arbitrage.** Updating less on bad news than on good keeps
+  anticipation high now and moves the cost into later disappointment or decisions. A
+  candidate mechanism for asymmetric updating. [speculation; Bénabou & Tirole on motivated
+  beliefs — to verify]
+- **Instrumental versus intrinsic value of information.** Good's theorem makes free
+  information instrumentally weakly valuable to a Bayesian expected-utility maximizer.
+  Updateful agents can lose that through their own dynamic inconsistency, and a policy-level
+  chooser recovers it because a policy can ignore an observation. Hedonic value is
+  different: the cost lands on the felt forecast, not the action, so updatelessness about
+  actions does not remove it. [synthesis; LW sources to verify] FDT's "information is never
+  negatively valued" (Yudkowsky & Soares) is the instrumental claim.
+- **Updateless affect.** An agent whose felt anticipation tracks its prior forecast while
+  its actions use the posterior keeps the decisions and drops the swings. Expected welfare
+  is equal in the linear model and strictly higher under concave anticipation, before any
+  disappointment term. A formal reading of equanimity. [speculation]
 
-**D6. Honouring past anticipation.** [speculation]
-- Follow-through that looks like sunk-cost reasoning *can* be justified by a
-  policy-level dependence: predictable follow-through generated valuable earlier
-  anticipation, the structure of Parfit's hitchhiker.
-- A past self having looked forward to the plan is not, by itself, enough.
-- CDT may follow through too, for causal reasons such as future memory.
+**D6. Reliability is worth its anticipation.** [synthesis; speculation as psychology]
+- Under rational expectations, anticipation of a plan scales with the forecast probability
+  of following through. A self known to defect whenever the moment's local value dips
+  anticipates *every* plan at a discount; a reliable self anticipates each at full value.
+- So follow-through that looks like sunk-cost reasoning is justified at the policy level.
+  The value is the anticipation that reliability earns across all plans, not the past
+  anticipation of this one: Parfit's hitchhiker inside one life.
+- Two channels. Acausal: past forecasts tracked the policy (`J ≠ 0`, D2), which a
+  fixed-past self at the moment of defection ignores. Causal: following through now
+  raises later selves' forecasts of their own reliability (self-reputation), which a CDT
+  self can count. [precedent to verify: Bénabou & Tirole 2004, personal rules; Bodner &
+  Prelec 2003, self-signaling]
+- D3 has the same structure: past anticipation, sunk for the fixed-past self.
+- A past self having looked forward to the plan is not, by itself, a reason.
 
 ## Anthropics
 
-**A1. Echo on a branching tree.** [synthesis; checked where marked]
+**A1. Echo on a branching tree: measure-weighting.** [synthesis; checked where marked]
 - A `b`-ary tree of successors (copies) with geometric kernels.
-- **Per observer.** Copy-counting anticipation has forward mass `abβ/(1 − bβ)`.
-  - `M_tree = abβ/(1 − bβ) + mα/(1 − α) < 1` is a uniform contraction condition for
-    bounded experienced utility on the infinite tree.
-  - For finite trees the authoritative test is the spectral radius; the row-mass
-    condition is only sufficient.
-  - Share-weighted anticipation restores `aβ/(1 − β)`.
-- **Total across observers** is a separate condition. A trunk event is remembered by
-  every descendant.
-  - Direct model: the remembered effect is `m Σ_j (bα)^j`, which needs `bα < 1`.
-  - Recursive model: memory-only `r(−j) = (m/(1+m))((1+m)α)^j`, which needs
-    `b(1+m)α < 1`. [checked]
-  - Example: `b = 2, m = 1, α = 0.3` keeps each observer bounded (`M = 0.43`) while
-    total welfare diverges (`b(1+m)α = 1.2`).
-- **Two dials.** How a present mind represents its possible successors (normalized
-  anticipation or not), and how welfare aggregates across them.
-  - These are utility weights, not credences, so do not call them SSA and SIA. Armstrong
-    derives SSA- or SIA-like *betting* from preferences plus linked decisions, without
-    anthropic probabilities, and treats subjective anticipation as encoded in the
-    utility function (LW 2011).
-  - Share-weighting has a precedent in Greaves's (2004) caring measure.
-  - Well-foundedness does not force normalization. Faster decay, bounded depth, or
-    saturation would also do.
+- **Stance: anticipation is measure-weighted.** In the causal form, anticipation is a
+  forecast `E_t[e_{t+j}]`, which already weights successors by their measure (Born weight,
+  probability, share). Death or doom branches enter as zero experience, so a likely early
+  end discounts the anticipated future.
+- **What measure-weighting rules out.** Copy-counting anticipation would make anticipation
+  a *sum* over successors, so a branching future could outweigh a single past without
+  bound.
+  - Per observer: copy-counted forward mass is `abβ/(1 − bβ)`, which needs `bβ < 1`.
+  - Total across observers: a trunk event is remembered by every descendant, so the
+    copy-counted total needs `bα < 1` (D) or `b(1+m)α < 1` (R; memory-only resolvent
+    `r(−j) = (m/(1+m))((1+m)α)^j`). Example: `b = 2, m = 1, α = 0.3` keeps each observer
+    bounded (`M = 0.43`) while the copy-counted total diverges (`b(1+m)α = 1.2`). [checked]
+- **Under measure-weighting branching is welfare-invisible.** Forward mass is `aβ/(1 − β)`,
+  and the measure-weighted total memory of a trunk event is `m Σ α^j`, the unbranched
+  conditions exactly: it adds up to normality.
+- These are utility weights, not credences, so they are not SSA or SIA. Armstrong derives
+  SSA- or SIA-like *betting* from preferences plus linked decisions, and treats subjective
+  anticipation as encoded in the utility function (LW 2011). Precedent for the weighting:
+  Greaves's (2004) caring measure.
+- Well-foundedness alone does not force measure-weighting (faster decay, bounded depth or
+  saturation would also bound the sums); the forecast reading does.
 
-**A2. Sleeping Beauty: utility-adjusted betting weights.** [toy; checked]
-- Setup: the heads awakening is remembered on Wednesday (weight `x_M`); the tails
-  awakenings are not. Sunday's single shared anticipation is counted once in expected
-  welfare.
-- Per-event Sunday anticipation (`a` per awakening): tails:heads = `2(1+a):(1+a+x_M)`.
-  This is 4:3 at `a = x_M = 1`, 1:1 at `x_M = 1 + a`, and goes to 0 as `x_M → ∞`.
-- Normalized (average-awakening) anticipation: `(2+a):(1+a+x_M)`, so 1:1 at
-  `a = x_M = 1`.
-- Day-specific Sunday weights `a_M, a_T`: `(2 + a_M + a_T):(1 + a_M + x_M)`.
-- Erasure alone does not equalize echo. These are betting weights, not updated
-  probabilities about the coin. Armstrong's 2:1 versus 1:1 contrast is about total
-  versus copy-average objectives for the offered bets.
-- Precedent: Armstrong (2011 v1 §§2, 3.3.2) already shows memory-only value giving
-  SSA-like odds. The asymmetric erasure and the mixed anticipation/memory weights are
-  new here.
-
-**A3. Imperfect recall.** [synthesis]
+**A2. Imperfect recall.** [synthesis]
 - Amnesia cuts particular memory links. It creates self-location uncertainty only when
   the remaining observations fail to fix the current position. In that case `E_t` needs
   a self-locating credence.

@@ -24,3 +24,10 @@ Periodically compacted to git history.
 - Codex also pointed to Kőszegi 2010 as prior art for the savoring-trap mechanism, and
   supplied the exact stopping conditions now in D3 (checked over 1500 draws).
 - `checks.py` caught an A2 limit error before review (the odds go to 0, not to 1:1).
+- Walkthrough with a9, point by point. Decisions: the post's value is reframing for
+  LessWrong, not novelty to economics; beliefs-are-welfare (D5) is the leading spine; D6
+  is stronger than first written; measure-weighted anticipation is the anthropics stance;
+  Sleeping Beauty (old A2) is cut. a9's P2 reading (direct and recursive as two readings
+  of one agent) replaced "recursion has no content".
+- Re-reading turned up the P6 size caveat (`≈ 4μ₁/T`) and the D3 exceptions as
+  preemption; both checked.

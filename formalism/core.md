@@ -37,12 +37,20 @@ Status tags: **[standard]** textbook math · **[known: …]** in the literature,
 - Reading: `ρ(K_T) < 1` means monotone on this life; `M < 1` means bounded echo at any
   lifespan.
 
-**P2. D and R are reparametrizations on ℤ.** `I + K_D = (I − K_R)^{-1}`. Exponential D
-(`βⁿ`) ↔ one-step R (Bellman). Caveats: two-sided R has `r(0) > 1`, so its D-twin has a
-nonzero diagonal (normalizing keeps rankings, not cardinal levels); nonnegative D can map to
-sign-alternating R; an *unrestricted* finite-life D matrix reproduces any R. Recursion has
-content only through restrictions on the kernel family, boundaries, or uncertainty.
-[standard]
+**P2. D and R are two readings of one agent on ℤ.** [standard; the reading is synthesis]
+- `I + K_D = (I − K_R)^{-1}`: every recursive agent has a direct twin and vice versa.
+- An agent that cares only about its neighbours' experienced utility already acts on the
+  whole life. One-step R (`k(±1)` only) gives two-sided exponential D with `β_L = 1`
+  (Bellman; Kimball 1987). One-sided: exponential D ⟺ one-step R. [checked]
+- A nonnegative one-sided R primitive reaching past one step makes the first step the
+  steepest: `r(2)/r(1) = k(1) + k(2)/k(1) ≥ r(1)/r(0)`. Present bias is the signature of
+  caring *directly* about more than the next moment (P3).
+- Caveats: two-sided R has `r(0) > 1`, so its D-twin has a nonzero diagonal (normalizing
+  keeps rankings, not cardinal levels); nonnegative D can map to sign-alternating R.
+- Boundaries break the equivalence: finite sections do not commute with inversion, and an
+  *unrestricted* finite-life D matrix reproduces any R. Recursion has content through
+  restrictions on the kernel family, boundaries, or uncertainty. Real agents have
+  boundaries; the infinite horizon is the clean approximation.
 
 **P3. One-sided recursion is quasi-hyperbolic.** `k(n) = aβⁿ` ⇒ `r(0) = 1`,
 `r(n) = (a/(1+a))((1+a)β)ⁿ`; stable iff `(1+a)β < 1`, i.e. `M < 1`. Present bias
@@ -89,8 +97,15 @@ Centered ramp `u(s) = s − (T−1)/2`; the increasing-minus-decreasing gap is `
 - Finite-`T` sign is the truncated first moment and can flip: `a = 1, β = 0.1, m = 0.1,
   α = 0.5` has `μ₁ < 0` but `E > 0` for `T ≤ 5`. Equal amplitudes `a = m`: sign is exactly
   `sign(β − α)` for all `T ≥ 2` (path reflection). [checked]
-- On ℤ, `Σ_t e(t) = Σ_t u(t)/(1−M)` is rearrangement-invariant: **shape preference is
-  purely a boundary effect** — a life's ends, not its slope as such.
+- On ℤ, `Σ_t e(t) = Σ_t u(t)/(1−M)` is rearrangement-invariant for any linear,
+  translation-invariant kernel, signed ones included: **in a linear echo model, shape
+  preference is purely a boundary effect** — a life's ends, not its slope as such. Slope
+  effects as such need nonlinearity.
+- Size: for `T` well beyond the kernel's reach, the gap relative to the base utility
+  rearranged (`Σ|u| ≈ T²/4`) is `≈ 4μ₁/T` (D) or `4μ₁/((1−M)²T)` (R). Whole-life shape
+  preferences are sizeable only when anticipation and memory reach a sizeable fraction of
+  the life; recursion near `M = 1` lengthens the effective reach. Prediction: sequence
+  preferences are strongest over short horizons. [checked; prediction speculation]
 - A negative (contrast) memory kernel adds to `μ₁`, favouring improvement; this is a
   linear-contrast specification, not general habit formation.
 
@@ -98,9 +113,18 @@ Centered ramp `u(s) = s − (T−1)/2`; the increasing-minus-decreasing gap is `
 prefers declining profiles, the last self improving (recency), a mid-life self is near
 neutral, and the life-sum tilts by `μ₁`. [numerical]
 
-**P8. James Dean effect from contrast memory.** With a negative memory kernel, appending
-mildly positive years after a peak lowers the life-sum, not just the mean (D and R). With
-nonnegative kernels and `ρ(K_T) < 1` it cannot happen. [numerical]
+**P8. James Dean effect from contrast memory.** [numerical; speculation as psychology]
+- With a negative memory kernel, appending mildly positive years after a peak lowers the
+  life-sum, not just the mean (D and R): each added year's own `u` is outweighed by its
+  contrast with the remembered peak. With nonnegative kernels and `ρ(K_T) < 1` it cannot
+  happen.
+- The effect is a failure of the monotonicity P1(a) treats as well-foundedness. With
+  signed kernels non-monotonicity is the phenomenon, and the well-foundedness condition
+  becomes absolute convergence (`ρ(|K_T|) < 1`; on ℤ, `Σ|k| < 1`).
+- Diener, Wirtz & Oishi (2001) measured ratings of described lives: evaluative evidence.
+  The hedonic claim is different and unsupported: post-peak years are *felt* as net
+  negative. Whether memory's net kernel is negative is empirical (Tversky & Griffin's
+  endowment versus contrast).
 
 **P9. Intervention semantics.** [known in kind: Hori & Kanaya 1989 "mortality" vs
 "eternity"; Ray, Vellodi & Wang 2024 fn. 4]
