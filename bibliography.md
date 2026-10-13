@@ -450,6 +450,94 @@ described via the secondary named. Files are in `references/`. First verificatio
   Science* 50(1): e70160. **FT** · `papers/dawson-2026-asymmetric-anticipatory-emotions.txt`
   - Dread outweighs savoring in survey estimates.
 
+## Value of information: beliefs as welfare (D5)
+
+Philosophy and decision theory:
+- **Good, I. J. (1967).** On the principle of total evidence. *BJPS* 17(4): 319–321.
+  **2ND** (Skyrms 1990; Ahmed & Salow 2019; closed)
+  - Free evidence has nonnegative expected value for a Bayesian expected-utility maximizer.
+- **Skyrms, B. (1990).** The value of knowledge. *Minnesota Studies in the Philosophy of
+  Science* 14: 245–266. **FT** · `papers/skyrms-1990-the-value-of-knowledge.txt`
+  - Good's tacit assumptions (pp. 246–247). Information is "really free" only if utility
+    is independent of the experimental result (p. 256). The theorem fails for Jeffrey
+    EDT (p. 255).
+- **Kadane, J., Schervish, M. & Seidenfeld, T. (2008).** Is ignorance bliss? *J.
+  Philosophy* 105(1): 5–36. **FT** · `papers/kadane-schervish-seidenfeld-2008-is-ignorance-bliss.txt`
+  - Utility can depend on the knowledge base, anticipated experiences included (§II).
+  - §III.2: information is *decision-theoretically ignorable* if every rule available
+    without it stays available, and *cost-free* if ignoring it also leaves utility
+    unchanged (eq. 13). The taxi driver who offers to reveal the mystery's ending (Ex. 12)
+    and Huntington's testing (Ex. 16) are ignorable but not cost-free.
+  - The nearest prior art for D5's instrumental/intrinsic split.
+- **Ahmed, A. & Salow, B. (2019).** Don't look now. *BJPS* 70(2): 327–350. **WP** (author
+  draft; pages differ) · `papers/ahmed-salow-2019-dont-look-now.txt`
+  - Failures of Good's theorem from non-partitional observation and from independence
+    violations (fn. 21 lists disappointment and anticipated-utility theories). Neither is
+    belief-dependent welfare.
+- **Buchak, L. (2010).** Instrumental rationality, epistemic rationality, and
+  evidence-gathering. *Phil. Perspectives* 24: 85–120. **ABS** ·
+  `papers/buchak-2010-instrumental-rationality-epistemic-rationality-and-evidence-gathering.txt`
+  - Risk-weighted agents can refuse free evidence. Sets aside desires to be in particular
+    epistemic states as a separate case.
+- **Bostrom, N. (2011).** Information hazards: a typology of potential harms from
+  knowledge. *Review of Contemporary Philosophy* 10: 44–79. **FT** (author PDF; manuscript
+  pages) · `papers/bostrom-2011-information-hazards.txt`
+  - *Psychological reaction hazard*: information lowers well-being through sadness or
+    disappointment (p. 19). *Belief-constituted value hazard*: a component of well-being
+    depends constitutively on epistemic states (pp. 19–21).
+
+LessWrong and the Alignment Forum, updatelessness and information (all `web/`, **FT**):
+- **Diffractor (2018).** VOI is only nonnegative when information is uncorrelated with
+  future action.
+  - The ignore-the-observation proof fails when the probability of an observation depends
+    on the policy (XOR blackmail, Parfit's hitchhiker, transparent Newcomb). cousin_it's
+    reply: UDT's value of information stays nonnegative.
+- **Soto, M. (2024).** Updatelessness doesn't solve most problems.
+  - A trade-off between learning and strategicness: reason not to learn a logical fact
+    before a logical counterfactual mugging. Soto disavows "scared of information"; the
+    prior must decide ex ante what actions may depend on. Comments by Yudkowsky
+    (updatelessness keeps information from harming you) are saved with it.
+- **Demski, A. (2019).** Conceptual problems with UDT and policy selection.
+  - UDT wants to decide how to use information before looking; thinking longer is a kind
+    of updating.
+- **Kokotajlo, D. (2019).** The commitment races problem.
+  - Agents gain collectively from learning before committing, and individually from
+    committing early.
+- **Garrabrant, S. (2016).** Updatelessness and son of X. Logical updatelessness.
+- All hazards here run through action or bargaining position. None is felt.
+
+LessWrong on truth, comfort and anticipation (all `web/`, **FT**):
+- **LessWrong wiki.** Litany of Gendlin; Litany of Tarski. Gendlin's is credited to Eugene
+  Gendlin (book and page unverified); Tarski's is Yudkowsky's naming (2007).
+- **Raemon (2011).** Issues with the Litany of Gendlin.
+  - The emotional reaction to a truth is part of reality, so some truths cost something
+    to learn. Informal; comment thread saved.
+- **HonoreDB, jimrandomh et al. (2011).** Utility-of-belief thread under "Making beliefs
+  pay rent".
+  - jimrandomh: concave utility of belief (`√p`) makes learning worth −0.244 and Joe
+    "plugs his ears"; convex (`p²`) makes it worth +2/9. The closest LessWrong precedent
+    for D5's Jensen point.
+  - HonoreDB: a reflectively consistent UDT agent's utility of belief must be linear in
+    `p`. Contested in the thread; the author later called the proof holey.
+- **Yudkowsky, E. (2007).** Doublethink (choosing to be biased). The main
+  anti-self-deception norm: you cannot choose bias knowingly.
+- **Yudkowsky, E. (2007).** Not for the sake of happiness (alone). Rejects reducing value
+  to happiness: the counter-position the hedonic reading must answer.
+- **Yudkowsky, E. (2009).** Justified expectation of pleasant surprises.
+  - A pleasant surprise beats being told in advance; vague hope has value. A hunch, no
+    data. The nearest LessWrong statement that anticipation itself matters.
+- **Dai, W. (2009).** Anticipation vs. faith: at what cost rationality?
+  - Anticipation's experiences valued for their own sake; UDT works without anticipation.
+    Mixes hedonic and Armstrong-style subjective anticipation.
+- **Roko (2010).** Ugh fields. Hedonic avoidance of thinking about a problem, as a costly
+  conditioned pathology.
+- **Sotala, K. (2011).** Strategic ignorance and plausible deniability. Reputational, not
+  hedonic.
+- Not found on LessWrong or the Alignment Forum: a treatment of information as
+  intrinsically costly through felt anticipation in a decision-theoretic setting, or of
+  memory as utility in one. The literature agent's search relied on web search, so
+  coverage is not exhaustive.
+
 ## Anthropics and imperfect recall
 
 - **Armstrong, S. (2011; rev. 2017).** Anthropic decision theory (for self-locating

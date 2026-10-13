@@ -74,9 +74,15 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
   - Rationalization as hedonic arbitrage: updating less on bad news keeps anticipation
     high now. *speculation*
   - Instrumental value of information (Good's theorem, FDT) versus intrinsic hedonic
-    value. Updatelessness about actions does not remove the hedonic cost.
+    value: information can be ignorable without being cost-free (Kadane, Schervish &
+    Seidenfeld). LessWrong's updatelessness discussion covers only the ignorable half.
   - Updateless affect: feel by the prior, act on the posterior. A formal reading of
     equanimity. *speculation*
+  - LessWrong precedents to credit: Raemon on the Litany of Gendlin; jimrandomh's
+    utility-of-belief example; Yudkowsky on pleasant surprises; Bostrom's psychological
+    reaction hazards.
+  - Objections to answer: "Not for the Sake of Happiness (Alone)" (value is not only
+    hedonic) and "Doublethink" (you cannot knowingly choose bias).
 - **Decision theory: your past self as predictor.** (`decision.md`)
   - A choice is Newcomb-like when already-felt anticipation depends on an accurate
     prediction of it (D1). *synthesis*

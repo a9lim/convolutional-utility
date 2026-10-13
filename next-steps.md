@@ -12,8 +12,10 @@ Ordered by dependency.
      disappointment term (realized versus anticipated) and with decisions at stake;
    - rationalization as asymmetric updating: when it pays hedonically;
    - updateless affect: state it precisely and check it against a disappointment term;
-   - pin the instrumental/intrinsic split against the LW/AF literature on UDT and
-     information.
+   - does reflective consistency force linear anticipation (HonoreDB 2011, contested;
+     Caplin & Leahy 2001 on time inconsistency)?
+   - answer the LessWrong objections: "Not for the Sake of Happiness (Alone)" and
+     "Doublethink".
 3. **Close prior-art gaps** that could hit the claimed results:
    - D5/D6: Brunnermeier & Parker 2005, Caplin & Leahy 2001, Kőszegi & Rabin 2009,
      Bénabou & Tirole 2002/2004/2016, Eliaz & Spiegler 2006 (being read);

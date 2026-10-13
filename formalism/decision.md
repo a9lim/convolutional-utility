@@ -130,7 +130,7 @@ being read]
   forecast (dread outweighs savoring), information is a mean-preserving spread of the
   forecast, so by Jensen it lowers expected welfare even when no decision depends on it.
   Convex gives information seeking. [known in kind: Caplin & Leahy 2001; Kőszegi & Rabin
-  2009 — to verify]
+  2009 — to verify; on LessWrong, jimrandomh 2011's utility-of-belief example]
 - **Optimism is welfare; the bill is decisions and disappointment.** An upward-biased
   forecast raises anticipation now, and under R it is remembered too. The linear model
   charges for it only through worse decisions, so it endorses delusion wherever no
@@ -141,17 +141,30 @@ being read]
   anticipation high now and moves the cost into later disappointment or decisions. A
   candidate mechanism for asymmetric updating. [speculation; Bénabou & Tirole on motivated
   beliefs — to verify]
-- **Instrumental versus intrinsic value of information.** Good's theorem makes free
-  information instrumentally weakly valuable to a Bayesian expected-utility maximizer.
-  Updateful agents can lose that through their own dynamic inconsistency, and a policy-level
-  chooser recovers it because a policy can ignore an observation. Hedonic value is
-  different: the cost lands on the felt forecast, not the action, so updatelessness about
-  actions does not remove it. [synthesis; LW sources to verify] FDT's "information is never
-  negatively valued" (Yudkowsky & Soares) is the instrumental claim.
+- **Instrumental versus intrinsic value of information.** [known: Kadane, Schervish &
+  Seidenfeld 2008; Skyrms 1990]
+  - Good's theorem: free information has nonnegative expected value because the agent can
+    always act as if it had not seen it. KSS split "free" in two: *ignorable* (every
+    decision rule stays available) and *cost-free* (ignoring it also leaves utility
+    unchanged). Skyrms: really free needs utility independent of the result.
+  - Felt anticipation makes information ignorable but not cost-free. KSS's own examples
+    (the mystery's ending; Huntington's testing) are of this kind.
+  - LessWrong's discussion is about the ignorable half. FDT says information is never
+    negatively valued (Yudkowsky & Soares §4), and updatelessness is what removes an
+    updateful agent's motive to avoid it. Exceptions run through action or bargaining:
+    observation probabilities that depend on the policy (Diffractor 2018), and
+    strategicness under logical uncertainty (Soto 2024; Demski 2019; Kokotajlo 2019).
+  - So updatelessness about actions does not remove the hedonic cost: it lands on the
+    felt forecast, not the action. [synthesis]
 - **Updateless affect.** An agent whose felt anticipation tracks its prior forecast while
   its actions use the posterior keeps the decisions and drops the swings. Expected welfare
   is equal in the linear model and strictly higher under concave anticipation, before any
-  disappointment term. A formal reading of equanimity. [speculation]
+  disappointment term. A formal reading of equanimity. Not found on LessWrong; HonoreDB
+  (2011) pins *belief* at the prior, a different split. [speculation]
+- **Reflective consistency and linearity.** HonoreDB (2011) argues that a reflectively
+  consistent UDT agent's utility of belief must be linear (contested). Linear anticipation
+  is exactly the case where information is neutral in expectation. Whether reflective
+  consistency forces linearity is open. [speculation]
 
 **D6. Reliability is worth its anticipation.** [synthesis; speculation as psychology]
 - Under rational expectations, anticipation of a plan scales with the forecast probability
