@@ -112,3 +112,6 @@ Periodically compacted to git history.
   texts (list in `next-steps.md`, drop folder `references/inbox/`). a9 proposed folding the
   decision-theory post into the model post, and an extension: training an agent to choose
   its own expectations to maximize its felt utility, as an observer or in games.
+- Plan (a9): one merged flagship post (model, a life, beliefs, choices, selves), with the
+  formalism as a technical companion; the spine is "experience echoes". Outline
+  restructured into acts. Next: the decision-theory audit, then the observer model.
