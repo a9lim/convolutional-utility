@@ -33,30 +33,29 @@ def forecast_u(T, base, events, t):
 
 
 def news_root(d, g, kn, lam):
-    """Largest root of h(s) = s - sum_j kn_j phi(d_j + s g_j): exact, since h is linear between kinks.
-    Each linear piece (finite intervals and the two rays) is solved and its root kept if it lies
-    in the piece, endpoints included."""
-    phi = lambda x: np.where(x >= 0, x, lam * x)
-    h = lambda s: s - kn @ phi(d + s * g)
+    """Largest root of h(s) = s - sum_j kn_j phi(d_j + s g_j). h is affine between kinks: on each
+    piece the active branch of every component is fixed, so the piece's root is solved from its own
+    slope and intercept, and kept if it lies in the piece."""
     br = np.unique(-d[g > 1e-15] / g[g > 1e-15])
-    lo, hi = (br[0], br[-1]) if br.size else (0.0, 0.0)
-    pieces = [(-np.inf, lo)] + list(zip(br[:-1], br[1:])) + [(hi, np.inf)]
+    edges = np.concatenate([[-np.inf], br, [np.inf]])
     roots = []
-    for l, r in pieces:
-        a = l if np.isfinite(l) else r - 1.0          # two points inside the piece
-        b = r if np.isfinite(r) else l + 1.0
-        ha, hb = h(a), h(b)
-        if ha == hb:
-            if ha == 0:
-                roots.append(b if np.isfinite(r) else a)
+    for l, r in zip(edges[:-1], edges[1:]):
+        if np.isfinite(l) and np.isfinite(r):
+            mid = (l + r) / 2
+        else:                                          # a ray, or the whole line
+            mid = r - 1 if np.isfinite(r) else l + 1 if np.isfinite(l) else 0.0
+        c = np.where(d + mid * g >= 0, 1.0, lam)       # active branch on this piece
+        slope, icpt = 1 - kn @ (c * g), kn @ (c * d)   # h(s) = slope * s - icpt
+        if slope == 0:
             continue
-        s = a - ha * (b - a) / (hb - ha)
+        s = icpt / slope
         if l - 1e-12 * (1 + abs(l)) <= s <= r + 1e-12 * (1 + abs(r)):
             roots.append(s)
     if not roots:
         raise RuntimeError("no felt state: bad news past the threshold")
     s = max(roots)
-    assert abs(h(s)) < 1e-9 * (1 + abs(s)), "root residual"
+    phi = lambda x: np.where(x >= 0, x, lam * x)
+    assert abs(s - kn @ phi(d + s * g)) < 1e-9 * (1 + abs(s) + kn @ np.abs(d)), "root residual"
     return s
 
 

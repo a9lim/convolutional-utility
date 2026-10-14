@@ -5,18 +5,14 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
 
 ## The post
 
-1. **Decision-theory audit** (in progress): D1–D7 and A1–A2 under the canonical model
-   (recursive echoes and news, rational forecasts). A self's own deviation from a forecast
-   plan revises forecasts, so it is felt as news; plans become reference points, as in
-   Kőszegi–Rabin personal equilibrium. Re-derive D2's dial with news, D3's stopping
-   conditions, D4, D6 with both channels, A1 under loss-averse news; Codex round 4.
-2. **Observer model** (the extension below), once the audit raises no open questions.
-3. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
+1. **Observer model** (the extension below), once a9 picks what bounds belief distortion:
+   at felt calibrations free beliefs go to N3's corners.
+2. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
    choices; coda: selves), and the technical companion.
-4. **Figures:** the Disneyland decomposition; primitive against effective kernels; `w(s)`
+3. **Figures:** the Disneyland decomposition; primitive against effective kernels; `w(s)`
    profiles; the 2×2 signatures; the threshold's regimes and its closed form against memory
    reach; built-in bracing; a ramp-sign phase diagram in `(α, μ)`; the savoring trap.
-5. **Open formal items the post touches:**
+4. **Open formal items the post touches:**
    - the sharp condition for the joint Bayesian forecast fixed point (only the sufficient
      row-sum condition is known);
    - N3 in the canonical model with sign-asymmetric memory of disappointment (the fading
@@ -24,16 +20,19 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
    - `J` for imperfect foresight: past forecasts as noisy predictions of the policy, and
      FDT's `J` as a function of predictability;
    - D7: a comparison theorem for coarser affect filtrations under dread or rumination;
-     whether fixed-past selves over-check;
+     whether fixed-past selves over-check; jointly implementable action and affect policies;
+   - D2 with news: the `J` identity extended by the news-forcing derivative and a stated
+     reference counterfactual;
+   - D3: which credible plan learning selects (the agent extension);
    - D5: the delusional optimist under felt news (unaware against sophisticated);
      rationalization given Bénabou's cancellation; recollection news formalized, with the
      backward version of N3; whether reflective consistency forces linear anticipation;
    - the LessWrong objections ("Not for the Sake of Happiness (Alone)", "Doublethink");
    - the coda: pin A1 against Armstrong's ADT text and Greaves 2004.
-6. **Calibration gaps:** anticipation's reach within a day; vacation anticipation (Nawijn's
+5. **Calibration gaps:** anticipation's reach within a day; vacation anticipation (Nawijn's
    gap looks like selection); news strength, lab (prediction errors about as strong as
    rewards) against events (0.1–0.3); everything about LLM strengths.
-7. **Prior art for a9's academic access** (PDFs to `references/inbox/`, gitignored; I extract
+6. **Prior art for a9's academic access** (PDFs to `references/inbox/`, gitignored; I extract
    and file them):
    - Could change a claimed result: Hori 1992 (*JET* 56(2): 451–467; P4); Fels &
      Zeckhauser 2008 (*J. Risk & Uncertainty* 37(2–3): 187–197; P3, P4); Kreps & Porteus
@@ -55,19 +54,26 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
 - Train an agent whose reward is its own felt utility, computed from its own forecasts and
   realized against the world: Brunnermeier & Parker's well-being, learned. Expected return
   under the true environment is exactly the objective expectation of the felt life-sum.
-- Observer version: random events, the agent only forecasts. Predictions to test: N3's
-  bias quantile and its timing (optimism far off, bracing near); batching when attention
-  is a choice (N2, D7); information avoidance under dread or rumination asymmetry (D5);
-  behaviour near the threshold, with saturating news.
-- Agent version: games and Newcomb-like setups. Whether gradients flow from anticipation
-  rewards into the policy through its own self-prediction is D2's `J`: a stop-gradient is
-  fixed-past (CDT-like), full flow is commitment, a lagged self-predictor is the graded
-  case. Check prior art: Demski, "Partial agency" and "The parable of Predict-O-Matic"
-  (LW 2019); Perdomo et al. 2020, performative stability against optimality; Krueger,
-  Maharaj & Leike 2020, auto-induced distributional shift.
-- Separate belief and affect heads give D7's two filtrations; tying them adds decision
-  costs. Relevance to LLM welfare and honesty: rewards that depend on a model's own
-  expectations select for motivated expectations unless affect is kept apart from belief.
+- **Observer** (next, after the audit): random events, the agent only forecasts. Predictions
+  to test: N3's bias quantile and its timing (optimism far off, bracing near); batching when
+  attention is a choice (N2, D7); information avoidance under dread or rumination
+  asymmetry (D5); behaviour near the threshold, with saturating news.
+- **Agent:** games and Newcomb-like setups; design under discussion with a9.
+  - Two switches, after Oesterheld (2019): what the reward credits (felt anticipation is
+    the "overseer", conditional on the forecast or not) and what the learner credits
+    (whether gradients flow from anticipation rewards into the policy through its
+    self-prediction).
+  - The learner's switch is known in binary form: stop-gradient gives performatively
+    stable, ratifiable, CDT-like fixed points; full flow gives the optimum, EDT-like or
+    Stackelberg (Oesterheld, Treutlein, Cooper & Hudson 2023; Perdomo et al. 2020; Bell et
+    al. 2021; Demski's partial agency).
+  - A lagged self-predictor is not the graded case: it still blocks the gradient, so the
+    learner's recognized `J` is 0; the lag changes only how accurate past forecasts are,
+    the actual `J`. Graded `J` needs another knob: a partial gradient weight, an outer
+    loop's horizon (Krueger, Maharaj & Leike 2020), or forecast accuracy.
+  - New relative to that literature: a temporal stream of felt anticipation, memory and
+    news; `J` graded inside a life-sum; belief and affect heads (D7's two filtrations); the
+    LLM-welfare angle.
 
 ## Follow-up: LLMs
 

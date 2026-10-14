@@ -44,6 +44,15 @@ e_t = u_t                                                          base
 | `ν` | news reach | how far ahead news is felt; `ν = 0` keeps only surprise on arrival |
 | `λ` | loss aversion of news | prices information (N2); sets the despair threshold (N4) |
 
+**The reinforcement-learning reading.** Write `V^α_t = Ê_t[Σ_{j≥0} α^j e_{t+j}]`, a value
+function over experienced utility with discount `α`. Then anticipation is `a (V^α_t − e_t)`,
+and linear news is `(n/ν) δ_{t−1}`, with `δ_{t−1} = e_{t−1} + ν V^ν_t − V^ν_{t−1}` the TD error
+at discount `ν`; memory is a trace of past experience decaying at `μ`. With `λ > 1` the news
+is `(n/ν) φ_λ(δ_{t−1})` when the revisions share a sign. So the canonical self is a learner
+that feels its own critic and its own TD errors. [checked; known in kind: Rutledge et al.
+2014's momentary happiness, expected values plus prediction errors, exponentially
+forgotten; Gershman 2026's expected prediction error; the identification is synthesis]
+
 **The reduced form.** For foreseen lives on ℤ, the canonical model is a direct model with
 effective coefficients (P2, P4):
 `e_t = r(0) u_t + Σ_{h≥1} (r(0) − 1/(1+a)) p^h u_{t+h} + Σ_{h≥1} (r(0) − 1/(1+m)) q^h u_{t−h}`.
@@ -552,6 +561,11 @@ condition and quantile not found; checked]
     `1ᵀg → 1 + B`, and the news reference no longer contains anticipated news (`N̄ → 0`
     there; anticipated news still enters welfare). With a fixed reference and one period
     this reduces to Codex's `W′(0) = A − (n/2)(1/(1−n) + λ/(1−λn))`.
+  - At the felt calibrations the interior band `1 < Θ < λ̃` is narrow (`λ̃ ≈ 1.6`–`1.8`).
+    An event mid-life gives `Θ ≈ 1.0` (day, at the edge) and `0.7` (life), the pessimism
+    corner; with `n = 0.1`, the life sits at the optimism corner. Beliefs free to move go
+    to a corner, so what bounds them (plausibility, decisions, sophistication) sets the
+    bias actually seen. [checked]
   - Reading: the loop makes disappointment dearer and the built-in bracing makes it rarer.
     Near the threshold it is the felt reference that sinks: `b* + N̄ → −∞` while the
     optimal bias in beliefs about the outcome can stay bounded, even tend to 0 (`λ = 2`,

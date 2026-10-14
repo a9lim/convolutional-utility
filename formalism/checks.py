@@ -697,3 +697,152 @@ err = abs(pw.news_root(np.array([.75]), np.array([1.]), np.array([.25]), 2.) - 0
 err = max(err, abs(pw.news_root(np.array([-3.]), np.array([1.]), np.array([.499]), 2.) + 1497))
 err = max(err, abs(pw.news_root(np.array([0.]), np.array([1.]), np.array([.3]), 2.)))
 report("pathwise exact news root (endpoint, far root, zero revision)", err, tol=1e-9)
+
+# ---- decision theory under the canonical model ---------------------------------------------
+
+# D2 with linear news: a fixed-past self's weights on a deviation are c_t(s) + (1'g) kn'(s - t),
+# kn' = kn'R_F/(1 - kappa) the local news kernel. Deviation = cancel the forecast, announce anew.
+T, t = 30, 10
+a, al, m, mu, n0, nu = 0.2, 0.7, 0.15, 0.6, 0.3, 0.7
+KF_, KB_ = pw.kernels(T, a, al, m, mu)
+KN_ = n0 * nu ** np.arange(T)
+RF = np.linalg.inv(np.eye(T - t) - K_matrix(T - t, a, al, m, mu))
+g = RF[:, 0]
+pred = RF.sum(axis=0) + g.sum() * (KN_[:T - t] @ RF) / (1 - KN_[:T - t] @ g)
+base = pw.run(T, 0.0, [], KF_, KB_, KN_, 1.0, "e")[0][t:].sum()
+num = [(pw.run(T, 0.0, [(t, t + h, 1e-3, None)], KF_, KB_, KN_, 1.0, "e")[0][t:].sum() - base) / 1e-3
+       for h in range(6)]
+report("D2 deviation weights with linear news: c_t + (1'g) kn'", max(abs(x - y) for x, y in zip(num, pred)), tol=1e-6)
+
+
+# D3 under the canonical model: one pleasure announced at 0, Kőszegi–Rabin-style credible replanning.
+# Switching the planned date p to q at t changes remaining welfare by
+# Delta_t(p->q) = v 1'R_t(d_q - d_p) + (1'g_t) N,  N = kn . phi(v R_t(d_q - d_p) + N g_t)  (independent
+# of the past). C_{T-1} = {T-1}; A_t = {t} u C_{t+1}; C_t = {p in A_t: Delta_t(p->q) <= 0 for all q in A_t}.
+# At 0 the plan is chosen against the no-event prior: the best of {0} u C_1.
+def d3_credible(T, a, al, m, mu, n0, nu, lam, v=1.0):
+    K = K_matrix(T, a, al, m, mu)
+    R = [np.linalg.inv(np.eye(T - t) - K[t:, t:]) for t in range(T)]
+    kn = n0 * nu ** np.arange(T)
+
+    def delta(t, p, q):
+        d = v * (R[t][:, q - t] - R[t][:, p - t])
+        return d.sum() + R[t][:, 0].sum() * pw.news_root(d, R[t][:, 0], kn[:T - t], lam)
+
+    C = [T - 1]
+    for t in range(T - 2, 0, -1):
+        A = sorted(set([t] + C))
+        C = [p for p in A if all(delta(t, p, q) <= 1e-12 for q in A if q != p)]
+        assert C, "no credible plan"
+    W = [(v * R[0][:, x] + pw.news_root(v * R[0][:, x], R[0][:, 0], kn, lam) * R[0][:, 0]).sum() for x in range(T)]
+    commit = int(np.argmax(W))
+    return C, commit, max(sorted(set([0] + C)), key=lambda x: W[x])
+
+
+C0, c0, p0 = d3_credible(20, 0.3, 0.7, 0.2, 0.6, 0.0, 0.7, 1.0)
+C2, c2, p2 = d3_credible(20, 0.3, 0.7, 0.2, 0.6, 0.3, 0.7, 2.0)
+Cs, cs, ps = d3_credible(20, 0.3, 0.7, 0.2, 0.6, 0.001, 0.7, 2.0)
+print(f"D3c credible plans at 1: no news {C0} (commitment {c0}); n = 0.3, lam = 2: {C2} (commitment {c2}, "
+      f"preferred {p2}); n = 0.001, lam = 2: {Cs} (commitment {cs})")
+report("D3c trap without news and for weak news; loss-averse news makes the commitment plan credible",
+       float(not (C0 == [19] and c0 == 15 and C2 == [12, 13, 14] and c2 == 14 == p2 and Cs == [19] and cs == 15)))
+
+
+# D6 under the canonical model: pay c at d for v at s; c is high (cH) with probability p, revealed at d.
+# Bayesian forecasts on a two-state tree; the high-cost self compares on-path with deviating.
+def d6_tree(u, d, p, a, al, m, mu, n0, nu, lam):
+    pr = np.array([1 - p, p])
+    T = u.shape[1]
+    phi = lambda x: np.where(x >= 0, x, lam * x)
+    Ex = lambda X, t: X if t >= d else np.full(2, pr @ X)
+    e = u.copy()
+    for _ in range(20000):
+        new = u.copy()
+        for t in range(T):
+            for j in range(1, T - t):
+                new[:, t] += a * al ** j * Ex(e[:, t + j], t)
+            for j in range(1, t + 1):
+                new[:, t] += m * mu ** j * e[:, t - j]
+            for j in range(T - t):
+                now = e[:, t] if j == 0 else Ex(e[:, t + j], t)
+                new[:, t] += n0 * nu ** j * phi(now - Ex(e[:, t + j], t - 1))
+        if np.max(np.abs(new - e)) < 1e-12:
+            return e
+        e = 0.5 * new + 0.5 * e
+
+
+def d6_margin(pay_high, T, d, s, p, v, cL, cH, a, al, m, mu, n0, nu, lam):
+    """(E[W], on-path minus deviation value for the high-cost self at d)."""
+    def u_of(pay):
+        u = np.zeros((2, T))
+        u[0, d] -= cL
+        u[0, s] += v
+        if pay:
+            u[1, d] -= cH
+            u[1, s] += v
+        return u
+    e = d6_tree(u_of(pay_high), d, p, a, al, m, mu, n0, nu, lam)
+    K = K_matrix(T, a, al, m, mu)
+    F, P = np.arange(d, T), np.arange(d)
+    RF = np.linalg.inv(np.eye(T - d) - K[np.ix_(F, F)])
+    x0 = RF @ (u_of(not pay_high)[1][d:] + K[np.ix_(F, P)] @ e[1, :d])
+    sdev = pw.news_root(x0 - np.array([1 - p, p]) @ e[:, d:], RF[:, 0], n0 * nu ** np.arange(T - d), lam)
+    return np.array([1 - p, p]) @ e.sum(axis=1), e[1, d:].sum() - (x0 + sdev * RF[:, 0]).sum()
+
+
+args = (16, 3, 10, 0.3, 3.0, 0.5, 2.5, 0.1, 0.8, 0.15, 0.6)
+rows = {}
+for n0, lam in [(0.0, 1.0), (0.3, 2.0)]:
+    rows[(n0, lam)] = [d6_margin(pay, *args, n0, 0.5, lam) for pay in (True, False)]
+(Wr0, mr0), (Wf0, mf0) = rows[(0.0, 1.0)]
+(Wr2, mr2), (Wf2, mf2) = rows[(0.3, 2.0)]
+print(f"D6c no news: E[W] reliable {Wr0:.3f} > flaky {Wf0:.3f}; reliable self-enforcing {mr0 >= 0}, flaky {mf0 >= 0}. "
+      f"n = 0.3, lam = 2: E[W] reliable {Wr2:.3f} > flaky {Wf2:.3f}; reliable self-enforcing {mr2 >= 0}, flaky {mf2 >= 0}")
+report("D6c felt news makes the high-cost self flaky against the planner",
+       float(not (Wr0 > Wf0 and mr0 >= 0 > mf0 and Wr2 > Wf2 and mr2 < 0 <= mf2)))
+
+# RL reading: linear news over e is (n/nu) times the TD error e_{t-1} + nu V_t - V_{t-1}, with
+# V_t = sum_j nu^j x_t(j) over the forecast path of e (x_t(0) = e_t); pathwise, lam = 1.
+T = 40
+KF_, KB_ = pw.kernels(T, 0.1, 0.85, 0.1, 0.75)
+n0, nu = 0.3, 0.7
+KN_ = n0 * nu ** np.arange(T)
+EV = [(5, 20, 3.0, None), (12, 30, -2.0, None), (None, 25, 1.5, None)]
+e, comp, _ = pw.run(T, 0.0, EV, KF_, KB_, KN_, 1.0, "e")
+
+
+def forecast_path(t):
+    nrem = T - t
+    A_ = K_matrix(nrem, 0.1, 0.85, 0.1, 0.75)
+    mem = np.array([e[:t][::-1] @ KB_[k + 1:k + 1 + t] for k in range(nrem)]) if t else np.zeros(nrem)
+    R = np.linalg.inv(np.eye(nrem) - A_)
+    return R @ (pw.forecast_u(T, 0.0, EV, t)[t:] + mem) + comp["news"][t] * R[:, 0]
+
+
+V = [nu ** np.arange(T - t) @ forecast_path(t) for t in range(T)]
+report("RL news = (n/nu) x TD error at discount nu (lam = 1)",
+       max(abs(comp["news"][t] - (n0 / nu) * (e[t - 1] + nu * V[t] - V[t - 1])) for t in range(1, T)), tol=1e-10)
+
+# N3 canonical at the felt calibrations: Theta = Acal/((1'g) kt) against the band (1, lt).
+for name, (a, al, m, mu, n0, nu, lam) in {"day": (0.05, 0.8, 0.1, 0.5, 0.2, 0.8, 1.5),
+                                         "life": (0.0643, 0.7, 0.3967, 0.3, 0.2, 0.7, 1.5),
+                                         "life, n = 0.1": (0.0643, 0.7, 0.3967, 0.3, 0.1, 0.7, 1.5)}.items():
+    T, s = 200, 100
+    K = K_matrix(T, a, al, m, mu)
+    w = np.linalg.solve(np.eye(T) - K.T, np.ones(T))
+    g = np.linalg.inv(np.eye(T - s) - K_matrix(T - s, a, al, m, mu))[:, 0]
+    kap = n0 * nu ** np.arange(T - s) @ g
+    kt, lt = kap / (1 - kap), lam * (1 - kap) / (1 - lam * kap)
+    Th = (w[s] - g.sum()) / (g.sum() * kt)
+    print(f"N3c {name}: Theta = {Th:.2f}, band (1, {lt:.2f}) -> "
+          + ("pessimism corner" if Th <= 1 else "optimism corner" if Th >= lt else "interior"))
+
+# The local news kernel need not decay: with strong anticipation and nu near 1 it rises (Codex),
+# so news at the deviation margin need not add present bias.
+T, t0 = 200, 0
+a, al, m, mu, n0, nu = 0.2, 0.8, 0.0, 0.5, 0.1, 0.99
+Rp = np.linalg.inv(np.eye(T) - K_matrix(T, a, al, m, mu))
+kn = n0 * nu ** np.arange(T)
+knp = (kn @ Rp) / (1 - kn @ Rp[:, 0])
+print("D4  rising local news kernel kn'(0..4): " + ", ".join(f"{x:.4f}" for x in knp[:5]))
+report("D4 kn' can rise with distance", float(not np.all(np.diff(knp[:5]) > 0)))

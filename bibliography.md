@@ -509,6 +509,11 @@ described via the secondary named. Files are in `references/`. First verificatio
     1987 and Caplin & Leahy 2001.
   - §6.1: a one-player, multi-self psychological equilibrium. Fn. 22 links it to
     Hori–Kanaya and Bergstrom.
+  - Example 1 (p. 423): both "expect z, choose z" and "expect z′, choose z′" are personal
+    equilibria; the sole value of commitment there is changing one's own expectations
+    (pp. 425–26). Thm. 2 (p. 431): with anticipation linear in beliefs, information
+    neutrality iff disappointment neutrality. No recursion, memory or felt news on
+    deviations.
 - **Kőszegi, B. & Rabin, M. (2006).** A model of reference-dependent preferences. *QJE*
   121(4): 1133–1165. doi:10.1162/qjec.121.4.1133. **FT** (skim) ·
   `papers/koszegi-2006-a-model-of-reference-dependent-preferences.txt`
@@ -567,7 +572,8 @@ described via the secondary named. Files are in `references/`. First verificatio
   decision making. In Brocas & Carrillo (eds.), *The Psychology of Economic Decisions*,
   vol. 1. **FT** · `papers/bodner-2003-self-signaling-and-diagnostic-utility.txt`
   - EDT-flavoured diagnostic utility. Discusses Newcomb experiments and naive versus
-    sophisticated selves.
+    sophisticated selves. Diagnostic utility is intrinsic, a hedonic value of self-image
+    (Remark 2 separates it from instrumental self-signaling).
 - **O'Donoghue, T. & Rabin, M. (1999).** Doing it now or later. *AER* 89(1): 103–124.
   doi:10.1257/aer.89.1.103. **ABS**
   - Present bias procrastinates immediate costs and preproperates immediate rewards.
@@ -649,8 +655,13 @@ utility above):
   - Fn. 12 (p. 915): some results hold only if discounting is not too fast relative to
     `γ`'s decay, the germ of N2's `k_n(s−r) w(r)`. Fn. 23: at `λ = 1` the model is
     observationally β–δ with `β = (1+γη)/(1+η)`, `δ = 1`, a cousin of P3.
-  - §IV, Prop. 5: the preferred personal equilibrium splits consumption iff `γ ≥ 1/λ`. A
-    different product from N4's `λκ`, in the opposite role.
+  - §IV, eq. 5 (p. 924): raising consumption above the plan is a contemporaneous gain and a
+    prospective loss, the news of one's own deviation. Def. 1: the preferred personal
+    equilibrium is the best credible plan, by backward recursion. Prop. 5: it is the equal
+    split iff `γ ≥ 1/λ`, the plan its own commitment device; below, consumption tilts to
+    the present. "This beliefs-based time inconsistency arises even though preferences in
+    our model are time consistent" (p. 925). The canonical model's choice side with echoes
+    removed (decision.md, setup). `γλ` is a different product from N4's `λκ`.
 - **Pagel, M. (2018).** A news-utility theory for inattention and delegation in portfolio
   choice. *Econometrica* 86(2): 491–522. doi:10.3982/ECTA14417. **WP** (intro, §§3.1,
   4.1–4.2) · `papers/pagel-2018-news-utility-theory-inattention-delegation-portfolio-choice-wp.txt`
@@ -1319,6 +1330,80 @@ LLM context windows (core, natural horizons):
   bias in transformers. arXiv:2502.01951. **WP** ·
   `papers/wu-2025-on-the-emergence-of-position-bias-in-transformers.txt`
   - Causal masking favours early tokens and relative positional decay favours recent ones.
+
+## Decision theory by learning (the learned-expectations extension)
+
+- **Oesterheld, C., Treutlein, J., Cooper, E. & Hudson, R. (2023).** Incentivizing honest
+  performative predictions with proper scoring rules. *UAI 2023*. arXiv:2305.17601. **WP**
+  (appendix passages) ·
+  `papers/oesterheld-2023-incentivizing-honest-performative-predictions-with-proper-scoring-rules.txt`
+  - App. C: a predictor that treats the outcome as influenced causally by its report, but
+    only acausally by the report's effect, has performatively stable equilibria;
+    performative optimality "would correspond to an agent using evidential epistemic
+    decision theory". App. D.2: repeated gradient descent is gradient descent on a
+    stop-gradient objective; meta-learning would prefer the objective without it.
+  - Pre-empts the binary half of the extension's claim: stop-gradient is stable and
+    CDT-like, full flow is optimal and EDT-like.
+- **Treutlein, J. (2023).** Stop-gradients lead to fixed point predictions. LessWrong. **FT**
+  · `web/treutlein-2023-stop-gradients-lead-to-fixed-point-predictions.md`
+- **Perdomo, J., Zrnic, T., Mendler-Dünner, C. & Hardt, M. (2020).** Performative
+  prediction. *ICML*, PMLR 119: 7599–7609. arXiv:2002.06673. **FT** ·
+  `papers/perdomo-2020-performative-prediction.txt`
+  - Performative optimality (Def. 2.1) against stability (Def. 2.3), a fixed point of
+    repeated risk minimization; neither implies the other (p. 3); the optimum is the
+    Stackelberg equilibrium, the leader committing first (§5.1).
+- **Demski, A. (2019).** Partial agency; The parable of Predict-O-Matic; Random thoughts on
+  Predict-O-Matic; Defining myopia; The credit assignment problem (and 2020, 2025 sequels).
+  LessWrong. **FT** · `web/demski-2019-*.md`, `web/demski-2020-*.md`, `web/demski-2025-*.md`
+  - Nash as `argmax_a f(a, a*)`, "sending the gradient through the first argument but not
+    the second"; "Causal decision theory is more 'partial' and evidential decision theory
+    is less so"; partial agency is what selection incentivizes by default.
+- **Demski, A. (2017).** Mixed-strategy ratifiability implies CDT=EDT. **FT** ·
+  `web/demski-2017-mixed-strategy-ratifiability-implies-cdt-edt.md` — enough self-knowledge
+  screens off the correlation channel.
+- **Mennen, A. (2018).** When wishful thinking works. **FT** ·
+  `web/mennen-2018-when-wishful-thinking-works.md` — believe the fixed point with the
+  highest expected utility.
+- **Krueger, D., Maharaj, T. & Leike, J. (2020).** Hidden incentives for auto-induced
+  distributional shift. arXiv:2009.09153. **WP** ·
+  `papers/krueger-2020-hidden-incentives-for-auto-induced-distributional-shift.txt`
+  - A myopic inner loop hides the incentive to influence one's own inputs; population-based
+    training reveals it. Q-learning at `γ = 0` against its own past action learns the
+    self-correlation channel in a third of runs.
+- **Bell, J., Linsefors, L., Oesterheld, C. & Skalse, J. (2021).** Reinforcement learning in
+  Newcomblike environments. *NeurIPS* 34: 22146–22157. **FT** ·
+  `papers/bell-2021-reinforcement-learning-in-newcomblike-environments.txt`
+  - Rewards may depend on the policy, not just the action. A value-based learner cannot
+    converge to a policy that is not ratifiable; learners valuing policies directly
+    behave evidentially.
+- **Oesterheld, C. (2018).** Doing what has worked well in the past leads to evidential
+  decision theory. **FT** ·
+  `papers/oesterheld-2018-doing-what-has-worked-well-in-the-past-leads-to-evidential-decision-theory.txt`
+- **Oesterheld, C. (2019).** Approval-directed agency and the decision theory of
+  Newcomb-like problems. *Synthese*. **FT** (CC BY) ·
+  `papers/oesterheld-2019-approval-directed-agency-and-the-decision-theory-of-newcomb-like-problems.txt`
+  - Two decision theories interact: the overseer's (in the reward) and the agent's. In the
+    extension, felt anticipation plays the overseer.
+- **Everitt, T., Leike, J. & Hutter, M. (2015).** Sequential extensions of causal and
+  evidential decision theory. arXiv:1506.07359. **WP** ·
+  `papers/everitt-2015-sequential-extensions-of-causal-and-evidential-decision-theory.txt`
+  — causal, action-evidential and policy-evidential sequential agents.
+- **Everitt, T. et al. (2021).** Reward tampering problems and solutions in reinforcement
+  learning. arXiv:1908.04734. **WP** ·
+  `papers/everitt-2021-reward-tampering-problems-and-solutions-in-reinforcement-learning.txt`
+  — belief-based rewards (§4.3); agents that do or do not model their future selves'
+  use of a changed model.
+- **Gershman, S. (2026).** Subjective functions. arXiv:2512.15948. **WP** ·
+  `papers/gershman-2026-subjective-functions.txt`
+  - Expected prediction error as reward, with the value estimate frozen ("similar to the
+    logic of target networks"); predicts avoidance of information gathering where value
+    estimates run optimistic. Theory only.
+- **Iigaya, K. et al. (2020).** The value of what's to come. *Science Advances*. **FT**
+  (CC BY) ·
+  `papers/iigaya-2020-the-value-of-whats-to-come-neural-mechanisms-coupling-prediction-error-and-the-utility-of-anticipation.txt`
+  — anticipatory utility and advance-information seeking in humans (fMRI and model).
+- Not found: an agent trained on felt utility built from its own forecasts, or emergent
+  optimism or information avoidance in trained agents.
 
 ## Anthropics and imperfect recall
 

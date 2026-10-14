@@ -135,6 +135,11 @@ Calibration anchors
 - The week: `helliwell-2011-weekends-and-subjective-well-being-nber-w17180.txt` — NBER WP of Helliwell & Wang 2014; `weigelt-2021-continuity-in-transition-recovery-and-day-of-week-perspectives-employee-energy.txt`
 - LLM context windows: `liu-2023-lost-in-the-middle-how-language-models-use-long-contexts.txt`, `hsieh-2024-found-in-the-middle-calibrating-positional-attention-bias-improves-long-context-utilization.txt`, `guo-2024-serial-position-effects-of-large-language-models.txt`, `wu-2025-on-the-emergence-of-position-bias-in-transformers.txt` — arXiv
 
+Decision theory by learning
+- `oesterheld-2023-incentivizing-honest-performative-predictions-with-proper-scoring-rules.txt`, `perdomo-2020-performative-prediction.txt`, `krueger-2020-hidden-incentives-for-auto-induced-distributional-shift.txt`, `everitt-2015-sequential-extensions-of-causal-and-evidential-decision-theory.txt`, `everitt-2021-reward-tampering-problems-and-solutions-in-reinforcement-learning.txt`, `gershman-2026-subjective-functions.txt` — arXiv
+- `bell-2021-reinforcement-learning-in-newcomblike-environments.txt`, `oesterheld-2018-doing-what-has-worked-well-in-the-past-leads-to-evidential-decision-theory.txt`, `oesterheld-2019-approval-directed-agency-and-the-decision-theory-of-newcomb-like-problems.txt`
+- `iigaya-2020-the-value-of-whats-to-come-neural-mechanisms-coupling-prediction-error-and-the-utility-of-anticipation.txt` — CC BY, Europe PMC
+
 Anthropics and imperfect recall
 - `armstrong-2011-anthropic-decision-theory-arxiv-v1.txt`, `armstrong-2017-anthropic-decision-theory-arxiv-v3.txt`
 - `elga-2000-self-locating-belief-and-the-sleeping-beauty-problem.txt`
@@ -195,6 +200,10 @@ Personal identity
 - `apprentice-2012-the-noddy-problem.md`
 - `schmied-2026-reframing-lesswrong-style-decision-theory-as-commitment-theory.md`
 - `alignment-forum-wiki-updateless-decision-theory.md`
+
+Decision theory by learning
+- `demski-2019-partial-agency.md`, `demski-2019-the-parable-of-predict-o-matic.md`, `demski-2019-random-thoughts-on-predict-o-matic.md`, `demski-2019-defining-myopia.md`, `demski-2019-the-credit-assignment-problem.md`, `demski-2020-bayesian-evolving-to-extinction.md`, `demski-2025-myopia-mythology.md`
+- `demski-2017-mixed-strategy-ratifiability-implies-cdt-edt.md`, `mennen-2018-when-wishful-thinking-works.md`, `treutlein-2023-stop-gradients-lead-to-fixed-point-predictions.md`
 
 Updatelessness and information
 - `diffractor-2018-voi-is-only-nonnegative-when-information-is-uncorrelated-with-future-action.md`

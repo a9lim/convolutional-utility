@@ -11,13 +11,44 @@ life-sum `W = Σ_t e(t)`. "Momentary hedonist" names the alternative objective `
 - Partition into past `P` and remaining life `F`. Then
   `e_F = R_F (u_F + K_{FP} e_P)`, with `R_F = (I − K_{FF})^{-1}`.
 - Let `J = ∂e_P/∂u_F`: whatever dependence of already-felt experience on the present
-  choice the decision rule recognizes. Then
+  choice the decision rule recognizes. Then, without news,
   **`∂W/∂u_F = 1_Pᵀ J + 1_Fᵀ R_F (I + K_{FP} J)`**. [standard algebra; Codex]
   - `J = 0`: fixed-past sequential choice. Weights `c_t(s) = [(I − K_{FF}ᵀ)^{-1} 1](s)`.
   - `J = J_pf`, the dependence in the full perfect-foresight solution: advance commitment,
     the planner's weights `w_T` (core P5).
   - Intermediate `J`: past anticipation tracks the present policy only as well as past
     selves could predict it. The graded case.
+- **With news (the canonical model).** A choice the past forecast did not predict
+  revises forecasts, so the deviating self feels it as news.
+  - The `J` identity above then needs two more things: the derivative of expected news
+    forcing, `1_Fᵀ R_F B` with `B = dE[N_F]/du_F`, and a statement of what happens to the
+    previous forecast, the reference, in the counterfactual. With one period, no echoes,
+    linear news and a fixed reference, `dW/du = 1/(1−n)`, not 1. [Codex]
+  - Linear news, fixed reference: a fixed-past self's weights on a deviation become
+    `c_t(s) + (1ᵀg) k_n′(s−t)`, with `g` the remaining-life column and `k_n′` the local
+    news kernel (core, the canonical model). [checked] Where `k_n′` decays, that is a
+    present bias at the deviation margin [known in kind: Kőszegi & Rabin 2009, fn. 23,
+    linear news observationally β–δ with `β = (1+γη)/(1+η)`]. It need not decay: with
+    strong anticipation and `ν` near 1 it rises (`a = 0.2, α = 0.8, m = 0, n = 0.1,
+    ν = 0.99`). [checked; Codex]
+  - Loss-averse news: deviations that move value in time are mixed revisions, with the
+    loss side charged at `λ`, so plans become reference points and can enforce
+    themselves. At kinks, use finite deviations.
+  - Choice then needs an equilibrium concept. We adopt a Kőszegi–Rabin-style preferred
+    credible plan: a plan is credible if at every date the current self prefers it to
+    every other credible continuation (their Def. 1), and the self forming the plan picks
+    the best credible one. This is a selection assumption, not implied by rational
+    forecasts. [known in kind: Kőszegi & Rabin 2009, Def. 1; eq. 5 is the news of one's own
+    deviation, Prop. 5 the plan as its own commitment device]
+  - It is not their model with echoes added. Their gain-loss compares percentiles of
+    consumption-utility distributions; ours compares conditional means of experienced
+    utility, and our news feeds back on itself even without echoes (a deterministic
+    upward revision gives `e = u/(1−n)` against `(1+n)u` for news over base utility).
+    [Codex]
+  - After the initial announcement, a deterministic equilibrium path with no further
+    information produces no further news. Under uncertainty, Bayesian forecast
+    innovations remain; at `λ > 1` they cost
+    `E[N_t] = −((λ−1)/2) Σ_j k_n(j) E|E_t[e_{t+j}] − E_{t−1}[e_{t+j}]|`. [Codex]
 
 ## Propositions
 
@@ -49,13 +80,13 @@ Geanakoplos 1996 casts Newcomb as a one-player psychological game]
   classification of decision theories.
 - Core P9 stands: under imperfect foresight, the full fixed point misdescribes realized
   experience whatever the decision theory.
-- Kőszegi–Rabin, as an analogy only:
-  - unacclimating personal equilibrium (UPE) ≈ fixed-expectations sequential choice
-    with consistency;
-  - choice-acclimating personal equilibrium (CPE) ≈ choice followed by expectations
-    adjusting, i.e. commitment timing, which a causal agent can implement;
-  - preferred personal equilibrium (PPE) = the best self-enforcing plan.
-  [known: Kőszegi & Rabin 2006 Def. 2; 2007 Defs. 1, 3]
+- Kőszegi–Rabin: the canonical model's choice side adopts a preferred-credible-plan concept
+  in their 2009 style (setup above), for a means-based model with recursive news. Their
+  2006/2007 concepts are timing variants: the unacclimating equilibrium feels a
+  deviation at consumption against a lagged reference; the choice-acclimating one lets
+  expectations adjust to the choice first, which is commitment timing. Both "buy" and
+  "not buy" can be personal equilibria (their shoe example). [known: Kőszegi & Rabin 2006
+  Defs. 1–2; 2007 Defs. 1–3; 2009 Def. 1; Kőszegi 2010 Example 1]
 
 **D3. The savoring trap.** Mechanism [known: Kőszegi 2010 §3.2 and Example 2, crediting
 Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; checked].
@@ -97,6 +128,36 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     against 16 in R.
   - The logic of sophisticated preproperation (O'Donoghue & Rabin 1999): the trap seen
     one step earlier, not a counterexample to it.
+- **In the canonical model.** Recursive echoes, felt news, Kőszegi–Rabin-style credible
+  replanning. Switching the planned date `p` to `q` at `t` changes remaining welfare by
+  `Δ_t(p→q) = v 1ᵀR_t(δ_q − δ_p) + (1ᵀg_t) N`, with `N` the felt news of the switch,
+  whatever the past. Credible plans: `C_{T−1} = {T−1}`, `A_t = {t} ∪ C_{t+1}`, and `C_t` the
+  `p ∈ A_t` with `Δ_t(p→q) ≤ 0` for every `q ∈ A_t`. At the announcement the self picks the
+  best of `{0} ∪ C_1`; the commitment benchmark is the best date given that announcement,
+  news jolt included, from a zero prior reference. 80 draws, `T = 20`. [checked; the
+  recursion is Codex's]
+
+  | news | commitment credible: pleasure | pain | mean `|C_1|`, pleasure |
+  |---|---|---|---|
+  | none | 1% | 93% | 1.0 |
+  | linear, `n = 0.3` | 53% | 86% | 1.0 |
+  | `n = 0.2, λ = 1.5` (felt calibration) | 66% | 98% | 2.6 |
+  | `n = 0.3, λ = 2` | 98% | 99% | 4.7 |
+
+  - No draw lacked a credible plan, and whenever the commitment date was credible the
+    preferred credible plan was it.
+  - Example (`a = 0.3, α = 0.7, m = 0.2, μ = 0.6, n = 0.3, ν = 0.7, λ = 2`):
+    `C_1 = {12, 13, 14}`, commitment 14; without news `C_1 = {19}` against commitment 15.
+  - Linear news can tilt deviating selves toward the present, offsetting the trap's
+    postponement. Loss aversion makes plans sticky: once a self expects the pleasure at a
+    date, waiting past it is felt as a loss, so more plans are credible and the commitment
+    optimum often among them.
+  - Neither is guaranteed. By continuity the trap survives weak news: at `n = 0.001` the
+    example still gives `C_1 = {19}` against 15, with accurate expectations. News can
+    offset postponement, and loss aversion can make expectations do the work of a
+    commitment device. [known in kind: Kőszegi & Rabin 2009, Prop. 5 and p. 925]
+  - The exact stopping conditions above are for the direct model without news, and the
+    `argmax/argmin w` commitment benchmark likewise.
 - **Commitment versus FDT.** A causal agent with a binding commitment at news time
   reaches the commitment optimum. FDT's claimed advantage is reaching it without a
   device, *if* past forecasts track the policy (D2).
@@ -118,6 +179,10 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   bilateral `r(0) = 1.215`, `β_L = 0.588`.
 - This compares boundary treatments, not a theorem about FDT. Momentary hedonists at
   different times also have different objectives.
+- With linear felt news, a deviating momentary hedonist's row gains `g_0 k_n′(h)`. Its
+  effect follows `k_n′`: more present-biased where `k_n′` decays, less where it rises (with
+  the rising-kernel parameters of the setup, the next-to-current weight ratio goes from
+  0.160 to 0.259). [Codex; checked for `k_n′`]
 
 **D5. Beliefs are welfare.** [synthesis unless marked]
 - Felt anticipation makes payoffs belief-dependent: psychological games (Geanakoplos,
@@ -128,8 +193,10 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
 - **In expectation, the truth is free.** Anticipation linear in beliefs, Bayesian
   updating: forecasts are martingales, so by the tower property expected welfare does not
   depend on whether or when information arrives. [standard: Epstein 2008 p. 1121;
-  Eliaz & Spiegler 2006 Prop. 1; Kőszegi & Rabin 2009 Prop. 2 (`γ = 1`); Bénabou 2015
-  fn. 16; Kimball & Willis 2006]
+  Eliaz & Spiegler 2006 Prop. 1; Bénabou 2015 fn. 16; Kimball & Willis 2006. Kőszegi &
+  Rabin 2009 Prop. 2 is the loss-averse cousin: at `γ = 1`, shifting signals while keeping
+  their order and grouping is neutral, while adding interim partial information can
+  hurt]
 - **Pathwise, it is not.** Good news raises `e` at once and bad news lowers it; the swings
   cancel only on average.
 - **What prices information is nonlinearity in beliefs**, not in outcomes.
@@ -221,20 +288,40 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   consistency forces linearity is open. [speculation]
 
 **D6. Reliability is worth its anticipation.** [synthesis; speculation as psychology]
-- Under rational expectations, anticipation of a plan scales with the forecast probability
-  of following through. A self known to defect whenever the moment's local value dips
-  anticipates *every* plan at a discount; a reliable self anticipates each at full value.
-- So follow-through that looks like sunk-cost reasoning is justified at the policy level.
-  The value is the anticipation that reliability earns across all plans, not the past
-  anticipation of this one: Parfit's hitchhiker inside one life.
-- Two channels. Acausal: past forecasts tracked the policy (`J ≠ 0`, D2), which a
-  fixed-past self at the moment of defection ignores. Causal: following through now
-  raises later selves' forecasts of their own reliability (self-reputation), which a CDT
-  self can count.
-- Precedent for the mechanism: Bénabou & Tirole 2004 (personal rules; lapses are
-  diagnostic of willpower, and self-confidence is an asset) and Bodner & Prelec 2003
-  (self-signaling). Their payoff is instrumental: confidence sustains future effort. The
-  hedonic payoff here, anticipation earned by being believed by yourself, was not found.
+- Under rational expectations, anticipation of a plan's reward scales with the forecast
+  probability of following through. A self known to defect whenever the moment's local
+  value dips anticipates *every* plan at a discount; a reliable self anticipates each at
+  full value. (Exact for a fixed reward component; the anticipated news in total felt
+  utility also changes with the policy.)
+- So follow-through that looks like sunk-cost reasoning can be justified at the policy
+  level. The value is the anticipation that reliability earns across all plans, not the
+  past anticipation of this one: Parfit's hitchhiker inside one life.
+- **Worked example** (canonical model, Bayesian forecasts): pay a cost at `d` to get a
+  reward `v = 3` at `s`; the cost is `c_L = 0.5`, or high (`c_H`) with probability 0.3,
+  revealed at `d`. Policies: reliable (always pay) or flaky (skip when high). Echoes
+  `a = 0.1, α = 0.8, m = 0.15, μ = 0.6`; `T = 16, s = 10`. [checked]
+  - Main case (`d = 3, ν = 0.5, c_H = 2.5`). Without news the planner prefers reliability
+    (`E[W]` 4.47 against 3.85) and it is the unique equilibrium. With `n = 0.3, λ = 2` the
+    planner still prefers it (3.92 against 3.78), but the only equilibrium is flaky:
+    skipping a near cost is felt now as good news, and the lost reward is far off, felt
+    through a decaying `k_n`. [known in kind: Kőszegi & Rabin 2009, Prop. 5, present tilt
+    when `γ < 1/λ`]
+  - Other cases (`d = 6, ν = 0.7`). Without news, fixed-past selves pay at `c_H = 3.5`,
+    where the planner would skip: their remaining-life weights favour later rewards (the
+    savoring direction). At `n = 0.2, λ = 1.5, c_H = 3` both policies are self-enforcing
+    and expectations decide.
+  - The echo channel `J` does not by itself favour reliability here: earlier selves
+    anticipate the nearer item more, so for cost-then-reward plans their anticipation
+    weighs the cost. [synthesis]
+- So felt news can create unreliability against the planner's preference, and loss
+  aversion can make either policy self-enforcing. A third channel, causal: following
+  through raises later selves' forecasts of their own reliability (self-reputation),
+  which a fixed-past self can count. [untested]
+- Precedent: Bénabou & Tirole 2004 (personal rules; lapses are diagnostic of willpower;
+  self-confidence as an asset), whose payoff is instrumental. Self-image can also be
+  hedonic: Bodner & Prelec's (2003) diagnostic utility is intrinsic, and Bénabou &
+  Tirole (2002, §I) list a consumption value of self-confidence. Not found: anticipation
+  scaled by one's own forecast probability of follow-through.
 - D3 has the same structure: past anticipation, sunk for the fixed-past self.
 - A past self having looked forward to the plan is not, by itself, a reason.
 
@@ -247,6 +334,10 @@ marked]
   `G_t` is the prior until realization.
 - **Free in linear models.** Without felt news or nonlinearity, expected welfare does not
   depend on `G` (tower property). [standard]
+- These comparisons hold the outcome process fixed. With endogenous actions, changing `G`
+  changes deviation payoffs and so which plans are credible; affect and action policies
+  must then be chosen jointly among implementable pairs, or delegation assumed binding.
+  [Codex]
 - **Which `G` is best depends on the nonlinearity.** [checked on examples]
   - R with dread or rumination asymmetry (D5): coarser `G` keeps felt states from spreading
     across zero, which is what D5's identity charges. Strict updateless affect is best in
@@ -308,7 +399,12 @@ marked]
     copy-counted total needs `bμ < 1` (D) or `b(1+m)μ < 1` (R; memory-only resolvent
     `r(−j) = (m/(1+m))((1+m)μ)^j`). Example: `b = 2, m = 1, μ = 0.3` keeps each observer
     bounded (`M = 0.43`) while the copy-counted total diverges (`b(1+m)μ = 1.2`). [checked]
-- **Under measure-weighting branching is welfare-invisible.** Forward mass is `aα/(1 − α)`,
+- **Under measure-weighting branching is welfare-invisible**, at `λ = 1`. Duplicating
+  identical branches adds no information and no news. Branches with different felt
+  outcomes are resolved like any uncertainty (core N2): with loss-averse news that costs in
+  expectation, and updateless affect (D7) can postpone or batch the news but not remove it
+  (one period, `u = ±1` equiprobable, `n = 0.2, λ = 2`: `E[e] = −1/7`). [Codex] Forward
+  mass is `aα/(1 − α)`,
   and the measure-weighted total memory of a trunk event is `m Σ μ^j`, the unbranched
   conditions exactly: it adds up to normality.
 - These are utility weights, not credences, so they are not SSA or SIA. Armstrong derives
@@ -325,6 +421,12 @@ marked]
 - The policy space must be specified, including whether randomization is drawn fresh or
   remembered (Piccione & Rubinstein).
 - Aumann, Hart & Perry dispute the planning/action inconsistency itself.
-- The ex-ante-optimal policy is compatible with CDT plus generalized thirding and with
-  EDT plus generalized double-halving (Oesterheld & Conitzer 2024). So "planning-optimal"
-  is not a uniquely FDT verdict, and no FDT claim is made here.
+- The ex-ante-optimal policy is compatible with CDT plus generalized thirding (Piccione &
+  Rubinstein 1997, Prop. 3) and with EDT plus generalized double-halving (Oesterheld &
+  Conitzer 2024, Cor. 7, their own result). "Compatible" is their term of art: acting by
+  the theory at every observation is consistent with the policy, which need not be the
+  only such policy; with a single observation, EDT with double-halving's compatible
+  policies are exactly the ex-ante-optimal ones (Cor. 8, ties remaining), CDT with
+  thirding's not. Their payoffs are an extensive-form model; utilities that depend on
+  policy-generated forecasts would need an embedding, so this is a literature comparison.
+  "Planning-optimal" is not a uniquely FDT verdict, and no FDT claim is made here.

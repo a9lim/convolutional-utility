@@ -115,3 +115,19 @@ Periodically compacted to git history.
 - Plan (a9): one merged flagship post (model, a life, beliefs, choices, selves), with the
   formalism as a technical companion; the spine is "experience echoes". Outline
   restructured into acts. Next: the decision-theory audit, then the observer model.
+- Decision-theory audit under the canonical model. A deviation from the plan past selves
+  predicted is felt as news, so choice needs a credible-plan concept; Kőszegi & Rabin 2009
+  (eq. 5, Prop. 5) already have own-deviation news and the plan as its own commitment
+  device, so the choice side adopts their preferred credible plan, credited, for a
+  means-based model with recursive news. Results: D2's deviation weights with news; the
+  savoring trap fragile under felt news; D6 reversed (echoes make selves over-reliable,
+  news can make them flaky). Codex round 4 corrected the D3 credibility test (it omitted
+  replanning between credible continuations; with the full recursion the felt-calibration
+  figure is 66%, not 78%), the "exact KR identification", "no news on the equilibrium
+  path", A1's "unless affect is updateless", a decaying-kernel claim that fails for `ν`
+  near 1, and a root-finder precision bug. A literature agent found the stop-gradient /
+  CDT, full-flow / EDT mapping published (Oesterheld et al. 2023), and that a lagged
+  self-predictor does not grade `J`.
+- The canonical self is a learner that feels its own critic: anticipation is `a(V^α − e)`,
+  linear news `(n/ν)` times a TD error. At felt calibrations, free beliefs go to N3's
+  corners, so the observer needs a tether (question to a9).

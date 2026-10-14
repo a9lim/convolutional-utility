@@ -160,8 +160,7 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
       reaction hazards.
     - Objection to answer: "Not for the Sake of Happiness (Alone)" (value is not only
       hedonic). "Doublethink" is an ally: Bénabou's cancellation formalizes it.
-- **Act III: choices.** Being re-audited under the canonical model (news makes deviations
-  from one's own plan felt).
+- **Act III: choices.**
   - **Decision theory: your past self as predictor.** (`decision.md`)
     - A choice is Newcomb-like when already-felt anticipation depends on an accurate
       prediction of it (D1). *synthesis*
@@ -171,17 +170,24 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
       - `J = J_pf` is advance commitment, i.e. the planner.
       - FDT and EDT pick `J` by their own dependence theories. Neither equals the planner
         by default.
-      - Economists' commitment and personal-equilibrium tools line up with this
-        (Kőszegi–Rabin).
-    - The savoring trap (D3). Selves sharing the life-sum objective, with the past held
-      fixed, push pleasures toward the unremembered end and hurry pains. Mechanism
-      *standard* (Kőszegi 2010; Caplin & Leahy 2001). Exact stopping conditions *not
-      found*. The exceptions are sophisticated preemption.
+    - With felt news, deviating from the plan your past selves predicted is itself felt
+      as news, so plans become reference points. Choice needs a credible-plan concept;
+      adopt Kőszegi–Rabin's preferred credible plan, credited, for a means-based model
+      with recursive news. *known in kind*
+    - The savoring trap (D3). Without news, selves sharing the life-sum objective with the
+      past held fixed push pleasures toward the unremembered end and hurry pains.
+      Mechanism *standard* (Kőszegi 2010; Caplin & Leahy 2001); exact stopping conditions
+      *not found*; the exceptions are sophisticated preemption.
+      - With felt news it is fragile: the commitment plan is credible in 1% of draws
+        without news, 66% at felt calibration, 98% with strong loss aversion.
+        Expectations can do a commitment device's work, but weak news keeps the trap.
+        *checked*
     - Its sign is opposite to present bias's preproperation. Savoring delay and
       procrastinated pleasures have rival explanations. *speculation*
-    - Reliability is worth its anticipation (D6). A flaky self anticipates every plan at a
-      discount, so follow-through pays across all plans. Parfit's hitchhiker inside one
-      life.
+    - Reliability (D6). Anticipation scales with forecast follow-through, so flakiness
+      discounts every plan. But in the model the echoes alone make selves over-reliable
+      about delayed rewards; felt news is what can make them flaky against their own
+      interest. *checked on examples*
 - **Coda: selves.**
   - **Anthropics.** (`decision.md` A1–A2) *synthesis*
     - Anticipation is a forecast, so it is measure-weighted. Doom branches count as zero,
