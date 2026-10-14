@@ -71,3 +71,40 @@ Periodically compacted to git history.
   short/long, soft/hard boundaries) and read compaction as a change of agent with memory
   and anticipation held across; recorded with the Parfit mapping (connectedness = direct
   kernel, continuity = resolvent).
+- Pre-writing lookover for Post 1 (a9): canonical audit, Codex round 3, a prior-art pass,
+  calibration.
+  - Codex round 3 (gpt-6-astra) found no broken calculation in the echo math but several
+    overclaims, all adopted. The forecast convention was never stated (`pathwise.py` used
+    surprise-only forecasts, the N4 checks Bayesian ones). The reduced form holds only for
+    foreseen lives, because a surprise misses the anticipation paths. "Bad news has no felt
+    state, good news two" holds only just past the threshold, and the second state is
+    unstable. P1(d) and the context-window bullet confused finite-life existence with
+    uniform boundedness. Batching is not unconditional. Peak-end weights are resolvent
+    rows. `pathwise.py`'s bisection could miss its bracket; replaced by exact roots, with
+    output unchanged to 5e-15.
+  - New, checked: the half-line threshold `κ = (n/H)(1−νμ)/(1−νq)` (Codex verified it
+    independently); N3 in the canonical model, where a calibrated Bayesian is already
+    braced and the loop amplifies loss aversion; D5's exact identity, with the straddle
+    condition and rumination pricing information too.
+  - Prior art: Andries & Haddad 2020 and Dillenberger 2010 have the recursive-kink
+    mechanism behind clumping, in ex-ante form; dread-of-dread is a concave Kreps–Porteus
+    aggregator in structure; Sáez-Martí & Weibull's eqs. 15–17 are the calibration
+    inversion; Pagel's `γβ^τ` is the news kernel; Kimball & Willis's `θψ < 1` is a
+    sufficient condition with `ψ` a processing factor; Lim et al. 2020 has
+    recency-without-peak from linear fading. Corrected: Cosaert & Potoms grid-searched
+    their parameters rather than estimating them; Pagel 2017's text and table differ.
+  - Calibration: default sets for a waking day and a life. Echo is about 30% of
+    experience, and the momentary felt row is nearly myopic (`β ≈ 0.06`).
+  - The first literature agent died at its first step on an API filter error and was
+    relaunched with a leaner brief.
+  - Codex round 3b verified canonical N3 (adding `W″ < 0`: the interior optimum is global)
+    and D5's identity, and caught the new root finder missing a root on an interval's end
+    (fixed, with regression checks), "bounded gain-loss gives bistability" (only over a
+    range of shocks), degenerate mixed revisions with a continuum of roots, a reveal time
+    after realization in the D5 check, and "deep bracing" near the threshold (it is the
+    felt reference that sinks, not the belief bias). The anticipation anchors give
+    lag-specific weights, not masses, so the defaults are illustrative; the peak-end row
+    identifies memory's primitives but not anticipation's.
+  - The retried agent found Bernheim & Thomadsen's 2004 draft: partial prior art for D1
+    (anticipation felt after the choice, dependence through self-inference). Bergstrom 1999
+    has only the nearest-neighbour case, so P4 stands; Hori 1992 stayed paywalled.

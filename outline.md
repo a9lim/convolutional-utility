@@ -24,10 +24,15 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
   memory of experienced utility, plus felt news about it (core, the canonical model).
   *synthesis*
   - Present it in full, with the coefficient table: what `a, α, m, μ, n, ν, λ` each
-    do, and the two conditions (`M < 1`, `λ(k_n·g) < 1`).
-  - The direct form is its reduced form, mentioned as an equivalent model under
-    reparametrization (P2, N4); recursion stretches anticipation's reach and makes news
-    about further-off events felt more.
+    do, and the two conditions (`M < 1`; `λκ < 1`, closed form `κ = (n/H)(1−νμ)/(1−νq)`).
+    Forecasts are rational, expected news included.
+  - The direct form is its reduced form for foreseen lives, an equivalent model under
+    reparametrization (P2); recursion stretches anticipation's reach and makes news about
+    further-off events felt more. A surprise is an information boundary: it misses the
+    anticipation paths, so recursion has content even on an infinite line.
+  - Calibrated per horizon (a waking day, a life): echo is about 30% of experience,
+    recursion stretches reach by a fifth, and the momentary self's felt row is nearly
+    myopic (`β ≈ 0.06`). Patience is not felt echo. *synthesis*
   - An agent that cares only about the next and previous moments already acts on its whole
     life, exponentially (P2).
   - Well-foundedness favours light-tailed primitives, and recursion still delivers
@@ -77,7 +82,13 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
     it is not: bad news hurts now.
   - What prices information is nonlinearity in beliefs. Dread outweighing savoring does
     it only in the recursive model, where you anticipate your own future dread.
-    *not found; checked*
+    - Exact identity: the cost is the dread excess times the life-weighted expected
+      negative part of anticipated felt states (felt news aside). It bites only when
+      information moves a felt state across zero; heavier memory of bad states
+      (rumination) prices information the same way. *proved; direction checked on
+      examples*
+    - Credit the structure to Kreps–Porteus (a concave aggregator prefers late
+      resolution); the felt-flow form and the direct/recursive contrast are ours.
   - The delusional optimist feels better than the realist on the same base utility, if
     unaware. Prior art: Brunnermeier & Parker's optimal expectations.
   - A sophisticated near-Bayesian gains nothing from self-deception: doubt spoils the
@@ -86,21 +97,30 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
     when forecasts change, realization included. One term prices optimism and
     information.
     - News is a schedulable pain: its cost is its size times the life weight `w(r)`.
-      Feel it clumped, early if news about the far future is felt less.
+      Clumping helps at equal weights, early helps when news about the far future is felt
+      less; the schedule trades them off. Credit Andries & Haddad (recursive
+      disappointment aversion prefers single-date revelation) and Kőszegi–Rabin.
     - Optimism pays iff anticipation mass beats remembered, loss-weighted
       disappointment: optimism for long-awaited events, bracing for short-notice ones.
       Credit Gollier & Muermann (the model) and van Dijk et al. (the timing claim);
       bracing is documented, its hedonic payoff is not (Golub, Gilbert & Wilson).
+    - In the canonical model a calibrated Bayesian is already braced: the forecast of how
+      the event will feel contains the expected disappointment, so realized news is more
+      often relief. The news loop amplifies loss aversion; near the threshold the felt
+      reference sinks while the optimal belief bias stays bounded. *not found; checked*
     - News over experienced utility (N4): good news about far events is felt now,
       because tomorrow you'll be looking forward; cancelling a plan costs the
-      anticipation too. Needs `λ(k_n·g) < 1`, and beyond it bad news has no felt state:
-      a despair spiral. *checked; reading speculative.* Credit Kimball & Willis (elation
-      over lifetime-utility news, solved simultaneously, the same threshold) and the
-      bistability models of depression and panic.
+      anticipation too. Needs `λκ < 1`. Memory feeds the loop and anticipation does not.
+      Just past it, bad news has no felt state (the loop runs away) and good news has a
+      tipping point; bounded gain-loss can give a stable low state over a range of shocks,
+      bistability. *proved; reading speculative.* Credit Kimball & Willis (elation over
+      lifetime-utility news, solved simultaneously, a sufficient version of the threshold)
+      and the bistability models of depression and panic.
     - The 2×2, echoes × news: the echo axis carries remembered excitement, present bias and
       dread-of-dread; the news axis carries the jolt, the cost of cancellation and the
       despair threshold. Linear, all four are one model. Regime choice is open (a9).
-    - Recursion has content exactly where the model is nonlinear. *synthesis*
+    - Recursion has content at the boundaries of a life and of information, and under
+      nonlinearity. *synthesis*
   - Recollection news, the mirror of news: felt changes in how the past is remembered.
     Forecasts meet their realization, recollections only meet reminders, so rosy bias is
     cheaper backward. Rationalization may live mostly on the memory side.
@@ -114,13 +134,14 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
     information flow.
     - A hedonic agent picks an action policy and an affect policy. Good's theorem and
       updatelessness govern the first only.
-    - Strict updateless affect (feel by the prior) is optimal against dread-of-dread;
-      against loss-averse news the optimum is batching.
+    - Strict updateless affect (feel by the prior) is best against dread-of-dread in every
+      case checked (no theorem yet); against loss-averse news the optimum is a weighted
+      schedule, batching where weights are equal.
     - Updateless action is what makes it feasible: once a policy acts for you, you can
       stop watching.
     - P(doom): act on the forecast, feel it in batches. *speculation as psychology*
     - Credit Pagel (the formal case: ignore the portfolio, delegate, commit to
-      inattention) and Soares ("Detach the grim-o-meter"; "Simply locate yourself", the
+      inattention), Andries & Haddad (alerts and delegation) and Soares ("Detach the grim-o-meter"; "Simply locate yourself", the
       updateless structure, which ties back to measure-weighting in the anthropics coda).
   - LessWrong precedents to credit: Raemon on the Litany of Gendlin; jimrandomh's
     utility-of-belief example; Yudkowsky on pleasant surprises; Bostrom's psychological
@@ -154,16 +175,19 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
   - Under measure-weighting, branching is welfare-invisible: it adds up to normality.
   - Utility weights, not SSA/SIA credences.
   - A context window as a life: hard boundaries both ends, retrieval-style memory that need
-    not fade (well-founded only for short contexts or weak echo), and instances as A1's
-    tree. *speculation*
+    not fade (U-shaped use of context; echo compounds unless per-step echo is weak), and
+    instances as A1's tree. *speculation*
 - **Utilitarian corollaries.** *synthesis / speculation*
   - Forgotten pain counts less, but not zero (Parfit's amnesia case; Lee 2022; Shardlow
     2025).
   - Interpersonal kernels are Bergstrom systems, with the double-counting debate
     attached. Total-empathy mass must be < 1.
 - **Identity.** The model needs none: kernel weight links moments, whatever agent they
-  belong to. Parfit's connectedness is the direct kernel, continuity the resolvent.
-  Compaction and sleep are soft boundaries crossed by memory and anticipation. *synthesis*
+  belong to. Parfit's connectedness is the direct kernel, continuity the resolvent, as an
+  analogy: Parfit's continuity is all-or-nothing over thresholded links, and the resolvent
+  grades it. Parfit proposed discounting by connectedness (Bartels & Rips find rated
+  connectedness predicts patience). Compaction and sleep are soft boundaries crossed by
+  memory and anticipation. *synthesis*
 - **The shape-of-a-life debate.**
   - Take Brown's explaining-away horn openly.
   - Velleman's narrative view is the foil.

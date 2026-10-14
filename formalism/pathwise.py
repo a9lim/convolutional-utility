@@ -1,13 +1,16 @@
 """Pathwise simulation of the recursive model with felt news (core.md, felt news).
 Run: python formalism/pathwise.py [out.png]
 
-Deterministic announcements. At each t the self solves for its felt e_t and its forecast path x of e on
-[t, T), given current forecasts of u, realized past e, and its previous forecast path. Forecasts are
-certainty-equivalent: later selves are forecast to receive no further news (no anxiety term).
+Unforeseen announcements: each announcement is a surprise the self gave no probability to, so its
+forecasts carry no anticipated news (no anxiety term). The canonical model's Bayesian forecasts include
+anticipated news; the two agree at lam = 1 (core.md, the canonical model). At each t the self solves for
+its felt e_t and its forecast path x of e on [t, T), given current forecasts of u, realized past e, and
+its previous forecast path.
     x = u_hat[t:] + A x + mem_past + s e_0,   s = felt news at t
 over="u": s = sum_j kn(j) phi(u_hat_{t+j} - u_prev_{t+j})        news over base utility
 over="e": s = sum_j kn(j) phi(x_j - x_prev_{t+j}), a 1-D root     news over experienced utility
-The root is unique iff lam * (kn . g) < 1, with g = (I - A)^{-1} e_0 (core N4)."""
+The root is unique and stable for every revision iff lam * (kn . g) < 1, with g = (I - A)^{-1} e_0
+(core N4); roots are found exactly, interval by interval, since h is piecewise linear."""
 import sys
 
 import numpy as np
@@ -27,6 +30,34 @@ def forecast_u(T, base, events, t):
         if s <= t or (ann is not None and ann <= t):
             u[s] += v
     return u
+
+
+def news_root(d, g, kn, lam):
+    """Largest root of h(s) = s - sum_j kn_j phi(d_j + s g_j): exact, since h is linear between kinks.
+    Each linear piece (finite intervals and the two rays) is solved and its root kept if it lies
+    in the piece, endpoints included."""
+    phi = lambda x: np.where(x >= 0, x, lam * x)
+    h = lambda s: s - kn @ phi(d + s * g)
+    br = np.unique(-d[g > 1e-15] / g[g > 1e-15])
+    lo, hi = (br[0], br[-1]) if br.size else (0.0, 0.0)
+    pieces = [(-np.inf, lo)] + list(zip(br[:-1], br[1:])) + [(hi, np.inf)]
+    roots = []
+    for l, r in pieces:
+        a = l if np.isfinite(l) else r - 1.0          # two points inside the piece
+        b = r if np.isfinite(r) else l + 1.0
+        ha, hb = h(a), h(b)
+        if ha == hb:
+            if ha == 0:
+                roots.append(b if np.isfinite(r) else a)
+            continue
+        s = a - ha * (b - a) / (hb - ha)
+        if l - 1e-12 * (1 + abs(l)) <= s <= r + 1e-12 * (1 + abs(r)):
+            roots.append(s)
+    if not roots:
+        raise RuntimeError("no felt state: bad news past the threshold")
+    s = max(roots)
+    assert abs(h(s)) < 1e-9 * (1 + abs(s)), "root residual"
+    return s
 
 
 def run(T, base, events, kf, kb, kn, lam, over):
@@ -55,12 +86,7 @@ def run(T, base, events, kf, kb, kn, lam, over):
             loop[t] = lam * (kn[:n] @ np.abs(g))
             if loop[t] >= 1:
                 raise RuntimeError(f"news over e not well-founded at t={t}: lam (kn . g) = {loop[t]:.3f}")
-            h = lambda s: s - kn[:n] @ phi(x0 + s * g - x_prev[t:])
-            lo, hi = -1e3, 1e3
-            for _ in range(200):
-                mid = (lo + hi) / 2
-                lo, hi = (mid, hi) if h(mid) < 0 else (lo, mid)
-            s = (lo + hi) / 2
+            s = news_root(x0 - x_prev[t:], g, kn[:n], lam)
         x = x0 + s * g
         e[t] = x[0]
         comp["base"][t] = uh[t]

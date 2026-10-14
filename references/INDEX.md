@@ -11,17 +11,19 @@ marked as such; check licences before redistributing. Annotations live in
 
 Precursors
 - `bergstrom-1987-systems-benevolent-utility-interdependence.txt` — WP of Bergstrom 1999
+- `bergstrom-1999-systems-of-benevolent-utility-functions-jpet.txt` — typeset accepted version (eScholarship); operators garbled in the text layer
 - `caplin-2000-the-social-discount-rate-nber-w7983.txt` — WP of Caplin & Leahy 2004
 - `ray-2024-past-and-future-backward-forward-discounting.txt` — Ray, Vellodi & Wang, JEEA
 - `hersch-weltman-2022-a-new-well-being-atomism.txt`
 - `cosaert-2024-anticipating-remembering-experiencing-selves.txt`
-- `knight-2014-memory-and-anticipation-oxford-dp721.txt`
+- `knight-2014-memory-and-anticipation-new-empirical-support-for-an-old-theory-of-the-utility-function-oxford-dp721.txt`
 
 Recursion and altruism
 - `saez-marti-2002-discounting-and-future-selves-wp575.txt` — WP of Sáez-Martí & Weibull 2005
 - `galperti-2017-a-theory-of-intergenerational-altruism-preprint.txt`
 - `heifetz-2023-affective-interdependence-and-welfare.txt`
 - `shinotsuka-2002-interdependent-utility-functions-intergenerational.txt`
+- `borovicka-2019-necessary-and-sufficient-conditions-for-existence-and-uniqueness-of-recursive-utilities-arxiv.txt` — arXiv version of Borovička & Stachurski 2020
 
 Anticipatory and memory utility
 - `loewenstein-1987-anticipation-and-valuation-of-delayed-consumption.txt`
@@ -29,7 +31,7 @@ Anticipatory and memory utility
 - `baucells-2016-temporal-profiles-of-instant-utility-aer.txt` — Baucells & Bellezza, Mgmt Sci 2017
 - `gilboa-2016-memorable-consumption-wp.txt`
 - `minardi-2023-time-for-memorable-consumption.txt`
-- `kimball-2006-utility-and-happiness-paper-mar2006.txt`, `kimball-2006-utility-and-happiness-slides.txt`
+- `kimball-2006-utility-and-happiness-paper-mar2006.txt`, `kimball-2006-utility-and-happiness-slides.txt`; `kimball-2023-utility-and-happiness-nber-w31707.txt` — later NBER WP
 - `frederick-2002-time-discounting-and-time-preference-review.txt`
 
 Decision theory
@@ -41,6 +43,7 @@ Decision theory
 - `geanakoplos-1996-hangmans-paradox-and-newcombs-paradox-as-psychological-games.txt` — decoded font shift; ligatures lost
 - `battigalli-2009-dynamic-psychological-games.txt`
 - `bodner-2003-self-signaling-and-diagnostic-utility.txt`
+- `bernheim-2004-memory-and-anticipation-author-draft-july2004.txt` — author draft of Bernheim & Thomadsen 2005, via Wayback
 - `golman-2017-information-avoidance.txt`
 
 Timing of pleasures and pains
@@ -88,6 +91,11 @@ Recursive gain-loss
 - `skiadas-1998-recursive-utility-and-preferences-for-information.txt`
 - `routledge-2003-generalized-disappointment-aversion-and-asset-prices-nber-w10107.txt` — WP of Routledge & Zin 2010
 - `artstein-avidan-2015-dynamic-disappointment-aversion-wp.txt` — WP
+- `andries-2017-information-aversion-nber-w23958.txt` — NBER WP of Andries & Haddad 2020
+- `dillenberger-2009-preferences-for-one-shot-resolution-of-uncertainty-and-allais-type-behavior-penn-wp09-033.txt` — WP of Dillenberger 2010
+- `koszegi-2003-health-anxiety-and-patient-behavior.txt`
+- `caplin-2003-aids-policy-and-psychology-a-mechanism-design-approach.txt` — JSTOR-stamped copy on a co-author's page
+- `schweizer-2017-optimal-revelation-of-life-changing-information-kit-wp.txt` — WP of Schweizer & Szech 2018
 
 Recollection and motivated memory
 - `mitchell-1997-temporal-adjustments-in-the-evaluation-of-events-the-rosy-view-abs.txt`, `walker-1997-autobiographical-memory-unpleasantness-fades-faster-than-pleasantness-abs.txt`, `walker-2003-life-is-pleasant-and-memory-helps-to-keep-it-that-way-abs.txt`, `sedikides-2020-in-human-memory-good-can-be-stronger-than-bad-abs.txt` — abstracts
@@ -120,8 +128,12 @@ Calibration anchors
 - `dargembeau-2011-frequency-characteristics-and-functions-of-future-oriented-thoughts-in-daily-life.txt`, `barsics-2016-frequency-characteristics-and-perceived-functions-of-emotional-future-thinking-in-daily-life-author-version.txt`, `stawarczyk-2011-mind-wandering-phenomenology-and-function-as-assessed-with-a-novel-experience-sampling-method-author-version.txt`
 - `kumar-2014-waiting-for-merlot-anticipatory-consumption-of-experiential-and-material-purchases.txt`, `nawijn-2010-vacationers-happier-but-most-not-happier-after-a-holiday.txt`, `kuhnel-2011-how-long-do-you-benefit-from-vacation-a-closer-look-at-the-fade-out-of-vacation-effects.txt`, `de-bloom-2009-do-we-recover-from-vacation-meta-analysis-of-vacation-effects-on-health-and-well-being.txt`
 - `caruso-2008-a-wrinkle-in-time-asymmetric-valuation-of-past-and-future-events.txt`; `van-boven-2007-looking-forward-looking-back-anticipation-is-more-evocative-than-retrospection-abs.txt`, `finnbogadottir-2013-involuntary-future-projections-are-as-frequent-as-involuntary-memories-but-more-positive-abs.txt` — abstracts
-- `rutledge-2014-a-computational-and-neural-model-of-momentary-subjective-well-being-abs.txt`, `rutledge-2015-dopaminergic-modulation-of-decision-making-and-subjective-well-being-abs.txt` — abstracts
+- `rutledge-2014-a-computational-and-neural-model-of-momentary-subjective-well-being.txt` — author-hosted full text (main text); `rutledge-2014-a-computational-and-neural-model-of-momentary-subjective-well-being-abs.txt`, `rutledge-2015-dopaminergic-modulation-of-decision-making-and-subjective-well-being-abs.txt` — abstracts
 - `vanhasbroeck-2021-testing-a-computational-model-of-subjective-well-being-replication-of-rutledge-2014-author-version.txt`, `blain-2020-momentary-subjective-well-being-depends-on-learning-and-not-reward.txt`, `forbes-2024-the-effect-of-reward-prediction-errors-on-subjective-affect-depends-on-outcome-valence-and-decision-context-accepted-manuscript.txt`
+- `de-bloom-2010-effects-of-vacation-from-work-on-health-and-well-being-lots-of-fun-quickly-gone.txt`, `bryson-2013-are-you-happy-while-you-work-lse-cep-dp1187.txt` — DP of Bryson & MacKerron 2017
+- Emotional inertia: `kuppens-2010-feelings-change-accounting-for-individual-differences-in-the-temporal-dynamics-of-affect.txt`, `vansteelandt-2016-a-mixed-model-to-disentangle-variance-and-serial-autocorrelation-in-affective-instability-ema.txt`, `brose-2015-emotional-inertia-contributes-to-depressive-symptoms-beyond-perseverative-thinking.txt`
+- The week: `helliwell-2011-weekends-and-subjective-well-being-nber-w17180.txt` — NBER WP of Helliwell & Wang 2014; `weigelt-2021-continuity-in-transition-recovery-and-day-of-week-perspectives-employee-energy.txt`
+- LLM context windows: `liu-2023-lost-in-the-middle-how-language-models-use-long-contexts.txt`, `hsieh-2024-found-in-the-middle-calibrating-positional-attention-bias-improves-long-context-utilization.txt`, `guo-2024-serial-position-effects-of-large-language-models.txt`, `wu-2025-on-the-emergence-of-position-bias-in-transformers.txt` — arXiv
 
 Anthropics and imperfect recall
 - `armstrong-2011-anthropic-decision-theory-arxiv-v1.txt`, `armstrong-2017-anthropic-decision-theory-arxiv-v3.txt`
@@ -139,6 +151,7 @@ Welfare
 - `bergstrom-2004-benefit-cost-in-a-benevolent-society-wp.txt`
 
 Shape of a life
+- `dorsey-2015-the-significance-of-a-lifes-shape.txt` — KU ScholarWorks
 - `velleman-1991-well-being-and-time.txt`
 - `brown-2019-additive-value-and-the-shape-of-a-life.txt`
 - `hersch-weltman-2024-not-the-slope-that-matters.txt`
@@ -161,10 +174,17 @@ Psychology
 - `diener-2001-end-effects-of-rated-life-quality-james-dean-effect.txt` — third-party copy of the published article
 - `griffin-gonzalez-2013-endowment-contrast-model.pdf` / `.txt` — OCR partly garbled
 - `bryant-2021-progress-and-future-directions-on-savoring.txt`
+- `lim-2020-retrospective-evaluation-of-sequential-events-and-preference-dependent-working-memory.txt` — peak-end from forgetting rates
+
+Personal identity
+- `bartels-2010-psychological-connectedness-and-intertemporal-choice.txt` — journal layout, author page
+- `bartels-2010-on-intertemporal-selfishness-jcr-forthcoming-draft.txt` — author draft of Bartels & Urminsky 2011; `bartels-2010-impatience-as-intertemporal-egoism-cogsci-proceedings.txt` — precursor
+- `lay-2019-why-parfits-psychological-criterion-does-not-work-as-a-personal-identity-theory.txt`
 
 ## web/
 
 - `luper-2026-sep-death.md` — SEP "Death", §5.2 Lucretius
+- `dufner-2025-sep-personal-identity-and-ethics.md`, `olson-2002-sep-personal-identity.md` — SEP
 - `bostrom-2002-anthropic-bias-ch10-observation-selection-theory.md`
 - `armstrong-2011-anthropic-decision-theory-i-sleeping-beauty-and-selflessness.md`
 - `armstrong-2011-anthropic-decision-theory-iv-solving-selfish-and-average.md`

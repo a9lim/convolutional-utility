@@ -22,7 +22,8 @@ life-sum `W = Σ_t e(t)`. "Momentary hedonist" names the alternative objective `
 ## Propositions
 
 **D1. When a choice is Newcomb-like.** [synthesis; nearest prior art Bernheim & Thomadsen
-2005, unread (abstract: anticipatory emotions plus imperfect memory resolve Newcomb);
+2005, partial: anticipation felt *after* the choice, with forgetting making the recalled
+action signal the prediction (Thm. 1), so their dependence is causal self-inference;
 Geanakoplos 1996 casts Newcomb as a one-player psychological game]
 - A choice has Newcomb structure when an earlier, *already-experienced* payoff (felt
   anticipation) depends on a sufficiently accurate prediction of the later decision
@@ -30,7 +31,9 @@ Geanakoplos 1996 casts Newcomb as a one-player psychological game]
 - The earlier self is a natural predictor but not automatically a good one. Forecasts
   can come from habit, a promise, a mistaken self-model, or less information.
 - Memory changes what the chooser *knows* about the earlier payoff, not the dependence
-  itself.
+  itself. Bernheim & Thomadsen's route is the other one: imperfect memory creates a
+  dependence of *later* anticipation on the choice, through what the remembered action
+  reveals.
 
 **D2. Decision rules as choices of `J`.** [synthesis]
 - **CDT**: `J = 0`.
@@ -132,12 +135,36 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
 - **What prices information is nonlinearity in beliefs**, not in outcomes.
   - Utility concave in the posterior gives information aversion, convex gives seeking.
     [known: Eliaz & Spiegler 2006 Remark 1, two states, "not an original result";
-    Bénabou & Tirole 2002 §V.B; on LessWrong, jimrandomh 2011]
+    Bénabou & Tirole 2002 §V.B; one-shot anticipatory models: Kőszegi 2003, Caplin & Eliaz
+    2003, Schweizer & Szech 2018; on LessWrong, jimrandomh 2011]
   - Dread outweighing savoring as a *kernel on outcomes* keeps anticipation linear in
     beliefs, so in the direct model information timing stays neutral. [checked]
-  - In the recursive model it does not: a self anticipates its own later *felt
-    forecasts*, so the asymmetry lands on a belief, and earlier information lowers
-    expected welfare. Recursion has content here. [not found; checked]
+  - In the recursive model it does not: a self anticipates its own later *felt states*,
+    which contain later forecasts, so the asymmetry lands on a belief. Recursion has
+    content here. [known in structure: a concave Kreps–Porteus aggregator prefers late
+    resolution (Skiadas 1998, Prop. 1; Epstein 2008); Caplin & Leahy (2001, fn. 12) note
+    that Kreps–Porteus leaves the assignment of utility across periods open, which the
+    kernels fill. The felt-flow form, the D/R contrast and the identity below were not
+    found. checked]
+  - **Exact accounting.** Give the echo strengths a sign: savoring `a⁺` and dread `a⁻`
+    forward, `m⁺` and `m⁻` back, an extension of the canonical equation separate from
+    news's `λ`. With Bayesian forecasts and felt news switched off,
+    `E[W] = W_sym − Σ_t w_t [(a⁻−a⁺) Σ_j α^j E[X_{t+j}⁻] + (m⁻−m⁺) Σ_j μ^j E[X_{t−j}⁻]]`,
+    with `w` the life weights of the `(a⁺, m⁺)` kernel (1 in D) and `W_sym` its welfare.
+    [proved; checked]
+    - D: `X = u`. The negative parts do not depend on information, so timing is neutral.
+    - R: `X = e`. Timing matters only if information moves some felt state across zero.
+      With experienced utility positive throughout, dread asymmetry costs nothing however
+      information arrives. [proved; checked; Codex's three-period example agrees]
+    - Which way it cuts is not in the identity. In every example checked, earlier
+      information spreads felt states and raises their expected negative part, so later
+      revelation is better. [checked on examples]
+    - Rumination prices information too: with bad felt states remembered more heavily
+      (`m⁻ > m⁺`), the worry early news causes is remembered. Two periods, linear
+      anticipation 0.2, `m⁺ = 0.1`, `m⁻ = 0.3`, terminal `u = ±1`: early revelation costs
+      0.026 against revelation at realization. [checked; Codex]
+    - With canonical news kept, its forcing `wᵀE[N]` enters too, and a symmetric baseline
+      solved separately has different endogenous news; compare at fixed news forcing.
   - Other routes to avoidance: loss-averse news utility (core N2; Kőszegi & Rabin 2009
     Props. 1–4: partial information hurts, clumped information helps; Pagel 2018:
     inattention), and chosen beliefs with linear anticipation (Brunnermeier & Parker 2005
@@ -161,7 +188,9 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     (core N2–N3) supplies both the price of optimism (the news at realization) and a price
     on information. Disappointment is first-order, so the sign of the hedonically optimal
     bias depends on anticipation mass against remembered, loss-weighted disappointment:
-    optimism for long-awaited events, bracing otherwise.
+    optimism for long-awaited events, bracing otherwise. In the canonical model the felt
+    forecast already contains the expected disappointment, so a calibrated Bayesian is
+    already braced (core N3).
 - **Rationalization as hedonic arbitrage.** [speculation]
   - Updating less on bad news keeps anticipation high now and moves the cost into later
     disappointment or decisions.
@@ -209,19 +238,24 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
 - D3 has the same structure: past anticipation, sunk for the fixed-past self.
 - A past self having looked forward to the plan is not, by itself, a reason.
 
-**D7. Affect policies and updateless affect.** [known in kind: Pagel 2018; the framing
-against Good's theorem and updatelessness is synthesis; speculation where marked]
+**D7. Affect policies and updateless affect.** [known in kind: Pagel 2018; Andries & Haddad
+2020; the framing against Good's theorem and updatelessness is synthesis; speculation where
+marked]
 - **Two policies.** Actions are measurable with respect to the agent's information `F_t`.
   Felt forecasts and felt news are computed on an *affect filtration* `G_t ⊆ F_t`, coarser
   or delayed. Realized base utility is felt when it happens. Strict **updateless affect**:
   `G_t` is the prior until realization.
 - **Free in linear models.** Without felt news or nonlinearity, expected welfare does not
   depend on `G` (tower property). [standard]
-- **Which `G` is best depends on the nonlinearity.** [checked]
-  - R with dread asymmetry (D5): the coarsest `G`. Strict updateless affect is optimal.
-  - Loss-averse felt news (core N2): *batching*. Feel each body of news once it is
-    complete, at the time where `k_n(s−r) w(r)` is lowest — usually as soon as the picture
-    is complete. Strict updateless affect is optimal only if realization is that time.
+- **Which `G` is best depends on the nonlinearity.** [checked on examples]
+  - R with dread or rumination asymmetry (D5): coarser `G` keeps felt states from spreading
+    across zero, which is what D5's identity charges. Strict updateless affect is best in
+    every example checked. A general comparison theorem is open: felt states under a
+    coarser `G` are not simply conditional expectations of those under `F`.
+  - Loss-averse felt news (core N2): a weighted scheduling problem. Subadditivity favours
+    feeling news in batches; decaying `k_n` favours feeling far-off news early; the optimum
+    trades them off, and neither rule dominates (core N2's counterexample). Strict
+    updateless affect is optimal only if realization is the cheapest time.
 - **The split in decision-theory terms.** Good's theorem and updatelessness concern the
   action policy, where information is ignorable. The affect policy is where information
   costs (KSS's cost-free half). A hedonic agent chooses both, and Good's theorem says
@@ -230,16 +264,19 @@ against Good's theorem and updatelessness is synthesis; speculation where marked
   one does not attend to: delegation, rules executed without fresh deliberation, long
   evaluation periods. Once a policy is acting for you, you can stop watching. Pagel's
   news-utility investor is the formal case: he prefers to ignore his portfolio, pays a
-  manager to rebalance for him, and would like to commit to inattention.
+  manager to rebalance for him, and would like to commit to inattention. Andries & Haddad
+  (2020) find the same under recursive disappointment aversion: state-dependent alerts
+  after sharp drops raise welfare, and delegation cannot always shield the agent, because
+  observed consumption reveals wealth (NBER WP, Prop. 5, pp. 23–24).
 - **Not belief choice.** Beliefs stay accurate, so this is not Brunnermeier & Parker, and
   Bénabou's self-doubt cancellation does not bite. Whether affect can come apart from
   belief within one mind is open; attention and delegation are the known routes. Not
   found as a formal object on LessWrong; HonoreDB (2011) pins *belief* at the prior, a
   different split. Informal precedents below.
 - **Example: P(doom).** A high forecast lowers felt anticipation, but that level effect is
-  neutral ex ante in the linear model. Following every update piecemeal is pure expected
-  loss when `λ > 1`. The hedonic prescription: settle a policy, act on it, and feel the
-  forecast in batches. [speculation as psychology]
+  neutral ex ante in the linear model. Following every update piecemeal costs more than
+  batching at equal weights when `λ > 1`. The hedonic prescription: settle a policy, act on
+  it, and feel the forecast in batches. [speculation as psychology]
 - **Informal precedents on LessWrong.** None batches or feels by a prior, but each splits
   affect from action.
   - Soares, "Detach the grim-o-meter" (2015): stop calibrating the grim-o-meter against

@@ -8,7 +8,9 @@ described via the secondary named. Files are in `references/`. First verificatio
 ## Direct precursors of the premise
 
 - **Bergstrom, T. (1999).** Systems of benevolent utility functions. *J. Public Economic
-  Theory* 1(1): 71–100. doi:10.1111/1097-3923.00004. **WP** (CREST WP 87-4, 1987) ·
+  Theory* 1(1): 71–100. doi:10.1111/1097-3923.00004. **FT** (typeset accepted version,
+  eScholarship; and CREST WP 87-4, 1987) ·
+  `papers/bergstrom-1999-systems-of-benevolent-utility-functions-jpet.txt`,
   `papers/bergstrom-1987-systems-benevolent-utility-interdependence.txt`
   - `U = u + AU`; nonnegative inverse ⟺ `I − A` dominant diagonal (M-matrix). On ℤ the
     Neumann series gives the unique *bounded* nonnegative inverse.
@@ -16,8 +18,14 @@ described via the secondary named. Files are in `references/`. First verificatio
     iff `a + b < 1`, and reduces to two-sided geometric weights on `u` (bounded root).
   - The conclusion sketches the *intrapersonal* reading: happiness depends on
     consumption, expected next-period happiness, and remembered past happiness. A finite
-    life is called essential to the story. No results follow. Codex reports the same
-    passage in the JPET version (§5, pp. 82–84).
+    life is called essential to the story. No results follow. In the JPET version the
+    reading moves into §5 (p. 83, "a simple model of memory and anticipation for a single
+    person"), extending Kimball's hall of mirrors to remembered pleasures and anticipated
+    delights; fn. 7 says finite life and nonstationarity matter.
+  - JPET Lemmas 2–4: the nearest-neighbour factorization `(I−A) = (1/(1+αβ))(I−αJ⁻¹)(I−βJ)`,
+    and the forward discount rate rises with the backward weight. §6.1 (p. 86): one-sided
+    altruism fits anticipated but not recollected happiness. Nearest-neighbour only, no
+    geometric kernel: P4 is not pre-empted.
 - **Caplin, A. & Leahy, J. (2004).** The social discount rate. *J. Political Economy*
   112(6): 1257–1268. doi:10.1086/424740. **WP** (NBER w7983) ·
   `papers/caplin-2000-the-social-discount-rate-nber-w7983.txt`
@@ -47,14 +55,20 @@ described via the secondary named. Files are in `references/`. First verificatio
     the realized future.
 - **Cosaert, S. & Potoms, T. (2024).** Intertemporal consumption with anticipating,
   remembering, and experiencing selves. *Int. Economic Review* 65(3): 1283–1322.
-  doi:10.1111/iere.12705. **ABS** (open-access full text saved, not yet read closely) ·
+  doi:10.1111/iere.12705. **FT** (open access, read closely) ·
   `papers/cosaert-2024-anticipating-remembering-experiencing-selves.txt`
-  - Carry-over parameters for anticipation and remembering, estimated on Spanish
-    household data. Anticipation favours increasing profiles, memory decreasing ones.
-    Direct, not recursive.
+  - Direct, one layer: `V = ω_A U^A + ω_R U^R + U^E`, with accumulation factors
+    `D_A = β_A^{t−τ+1}`, `D_R = β_R^{T−t+1}`, `β ≥ 1` (p. 9), not decay kernels.
+  - Not estimated: `β_A, β_R` are grid-searched on [1, 1.2] in a revealed-preference
+    rationalizability test (fn. 23: the gains in fit come between 1 and 1.2), on Spanish
+    household data, quarterly, four quarters, 2,052 households. No calibration anchors.
+  - Anticipation favours increasing profiles, memory decreasing ones (pp. 3, 5); no
+    first-moment link, no closed forms. Cites Chapman (1996) and Castillo et al. (2022):
+    more prefer improving sequences as the array shrinks (p. 8), support for P6's
+    short-horizon prediction.
 - **Knight, J. & Gunatilaka, R. (2014).** Memory and anticipation: new empirical support
   for an old theory of the utility function. Oxford Econ. DP 721. **FT** ·
-  `papers/knight-2014-memory-and-anticipation-oxford-dp721.txt`
+  `papers/knight-2014-memory-and-anticipation-new-empirical-support-for-an-old-theory-of-the-utility-function-oxford-dp721.txt`
   - Tests the Bentham and Jevons utility of memory and anticipation with subjective
     well-being regressions on past and expected income.
 - **Elster, J. & Loewenstein, G. (1992).** Utility from memory and anticipation. In
@@ -66,7 +80,11 @@ described via the secondary named. Files are in `references/`. First verificatio
 - **Sommervoll, D. E. (2010).** Self-delusion in the pursuit of happiness. Statistics
   Norway DP 604. **WP** · `papers/sommervoll-2010-self-delusion-in-the-pursuit-of-happiness-ssb-dp604.txt`
   - Discounted utility with memories and anticipations. Notes that anticipations of
-    memories and memories of anticipations exist, but models first order only.
+    memories and memories of anticipations exist, but models first order only (§2, p. 6).
+  - Ex. 2.4 (p. 9): one-step anticipation leaves the first period unanticipated, P5's
+    birth deficit; Thm 2.1 (p. 8) derives time inconsistency from it. Deterministic, no
+    news: nothing on sequences (P6), and its optimal self-delusion has no disappointment
+    cost (Thm 3.3), unlike N3.
 
 ## Recursion and altruism math
 
@@ -77,6 +95,9 @@ described via the secondary named. Files are in `references/`. First verificatio
     `f = 1 + f* ∗ f`.
   - §4.4: quasi-hyperbolic `βδ^t` ↔ exponential altruism weights, which is core P3.
     Exponential discounting ↔ one-period altruism.
+  - Eqs. 15–17: `f(t) = βδ^t` gives `f*(t) = β(1−β)^{t−1}δ^t`, so `β* = β/(1−β)`,
+    `δ* = (1−β)δ`: core's calibration inversion, exactly. Their example (Angeletos et al.'s
+    `β = 0.55, δ = 0.96`) gives `β* = 1.22, δ* = 0.43`. One-sided only.
   - A nonnegative `f` need not give a nonnegative `f*`; the negative case is called
     "spite". The working paper states no convergence condition.
 - **Galperti, S. & Strulovici, B. (2017).** A theory of intergenerational altruism.
@@ -86,8 +107,13 @@ described via the secondary named. Files are in `references/`. First verificatio
     follows (Prop. 2).
   - Cor. 3: linear `G` gives `βδ^t` with `β = γ/(1+γ)`, `δ = (1+γ)α`, on
     `γ < (1−α)/α` — our `M < 1`.
-  - §4.5: finite two-sided systems are solvable iff `αα̂ < 1` (two generations).
-  - Credits Fels & Zeckhauser (2008, *J. Risk & Uncertainty* 37: 187–197; unread) for the
+  - §4.5, "a first step" (p. 27): finite two-sided systems, solvable iff `αα̂ < 1` for two
+    generations and `αα̂ < 1/3` for three (`det(I−K) = (1+αα̂)(1−3αα̂)`, an instance of
+    P1(a)). No general-`T` closed form, no roots `p, q`, no life weights: P4 and P5 are
+    not pre-empted.
+  - Credits Fels & Zeckhauser (2008, *J. Risk & Uncertainty* 37(2–3): 187–197; paywalled,
+    unread; one-sided, an aggregator linear in future generations' well-being, per G&S
+    p. 19) for the
     linear equivalence.
 - **Kimball, M. (1987).** Making sense of two-sided altruism. *J. Monetary Economics*
   20(2): 301–326. doi:10.1016/0304-3932(87)90018-3. **ABS** (2ND: Bergstrom 1999)
@@ -99,8 +125,10 @@ described via the secondary named. Files are in `references/`. First verificatio
   - Existence and uniqueness for two-way altruism. Distinguishes "mortality" solutions
     (ancestors' utility held fixed) from "eternity" solutions (re-evaluated
     counterfactually), the semantics in core P9.
-  - Hori (1992, *JET*) extends this to altruism over many generations (Codex, abstract
-    level).
+  - Hori (1992), *JET* 56(2): 451–467, doi:10.1016/0022-0531(92)90092-V, extends this to
+    altruism over many generations. Paywalled, unread. Bergstrom (1999, fn. 6) reports that
+    Hori could not find the utility functions in explicit form and gives a system of
+    equations instead, so P4's closed form is probably not there.
 - **Ray, D. (1987).** Nonpaternalistic intergenerational altruism. *JET* 41(1): 112–132.
   **2ND** (Ray, Vellodi & Wang 2024; Galperti & Strulovici)
   - Poses representing utility-over-utility altruism in consumption form.
@@ -108,6 +136,13 @@ described via the secondary named. Files are in `references/`. First verificatio
   welfare. arXiv:2305.10165. **WP** · `papers/heifetz-2023-affective-interdependence-and-welfare.txt`
   - A P-matrix suffices for Pareto-optimal affective equilibria. A resolvent with negative
     entries can still admit positive welfare weights, though equal weights may fail.
+- **Borovička, J. & Stachurski, J. (2020).** Necessary and sufficient conditions for
+  existence and uniqueness of recursive utilities. *J. Finance* 75(3). **WP**
+  (arXiv:1710.06526) ·
+  `papers/borovicka-2019-necessary-and-sufficient-conditions-for-existence-and-uniqueness-of-recursive-utilities-arxiv.txt`
+  - Recursive utility can be "vacuous": no finite solution exists when the spectral
+    radius of a valuation operator reaches one (Thm. 3.1). P1's threshold form, with
+    growth and discounting in place of echo.
 - **Shinotsuka, T. (2002).** Interdependent utility functions in an intergenerational
   context. Seminar paper. **WP** (partial) ·
   `papers/shinotsuka-2002-interdependent-utility-functions-intergenerational.txt`
@@ -176,8 +211,20 @@ described via the secondary named. Files are in `references/`. First verificatio
     and lifetime utility (p. 38). Prop. 2 (p. 39): under rational expectations, adding a
     linear function of lifetime-utility news with coefficients summing below one leaves
     preferences unchanged.
-  - §8E (pp. 42–44): loss-averse elation (slope 1 for good news, `ψ > 1` for bad); the
-    fixed point is unique since the maximum slope `θψ < 1`. Core N4's threshold.
+  - Prop. 2's "sum below one" is the solvability condition: `v*_t = v_t/(1−θb_0)` (p. 39).
+  - §8E (pp. 42–45): elation with slope 1 for good news and `ψ > 1` for bad, `ψ` a factor
+    "to represent the additional difficulty of processing bad news". The fixed point is
+    unique "since the maximum slope of θg is θψ<1" (p. 43): sufficient, not iff. The kink
+    is sharpened by `(1−ψθ)^{-1}`, "formally like a Keynesian multiplier" (p. 45). Core
+    N4's threshold, in a scalar problem without echo or a horizon kernel.
+  - `g` is bounded (asymptotes `±γ/ρ`, p. 43), so a solution survives past the threshold;
+    nothing is said about what lies beyond.
+  - §8B (p. 40): memory of past expectations can be manipulated ("gratitude"), a precursor
+    of core's recollection sketch; lowering expectations has no effect on lifetime utility
+    far from death.
+- **Kimball, M. & Willis, R. (2023).** Utility and happiness. NBER WP 31707. **WP** ·
+  `papers/kimball-2023-utility-and-happiness-nber-w31707.txt`
+  - Later version; the same condition `θψ < 1` (PDF p. 44).
   - §8B (p. 40): imperfect memory of past expectations "may provide an opening for gaming
     the system".
   - Their utility is a decision construct, kept apart from happiness. The prior art for
@@ -239,10 +286,14 @@ described via the secondary named. Files are in `references/`. First verificatio
   *Goods and Virtues*, 1983). **2ND** (Velleman)
   - A time preference for goods that come late in life.
 - **Dorsey, D. (2015).** The significance of a life's shape. *Ethics* 125(2): 303–330.
-  doi:10.1086/678373. **ABS** (2ND: Brown 2019)
-  - An ecumenical shape-of-a-life hypothesis with a relational view. Relations between
-    events can enter momentary well-being. Rejects instrumental and pro-attitude
-    explanations because they explain the hypothesis away.
+  doi:10.1086/678373. **FT** (KU ScholarWorks) ·
+  `papers/dorsey-2015-the-significance-of-a-lifes-shape.txt`
+  - An ecumenical shape-of-a-life hypothesis with a relational (narrative) view: relations
+    between events can enter synchronic welfare (pp. 310–313, 327–329). No anticipation or
+    memory anywhere in the body.
+  - The Instrumental View, nearest to ours (shape causes felt unhappiness, p. 308), is set
+    aside by stipulation: shape itself "has no instrumental effects" (p. 309). Such
+    explanations may be true but are not "of themselves sufficient" (p. 310).
 - **Brown, J. L. D. (2019).** Additive value and the shape of a life. *Ethics* 130(1):
   92–101. doi:10.1086/704345. **FT** · `papers/brown-2019-additive-value-and-the-shape-of-a-life.txt`
   - Dilemma: once relational value is built into momentary value, the equal-sums case
@@ -326,6 +377,50 @@ described via the secondary named. Files are in `references/`. First verificatio
 - **Luper, S. (2026).** Death. *Stanford Encyclopedia of Philosophy*, §5.2 (Lucretius'
   symmetry argument). **FT** · `web/luper-2026-sep-death.md`
 
+## Personal identity and connectedness (core, natural horizons)
+
+- **Parfit, D. (1984).** *Reasons and Persons*, chs. 10–15. OUP. **2ND** (Bartels & Rips
+  2010; Lay 2019; Dufner 2025)
+  - Connectedness is "the holding of particular direct psychological connections";
+    continuity is "overlapping chains of strong connectedness" (pp. 205–6, via Bartels &
+    Rips p. 50). Strong connectedness is a threshold: at least half the direct connections
+    that hold over a day in nearly every actual life (p. 206, via Lay p. 127).
+    Connectedness "admits of degree"; continuity, as the SEP reads it, is all-or-nothing.
+  - Discounting by connectedness, not time: "This is a discount rate, not with respect to
+    time itself, but with respect to [connectedness]" (pp. 313–14, quoted by Bartels &
+    Rips p. 67, their bracket).
+- **Bartels, D. & Rips, L. (2010).** Psychological connectedness and intertemporal choice.
+  *JEP: General* 139(1): 49–69. doi:10.1037/a0018062. **FT** ·
+  `papers/bartels-2010-psychological-connectedness-and-intertemporal-choice.txt`
+  - Five studies: greater rated connectedness goes with less discounting. Discounting as a
+    two-dimensional function `u(P, t)` of connectedness and time (p. 50). Reports that
+    Frederick's (2003) direct test found "mainly null effects" (p. 51).
+- **Bartels, D. & Urminsky, O. (2011).** On intertemporal selfishness. *J. Consumer Research*
+  38(1): 182–198. doi:10.1086/658339. **WP** (author draft, Nov 2010; and the CogSci 2010
+  precursor) · `papers/bartels-2010-on-intertemporal-selfishness-jcr-forthcoming-draft.txt`,
+  `papers/bartels-2010-impatience-as-intertemporal-egoism-cogsci-proceedings.txt`
+  - Connectedness as the share of defining features believed to persist, one scalar
+    between two dates; "connectedness and stability of identity" used interchangeably
+    (p. 8). Continuity is not separated out.
+- **Frederick, S. (2003).** Time preference and personal identity. In Loewenstein, Read &
+  Baumeister (eds.), *Time and Decision*, Russell Sage. **2ND** (Bartels & Rips) —
+  negligible correlations between rated similarity of selves and discounting.
+- **Lay, C. (2019).** Why Parfit's psychological criterion does not work as a personal
+  identity theory (and how it could). *Argumenta* 5(1): 125–138. **FT** ·
+  `papers/lay-2019-why-parfits-psychological-criterion-does-not-work-as-a-personal-identity-theory.txt`
+  - Quotes Parfit's definitions of strong connectedness and continuity (p. 127).
+- **Dufner, A. (2025).** Personal identity and ethics. *Stanford Encyclopedia of
+  Philosophy*. **FT** · `web/dufner-2025-sep-personal-identity-and-ethics.md`
+  - Continuity is "an overlapping chain of direct connections" and "must be understood as
+    an all-or-nothing relation" (§2). Parfit "left open how much relative weight continuity
+    and connectedness should have" (§5).
+- **Olson, E. (2002; rev. 2023).** Personal identity. *SEP*. **FT** ·
+  `web/olson-2002-sep-personal-identity.md`
+- Not found: a formalization of continuity as path sums over connections. The nearest
+  formal relatives are the chain-sum altruism models above (Sáez-Martí & Weibull; Galperti
+  & Strulovici; Ray, Vellodi & Wang). Lead, unread (bot-checked): Miller (2026, *Synthese*),
+  degree-theoretic conativism.
+
 ## Psychology
 
 - **Caruso, E., Gilbert, D. & Wilson, T. (2008).** A wrinkle in time: asymmetric
@@ -369,6 +464,21 @@ described via the secondary named. Files are in `references/`. First verificatio
 - **Hsee, C., Abelson, R. & Salovey, P. (1991).** The relative weighting of position and
   velocity in satisfaction. *Psychological Science* 2(4): 263–267.
   doi:10.1111/j.1467-9280.1991.tb00146.x. **ABS**
+- **Lim, S., Yoon, S., Kwon, J., Kralik, J. & Jeong, J. (2020).** Retrospective evaluation of
+  sequential events and the influence of preference-dependent working memory. *Frontiers
+  in Computational Neuroscience* 14: 65. doi:10.3389/fncom.2020.00065. **FT** (CC BY) ·
+  `papers/lim-2020-retrospective-evaluation-of-sequential-events-and-preference-dependent-working-memory.txt`
+  - "Simple discounting" `y(t) = Σ r^{t−k} x_k` (eq. 22) is the average at `r = 1` and the
+    end at `r = 0`; it cannot give peaks, whose weights would have to exceed recent ones.
+    A preference-dependent forgetting rate `r(x_k)` (eq. 23) lets the peak count: core's
+    "peak needs salience-weighted memory". They never derive duration neglect, and in
+    their fits averaging beats peak-end.
+- Fredrickson & Kahneman's evaluations are a *normalized* average of snapshots, flat in
+  duration; core's fading sum is unnormalized and saturates. Abstract level, closed:
+  Baumgartner, Sujan & Padgett (1997, *JMR*), results not solely recency; Schreiber &
+  Kahneman (2000, *JEP: General*), judgment by prototype; Ariely & Zauberman (2000),
+  segmentation; Cojuharenco & Ryvkin (2008, *J. Math. Psych.* 52(5)), peak-end and
+  average rankings converge, worth a library copy.
 - **Cheung, W.-Y. et al. (2020).** Anticipated nostalgia: looking forward to looking back.
   *Cognition and Emotion* 34(3): 511–525. doi:10.1080/02699931.2019.1649247. **FT** (not
   saved)
@@ -434,11 +544,25 @@ described via the secondary named. Files are in `references/`. First verificatio
   - With own-plan dependence, the one-shot-deviation principle fails. Subsumes Caplin &
     Leahy and Kőszegi–Rabin.
 - **Bernheim, B. D. & Thomadsen, R. (2005).** Memory and anticipation. *Economic Journal*
-  115(503): 271–304. **ABS** (RePEc; paywalled)
+  115(503): 271–304. doi:10.1111/j.1468-0297.2005.00989.x. **WP** (author draft, July 2004,
+  via Wayback of Bernheim's Stanford page) ·
+  `papers/bernheim-2004-memory-and-anticipation-author-draft-july2004.txt`
+  - Model (draft pp. 4–5): choose at 0, feel anticipation `V = E[U | I_1]` at 1, receive
+    `U` at 2; period-0 preferences `V + δU`. One layer, no recursion; memory is only
+    informational (Piccione–Rubinstein consistency). With perfect recall anticipation
+    drops out of choice; forgetting breaks iterated expectations (p. 5).
+  - Newcomb (§4.1, Thm. 1, p. 10): the chooser forgets `δ` but recalls the action (p. 9), so
+    the action later signals the prediction. One-boxing for any `δ < (a−b)/b = 999`;
+    perfect memory leaves only two-boxing; an all-two-box equilibrium always exists.
+  - The felt anticipation comes *after* the choice and depends on it causally, through
+    self-inference: the prediction is "a fait accompli" (p. 8). D1's structure, an
+    already-felt anticipation that depends on a prediction of the later procedure, is not
+    there. Partial prior art for D1; for its third bullet, here memory is what creates the
+    dependence.
   - Anticipatory emotions plus imperfect memory make seemingly dominated strategies
     rational. Gives a resolution of Newcomb needing only a small weight on anticipation,
-    and near-certain cooperation in the Prisoner's Dilemma. Nearest prior art for D1;
-    a library copy is the top read.
+    and near-certain cooperation in the Prisoner's Dilemma (Thm. 2, a forgotten common
+    signal; the authors are "somewhat skeptical" about lab fit, p. 19).
 - **Bodner, R. & Prelec, D. (2003).** Self-signaling and diagnostic utility in everyday
   decision making. In Brocas & Carrillo (eds.), *The Psychology of Economic Decisions*,
   vol. 1. **FT** · `papers/bodner-2003-self-signaling-and-diagnostic-utility.txt`
@@ -521,12 +645,63 @@ utility above):
     `γ = 1` (pp. 917–19, Prop. 2).
   - Clumping (Props. 1, 3, 4): collapsing signals helps, a weak early signal hurts;
     learning everything at once is weakly best (p. 919). Avoidance is of *partial*
-    information.
+    information. Props. 1–4 are in §II and proved for binary outcomes with linear `μ`.
+  - Fn. 12 (p. 915): some results hold only if discounting is not too fast relative to
+    `γ`'s decay, the germ of N2's `k_n(s−r) w(r)`. Fn. 23: at `λ = 1` the model is
+    observationally β–δ with `β = (1+γη)/(1+η)`, `δ = 1`, a cousin of P3.
+  - §IV, Prop. 5: the preferred personal equilibrium splits consumption iff `γ ≥ 1/λ`. A
+    different product from N4's `λκ`, in the opposite role.
 - **Pagel, M. (2018).** A news-utility theory for inattention and delegation in portfolio
   choice. *Econometrica* 86(2): 491–522. doi:10.3982/ECTA14417. **WP** (intro, §§3.1,
   4.1–4.2) · `papers/pagel-2018-news-utility-theory-inattention-delegation-portfolio-choice-wp.txt`
   - Loss-averse news utility under rational expectations makes looking a first-order
     loss: inattention, delegation, and an ostrich effect after adverse signals (pp. 3–6).
+  - News about `t+τ` is weighted `γβ^τ` (eqs. 9–10, p. 15): the canonical model's
+    `k_n(j) = γ n ν^j` with `ν = β`. Explores `γ = 0.2` against `0.8` (fn. 26, Fig. 2).
+- **Andries, M. & Haddad, V. (2020).** Information aversion. *JPE* 128(5): 1901–1939.
+  **WP** (NBER w23958, 2017) · `papers/andries-2017-information-aversion-nber-w23958.txt`
+  - Gul disappointment aversion applied recursively, inside an Epstein–Zin recursion
+    (Def. 1, eq. 2): "receiving fragmented information multiplies the scope for
+    disappointment" (p. 2).
+  - Prop. 1 (p. 7): prefers information revealed at a single date, and is indifferent
+    about which date. The recursive form of N2's clumping and D7's batching.
+  - Alerts after sharp drops raise welfare (Prop. 5); delegation cannot always shield the
+    agent, since observed consumption reveals wealth (pp. 23–24): D7's coarse affect
+    filtration, formally.
+  - Ex-ante and time-consistent; disappointment is against the continuation's own
+    certainty equivalent, a negative feedback with a unique solution. Felt news (N4) is
+    against the prior forecast.
+- **Dillenberger, D. (2010).** Preferences for one-shot resolution of uncertainty and
+  Allais-type behavior. *Econometrica* 78(6): 1973–2004. **WP** (PIER 09-033) ·
+  `papers/dillenberger-2009-preferences-for-one-shot-resolution-of-uncertainty-and-allais-type-behavior-penn-wp09-033.txt`
+  - Recursive certainty-equivalent evaluation (after Segal 1990): a preference for
+    one-shot resolution is equivalent to negative certainty independence, Allais-type
+    behaviour, and "can be interpreted as dynamic disappointment aversion" (p. 23).
+    Partial information is disliked; finer staging drives value toward the worst prize
+    (Prop. 6). No felt flow.
+- **Palacios-Huerta, I. (1999).** The aversion to the sequential resolution of
+  uncertainty. *J. Risk & Uncertainty* 18(3): 249–269. **2ND** (Artstein-Avidan &
+  Dillenberger) — Gul folded back through the tree prefers resolution all at once, by
+  example.
+- Kreps–Porteus, the structure behind D5's recursion: a concave aggregator over
+  continuation values prefers late resolution (Skiadas 1998, Prop. 1, below; Epstein 2008,
+  eq. 5.2). Caplin & Leahy (2001, fn. 12, p. 68) note that Kreps–Porteus leaves the
+  assignment of utility across periods open.
+- **Kőszegi, B. (2003).** Health anxiety and patient behavior. *J. Health Economics* 22(6):
+  1073–1084. doi:10.1016/j.jhealeco.2003.06.002. **FT** ·
+  `papers/koszegi-2003-health-anxiety-and-patient-behavior.txt`
+  - One-shot anticipatory utility `u(E[·|information])`; concave `u` is information-averse
+    (p. 1076). No recursion.
+- **Caplin, A. & Eliaz, K. (2003).** AIDS policy and psychology: a mechanism-design
+  approach. *RAND J. Economics* 34(4): 631–646. **FT** (copy on a co-author's page) ·
+  `papers/caplin-2003-aids-policy-and-psychology-a-mechanism-design-approach.txt`
+  - A convex anxiety cost of beliefs, "no more than a special case" of Kreps–Porteus
+    (pp. 635–36), giving a preference for late resolution.
+- **Schweizer, N. & Szech, N. (2018).** Optimal revelation of life-changing information.
+  *Management Science* 64(11). **WP** (KIT, 2017) ·
+  `papers/schweizer-2017-optimal-revelation-of-life-changing-information-kit-wp.txt`
+  - Concave anticipatory utility of beliefs; information is "a gamble over anticipated
+    utility outcomes" (p. 3). One-shot.
 - **Bénabou, R. & Tirole, J. (2002).** Self-confidence and personal motivation. *QJE*
   117(3): 871–915. doi:10.1162/003355302760193913. **WP** (2001; intro, §§I, IV, V.B) ·
   `papers/benabou-2002-self-confidence-and-personal-motivation-wp.txt`
@@ -933,8 +1108,9 @@ Loss aversion:
 - **Pagel, M. (2017).** Expectations-based reference-dependent life-cycle consumption.
   *REStud* 84(2): 885–934. doi:10.1093/restud/rdx003. **WP** ·
   `papers/pagel-2017-expectations-based-reference-dependent-life-cycle-consumption-wp.txt`
-  - Structural estimates, annual periods: `η ≈ 1`, `λ ≈ 2.3`–`2.4`, `γ ≈ 0.53`–`0.59` (text
-    and table differ).
+  - Structural estimates, annual periods. Table 1 (p. 30): `η = 0.97`, `λ = 2.33`,
+    `γ = 0.59`, `θ = 0.77`, `β = 0.97`; the text (p. 29) says `η = 1.1`, `λ = 2.4`,
+    `γ = 0.53`. Core uses the table.
 - **Pagel (2018)**, already above: Table 1 estimates `η = 0.87`, `λ = 3.03`, `γ = 0.87` from
   life-cycle portfolio shares; plausible lab range `η ≈ 1`, `λ ∈ [2, 3]`, `γ ≈ 0.8` (p. 40).
 - **Pagel, M. (2016).** Expectations-based reference-dependent preferences and asset
@@ -1009,17 +1185,37 @@ Anticipation, memory and the content of thought:
 - **Kumar, A., Killingsworth, M. & Gilovich, T. (2014).** Waiting for merlot. *Psychological
   Science* 25(10): 1924–1931. doi:10.1177/0956797614546556. **FT** ·
   `papers/kumar-2014-waiting-for-merlot-anticipatory-consumption-of-experiential-and-material-purchases.txt`
-  - Thinking about an upcoming experiential purchase: +2.4 (+1.2 within person) on 0–100.
+  - Thinking about an upcoming experiential purchase: +2.4 (+1.2 within person) on 0–100;
+    material purchases +0.3 (Study 2).
+- **Bryson, A. & MacKerron, G. (2017).** Are you happy while you work? *Economic Journal*
+  127(599): 106–125. doi:10.1111/ecoj.12269. **WP** (CEP DP 1187, 2013) ·
+  `papers/bryson-2013-are-you-happy-while-you-work-lse-cep-dp1187.txt`
+  - Mappiness, within person (Table 2): theatre, dance or concert +9.3, museum +8.8, sport
+    +8.1, intimacy +14.2 on 0–100. Against Kumar et al., anticipation is 0.13–0.26 of
+    the experience while thinking about it (a cross-study ratio).
 - **Nawijn, J., Marchand, M., Veenhoven, R. & Vingerhoets, A. (2010).** Vacationers happier,
   but most not happier after a holiday. *Applied Research in Quality of Life* 5(1): 35–47.
   doi:10.1007/s11482-009-9091-9. **FT** (author version) ·
   `papers/nawijn-2010-vacationers-happier-but-most-not-happier-after-a-holiday.txt`
   - Higher pre-trip happiness for vacationers; after the trip, only very relaxed trips
     raise it, back to baseline within 8 weeks.
+  - The pre-trip gap does not ramp across waves (weeks 11, 19, 27) and matches the
+    post-trip gap (read from Fig. 1): selection, more than anticipation. Pre-trip/on-trip
+    ratio unidentified.
 - **Kühnel, J. & Sonnentag, S. (2011).** How long do you benefit from vacation? *J.
   Organizational Behavior* 32(1): 125–143. doi:10.1002/job.699. **FT** ·
   `papers/kuhnel-2011-how-long-do-you-benefit-from-vacation-a-closer-look-at-the-fade-out-of-vacation-effects.txt`
-  - The post-vacation boost halves in about a week and is gone by week 4.
+  - The post-vacation boost halves in about a week and is gone by week 4. Table 2:
+    exhaustion 2.95 / 1.55 / 2.43 / 2.88 before, the first day back, 2 weeks, 4 weeks;
+    engagement 3.06 / 3.45 / 3.20 / 3.11. About a third remains at two weeks; these behave
+    like recovery stocks.
+- **de Bloom, J. et al. (2010).** Effects of vacation from work on health and well-being:
+  lots of fun, quickly gone. *Work & Stress* 24(2): 196–216.
+  doi:10.1080/02678373.2010.493385. **FT** ·
+  `papers/de-bloom-2010-effects-of-vacation-from-work-on-health-and-well-being-lots-of-fun-quickly-gone.txt`
+  - Nine-day ski trip, n = 96, mood on 1–10 (Table 2): 7.28 before, 8.27 during, 7.41 a
+    week after, 7.28 at two weeks. 13% of the mood gain remains after a week. Baseline two
+    weeks before, so anticipation is not measured.
 - **de Bloom, J. et al. (2009).** Do we recover from vacation? Meta-analysis. *J.
   Occupational Health* 51(1): 13–25. doi:10.1539/joh.k8004. **FT** ·
   `papers/de-bloom-2009-do-we-recover-from-vacation-meta-analysis-of-vacation-effects-on-health-and-well-being.txt`
@@ -1036,10 +1232,15 @@ Anticipation, memory and the content of thought:
 Surprise and momentary happiness:
 - **Rutledge, R., Skandali, N., Dayan, P. & Dolan, R. (2014).** A computational and neural
   model of momentary subjective well-being. *PNAS* 111(33): 12252–12257.
-  doi:10.1073/pnas.1407535111. **ABS** (full text blocked) ·
-  `papers/rutledge-2014-a-computational-and-neural-model-of-momentary-subjective-well-being-abs.txt`
+  doi:10.1073/pnas.1407535111. **FT** (author-hosted PDF, main text) ·
+  `papers/rutledge-2014-a-computational-and-neural-model-of-momentary-subjective-well-being.txt`
   - Happiness = weighted, exponentially forgotten sums of certain rewards, expected values
-    and prediction errors; forgetting factor `γ = 0.61`.
+    and prediction errors; forgetting factor `γ = 0.61 ± 0.30` (SD), trials of roughly
+    7–12 s, rated every 2–3 trials.
+  - Weights per £ on 0–100, read from Fig. 2A: certain reward 9.6, expected value 6.3,
+    prediction error 12.9; the text gives only EV < RPE (t(25) = 4.3). Replications and
+    the smartphone sample: EV/CR 0.46–0.65, RPE/CR 1.1–1.3. A model splitting expected
+    value by timing: reward +10.4, EV at choice +3.35, EV at outcome −8.1. [figure reads]
 - **Vanhasbroeck, N. et al. (2021).** Testing a computational model of subjective
   well-being: a replication. *Cognition & Emotion*. doi:10.1080/02699931.2021.1891863. **WP** ·
   `papers/vanhasbroeck-2021-testing-a-computational-model-of-subjective-well-being-replication-of-rutledge-2014-author-version.txt`
@@ -1058,6 +1259,66 @@ Surprise and momentary happiness:
     tenth of the outcome's effect.
 - Abstract level: Rutledge et al. (2015), *J. Neuroscience* 35(27), dopamine and momentary
   well-being.
+
+Emotional inertia (ceilings on felt memory):
+- **Kuppens, Allen & Sheeber (2010)**, above (rumination and bistability): Table 1, affect autocorrelation
+  between beeps (10 a day, about 1.6 h apart, n = 79): happy .30, excited .33, relaxed
+  .27, satisfied .29, angry .20, anxious .22, depressed .22, sad .27.
+- **Kuppens, P., Oravecz, Z. & Tuerlinckx, F. (2010).** Feelings change. *JPSP* 99(6):
+  1042–1060. doi:10.1037/a0020962. **FT** ·
+  `papers/kuppens-2010-feelings-change-accounting-for-individual-differences-in-the-temporal-dynamics-of-affect.txt`
+- **Vansteelandt, K. & Verbeke, G. (2016).** A mixed model to disentangle variance and
+  serial autocorrelation in affective instability using ecological momentary assessment
+  data. *Multivariate Behavioral Research* 51(4): 446–465. **FT** ·
+  `papers/vansteelandt-2016-a-mixed-model-to-disentangle-variance-and-serial-autocorrelation-in-affective-instability-ema.txt`
+  - Exponential serial correlation of valence: 0.61 at one hour, half-life about 1.4 h
+    (eating-disorder patients, n = 58).
+- **Brose, A., Schmiedek, F., Koval, P. & Kuppens, P. (2015).** Emotional inertia
+  contributes to depressive symptoms beyond perseverative thinking. *Cognition & Emotion*
+  29(3): 527–538. **FT** ·
+  `papers/brose-2015-emotional-inertia-contributes-to-depressive-symptoms-beyond-perseverative-thinking.txt`
+  - Day-to-day autoregression of negative affect .34 (Table 1).
+- Autocorrelation also contains slowly moving base utility, so these bound felt memory
+  from above. Houben, Van Den Noortgate & Kuppens (2015, *Psych. Bull.*), the meta-analysis,
+  closed.
+
+The week as a natural experiment:
+- **Helliwell, J. & Wang, S. (2014).** Weekends and subjective well-being. *Social Indicators
+  Research* 116(2): 389–407. **WP** (NBER w17180, 2011) ·
+  `papers/helliwell-2011-weekends-and-subjective-well-being-nber-w17180.txt`
+  - Gallup, N ≈ 527,000, emotions "yesterday", coefficients against Monday (Table 3):
+    Friday / Saturday / Sunday happiness .015 / .031 / .033, enjoyment .021 / .054 /
+    .059, laughter .021 / .039 / .037, worry −.016 / −.073 / −.074. No Blue Monday
+    (Tuesday to Thursday +.001 to +.002) and no Sunday dip.
+  - The day before a midweek holiday shows no lift (Table 4: happiness −.011, s.e. .007).
+- **Weigelt, O., Siestrup, K. & Prem, R. (2021).** Continuity in transition. *J.
+  Organizational Behavior* 42(5): 567–586. **FT** (hybrid OA) ·
+  `papers/weigelt-2021-continuity-in-transition-recovery-and-day-of-week-perspectives-employee-energy.txt`
+  - Vitality on 1–5 (Table 2): Thursday to Friday +0.26; Sunday to Monday −0.31 and −0.19
+    in two samples. An energy stock, more recovery than echo.
+- Abstract level: Stone, Schneider & Harter (2012, *J. Positive Psych.*), Friday better,
+  Monday no worse than Tuesday to Thursday; Ryan, Bernstein & Brown (2010, *JSCP*), better
+  mood from Friday evening to Sunday afternoon.
+
+LLM context windows (core, natural horizons):
+- **Liu, N. et al. (2024).** Lost in the middle: how language models use long contexts.
+  *TACL* 12: 157–173. arXiv:2307.03172. **FT** ·
+  `papers/liu-2023-lost-in-the-middle-how-language-models-use-long-contexts.txt`
+  - Accuracy by the answer's position is U-shaped, primacy at least as strong as recency
+    (Tables 5–7): GPT-3.5-Turbo with 20 documents 75.8% first, 53.8% middle, 63.2% last
+    (closed-book 56.1%); Claude-1.3 59.9 / 55.9 / 60.1 (closed-book 48.3%).
+- **Hsieh, C.-Y. et al. (2024).** Found in the middle: calibrating positional attention bias
+  improves long context utilization. arXiv:2406.16008. **WP** ·
+  `papers/hsieh-2024-found-in-the-middle-calibrating-positional-attention-bias-improves-long-context-utilization.txt`
+  - Attention by document position is U-shaped even with content shuffled (Fig. 4):
+    intrinsic positional bias.
+- **Guo, X. & Vosoughi, S. (2024).** Serial position effects of large language models.
+  arXiv:2406.15981. **WP** · `papers/guo-2024-serial-position-effects-of-large-language-models.txt`
+  - Primacy dominates, recency weaker, in classification-style tasks.
+- **Wu, X., Wang, Y., Jegelka, S. & Jadbabaie, A. (2025).** On the emergence of position
+  bias in transformers. arXiv:2502.01951. **WP** ·
+  `papers/wu-2025-on-the-emergence-of-position-bias-in-transformers.txt`
+  - Causal masking favours early tokens and relative positional decay favours recent ones.
 
 ## Anthropics and imperfect recall
 

@@ -436,7 +436,7 @@ for kn_name, kn in [("flat", lambda j: 0.3), ("decaying", lambda j: 0.3 * 0.7 **
     print(f"     lam = 2, {kn_name} kn: " + ", ".join(f"{k} {v:.4f}" for k, v in W.items()))
 
 # N4: well-foundedness. Felt news at a surprise solves h(s) = s - sum_j nu_j phi(x0_j + s g_j) = 0;
-# unique iff lam (kn . g) < 1. Beyond it a bad shock has no felt state.
+# unique and stable for every revision iff lam (kn . g) < 1. Between 1/lam and 1, a bad shock has no felt state.
 T, t0 = 40, 20
 j = np.arange(T)
 kf_v, kb_v = np.where(j > 0, 0.1 * 0.85 ** j, 0), np.where(j > 0, 0.1 * 0.75 ** j, 0)
@@ -491,3 +491,209 @@ for bL, d in [(0.7, 0.96), (0.9, 0.96), (0.7, 0.9)]:
     M_pred = bL * d / (1 - d + bL * d)
     err = max(err, abs(r[1] / (r[0] * r[2] / r[1]) - bL), abs(r[2] / r[1] - d), abs(mass(a, al, 0.0, 0.5) - M_pred))
 report("CAL inversion a = bL/(1-bL), beta = d(1-bL); M = bL d/(1-d+bL d)", err)
+
+# ---- canonical-model audit -------------------------------------------------------------
+
+# N4 threshold, closed form: on the half-line the felt-now column of the remaining-life
+# resolvent is g_0 = 1/H, g_j = (q - mu) q^(j-1) / H, so kn . g = (n/H)(1 - nu mu)/(1 - nu q);
+# finite remaining lives give a nondecreasing sequence below it.
+err, mono = 0.0, True
+for a, al, m, mu, n0, nu in [(0.09, 0.88, 0.05, 0.75, 0.3, 0.8), (0.1, 0.85, 0.1, 0.75, 0.3, 0.7),
+                             (0.3, 0.5, 0.4, 0.6, 0.5, 0.9)]:
+    A, B = (1 + a) * al, (1 + m) * mu
+    C = 1 + (1 + a + m) * al * mu
+    H = (C + np.sqrt(C * C - 4 * A * B)) / 2
+    q = B / H
+    kap = n0 / H * (1 - nu * mu) / (1 - nu * q)
+    seq = [n0 * nu ** np.arange(L) @ np.linalg.inv(np.eye(L) - K_matrix(L, a, al, m, mu))[:, 0]
+           for L in (2, 5, 20, 80, 400)]
+    mono &= all(x <= y + 1e-12 for x, y in zip(seq, seq[1:]))
+    err = max(err, abs(seq[-1] - kap))
+report("N4 half-line kn.g = (n/H)(1 - nu mu)/(1 - nu q), nondecreasing in remaining life", err + (not mono))
+
+# N4 regimes for a revision proportional to g (y = D + c phi(y)): unique below 1/lam; between
+# 1/lam and 1 bad news has no root and good news two; above 1 one root again.
+lam = 2.0
+counts = {}
+for c in (0.3, 0.7, 1.2):
+    for D in (-1.0, 1.0):
+        ys = np.linspace(-400, 400, 800001) + 1e-4 * np.pi   # offset: no root on a grid point
+        hv = ys - D - c * np.where(ys >= 0, ys, lam * ys)
+        counts[(c, D)] = int(np.sum(np.sign(hv[:-1]) != np.sign(hv[1:])))
+print("N4  roots (bad / good news) at lam = 2: " + "; ".join(
+    f"c = {c}: {counts[(c, -1.0)]} / {counts[(c, 1.0)]}" for c in (0.3, 0.7, 1.2)))
+report("N4 regimes: 1/1 below 1/lam, 0/2 between, 1/1 above 1",
+       float(counts != {(0.3, -1.0): 1, (0.3, 1.0): 1, (0.7, -1.0): 0, (0.7, 1.0): 2, (1.2, -1.0): 1, (1.2, 1.0): 1}))
+
+
+# N3 in the canonical model (recursive echoes, news over e, Bayesian forecasts with anticipated news).
+# One event u_s = Z ~ N(0,1); the self believes u_s ~ N(b, 1). Generic solver, then the closed form:
+# dW/db|0 = Acal - (1'g) kt [1 + (lt - 1) P(Z < sbar)], with kappa = kn . g, kt = kappa/(1 - kappa),
+# lt = lam (1 - kappa)/(1 - lam kappa), sbar = E[psi(Z' - sbar)] the anticipated news, and
+# Acal = w_s - 1'g the life-weighted value of foreseeing the event. Optimum: P(Z < b* + sbar) = (Th - 1)/(lt - 1).
+def n3_canonical(b, T, s, a, al, m, mu, n0, nu, lam, zs, w_obj):
+    K = K_matrix(T, a, al, m, mu)
+    P, F = np.arange(s), np.arange(s, T)
+    RF = np.linalg.inv(np.eye(T - s) - K[np.ix_(F, F)])
+    RP = np.linalg.inv(np.eye(s) - K[np.ix_(P, P)])
+    g, kn = RF[:, 0], n0 * nu ** np.arange(T - s)
+    phi = lambda x: np.where(x >= 0, x, lam * x)
+    w_sub = np.exp(-(zs - b) ** 2 / 2)
+    w_sub /= w_sub.sum()
+
+    def felt(eP, xprev):
+        uF = np.zeros((len(zs), T - s))
+        uF[:, 0] = zs
+        x0 = (uF + K[np.ix_(F, P)] @ eP) @ RF.T
+        lo, hi = np.full(len(zs), -300.0), np.full(len(zs), 300.0)
+        for _ in range(64):
+            mid = (lo + hi) / 2
+            neg = mid - phi(x0 - xprev + mid[:, None] * g) @ kn < 0
+            lo, hi = np.where(neg, mid, lo), np.where(neg, hi, mid)
+        return x0 + ((lo + hi) / 2)[:, None] * g
+
+    eP, xprev = np.zeros(s), np.zeros(T - s)
+    for _ in range(3000):
+        xnew = 0.85 * xprev + 0.15 * (w_sub @ felt(eP, xprev))   # damped: the anticipated-news map is expansive
+        eP_new = RP @ (K[np.ix_(P, F)] @ xnew)
+        done = max(np.abs(xnew - xprev).max(), np.abs(eP_new - eP).max()) < 1e-12
+        xprev, eP = xnew, eP_new
+        if done:
+            break
+    return eP.sum() + w_obj @ felt(eP, xprev).sum(axis=1), K, g, kn
+
+
+zs = np.linspace(-7, 7, 1001)
+w_obj = np.exp(-zs ** 2 / 2)
+w_obj /= w_obj.sum()
+Phi = np.vectorize(lambda x: 0.5 * (1 + math.erf(x / np.sqrt(2))))
+Phinv = lambda p: zs[np.argmin(np.abs(Phi(zs) - p))]
+err_s, err_b = 0.0, 0.0
+for T, s, a, al, m, mu, n0, nu, lam in [(12, 7, 0.15, 0.8, 0.1, 0.6, 0.3, 0.7, 2.5),
+                                        (14, 9, 0.12, 0.7, 0.1, 0.6, 0.25, 0.6, 3.0)]:
+    args = (T, s, a, al, m, mu, n0, nu, lam, zs, w_obj)
+    _, K, g, kn = n3_canonical(0.0, *args)
+    kap = kn @ g
+    kt, lt = kap / (1 - kap), lam * (1 - kap) / (1 - lam * kap)
+    psi = lambda y: np.where(y >= 0, kt * y, lt * kt * y)
+    lo, hi = -50.0, 0.0
+    for _ in range(100):
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if mid - w_obj @ psi(zs - mid) < 0 else (lo, mid)
+    sbar = (lo + hi) / 2
+    w = np.linalg.solve(np.eye(T) - K.T, np.ones(T))
+    Acal, one_g = w[s] - g.sum(), g.sum()
+    h = 1e-4
+    slope = (n3_canonical(h, *args)[0] - n3_canonical(-h, *args)[0]) / (2 * h)
+    err_s = max(err_s, abs(slope - (Acal - one_g * kt * (1 + (lt - 1) * Phi(sbar)))))
+    Th = Acal / (one_g * kt)
+    b_star = Phinv((Th - 1) / (lt - 1)) - sbar
+    slope_at_star = (n3_canonical(b_star + h, *args)[0] - n3_canonical(b_star - h, *args)[0]) / (2 * h)
+    err_b = max(err_b, abs(slope_at_star))
+    print(f"N3c lam kappa = {lam * kap:.3f}, amplified loss aversion {lt:.2f}, anticipated news {sbar:.3f}, "
+          f"P(loss | b = 0) = {Phi(sbar):.3f}, b* = {b_star:.3f}")
+report("N3 canonical slope at bias 0 (closed form)", err_s, tol=5e-3)
+report("N3 canonical optimum: slope vanishes at the predicted b*", err_b, tol=2e-2)
+
+
+# D5, exact: with sign-dependent strengths (kp, km forward; mp, mm backward) and Bayesian forecasts,
+# E[W] = W_sym - sum_t w_t [(km - kp) sum_j al^j E[X_{t+j}^-] + (mm - mp) sum_j mu^j E[X_{t-j}^-]],
+# w the life weights of the (kp, mp) kernel (D: 1 for these terms); no felt news. X = u in D:
+# timing-free. X = e in R: information timing matters only if it moves some felt state across
+# zero. Revelation times r <= s: realized base utility is felt when it happens.
+def dread(r, rec, kp, km, mp, mm, T=8, s=5, al=0.7, mu=0.6, base=0.1):
+    u = np.full((2, T), base)
+    u[0, s] += 2.0
+    u[1, s] -= 2.0
+    e = u.copy()
+    for _ in range(6000):
+        X = e if rec else u
+        new = u.copy()
+        for t in range(T):
+            for j in range(1, T - t):
+                v = np.where(X[:, t + j] >= 0, kp, km) * al ** j * X[:, t + j]
+                new[:, t] += v if t >= r else v.mean()
+            for j in range(1, t + 1):
+                new[:, t] += np.where(X[:, t - j] >= 0, mp, mm) * mu ** j * X[:, t - j]
+        if np.max(np.abs(new - e)) < 1e-14:
+            break
+        e = 0.5 * e + 0.5 * new
+    X = e if rec else u
+    K = np.array([[kp * al ** (c - t) if c > t else mp * mu ** (t - c) if t > c else 0 for c in range(T)]
+                  for t in range(T)])
+    w = np.linalg.solve(np.eye(T) - K.T, np.ones(T)) if rec else np.ones(T)
+    wu = np.linalg.solve(np.eye(T) - K.T, np.ones(T)) if rec else 1 + K.sum(axis=0)
+    neg = np.maximum(-X, 0).mean(axis=0)
+    dA = np.array([sum(al ** j * neg[t + j] for j in range(1, T - t)) for t in range(T)])
+    dM = np.array([sum(mu ** j * neg[t - j] for j in range(1, t + 1)) for t in range(T)])
+    return e.sum(axis=1).mean(), wu @ u.mean(axis=0) - w @ ((km - kp) * dA + (mm - mp) * dM), e.min()
+
+
+err_id, spreads = 0.0, {}
+for rec in (False, True):
+    for name, ks in [("dread", (0.1, 0.35, 0.15, 0.15)), ("rumination", (0.2, 0.2, 0.1, 0.3))]:
+        for base in (0.1, 3.0):
+            out = [dread(r, rec, *ks, base=base) for r in range(6)]
+            err_id = max(err_id, max(abs(W - pred) for W, pred, _ in out))
+            spreads[(name, rec, base)] = (np.ptp([o[0] for o in out]), min(o[2] for o in out))
+report("D5 identity: E[W] = W_sym - asymmetry x life-weighted E[X^-]", err_id, tol=1e-10)
+for name in ("dread", "rumination"):
+    print(f"D5  {name}: welfare spread over reveal times D {spreads[(name, False, 0.1)][0]:.1e}, "
+          f"R {spreads[(name, True, 0.1)][0]:.3f} (min e {spreads[(name, True, 0.1)][1]:+.2f}); "
+          f"R with e > 0 throughout {spreads[(name, True, 3.0)][0]:.1e} (min e {spreads[(name, True, 3.0)][1]:+.2f})")
+report("D5 straddle: no felt state crosses zero -> timing neutral in R",
+       max(spreads[(n, True, 3.0)][0] for n in ("dread", "rumination"))
+       + max(spreads[(n, False, b)][0] for n in ("dread", "rumination") for b in (0.1, 3.0)), tol=1e-10)
+
+
+# Information boundary: a surprise reaches the present through the remaining-life column (1/H now),
+# not the bilateral row r(0); the reduced form describes foreseen lives.
+a, al, m, mu = 1.0, 0.3, 1.0, 0.2
+p, q, r0 = geometric_closed_form(a, al, m, mu)
+H = (1 + (1 + a + m) * al * mu + np.sqrt((1 + (1 + a + m) * al * mu) ** 2 - 4 * (1 + a) * al * (1 + m) * mu)) / 2
+g = np.linalg.inv(np.eye(400) - K_matrix(400, a, al, m, mu))[:, 0]
+report("RF surprise response g_0 = 1/H, g_j = (q - mu) q^(j-1)/H", max(abs(g[0] - 1 / H),
+       max(abs(g[j] - (q - mu) * q ** (j - 1) / H) for j in range(1, 8))))
+print(f"RF  unforeseen unit at 0: causal e_0 = 1/H = {1 / H:.6f}; bilateral reduced form r(0) = {r0:.6f}")
+
+
+# P1(d): a genuine spectral crossing for the two-sided simple-hyperbolic example
+a, al, m, mu = 0.09, 0.88, 0.05, 0.75
+def K_hyp(T):
+    d = np.arange(T)[None, :] - np.arange(T)[:, None]
+    return np.where(d > 0, a / (1 - np.log(al) * np.abs(d)), 0.0) + np.where(d < 0, m / (1 - np.log(mu) * np.abs(d)), 0.0)
+rho = {T: max(abs(np.linalg.eigvals(K_hyp(T)))) for T in (41, 42, 2000)}
+print("P1d rho(K_T) = " + ", ".join(f"{v:.3f} at T = {T}" for T, v in rho.items()))
+report("P1d hyperbolic tails cross rho(K_T) = 1 between T = 41 and 42", float(not (rho[41] < 1 <= rho[42])))
+
+
+# Calibration: default parameter sets per horizon (core.md), derived quantities
+for name, (A_, al, B_, mu, n0, nu, lam) in {"waking day, hourly": (0.2, 0.8, 0.1, 0.5, 0.2, 0.8, 1.5),
+                                            "life, weekly": (0.15, 0.7, 0.17, 0.3, 0.2, 0.7, 1.5)}.items():
+    a, m = A_ * (1 - al) / al, B_ * (1 - mu) / mu
+    p, q, r0 = geometric_closed_form(a, al, m, mu)
+    C = 1 + (1 + a + m) * al * mu
+    H = (C + np.sqrt(C * C - 4 * (1 + a) * al * (1 + m) * mu)) / 2
+    kap = n0 / H * (1 - nu * mu) / (1 - nu * q)
+    print(f"CAL {name}: a = {a:.3f}, m = {m:.3f}; M = {A_ + B_:.2f}; beta_L = {1 - 1 / ((1 + a) * r0):.3f} "
+          f"(bilateral), {1 - H / (1 + a):.3f} (causal); "
+          f"reach {1 / (1 - al):.1f} -> {1 / (1 - p):.1f} ahead, {1 / (1 - mu):.1f} -> {1 / (1 - q):.1f} back; "
+          f"lam kappa = {lam * kap:.2f}")
+
+# N4 with saturating gain-loss, y = D + c clip(phi(y), -1, 1): bistable over a range of shocks only
+# (Codex: c = 0.7, lam = 2 gives roots -0.6, -0.25, 1/3 at D = 0.1, one root at D = +-1).
+def sat_roots(D, c=0.7, lam=2.0):
+    ys = np.linspace(-5, 5, 1000001) + 1e-5 * np.pi
+    hv = ys - D - c * np.clip(np.where(ys >= 0, ys, lam * ys), -1, 1)
+    idx = np.nonzero(np.sign(hv[:-1]) != np.sign(hv[1:]))[0]
+    return np.round(ys[idx], 3)
+sat = {D: sat_roots(D) for D in (0.1, 1.0, -1.0)}
+print("N4  saturating news: roots " + "; ".join(f"D = {D}: {[float(x) for x in r]}" for D, r in sat.items()))
+report("N4 saturation: three roots at D = 0.1, one at D = +-1",
+       float(not (len(sat[0.1]) == 3 and len(sat[1.0]) == 1 and len(sat[-1.0]) == 1)))
+
+# pathwise.news_root: roots on a breakpoint or an interval end are found (Codex reproducers)
+err = abs(pw.news_root(np.array([.75]), np.array([1.]), np.array([.25]), 2.) - 0.25)
+err = max(err, abs(pw.news_root(np.array([-3.]), np.array([1.]), np.array([.499]), 2.) + 1497))
+err = max(err, abs(pw.news_root(np.array([0.]), np.array([1.]), np.array([.3]), 2.)))
+report("pathwise exact news root (endpoint, far root, zero revision)", err, tol=1e-9)
