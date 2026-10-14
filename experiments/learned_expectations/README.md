@@ -83,7 +83,8 @@ they share.
   sixteen critics over seeds; `braced_report.txt`, `braced.png`); `run_alignment.py` (value
   and staying share a direction in the state; `alignment_report.txt`); `run_channels.py` (the
   critic's level through the state, through the policy's baseline, or both;
-  `channels_report.txt`).
+  `channels_report.txt`); `run_evolve.py` (heritable felt parameters under selection on
+  lifetime payoff; `evolve_report.txt`, `evolve.png`).
 
 ## Results so far
 
@@ -156,6 +157,16 @@ they share.
   seeds, as for payoffs); at weak anticipation it escapes 1/4, and a motivated, braced critic
   restores 4/4 (`repeated_report.txt`, 4 seeds each). Escaped agents' states tell game classes
   apart better (linear probe 41–45% balanced accuracy by round 10, chance 25%; complacent 34%).
+- **Which ways of feeling survive?** Populations of learners born untrained, with heritable
+  `(a, n, λ)`, selected on lifetime payoff over ten generations (weights not inherited; 3 runs
+  per variant, 240 learners each). Whether affect shapes only the critic or also the policy's
+  reward, selection runs against anticipation and for felt news, and is indifferent to loss
+  aversion: lifetime payoff (×1000) per s.d. of log `a` −4.4 and −5.4, of log `n` +4.0 and
+  +3.4, of log `(λ − 1)` +0.1 and −0.2 (s.e. 0.8 each); a neutral control shows none (all
+  within one s.e.). Populations end braced (`a` about 0.03, `n` 0.1–0.17), recovering the 10% of
+  lifetime payoff their founders' affect cost. Weak anticipation and real news make a braced
+  critic, which escapes complacency (D8); loss aversion adds bracing before outcomes and
+  consolation after them, which may be why it is not selected (`evolve_report.txt`).
 - **Consolation.** At `λ = 2` the motivated critic braces before outcomes and consoles itself
   after bad ones: just after a negative TD error it sits 0.18 below realized payoffs, after a
   positive one 0.51 below. At `λ = 1` the gap vanishes (0.33 against 0.29), as the critic's

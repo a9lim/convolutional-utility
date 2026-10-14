@@ -16,17 +16,19 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
      (optimistic non-committal, pessimistic committal), and a decision rule that reads values
      directly (softmax over learned move values), the classic optimism-explores case, against
      the shared state, where a high level reads as "stay".
-   - **The mechanism, finished.** Codex's three-branch one-step diagnostic near the plateau:
-     clone weights and Adam state, apply the policy gradient alone, plus the game-varying
-     critic gradient, plus its per-round mean; read the round-2 stay logit on fixed first-round
-     histories. Explains why the honest critic needs its mean push to escape. A small theorem:
-     under gradient flow a critic offset moves the policy at a rate set by the cross-kernel of
-     value and policy gradients.
+   - **The mechanism, finished.** D8 states it (the cross tangent kernel; a linear-model
+     proposition, checked, Codex-reviewed) and its prediction held: with the critic's level
+     outside the network a reward shift stops mattering. Left: why removing the critic's mean
+     push on the state traps the honest critic (Codex's three-branch one-step diagnostic:
+     clone weights and Adam state; policy gradient alone, plus the game-varying critic
+     gradient, plus its per-round mean; round-2 stay logit on fixed first-round histories).
    - **Seeds for the game agent.** Equilibrium selection toward risk dominance (97% against 92%)
      and the motivated-belief pattern are single training runs; rerun over seeds.
-   - **Evolving felt parameters.** Heritable `(a, m, n, λ)` in a population playing hidden
-     games, selected on payoffs: does selection favor bracing? (Known in kind: the indirect
-     evolutionary approach, Güth & Yaari; Dekel, Ely & Yilankaya 2007.)
+   - **Evolving felt parameters.** Built (`run_evolve.py`): selection on lifetime payoff runs
+     against anticipation and for felt news, and is indifferent to loss aversion. Next: is
+     `λ`'s neutrality the consolation term undoing its bracing (evolve `λ` with `n` fixed, and
+     with consolation removed); longer lifetimes, where escape speed matters less; welfare
+     (felt) against fitness (payoff) of the evolved populations.
    - **Well-foundedness as a learning failure.** The canonical critic at `a = 0.3, ν = 0.8`
      (anticipation mass 1.2) diverged; map where TD on felt utility diverges against
      `M + λN < 1`.

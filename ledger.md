@@ -176,3 +176,23 @@ Periodically compacted to git history.
 - a9 asked which extensions I find exciting. My picks: optimism through the decision rule
   versus the shared state; fitting the model to momentary-happiness data; evolving felt
   parameters, in that order.
+
+## 2026-10-14 (later) — D8, evolution, the data question
+
+- a9 picked three extensions: evolving felt parameters, fitting momentary-happiness data,
+  and a theorem. D8 states the shared-state mechanism (cross tangent kernel; linear-model
+  forcing `(s·v)[μ/(1+‖v‖²) + f̃/‖v‖²]`; head alignment `αβ/σ` at the balanced rank-one
+  factorization). Codex (thread `braced-critic`, job `cx-20261014-153455-dedc`) narrowed it:
+  the forcing is the endpoint of critic-only fitting with heads frozen, (c) is a regression
+  illustration and not a theorem about REINFORCE, the Adam caveat restated. Its prediction
+  held: a critic whose level is kept outside the network ignores a reward shift.
+- A literature agent found the effect known only in kind: Sun et al. 2022 (same sign, through
+  learned Q-values), value-policy interference (Cobbe et al. 2021), plateaus from interference
+  (Schaul et al. 2019).
+- Evolution, first as population-based training (weights copied with parameters): when
+  affect drives the policy, selection shrank it overall. Replaced by generational evolution
+  (born untrained, weights not inherited), which separates the components: against
+  anticipation, for news, indifferent to loss aversion.
+- Data: a search agent found open trial-level datasets (the Great Brain Experiment smartphone
+  data, CC0, 87.5 MB; Forbes & Bennett 2024 on OSF). Downloads await a9's go-ahead. Forbes &
+  Bennett already report negative prediction errors moving affect and positive ones not.
