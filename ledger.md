@@ -131,3 +131,10 @@ Periodically compacted to git history.
 - The canonical self is a learner that feels its own critic: anticipation is `a(V^α − e)`,
   linear news `(n/ν)` times a TD error. At felt calibrations, free beliefs go to N3's
   corners, so the observer needs a tether (question to a9).
+- Built the observer (`experiments/learned_expectations/`): beliefs chosen for felt welfare
+  under a KL cost of self-deception (a9's pick). Closed-form and differentiable, checked
+  against an independent tree solver. Optimal paths at the life calibration stay calibrated
+  far out, brace as the event nears and freeze at the end, for good, risky and bad events
+  alike. The objective's kinks at zero revisions stalled L-BFGS (beliefs are sticky); Adam
+  from several starts works. A network trained for two minutes captures a median 71% of the
+  exact gain on held-out events.

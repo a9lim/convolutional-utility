@@ -5,8 +5,9 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
 
 ## The post
 
-1. **Observer model** (the extension below), once a9 picks what bounds belief distortion:
-   at felt calibrations free beliefs go to N3's corners.
+1. **Learned expectations** (`experiments/learned_expectations/`): the observer is built,
+   with a KL cost of self-deception as the tether (a9). Next, the agent, in order: scheduling
+   (D3), reliability (D6), self-Newcomb (D1), then two-player games.
 2. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
    choices; coda: selves), and the technical companion.
 3. **Figures:** the Disneyland decomposition; primitive against effective kernels; `w(s)`
@@ -54,11 +55,14 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
 - Train an agent whose reward is its own felt utility, computed from its own forecasts and
   realized against the world: Brunnermeier & Parker's well-being, learned. Expected return
   under the true environment is exactly the objective expectation of the felt life-sum.
-- **Observer** (next, after the audit): random events, the agent only forecasts. Predictions
-  to test: N3's bias quantile and its timing (optimism far off, bracing near); batching when
-  attention is a choice (N2, D7); information avoidance under dread or rumination
-  asymmetry (D5); behaviour near the threshold, with saturating news.
-- **Agent:** games and Newcomb-like setups; design under discussion with a9.
+- **Observer** (built): random events, the agent chooses only its beliefs, tethered by
+  `KL(q ‖ p)/τ`. Still to add: attention as a choice (batching, N2, D7); dread or rumination
+  asymmetry (information avoidance, D5); saturating news near the threshold.
+- **Agent:** actor-critic whose critics are its felt anticipation and news (core, the RL
+  reading). Environments in order: scheduling, reliability, self-Newcomb, then a
+  distribution of two-player games (a9: does it learn to tell them apart?), with the payoff
+  matrix given or to be inferred; the affect policy may prefer not to tell them apart early
+  (D7).
   - Two switches, after Oesterheld (2019): what the reward credits (felt anticipation is
     the "overseer", conditional on the forecast or not) and what the learner credits
     (whether gradients flow from anticipation rewards into the policy through its
