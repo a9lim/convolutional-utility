@@ -167,7 +167,14 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   - Which credible plan does learning select? A fixed-past learner, started near uniform,
     lands on the earliest credible plan, not the preferred one: under loss aversion,
     uncertainty about one's own timing is itself felt as news, so resolving it early pays.
-    [checked in `experiments/learned_expectations/`, forecasts certainty-equivalent in news]
+    [checked in `experiments/learned_expectations/`]
+  - Anticipated news changes none of this. Deterministic plans carry none, so the credible
+    plans and the commitment optimum are as without it; it acts only on mixed policies, the
+    learning path. There rational forecasts brace for one's own randomness (core N3's
+    built-in bracing). Where news outweighs anticipation this makes randomness cheaper, and
+    the planner reaches the commitment date more often; the fixed-past learner selects the
+    same dates, seed for seed, as with forecasts that leave anticipated news out. [synthesis;
+    checked]
 - **Commitment versus FDT.** A causal agent with a binding commitment at news time
   reaches the commitment optimum. FDT's claimed advantage is reaching it without a
   device, *if* past forecasts track the policy (D2).

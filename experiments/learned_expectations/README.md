@@ -31,8 +31,11 @@ Run from the repo root, e.g. `python experiments/learned_expectations/run_observ
 ## The scheduling agent (decision.md D3)
 
 One pleasure, announced at 0, to be taken in `[0, T)`. A tabular stopping policy; felt
-utility is the canonical model with linear news, its forecasts rational under a self-model of
-the same policy, so every world (the date it is taken) is solved exactly.
+utility is the canonical model, its forecasts Bayesian under a self-model of the same policy,
+so they include anticipated news. Every world (the date it is taken) is solved exactly: the
+felt fixed point is piecewise linear, solved by iterating on the signs of the news terms.
+`python scheduling.py` checks it against an independent damped iteration (6e-12), finite
+differences (1e-9) and the reduced form on deterministic plans (7e-12).
 
 - The `J` dial is a gradient setting: the self-model enters as `π.detach() + w (π − π.detach())`.
   At `w = 0` past selves' forecasts carry no gradient, and gradient ascent on the life-sum gives
@@ -42,7 +45,8 @@ the same policy, so every world (the date it is taken) is solved exactly.
   that self's incentive conditional on being there; otherwise off-path selves and saturated
   logits stall learning short of the equilibrium.
 - `scheduling.py` (model, learner, exact benchmarks); `run_scheduling.py` (a sweep against the
-  exact fixed-past and commitment dates, and the dial; writes `scheduling_dial.png`).
+  exact fixed-past and commitment dates, and the dial; writes `scheduling_dial.png`);
+  `run_selection.py` (which credible plan learning selects under loss-averse news).
 
 ## The game agent
 
@@ -80,14 +84,20 @@ which also ascends felt utility, tethered by its TD loss. `repeated.py`, `run_re
   (the misses sit right after the announcement: two unconverged, one a second equilibrium);
   `w = 1` learns the commitment date in every draw. Intermediate `w` gives a staircase from
   the trap to commitment (`scheduling_dial.png`, `scheduling_report.txt`).
-- **Which credible plan does learning select?** With loss-averse news (`n = 0.3, λ = 2`,
-  forecasts certainty-equivalent in news), 16 draws, all with several credible plans:
-  fixed-past learning always lands on a credible plan, and on the earliest one, not the
-  preferred one (it matches the preferred plan only when that is the earliest, 75%). A
-  likely mechanism: uncertainty about one's own timing is felt as loss-averse news, so
-  resolving it early pays. The planner (`w = 1`) reaches commitment 60% (median shortfall
+- **Which credible plan does learning select?** With loss-averse news (`n = 0.3, λ = 2`),
+  16 draws, all with several credible plans: fixed-past learning always lands on a credible
+  plan, the earliest one in 96%, and the preferred one only when that is the earliest (75%).
+  A likely mechanism: uncertainty about one's own timing is felt as loss-averse news, so
+  resolving it early pays. The planner (`w = 1`) reaches commitment 73% (median shortfall
   0%): a stochastic policy's own randomness is felt as news, so deterministic plans are local
   optima even for the planner (`selection_report.txt`).
+- **Anticipated news.** Deterministic plans carry none, so it moves no credible plan and not
+  the commitment optimum; it acts on the learning path. Against forecasts that leave it out
+  (certainty-equivalent), fixed-past learning picks the same date in every draw and seed.
+  Those forecasts are rosier than rational ones, and in these draws loss-averse news
+  outweighs anticipation, so rational bracing makes one's own randomness cheaper: the
+  first-order cost of randomizing away from a plan is lower in 84% of directions (median 1.6
+  against 2.5), and the planner reaches commitment more often (73% against 60%).
 - **Games.** One network plays random 2×2 games at 91–96% equilibrium play, and a linear probe
   recovers game class from its hidden layer at 88% against 71% from raw payoffs: it tells
   games apart. Felt utility shifts equilibrium selection toward risk dominance (97% against
