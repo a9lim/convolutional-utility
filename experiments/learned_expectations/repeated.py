@@ -39,14 +39,16 @@ class Agent(torch.nn.Module):
         return torch.sigmoid(self.act(h)[:, 0]), self.critic(h)[:, 0], h
 
 
-def rollout(agent, A, Bm, K, gen, feel=FEEL):
-    """Play K rounds. Returns per-round tensors for player 1 and 2 (dicts) and the final states."""
+def rollout(agent, A, Bm, K, gen, other=None):
+    """Play K rounds, agent in seat 1 and other (default: agent itself) in seat 2. Returns per-round
+    tensors for each seat (dicts)."""
     G = A.shape[0]
+    players = (agent, agent if other is None else other)
     hs = [torch.zeros(G, agent.gru.hidden_size), torch.zeros(G, agent.gru.hidden_size)]
     xs = [torch.zeros(G, 6), torch.zeros(G, 6)]
     rec = [{k: [] for k in ("logp", "r", "C", "pi", "h")} for _ in range(2)]
     for k in range(K):
-        out = [agent.step(xs[i], hs[i]) for i in range(2)]
+        out = [players[i].step(xs[i], hs[i]) for i in range(2)]
         moves = [(torch.rand(G, generator=gen) >= out[i][0]).long() for i in range(2)]    # 0 with prob pi
         a1, a2 = moves
         r = [A[torch.arange(G), a1, a2], Bm[torch.arange(G), a1, a2]]
@@ -106,17 +108,21 @@ def td_loss(rec, feel=FEEL, critic="honest", offset=None, expectile=None):
 
 
 def train(policy="payoff", critic="honest", steps=3000, G=2048, K=10, seed=0, lr=3e-3, feel=FEEL,
-          offset=None, expectile=None, detach=False, baseline="batch", reward_shift=0.0, monitor=None):
+          offset=None, expectile=None, detach=False, baseline="batch", reward_shift=0.0, center=False,
+          monitor=None):
     """detach: the critic reads the state without training it, so it cannot shape what the policy sees.
     baseline: "batch" (the batch mean of rewards-to-go) or "critic" (the critic's forecast, so its level also
     enters the policy's update). reward_shift: a constant added to every payoff the learners see as reward
     (the state still sees the raw payoff), which moves the honest critic's level without biasing it.
-    monitor(step, agent), if given, is called every 250 steps."""
+    center: the critic's per-round level is a running mean of its targets kept outside the network, which
+    learns only deviations from it (as PopArt-style normalization does), so the shared state never carries
+    the level. monitor(step, agent), if given, is called every 250 steps."""
     gen = torch.Generator().manual_seed(seed)
     torch.manual_seed(seed)
     agent = Agent()
     opt = torch.optim.Adam(agent.parameters(), lr=lr)
     off = torch.tensor(offset) if offset is not None else None
+    level = torch.zeros(K)
     for it in range(steps):
         if monitor is not None and it % 250 == 0:
             monitor(it, agent)
@@ -129,6 +135,8 @@ def train(policy="payoff", critic="honest", steps=3000, G=2048, K=10, seed=0, lr
                 R = dict(R, r=R["r"] + reward_shift)
             if detach:
                 R = dict(R, C=agent.critic(R["h"].detach())[:, :, 0])
+            if center:
+                R = dict(R, C=R["C"] + level)
             reward = R["r"] if policy == "payoff" else felt(R, R["C"].detach(), feel)
             ret = torch.flip(torch.cumsum(torch.flip(reward.detach(), [1]), 1), [1])     # rewards-to-go
             base = R["C"].detach() if baseline == "critic" else ret.mean(0, keepdim=True)
@@ -140,4 +148,8 @@ def train(policy="payoff", critic="honest", steps=3000, G=2048, K=10, seed=0, lr
         loss.backward()
         torch.nn.utils.clip_grad_norm_(agent.parameters(), 5.0)
         opt.step()
+        if center:
+            with torch.no_grad():
+                Cn = torch.cat([R["C"][:, 1:], torch.zeros(G, 1)], 1)
+                level += 0.1 * ((R["r"] + feel["nu"] * Cn).mean(0) - level)
     return agent

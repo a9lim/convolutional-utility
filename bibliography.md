@@ -1417,6 +1417,46 @@ LLM context windows (core, natural horizons):
     `Q^π` (§5). The decision-rule channel for a critic's optimism, against the
     shared-state channel in the hidden-game agent.
 
+## Shared representations and the critic's level (D8)
+
+- **Sun, H., Han, L., Yang, R., Ma, X., Guo, J. & Zhou, B. (2022).** Exploit reward shifting
+  in value-based deep-RL: optimistic curiosity-based exploration and conservative
+  exploitation via linear reward shaping. *NeurIPS*. arXiv:2209.07288 (as "Optimistic
+  curiosity exploration and conservative exploitation with linear reward shaping"). **FT** ·
+  `papers/sun-2022-exploit-reward-shifting-in-value-based-deep-rl.txt`
+  - A reward shift equals a change of Q-initialization under function approximation (§4.1);
+    a positive shift is conservative, a negative one exploratory, through the argmax over
+    rarely visited actions (§4.3). Same sign as D8, different channel: value-based, the
+    decision rule reads the values; D8's policy never reads the critic.
+- **Schaul, T., Borsa, D., Modayil, J. & Pascanu, R. (2019).** Ray interference: a source of
+  plateaus in deep reinforcement learning. arXiv:1904.11455. **FT** ·
+  `papers/schaul-2019-ray-interference-a-source-of-plateaus-in-deep-reinforcement-learning.txt`
+  - Negative interference between components under shared function approximation, with
+    on-policy coupling of learning and data, produces plateaus (pp. 1–2). The nearest
+    analogue of the complacent plateau; no critic involved.
+- **Cobbe, K., Hilton, J., Klimov, O. & Schulman, J. (2021).** Phasic policy gradient. *ICML*.
+  arXiv:2009.04416. **FT** (v1) · `papers/cobbe-2021-phasic-policy-gradient.txt`
+  - Policy and value objectives interfere in a shared network (p. 2); nothing on the
+    value's level or sign.
+- **Hessel, M., Soyer, H., Espeholt, L., Czarnecki, W., Schmitt, S. & van Hasselt, H.
+  (2019).** Multi-task deep reinforcement learning with PopArt. *AAAI*. arXiv:1809.04474.
+  **FT** · `papers/hessel-2019-multi-task-deep-reinforcement-learning-with-popart.txt`
+  - Value and policy updates both use normalized returns, so shared-parameter updates are
+    invariant to a return's scale and offset (p. 3, eqs. 5–9). D8 predicts such
+    normalization removes the level's forcing. Also van Hasselt et al. (2016), the
+    value-only original · `papers/van-hasselt-2016-learning-values-across-many-orders-of-magnitude.txt`
+- **Naik, A., Wan, Y., Tomar, M. & Sutton, R. S. (2024).** Reward centering. *RLC*.
+  arXiv:2405.09999. **FT** · `papers/naik-2024-reward-centering.txt` — constant reward shifts
+  degrade discounted value learning; centering removes it; the actor's update is unchanged
+  by centering (p. 22).
+- Also read: Rashid et al. 2020 (optimistic initialization fails in deep Q-learning because
+  generalization erases it; a reward offset did little in their maze, p. 8); Du et al. 2018
+  (auxiliary/main gradient cosine on shared parameters, the alignment diagnostic's
+  precedent); Garcin et al. 2025 (ICLR; even decoupled, the critic shapes what data the
+  policy collects); Wan, Korenkevych & Zhu 2025 (a ±100 reward offset breaks most deep RL
+  in continuing tasks, PPO included, §2.4); Andrychowicz et al. 2021 (value normalization
+  and separate networks matter in on-policy RL, §3.2–3.3). Texts in `papers/`.
+
 ## Anthropics and imperfect recall
 
 - **Armstrong, S. (2011; rev. 2017).** Anthropic decision theory (for self-locating

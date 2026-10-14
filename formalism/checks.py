@@ -846,3 +846,51 @@ kn = n0 * nu ** np.arange(T)
 knp = (kn @ Rp) / (1 - kn @ Rp[:, 0])
 print("D4  rising local news kernel kn'(0..4): " + ", ".join(f"{x:.4f}" for x in knp[:5]))
 report("D4 kn' can rise with distance", float(not np.all(np.diff(knp[:5]) > 0)))
+
+# D8: a shared state carries the critic's level. Two-layer linear model, heads frozen, critic fitted alone
+# (W and its bias at equal rates): shifting fitted targets by f = mu + w.xi moves the stay logit by
+# (s.v) [mu/(1 + |v|^2) + w.xi/|v|^2], the bias taking mu/(1 + |v|^2).
+rng = np.random.default_rng(0)
+N, d, H, mu0 = 2000, 5, 8, 0.7
+xi = rng.normal(size=(N, d))
+X = np.hstack([np.ones((N, 1)), xi - xi.mean(0)])
+y = X @ rng.normal(size=d + 1)
+W, v, s_ = rng.normal(size=(H, d + 1)) * 0.3, rng.normal(size=H), rng.normal(size=H)
+wf = rng.normal(size=d) * 0.3
+
+
+def d8_fit(W, c, target, steps=20000, eta=0.01):
+    for _ in range(steps):
+        res = X @ W.T @ v + c - target
+        c, W = c - eta * 2 * res.mean(), W - eta * 2 * np.outer(v, res @ X / N)
+    return W, c
+
+
+W0, c0 = d8_fit(W.copy(), 0.0, y)
+W1, c1 = d8_fit(W0.copy(), c0, y + mu0 + X[:, 1:] @ wf)
+probe = np.hstack([np.ones((20, 1)), rng.normal(size=(20, d))])
+dz = probe @ (W1 - W0).T @ s_
+pred = (s_ @ v) * (mu0 / (1 + v @ v) + probe[:, 1:] @ wf / (v @ v))
+report("D8b forcing: dz = (s.v)[mu/(1 + |v|^2) + f~/|v|^2]; the bias takes mu/(1 + |v|^2)",
+       float(max(np.abs(dz - pred).max(), abs(c1 - c0 - mu0 / (1 + v @ v)))), tol=1e-9)
+# (c) at a balanced rank-one zero-error factorization: s.v = alpha beta/sigma, |v|^2 = alpha^2/sigma ...
+errs = []
+for al, be in [(1.0, 0.6), (1.0, -0.6), (-0.5, -0.8)]:
+    sg, u = np.hypot(al, be), rng.normal(size=H)
+    u /= np.linalg.norm(u)
+    W1_, W2_ = np.sqrt(sg) * np.outer(u, [1, 0, 0, 0]), np.vstack([al * u, be * u]) / np.sqrt(sg)
+    errs += [np.abs(W2_ @ W1_[:, 0] - [al, be]).max(), abs(W2_[1] @ W2_[0] - al * be / sg),
+             abs(W2_[0] @ W2_[0] - al ** 2 / sg)]
+report("D8c balanced rank-one factorization: s.v = alpha beta/sigma, |v|^2 = alpha^2/sigma", max(errs), tol=1e-12)
+# ... and small random initialization gets there (corroboration; not exactly balanced or whitened).
+errs = []
+for al, be in [(1.0, 0.6), (1.0, -0.6), (-0.5, -0.8)]:
+    r = rng.normal(size=N)
+    Xc = np.column_stack([(r - r.mean()) / r.std(), rng.normal(size=(N, 3))])
+    Y = np.column_stack([al * Xc[:, 0], be * Xc[:, 0]])
+    W1_, W2_ = rng.normal(size=(H, 4)) * 1e-3, rng.normal(size=(2, H)) * 1e-3
+    for _ in range(40000):
+        E = Xc @ W1_.T @ W2_.T - Y
+        W2_, W1_ = W2_ - 0.01 * E.T @ (Xc @ W1_.T) / N, W1_ - 0.01 * W2_.T @ E.T @ Xc / N
+    errs += [abs(W2_[1] @ W2_[0] - al * be / np.hypot(al, be)), abs(W2_[0] @ W2_[0] - al ** 2 / np.hypot(al, be))]
+report("D8c small initialization reaches it", max(errs), tol=1e-3)

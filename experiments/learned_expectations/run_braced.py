@@ -6,7 +6,8 @@ then may escape to win-stay, lose-shift at zero, which explores the game (about 
 payoffs throughout, so the critic acts only through the state it shares with the policy. Critics differ in
 level: rosy or braced (felt objective, offsets, expectiles), forecasting felt utility (canonical), or honest
 about rewards shifted by a constant that the state does not see and the policy's baseline removes (so only
-the critic's level moves). Per critic: how many seeds escape and when, the play that separates the basins,
+the critic's level moves), and with the critic's level kept outside the network (a running mean of its
+targets, as PopArt-style normalization does: decision.md D8 predicts the shift then stops mattering). Per critic: how many seeds escape and when, the play that separates the basins,
 and the critic's level against realized payoffs, overall and just after bad or good news."""
 import os
 import sys
@@ -46,6 +47,8 @@ CRITICS = {                                                       # name: (train
     "canonical, lam = 1": (dict(critic="canonical", feel=dict(BRACED, lam=1.0)), 4),
     "honest, rewards +0.5": (dict(critic="honest", reward_shift=0.5), 6),
     "honest, rewards -0.5": (dict(critic="honest", reward_shift=-0.5), 6),
+    "honest, level outside": (dict(critic="honest", center=True), 6),
+    "honest, rewards +0.5, level outside": (dict(critic="honest", reward_shift=0.5, center=True), 6),
     "honest, detached": (dict(critic="honest", detach=True), 4),
     "offset, rosy profile, detached": (dict(critic="offset", offset=ROSY_PROFILE, detach=True), 4),
 }
@@ -103,13 +106,13 @@ if __name__ == "__main__":
     say("Policy ascends payoffs. Escaped: late payoff above 0.26; escape step: first evaluation (every 250 steps)")
     say("above 0.25. Shift after round 1: switch rate after a negative / positive payoff. Bias: critic minus")
     say("realized discounted payoff-to-go, rounds 2-10, overall and just after a negative / positive TD error.")
-    say(f"{'critic':31s} escaped  escape step   late (escaped/not)   shift bad/good   bias   after bad/good")
+    say(f"{'critic':36s} escaped  escape step   late (escaped/not)   shift bad/good   bias   after bad/good")
     for name, rs in res.items():
         esc = [o for o in rs if o["late"] > 0.26]
         stay = [o for o in rs if o["late"] <= 0.26]
         when = [int(steps[np.argmax(np.array(o["curve"]) > 0.25)]) for o in rs if max(o["curve"]) > 0.25]
         m = lambda xs, k: f"{np.mean([o[k] for o in xs]):.3f}" if xs else "  -  "
-        say(f"{name:31s} {len(esc):2d}/{len(rs):<2d}   {f'{int(np.median(when))}' if when else '-':>6s} "
+        say(f"{name:36s} {len(esc):2d}/{len(rs):<2d}   {f'{int(np.median(when))}' if when else '-':>6s} "
             f"({min(when) if when else '-'}-{max(when) if when else '-'})   {m(esc, 'late')} / {m(stay, 'late')}"
             f"      {np.mean([o['shift_bad'] for o in rs]):.2f} / {np.mean([o['shift_good'] for o in rs]):.2f}"
             f"    {np.mean([o['bias'] for o in rs]):+.2f}   "

@@ -135,11 +135,13 @@ they share.
     16/16 escape by step 750, however deep; well above, 0/8; mildly above, slowly. Neither loss
     aversion nor the felt objective is needed (at `λ = 1` the motivated critic's gradients
     equal a fixed offset's exactly; Codex). Detached from the state, a rosy critic escapes 2/4.
-  - Mechanism, partly: once learning starts, the critic's value and the policy's stay logit
-    share a direction in the state (gradient cosine 0.34–0.58 at step 150, about 0 at
-    initialization), and a step that raises value raises staying after losses and gains alike
-    in every seed and checkpoint (`alignment_report.txt`). A critic that must output high
-    numbers keeps telling the policy things are fine. Open: removing the per-round mean of
+  - Kept outside the network (a running mean of the targets, as PopArt-style normalization
+    does), the level stops mattering: the +0.5 critic escapes in 6/6, as D8 predicts.
+  - Mechanism (decision.md D8): once learning starts, the critic's value and the policy's
+    stay logit share a direction in the state (gradient cosine 0.34–0.58 at step 150, about
+    0 at initialization), and a step that raises value raises staying after losses and gains
+    alike in every seed and checkpoint (`alignment_report.txt`). A critic that must output
+    high numbers keeps telling the policy things are fine. Open: removing the per-round mean of
     the critic's push on the state also stops the honest critic from escaping (0/4), though
     its mean residual is small and fluctuates in sign.
   - The canonical critic, honest about felt utility, sits above payoffs at `λ = 1` (its target
