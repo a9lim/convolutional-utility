@@ -8,8 +8,17 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
 1. **Learned expectations** (`experiments/learned_expectations/`): built the observer, the
    scheduling agent (the `J` dial reproduces fixed-past and commitment play), the game agent
    (random 2×2 games; the twin dial reproduces causal against evidential play) and the
-   hidden-game agent (a felt critic). Next: which credible plan learning selects under
-   loss-averse news; reliability (D6) as an agent; the canonical (recursive) critic.
+   hidden-game agent (a felt critic). Next (a9):
+   - **The braced-critic effect.** A critic that ascends felt utility at weak anticipation
+     braces and raises hidden-game payoffs 0.21 → 0.31 (two seeds); the ablation puts it in the
+     critic's felt objective acting on the shared state (payoff-matrix R² 0.44 vs 0.35 by
+     round 3). Why bracing helps and rosiness does not: candidates are loss-weighted news
+     making the critic track bad cells, gradient scale, and the shape of the felt target.
+   - **Anticipated news.** The scheduling learner's forecasts leave out anticipated news
+     (certainty-equivalent); the canonical model's rational forecasts include it. Build the
+     exact version (a Bayesian tree over dates, as in `formalism/checks.py` D6) and see
+     whether learning still picks the earliest credible plan.
+   - Then: reliability (D6) as an agent; the canonical (recursive) critic.
 2. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
    choices; coda: selves), and the technical companion.
 3. **Figures:** the Disneyland decomposition; primitive against effective kernels; `w(s)`
