@@ -23,7 +23,7 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
 - **The model.** One equation: experienced utility is base utility plus anticipation and
   memory of experienced utility, plus felt news about it (core, the canonical model).
   *synthesis*
-  - Present it in full, with the coefficient table: what `a, β, m, α, ν₀, ν₁, δ, λ` each
+  - Present it in full, with the coefficient table: what `a, β, m, α, ν, δ, λ` each
     do, and the two conditions (`M < 1`, `λ(ν·g) < 1`).
   - The direct form is its reduced form, mentioned as an equivalent model under
     reparametrization (P2, N4); recursion stretches anticipation's reach and makes news

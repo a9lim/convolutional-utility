@@ -466,7 +466,7 @@ print(f"RF  r(0) = {r0:.3f}, p = {p:.3f}, q = {q:.3f}; reach fwd {1 / (1 - b):.1
       f"bwd {1 / (1 - al):.1f} -> {1 / (1 - q):.1f}")
 T, t0 = 120, 40
 kf_r, kb_r = pw.kernels(T, a, b, m, al)
-nu_r = np.array([0.3] + [0.06 * 0.97 ** (j - 1) for j in range(1, T)])
+nu_r = 0.3 * 0.8 ** np.arange(T)
 eff, prim = [], []
 for h in (1, 5, 20, 30, 50):
     ev = [(t0, t0 + h, 1.0, None)]
@@ -481,3 +481,12 @@ for T in (50, 2000):
     jj = j[: T - 1]
     M_T = (a / (1 - np.log(b) * jj)).sum() + (m / (1 - np.log(al) * jj)).sum()
     print(f"P1d simple-hyperbolic tails: M_T = {M_T:.2f} at T = {T}")
+
+# Calibration: invert present bias to one-sided primitives; the echo share it implies
+err = 0.0
+for bL, d in [(0.7, 0.96), (0.9, 0.96), (0.7, 0.9)]:
+    a, b = bL / (1 - bL), d * (1 - bL)
+    r = resolvent_line(a, b, 0.0, 0.5)
+    M_pred = bL * d / (1 - d + bL * d)
+    err = max(err, abs(r[1] / (r[0] * r[2] / r[1]) - bL), abs(r[2] / r[1] - d), abs(mass(a, b, 0.0, 0.5) - M_pred))
+report("CAL inversion a = bL/(1-bL), beta = d(1-bL); M = bL d/(1-d+bL d)", err)

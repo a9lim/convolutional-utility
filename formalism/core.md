@@ -13,11 +13,11 @@ utility. In causal form, for each moment `t` of a life `[0, T)`:
 e_t = u_t                                                          base
     + Σ_{j=1}^{T−1−t} a β^j  Ê_t[e_{t+j}]                           anticipation
     + Σ_{j=1}^{t}     m α^j  e_{t−j}                                memory
-    + Σ_{j=0}^{T−1−t} ν(j)   μ_λ( Ê_t[e_{t+j}] − Ê_{t−1}[e_{t+j}] )  news
+    + Σ_{j=0}^{T−1−t} ν δ^j  μ_λ( Ê_t[e_{t+j}] − Ê_{t−1}[e_{t+j}] )  news
 ```
 
-- `Ê_t` is the self's forecast at `t`, with `Ê_t[e_t] = e_t`. `ν(0) = ν₀`, `ν(j) = ν₁ δ^{j−1}`
-  for `j ≥ 1`. `μ_λ(x) = x` for `x ≥ 0` and `λx` for `x < 0`.
+- `Ê_t` is the self's forecast at `t`, with `Ê_t[e_t] = e_t`. `μ_λ(x) = x` for `x ≥ 0` and
+  `λx` for `x < 0`. All three channels have geometric primitives; recursion reshapes them.
 - Welfare is the life-sum `W = Σ_t e_t`, scored by the objective expectation.
 - Well-founded iff `M = aβ/(1−β) + mα/(1−α) < 1` (echoes converge, P1) and `λ(ν·g) < 1`
   (felt news is unique, N4).
@@ -28,23 +28,55 @@ e_t = u_t                                                          base
 | `β` | anticipation reach | the ramp before an event; mean reach `1/(1−β)` |
 | `m` | memory strength | the afterglow; backward mass `B = mα/(1−α)` |
 | `α` | memory reach | how long the afterglow lasts; mean reach `1/(1−α)` |
-| `ν₀` | surprise when a moment arrives | elation or disappointment against the last forecast (N3) |
-| `ν₁`, `δ` | news about the future | the jolt on hearing; `δ` sets how far ahead news is felt |
+| `ν` | news strength | the surprise when a moment arrives (`j = 0`) and the size of the jolt on hearing |
+| `δ` | news reach | how far ahead news is felt; `δ = 0` keeps only surprise on arrival |
 | `λ` | loss aversion of news | prices information (N2); sets the despair threshold (N4) |
 
 **The reduced form.** With `λ = 1`, on ℤ, the canonical model is a direct model with
 effective coefficients (P2, P4, N4):
 `e_t = r(0) u_t + Σ_{n≥1} (r(0) − 1/(1+a)) pⁿ u_{t+n} + Σ_{n≥1} (r(0) − 1/(1+m)) qⁿ u_{t−n}`,
 plus direct news with an echoed kernel `ν′`.
-- Example (`a = 0.09, β = 0.88, m = 0.05, α = 0.75, ν₀ = 0.3, ν₁ = 0.06, δ = 0.97`):
+- Example (`a = 0.09, β = 0.88, m = 0.05, α = 0.75, ν = 0.3, δ = 0.8`):
   `r(0) = 1.032`, `p = 0.971`, `q = 0.798`. Anticipation's mean reach stretches from 8.3 to
   35 periods, and memory's from 4.0 to 4.9. [checked]
-- The echoed news kernel rises with distance before it falls: per unit of news about `h`
-  periods ahead, `ν′ = 0.15, 0.17, 0.19, 0.19, 0.15` at `h = 1, 5, 20, 30, 50`, against the
-  primitive `0.06, 0.053, 0.034, 0.025, 0.013`. News about a further-off event changes more
-  days of anticipation. [checked]
+- The echoed news kernel takes anticipation's reach: per unit of news about `h` periods
+  ahead, `ν′ = 0.45, 0.31, 0.15, 0.11, 0.06` at `h = 1, 5, 20, 30, 50`, against the
+  primitive `ν δ^h = 0.24, 0.098, 0.0035, 0.0004, 0.000004`. News about a far event is
+  felt through the days of anticipation it changes. With a flatter primitive (`δ` near 1)
+  the echoed kernel even rises with distance at first. [checked]
+- Even `δ = 0`, surprise on arrival alone, produces a jolt on hearing: today's experience
+  contains today's anticipation, which the news has just changed.
+- Extension: Kőszegi & Rabin's `γ` splits surprise on arrival from news about later,
+  `ν(0) = ν`, `ν(j) = γνδ^j`. Pagel (2018) explores `γ = 0.2`–`0.8`.
 - Closed forms live in the reduced form (P5, P6, decision.md D3). Boundaries, nonlinearity
   and restrictions on the kernel family are where the two forms part (the 2×2 below).
+
+**Calibration.** What pins the coefficients, as far as known. [anchors marked "to verify"
+are being checked]
+- Constraints, not values: `M < 1`; `λ(ν·g) < 1`.
+- Present bias inverts to primitives (one-sided P3): `a = β_L/(1−β_L)`, `β = δ_lr (1−β_L)`,
+  with `δ_lr` the long-run per-period discount factor. Hence `M = β_L δ_lr / (1 − δ_lr + β_L δ_lr)`.
+  [proved; checked at annual periods]
+  - If all present bias came from recursion, realistic values would put the echo share near
+    1: `β_L = 0.7` gives `M = 0.94` with annual periods (base utility one eighteenth of
+    felt experience) and `M = 0.9998` with daily periods. Two-sided with modest memory
+    (`m = 0.05, α = 0.75`, `β_L = 0.7`, `p = 0.96`): `M = 0.965`. So recursion is likely one
+    source of present bias among several, and "discounting is an echo" carries this bill.
+    [checked]
+- `λ ≈ 2`–`2.6` in news-utility calibrations (Pagel 2018: `η = 1`, `λ = 2`–`2.5`; `λ ≈ 2.6`
+  matching stock-market evidence). A meta-analytic loss-aversion estimate is to verify.
+- Tension: the standard `η = 1, λ = 2.5` would put recursive news past the threshold,
+  which needs `νλ` well below 1 (the `j = 0` term alone needs `νλ < 1`). Either news is
+  felt more weakly than consumption utility, or it is about base utility (direct news).
+- Anticipation reach for small pleasures is days: people pay more for a kiss three days
+  away than now, and more to avoid a shock delayed three hours to three days than an
+  immediate one (Loewenstein 1987).
+- Still to verify: anticipation against memory strength (vacation studies; Caruso,
+  Gilbert & Wilson 2008); realization surprise in outcome units (Rutledge et al. 2014;
+  Shepperd & McNulty 2002); how much of experience concerns past and future
+  (Killingsworth & Gilbert 2010).
+- Identification (P10; Eliaz & Spiegler's ordinality) means choices alone cannot pin the
+  hedonic coefficients. Experience sampling around scheduled events can.
 
 ## Objects
 

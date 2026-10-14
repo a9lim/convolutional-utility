@@ -240,10 +240,10 @@ footer a { color: var(--accent); }
     </section>
 
     <section class="panel" aria-labelledby="h-news">
-      <h2 id="h-news">News</h2>
-      <div class="ctl"><label for="c-nu0"><span>Surprise when it happens ν(0)</span><span class="v" id="v-nu0"></span></label><input type="range" id="c-nu0" min="0" max="0.8" step="0.01"></div>
-      <div class="ctl"><label for="c-nu1"><span>News about the future ν(1)</span><span class="v" id="v-nu1"></span></label><input type="range" id="c-nu1" min="0" max="0.4" step="0.005"></div>
-      <div class="ctl"><label for="c-nuDecay"><span>How far ahead news is felt</span><span class="v" id="v-nuDecay"></span></label><input type="range" id="c-nuDecay" min="0.3" max="0.99" step="0.01"></div>
+      <h2 id="h-news">News ν(j) = ν·δ<sup>j</sup></h2>
+      <div class="ctl"><label for="c-nu"><span>News strength ν</span><span class="v" id="v-nu"></span></label><input type="range" id="c-nu" min="0" max="0.8" step="0.01"></div>
+      <div class="ctl"><label for="c-delta"><span>News reach δ</span><span class="v" id="v-delta"></span></label><input type="range" id="c-delta" min="0" max="0.95" step="0.01"></div>
+      <span class="hint">News about j periods ahead is felt with weight ν·δ<sup>j</sup>; ν alone is the surprise when a moment arrives.</span>
       <div class="ctl"><label for="c-lam"><span>Loss aversion λ</span><span class="v" id="v-lam"></span></label><input type="range" id="c-lam" min="1" max="4" step="0.05"></div>
     </section>
 
@@ -263,7 +263,7 @@ footer a { color: var(--accent); }
   </div>
 
   <footer>
-    <span>Each self solves for its own felt experience and its forecast of the rest of its life, given what it knows. Forecasts expect no further news. News is loss-averse: bad revisions count λ times. Kernels and news weights are geometric.</span>
+    <span>Each self solves for its own felt experience and its forecast of the rest of its life, given what it knows. Forecasts expect no further news. News is loss-averse: bad revisions count λ times. Anticipation, memory and news weights are all geometric.</span>
     <span>Model: <a href="https://github.com/a9lim/convolutional-utility" target="_blank" rel="noopener">a9lim/convolutional-utility</a>, <code>formalism/core.md</code> (felt news, N1–N4) and <code>formalism/pathwise.py</code>, which this page reproduces.</span>
   </footer>
 </div>
@@ -274,7 +274,7 @@ footer a { color: var(--accent); }
   "use strict";
   const $ = (id) => document.getElementById(id);
 
-  const SHARED = { a: 0.09, b: 0.88, m: 0.05, al: 0.75, nu0: 0.3, nu1: 0.06, nuDecay: 0.97, lam: 2, base: 0, T: 50 };
+  const SHARED = { a: 0.09, b: 0.88, m: 0.05, al: 0.75, nu: 0.3, delta: 0.8, lam: 2, base: 0, T: 50 };
   const PRESETS = [
     { key: "disneyland", name: "Disneyland",
       note: "<strong>A big trip, announced early.</strong> The news lands as a jolt. The excitement fades into a lull while the trip is far away, then anticipation ramps up as it gets close. Afterwards, memory carries an afterglow. The close-up scale clips the trip itself so the build-up is visible.",
@@ -282,7 +282,7 @@ footer a { color: var(--accent); }
       events: [{ name: "Disneyland", at: 34, value: 5, announce: 6, cancel: null }] },
     { key: "trips", name: "Two trips and a surprise",
       note: "<strong>The scenario from the project figure.</strong> The first trip happens as planned, so it brings no news when it arrives. A surprise loss hits with base utility and news together, then lingers in memory. The second trip is cancelled: with news about how life will feel, that costs the anticipation you were counting on.",
-      params: { a: 0.1, b: 0.85, m: 0.1, al: 0.75, nu0: 0.3, nu1: 0.07, nuDecay: 0.7, lam: 2, base: 0, T: 60 }, over: "e", recursive: true,
+      params: { a: 0.1, b: 0.85, m: 0.1, al: 0.75, nu: 0.3, delta: 0.7, lam: 2, base: 0, T: 60 }, over: "e", recursive: true,
       events: [{ name: "Trip 1", at: 20, value: 3, announce: 5, cancel: null },
                { name: "Trip 2", at: 45, value: 3, announce: 25, cancel: 40 },
                { name: "Surprise loss", at: 33, value: -3, announce: null, cancel: null }] },
@@ -295,14 +295,14 @@ footer a { color: var(--accent); }
       params: { ...SHARED }, over: "e", recursive: true,
       events: [{ name: "Loss", at: 38, value: -4, announce: 10, cancel: null }] },
     { key: "threshold", name: "Past the threshold",
-      note: "<strong>Strong surprise weight and high loss aversion.</strong> The news loop gain λ(ν·g) is above 1. Good news then has two possible felt states (the chart keeps the brighter one), and the first bad news has none, so the life stops there. Lower λ or ν(0) to bring it back.",
-      params: { a: 0.1, b: 0.85, m: 0.1, al: 0.75, nu0: 0.45, nu1: 0.07, nuDecay: 0.7, lam: 2.5, base: 0, T: 50 }, over: "e", recursive: true,
+      note: "<strong>Strong surprise weight and high loss aversion.</strong> The news loop gain λ(ν·g) is above 1. Good news then has two possible felt states (the chart keeps the brighter one), and the first bad news has none, so the life stops there. Lower λ or ν to bring it back.",
+      params: { a: 0.1, b: 0.85, m: 0.1, al: 0.75, nu: 0.45, delta: 0.7, lam: 2.5, base: 0, T: 50 }, over: "e", recursive: true,
       events: [{ name: "Good news", at: 12, value: 3, announce: null, cancel: null },
                { name: "Bad news", at: 28, value: -3, announce: null, cancel: null }] },
   ];
 
   const SLIDERS = [
-    ["T", 0], ["base", 2], ["a", 3], ["b", 2], ["m", 3], ["al", 2], ["nu0", 2], ["nu1", 3], ["nuDecay", 2], ["lam", 2],
+    ["T", 0], ["base", 2], ["a", 3], ["b", 2], ["m", 3], ["al", 2], ["nu", 2], ["delta", 2], ["lam", 2],
   ];
   const SERIES = [
     { key: "base", color: "--s-base", label: "base" },
@@ -443,7 +443,9 @@ footer a { color: var(--accent); }
   let pending = false;
   function schedule() { if (!pending) { pending = true; requestAnimationFrame(() => { pending = false; recompute(); }); } }
   function recompute() {
-    const base = { ...state.params, events: state.events.map((e) => ({ at: e.at, value: e.value, announce: e.announce, cancel: e.cancel })), recursive: state.recursive };
+    const P = state.params;
+    const base = { ...P, nu0: P.nu, nu1: P.nu * P.delta, nuDecay: P.delta,
+                   events: state.events.map((e) => ({ at: e.at, value: e.value, announce: e.announce, cancel: e.cancel })), recursive: state.recursive };
     result = ConvModel.simulate({ ...base, over: state.over });
     ghost = state.ghost ? ConvModel.simulate({ ...base, over: state.over === "e" ? "u" : "e" }) : null;
     draw(); status();
@@ -591,7 +593,7 @@ footer a { color: var(--accent); }
   }
   function readout(t) {
     const r = $("readout"); r.textContent = "";
-    if (t == null) { r.textContent = "No felt state from the start: lower λ or ν(0)."; return; }
+    if (t == null) { r.textContent = "No felt state from the start: lower λ or ν."; return; }
     const add = (label, v, color) => {
       const s = document.createElement("span"); s.className = "r";
       if (color) { const i = document.createElement("i"); i.style.setProperty("--c", css(color)); s.appendChild(i); }

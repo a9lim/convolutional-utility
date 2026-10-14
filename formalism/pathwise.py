@@ -74,7 +74,7 @@ def run(T, base, events, kf, kb, nu, lam, over):
 
 T = 60
 KF, KB = kernels(T, 0.1, 0.85, 0.1, 0.75)
-NU = np.array([0.3] + [0.1 * 0.7 ** j for j in range(1, T)])
+NU = 0.3 * 0.7 ** np.arange(T)          # nu(j) = nu * delta^j, nu = 0.3, delta = 0.7
 EVENTS = [(5, 20, 3.0, None),       # trip announced at 5, happens at 20
           (25, 45, 3.0, 40),        # second trip announced at 25, cancelled at 40
           (None, 33, -3.0, None)]   # unannounced loss at 33
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     axes[0].legend(loc="lower left", fontsize=8, ncol=5, frameon=False)
     axes[1].set_xlabel("time")
     fig.suptitle("Recursive model with felt news: a = m = 0.1, β = 0.85, α = 0.75 (M = 0.87), "
-                 "ν(0) = 0.3, λ = 2", fontsize=11)
+                 "ν = 0.3, δ = 0.7, λ = 2", fontsize=11)
     fig.tight_layout()
     fig.savefig(out, dpi=130)
     print(f"saved {out}")

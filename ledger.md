@@ -52,3 +52,7 @@ Periodically compacted to git history.
 - Canonicalized recursive echoes with recursive news as the main model (a9's suggestion);
   the direct form is presented as its reduced form. A full comparison of discounting
   schemes was started and dropped at a9's call once the tail result was clear (P1d).
+- News kernel simplified to `ν δ^j` (a9's suggestion), matching the anticipation and memory
+  kernels; Kőszegi & Rabin's `γ` kept as an extension. Calibration: inverting present bias
+  shows recursion alone would need an echo share near 1, and standard news-utility
+  calibrations sit past the recursive-news threshold.
