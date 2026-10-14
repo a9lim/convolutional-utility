@@ -280,6 +280,14 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     disappointment or decisions.
   - Bénabou's cancellation says it pays only for agents who don't see themselves doing
     it, or under nonlinearity.
+  - Loss-averse felt news gives the arbitrage an exact form. In the RL reading, the
+    forecast `V_t`, set after period `t−1`'s outcome, enters that period's news through
+    `δ_{t−1} = r_{t−1} + νV_t − V_{t−1}` and the next period's with the opposite sign. Its
+    marginal felt value is `aν + nν φ'(δ_{t−1}) − n E[φ'(δ_t)]`, larger by `nν(λ − 1)` just
+    after bad news: raising the outlook softens the loss just felt. So a forecaster free to
+    choose (tethered to calibration) braces before outcomes and consoles itself after bad
+    ones, under-updating on bad news. [synthesis; a learned critic shows the gap at
+    `λ = 2` and none at `λ = 1`, `experiments/learned_expectations/`]
   - The evidence for asymmetric updating is contested. Supporting: Eil & Rao 2011;
     Möbius et al. 2022; Sharot et al. 2011. Against, as artifact or plain conservatism:
     Shah et al. 2016; Coutts 2019; Barron 2021.
@@ -397,10 +405,14 @@ marked]
     (2023).
   - The constraint: the affect policy must not corrupt the beliefs action uses (Ruby, "A
     quick guide to confronting doom").
-- **In a learner.** An actor-critic whose critic is its felt forecast (core, the RL reading)
-  plays hidden games identically whether or not the critic may ascend felt utility; a free
-  critic turns rosy or braced by the sign of `aν − nλ(1−ν)`. Affect comes apart from action.
-  [checked in `experiments/learned_expectations/`]
+- **In a learner.** An actor-critic whose critic is its felt forecast (core, the RL reading),
+  in hidden repeated games. A critic free to ascend felt utility turns rosy or braced by the
+  sign of `aν − nλ(1−ν)`. Affect does not stay apart from action when the critic shares its
+  state with the policy, even though the policy never reads it: value and staying come to
+  share a direction in the state, so a rosy critic keeps the agent on a complacent policy
+  (0/8 seeds learn to shift after losses, against 7/8 honest and 8/8 braced). Decoupling
+  needs the affect head kept off the representation that acts. [checked in
+  `experiments/learned_expectations/`; mechanism partly open]
 - **Open.** Fixed-past selves hurry pains (D3), and a body of news is a pain. Does that make
   them feel news piecemeal, i.e. over-check? Subadditivity pulls the other way; untested.
 

@@ -6,25 +6,40 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
 ## The post
 
 1. **Learned expectations** (`experiments/learned_expectations/`): built the observer, the
-   scheduling agent (the `J` dial reproduces fixed-past and commitment play), the game agent
-   (random 2×2 games; the twin dial reproduces causal against evidential play) and the
-   hidden-game agent (a felt critic). Next (a9):
-   - **The braced-critic effect.** A critic that ascends felt utility at weak anticipation
-     braces and raises hidden-game payoffs 0.21 → 0.31 (two seeds); the ablation puts it in the
-     critic's felt objective acting on the shared state (payoff-matrix R² 0.44 vs 0.35 by
-     round 3). Why bracing helps and rosiness does not: candidates are loss-weighted news
-     making the critic track bad cells, gradient scale, and the shape of the felt target.
-   - **Anticipated news.** The scheduling learner's forecasts leave out anticipated news
-     (certainty-equivalent); the canonical model's rational forecasts include it. Build the
-     exact version (a Bayesian tree over dates, as in `formalism/checks.py` D6) and see
-     whether learning still picks the earliest credible plan.
-   - Then: reliability (D6) as an agent; the canonical (recursive) critic.
-2. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
+   scheduling agent (the `J` dial reproduces fixed-past and commitment play; exact rational
+   forecasts with anticipated news), the game agent (random 2×2 games; the twin dial
+   reproduces causal against evidential play) and the hidden-game agent (a felt critic: a rosy
+   critic keeps it complacent through the shared state). Next:
+   - **Two channels for optimism** (proposed first). Make the critic the policy's baseline, so
+     optimism also enters through the decision rule, where inflated values should drive
+     exploration ("optimism in the face of uncertainty"), against the shared state, where they
+     read as "stay". Which wins, and when.
+   - **The mechanism, finished.** Codex's three-branch one-step diagnostic near the plateau:
+     clone weights and Adam state, apply the policy gradient alone, plus the game-varying
+     critic gradient, plus its per-round mean; read the round-2 stay logit on fixed first-round
+     histories. Explains why the honest critic needs its mean push to escape. A small theorem:
+     under gradient flow a critic offset moves the policy at a rate set by the cross-kernel of
+     value and policy gradients.
+   - **Seeds for the game agent.** Equilibrium selection toward risk dominance (97% against 92%)
+     and the motivated-belief pattern are single training runs; rerun over seeds.
+   - **Evolving felt parameters.** Heritable `(a, m, n, λ)` in a population playing hidden
+     games, selected on payoffs: does selection favor bracing? (Known in kind: the indirect
+     evolutionary approach, Güth & Yaari; Dekel, Ely & Yilankaya 2007.)
+   - **Well-foundedness as a learning failure.** The canonical critic at `a = 0.3, ν = 0.8`
+     (anticipation mass 1.2) diverged; map where TD on felt utility diverges against
+     `M + λN < 1`.
+   - The twin dial in hidden repeated games (cooperation in hidden prisoner's dilemmas);
+     reliability (D6) as an agent.
+2. **Fit to momentary-happiness data.** Rutledge et al. 2014 model happiness as decaying sums
+   of rewards, expected values and prediction errors: the direct model with linear news.
+   If their data are available: does the recursive model fit better, and is `λ > 1` on
+   prediction errors?
+3. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
    choices; coda: selves), and the technical companion.
-3. **Figures:** the Disneyland decomposition; primitive against effective kernels; `w(s)`
+4. **Figures:** the Disneyland decomposition; primitive against effective kernels; `w(s)`
    profiles; the 2×2 signatures; the threshold's regimes and its closed form against memory
    reach; built-in bracing; a ramp-sign phase diagram in `(α, μ)`; the savoring trap.
-4. **Open formal items the post touches:**
+5. **Open formal items the post touches:**
    - the sharp condition for the joint Bayesian forecast fixed point (only the sufficient
      row-sum condition is known);
    - N3 in the canonical model with sign-asymmetric memory of disappointment (the fading
@@ -41,10 +56,10 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
      backward version of N3; whether reflective consistency forces linear anticipation;
    - the LessWrong objections ("Not for the Sake of Happiness (Alone)", "Doublethink");
    - the coda: pin A1 against Armstrong's ADT text and Greaves 2004.
-5. **Calibration gaps:** anticipation's reach within a day; vacation anticipation (Nawijn's
+6. **Calibration gaps:** anticipation's reach within a day; vacation anticipation (Nawijn's
    gap looks like selection); news strength, lab (prediction errors about as strong as
    rewards) against events (0.1–0.3); everything about LLM strengths.
-6. **Prior art for a9's academic access** (PDFs to `references/inbox/`, gitignored; I extract
+7. **Prior art for a9's academic access** (PDFs to `references/inbox/`, gitignored; I extract
    and file them):
    - Could change a claimed result: Hori 1992 (*JET* 56(2): 451–467; P4); Fels &
      Zeckhauser 2008 (*J. Risk & Uncertainty* 37(2–3): 187–197; P3, P4); Kreps & Porteus

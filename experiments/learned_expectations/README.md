@@ -69,10 +69,18 @@ batched (`felt.py`, checked against `observer.py` to 2e-15).
 Repeated rounds (10) of an unknown random 2×2 game against a self-play partner. A GRU sees
 only past moves and its own realized payoffs; an action head and a critic, the forecast of
 discounted payoffs to come. Felt utility per round reads the critic as anticipation and its
-TD error as news (core, the RL reading; direct version, news over base payoffs).
-Variants: payoffs only; felt with an honest (TD-only) critic; felt with a motivated critic,
-which also ascends felt utility, tethered by its TD loss. `repeated.py`, `run_repeated.py`
-(writes `repeated_report.txt` and `repeated.png`).
+TD error as news (core, the RL reading; direct version, news over base payoffs). The policy
+learns by REINFORCE against the batch mean, so the critic reaches it only through the state
+they share.
+
+- Variants: payoffs only; felt with an honest (TD-only) critic; felt with a motivated critic,
+  which also ascends felt utility, tethered by its TD loss. Critic controls: a fixed per-round
+  offset in the TD loss, expectile TD, a canonical critic that forecasts felt utility itself,
+  and a critic detached from the shared state.
+- `repeated.py` (agent, felt utility, trainer); `run_repeated.py` (the variants over seeds;
+  `repeated_report.txt`, `repeated.png`); `run_braced.py` (what the critic's level does,
+  fourteen critics over seeds; `braced_report.txt`, `braced.png`); `run_alignment.py` (value
+  and staying share a direction in the state; `alignment_report.txt`).
 
 ## Results so far
 
@@ -107,13 +115,34 @@ which also ascends felt utility, tethered by its TD loss. `repeated.py`, `run_re
   `w = 1` cooperates and hunts stag. Graded `w` matches the analytic thresholds game by game:
   all-cooperate is stable iff `w ≥ (T−R)/(R−S)`, all-defect iff `w ≤ (P−S)/(T−P)` (known in
   kind: stop-gradients and performative stability, Oesterheld et al. 2023).
-- **Hidden games.** Payoff per round rises from 0.00 to 0.21 within an episode as the agent
-  learns the game. Felt utility leaves play unchanged; a critic free to ascend felt utility is
-  rosy when anticipation outweighs chronic disappointment (`aν > nλ(1−ν)`: forecasts about 2×
-  realized) and braced otherwise (`a = 0.05`: −2.4 at round 1, relaxing to −0.1): affect
-  decoupled from action (D7). A surprise: the braced critic raises payoffs to 0.31 (two seeds);
-  the ablation puts the gain in the critic's felt objective acting on the shared state, not in
-  the felt reward. The braced agent's state also encodes its own payoff matrix better (linear
-  R² 0.44 against 0.35 after round 3, 0.59 against 0.46 after round 5): bracing works as an
-  auxiliary task that makes the state represent the hidden game. Why bracing does this and
-  rosiness does not is open (`repeated_report.txt`, `repeated.png`).
+- **Hidden games: two policies.** Training first reaches a complacent policy: after a loss in
+  round 1 it switches only about 45% of the time, never after a gain (about 0.21 per round
+  late). It then usually escapes to win-stay, lose-shift at zero (switch after 99% of losses,
+  about 10% of gains), which explores and learns the game (about 0.30). One honest seed stays
+  complacent for 9000 steps.
+- **A rosy critic keeps the agent complacent.** A free critic is rosy when anticipation
+  outweighs chronic disappointment (`aν > nλ(1−ν)`) and braced otherwise. Its level decides the
+  escape, through the state it shares with the policy (the policy never reads it): honest
+  critics escape in 7/8 seeds (steps 250–1500), braced ones in 8/8 (by step 750), rosy ones in
+  0/8 (`braced_report.txt`, `braced.png`).
+  - Neither loss aversion nor the felt objective is needed. At `λ = 1` the motivated critic's
+    gradients equal a fixed offset's exactly (Codex), and fixed offsets, like expectile
+    critics, do the same: below realized payoffs, 16/16 escape by step 750, however deep;
+    well above, 0/8; mildly above, slowly. Detached from the state, a rosy critic escapes 2/4.
+  - Mechanism, partly: once learning starts, the critic's value and the policy's stay logit
+    share a direction in the state (gradient cosine 0.34–0.58 at step 150, about 0 at
+    initialization), and a step that raises value raises staying after losses and gains alike
+    in every seed and checkpoint (`alignment_report.txt`). A critic held above its targets
+    keeps telling the policy things are fine. Open: removing the per-round mean of the
+    critic's push on the state also stops the honest critic from escaping (0/4), though its
+    mean residual is small and fluctuates in sign.
+  - The canonical critic, honest about felt utility, sits above payoffs at `λ = 1` (its target
+    includes echoes) and escapes in 1/4; at `λ = 2` in 3/8, late.
+- **Felt utility as the policy's reward** leaves the escape rate unchanged at `a = 0.3` (3/4
+  seeds, as for payoffs); at weak anticipation it escapes 1/4, and a motivated, braced critic
+  restores 4/4 (`repeated_report.txt`, 4 seeds each). Escaped agents' states tell game classes
+  apart better (linear probe 41–45% balanced accuracy by round 10, chance 25%; complacent 34%).
+- **Consolation.** At `λ = 2` the motivated critic braces before outcomes and consoles itself
+  after bad ones: just after a negative TD error it sits 0.18 below realized payoffs, after a
+  positive one 0.51 below. At `λ = 1` the gap vanishes (0.33 against 0.29), as the critic's
+  first-order condition predicts (decision.md D5, rationalization).

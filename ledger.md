@@ -148,3 +148,26 @@ Periodically compacted to git history.
   saturated a logit, Adam stalls on saturated sigmoids (fixed by preconditioning each self's
   gradient by reach and slope), and a coupled-game variant that trained against the wrong
   opponent policy.
+
+## 2026-10-14 — the braced critic, anticipated news
+
+- Anticipated news: the scheduling agent now solves the canonical model exactly (Bayesian
+  forecasts over the worlds, sign iteration on the news terms), replacing a version whose
+  forecasts left anticipated news out (git `c51a53e`). Fixed-past selection was unchanged seed
+  for seed. The planner reached commitment 73% against 60%: those forecasts were rosier than
+  rational, and randomizing away from a plan cost less with rational ones in 84% of directions.
+- The braced critic, deflated and replaced. The "braced critic raises payoffs" result compared
+  braced runs against a single honest seed that happened to stay on the complacent plateau;
+  with seeds, honest critics escape 7/8 or 9/10 times. What holds: critics above realized
+  payoffs (rosy, offsets, high expectiles) keep the agent complacent, through the shared
+  state. Codex (thread `braced-critic`, jobs `cx-20261014-111752-a3aa`,
+  `cx-20261014-122058-edaf`) showed that at `λ = 1` motivated training equals a fixed offset
+  exactly, that an offset supplied outside the network gives honest gradients (so the network
+  learning the bias is the intervention), and proposed the value/stay coupling, which the
+  alignment measurement supports. Its centering test, verified for routing, stopped even the
+  honest critic from escaping; left open.
+- Lesson kept: learned-agent comparisons need seeds. The game agent's equilibrium-selection
+  result is next in line for the same check.
+- a9 asked which extensions I find exciting. My picks: optimism through the decision rule
+  versus the shared state; fitting the model to momentary-happiness data; evolving felt
+  parameters, in that order.

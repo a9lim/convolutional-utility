@@ -8,11 +8,16 @@ state feeds an action head and a critic C_k, the forecast of discounted payoffs 
 Felt utility per round (direct echoes, news over base payoffs; a first pass, not the canonical model):
   e_k = r_k + a nu C_{k+1} + sum_j m mu^j r_{k-j} + n phi_lam(delta_k),   delta_k = r_k + nu C_{k+1} - C_k,
 anticipation as the critic's forecast of what is to come and news as its felt TD error.
-Variants:
-- "payoff":     the policy maximizes payoffs; the critic learns by TD only.
-- "calibrated": the policy maximizes felt utility; the critic learns by TD only (honest forecasts).
-- "motivated":  as calibrated, but the critic also ascends felt utility, tethered by its TD loss / tau
-                (the affect head free to be rosy or braced, decision.md D7).
+Training: REINFORCE with rewards-to-go against the batch mean; the policy ascends payoffs or felt utility
+(over the critic's forecasts, held fixed), and the critic is one of
+- "honest":    TD toward realized payoffs;
+- "motivated": TD plus ascending felt utility, tethered by its TD loss (the affect head free to be rosy or
+               braced, decision.md D7);
+- "offset":    TD toward targets shifted by a fixed per-round offset (a bias with no felt objective);
+- "expectile": asymmetric TD, weight 1 - x on overestimates and x on underestimates;
+- "canonical": TD toward felt utility itself, recursive memory and news on the felt TD error, so its honest
+               forecast includes anticipated news.
+The variants of run_repeated.py: payoff (payoff, honest), calibrated (felt, honest), motivated (felt, motivated).
 """
 import numpy as np
 import torch
@@ -73,59 +78,58 @@ def felt(rec, C_used, feel=FEEL):
     return r + feel["a"] * feel["nu"] * Cn + mem + news
 
 
-def td_loss(rec, feel=FEEL):
+def felt_canonical(r, C, feel=FEEL):
+    """Canonical felt utility over the critic's forecasts of felt utility: e_k = x_k + n phi(e_k + nu C_{k+1} - C_k),
+    x_k = r_k + a nu C_{k+1} + sum_j m mu^j e_{k-j}; the root is on the branch of x_k + nu C_{k+1} - C_k."""
+    G, K = r.shape
+    Cn = torch.cat([C[:, 1:], torch.zeros(G, 1)], 1)
+    es = []
+    for k in range(K):
+        mem = sum(feel["m"] * feel["mu"] ** j * es[k - j] for j in range(1, k + 1)) if k else 0.0
+        x = r[:, k] + feel["a"] * feel["nu"] * Cn[:, k] + mem
+        z = x + feel["nu"] * Cn[:, k] - C[:, k]
+        c = torch.where(z >= 0, 1.0, feel["lam"])
+        es.append(x + feel["n"] * c * z / (1 - feel["n"] * c))
+    return torch.stack(es, 1)
+
+
+def td_loss(rec, feel=FEEL, critic="honest", offset=None, expectile=None):
     r, C = rec["r"], rec["C"]
     G, K = r.shape
-    target = r + feel["nu"] * torch.cat([C[:, 1:].detach(), torch.zeros(G, 1)], 1)
-    return ((C - target) ** 2).mean()
+    base = felt_canonical(r, C.detach(), feel) if critic == "canonical" else r
+    d = C - (base + feel["nu"] * torch.cat([C[:, 1:].detach(), torch.zeros(G, 1)], 1))
+    if critic == "offset":
+        return ((d - offset) ** 2).mean()
+    if critic == "expectile":
+        return (torch.where(d > 0, 1 - expectile, expectile) * 2 * d ** 2).mean()
+    return (d ** 2).mean()
 
 
-def train(variant, steps=3000, G=2048, K=10, seed=0, tau=1.0, lr=3e-3):
+def train(policy="payoff", critic="honest", steps=3000, G=2048, K=10, seed=0, lr=3e-3, feel=FEEL,
+          offset=None, expectile=None, detach=False, monitor=None):
+    """detach: the critic reads the state without training it, so it cannot shape what the policy sees.
+    monitor(step, agent), if given, is called every 250 steps."""
     gen = torch.Generator().manual_seed(seed)
     torch.manual_seed(seed)
     agent = Agent()
     opt = torch.optim.Adam(agent.parameters(), lr=lr)
+    off = torch.tensor(offset) if offset is not None else None
     for it in range(steps):
+        if monitor is not None and it % 250 == 0:
+            monitor(it, agent)
         A, Bm = torch.rand(G, 2, 2, generator=gen) * 2 - 1, torch.rand(G, 2, 2, generator=gen) * 2 - 1
         rec = rollout(agent, A, Bm, K, gen)
         loss = 0.0
         for i in range(2):
             R = rec[i]
-            if variant == "payoff":
-                reward = R["r"]
-            else:
-                reward = felt(R, R["C"].detach())
+            if detach:
+                R = dict(R, C=agent.critic(R["h"].detach())[:, :, 0])
+            reward = R["r"] if policy == "payoff" else felt(R, R["C"].detach(), feel)
             ret = torch.flip(torch.cumsum(torch.flip(reward.detach(), [1]), 1), [1])     # rewards-to-go
-            adv = ret - ret.mean(0, keepdim=True)
-            loss = loss - (R["logp"] * adv).mean()
-            loss = loss + td_loss(R) / (tau if variant == "motivated" else 1.0)
-            if variant == "motivated":
-                loss = loss - felt(R, R["C"]).sum(1).mean()                              # the critic ascends felt utility
-        opt.zero_grad()
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(agent.parameters(), 5.0)
-        opt.step()
-    return agent
-
-
-def train_mix(policy_reward, critic_motivated, steps=3000, G=2048, K=10, seed=0, lr=3e-3):
-    """Ablation: the policy's reward ("payoff" or "felt") and the critic (honest, or also ascending felt
-    utility) chosen separately."""
-    gen = torch.Generator().manual_seed(seed)
-    torch.manual_seed(seed)
-    agent = Agent()
-    opt = torch.optim.Adam(agent.parameters(), lr=lr)
-    for _ in range(steps):
-        A, Bm = torch.rand(G, 2, 2, generator=gen) * 2 - 1, torch.rand(G, 2, 2, generator=gen) * 2 - 1
-        rec = rollout(agent, A, Bm, K, gen)
-        loss = 0.0
-        for i in range(2):
-            R = rec[i]
-            reward = R["r"] if policy_reward == "payoff" else felt(R, R["C"].detach())
-            ret = torch.flip(torch.cumsum(torch.flip(reward.detach(), [1]), 1), [1])
-            loss = loss - (R["logp"] * (ret - ret.mean(0, keepdim=True))).mean() + td_loss(R)
-            if critic_motivated:
-                loss = loss - felt(R, R["C"]).sum(1).mean()
+            loss = loss - (R["logp"] * (ret - ret.mean(0, keepdim=True))).mean()
+            loss = loss + td_loss(R, feel, critic, off, expectile)
+            if critic == "motivated":
+                loss = loss - felt(R, R["C"], feel).sum(1).mean()                        # ascends felt utility
         opt.zero_grad()
         loss.backward()
         torch.nn.utils.clip_grad_norm_(agent.parameters(), 5.0)
