@@ -2,9 +2,10 @@
 
 Ordered by dependency.
 
-1. **Calibrate** (core, the canonical model): fold in the anchors being verified; decide
-   how to treat the echo-share bill on "discounting is an echo" and the news-utility
-   calibration tension.
+1. **Calibrate** (core, the canonical model): pick a default parameter set from the felt
+   anchors (felt `λ` 1–2, `ν` 0.1–0.3, `A > B`, reach scaling with event size, dread >
+   savoring); settle how the post treats the echo-share bill (patience is mostly not felt
+   echo); retrieve the Rutledge 2014 full text and Halabi et al. 2022.
 2. **Pick the spine.** Leading candidate: beliefs are welfare (D5), with the past self as
    predictor (D1, D3, D6) second and the life-sum results (P5, P6) as setup.
 3. **Beliefs are welfare** (`decision.md` D5), the formal work the spine needs:

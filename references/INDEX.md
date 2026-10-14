@@ -108,6 +108,21 @@ Meta-emotion, rumination and bistability
 - `cramer-2016-major-depression-as-a-complex-dynamic-system.txt`, `van-de-leemput-2014-critical-slowing-down-as-early-warning-for-depression.txt`, `kuppens-2010-emotional-inertia-and-psychological-maladjustment.txt`, `hosseinichimeh-2018-feedback-mechanisms-among-depression-rumination-and-stressors-in-adolescents.txt`
 - `robinaugh-2019-network-theory-of-panic-disorder-computational-model-preprint.txt` — preprint
 
+Calibration anchors
+- `brown-2024-meta-analysis-of-empirical-estimates-of-loss-aversion-wp.txt` — WP
+- `pagel-2017-expectations-based-reference-dependent-life-cycle-consumption-wp.txt`, `pagel-2016-expectations-based-reference-dependent-preferences-and-asset-pricing-wp.txt` — WPs
+- `gill-2012-a-structural-analysis-of-disappointment-aversion-in-a-real-effort-competition-iza-dp4536.txt` — WP
+- `kermer-2006-loss-aversion-is-an-affective-forecasting-error.txt`; `mcgraw-2010-comparing-gains-and-losses-abs.txt`, `harinck-2007-when-gains-loom-larger-than-losses-abs.txt` — abstracts
+- `imai-2021-meta-analysis-of-present-bias-estimation-using-convex-time-budgets.txt` (+ `-online-appendix.txt`)
+- `cheung-2021-quasi-hyperbolic-present-bias-a-meta-analysis-iza-dp14625.txt`, `augenblick-2015-working-over-time-dynamic-inconsistency-in-real-effort-tasks-nber-w18734.txt`, `cohen-2020-measuring-time-preferences-nber-w22455.txt`, `ericson-2019-intertemporal-choice-nber-w25358.txt` — WPs
+- `matousek-2022-individual-discount-rates-a-meta-analysis-of-experimental-evidence-abs.txt` — abstract
+- `killingsworth-2010-a-wandering-mind-is-an-unhappy-mind.txt`, `baumeister-2020-everyday-thoughts-in-time-preprint.txt`, `song-2012-mind-wandering-in-chinese-daily-lives-an-experience-sampling-study.txt`
+- `dargembeau-2011-frequency-characteristics-and-functions-of-future-oriented-thoughts-in-daily-life.txt`, `barsics-2016-frequency-characteristics-and-perceived-functions-of-emotional-future-thinking-in-daily-life-author-version.txt`, `stawarczyk-2011-mind-wandering-phenomenology-and-function-as-assessed-with-a-novel-experience-sampling-method-author-version.txt`
+- `kumar-2014-waiting-for-merlot-anticipatory-consumption-of-experiential-and-material-purchases.txt`, `nawijn-2010-vacationers-happier-but-most-not-happier-after-a-holiday.txt`, `kuhnel-2011-how-long-do-you-benefit-from-vacation-a-closer-look-at-the-fade-out-of-vacation-effects.txt`, `de-bloom-2009-do-we-recover-from-vacation-meta-analysis-of-vacation-effects-on-health-and-well-being.txt`
+- `caruso-2008-a-wrinkle-in-time-asymmetric-valuation-of-past-and-future-events.txt`; `van-boven-2007-looking-forward-looking-back-anticipation-is-more-evocative-than-retrospection-abs.txt`, `finnbogadottir-2013-involuntary-future-projections-are-as-frequent-as-involuntary-memories-but-more-positive-abs.txt` — abstracts
+- `rutledge-2014-a-computational-and-neural-model-of-momentary-subjective-well-being-abs.txt`, `rutledge-2015-dopaminergic-modulation-of-decision-making-and-subjective-well-being-abs.txt` — abstracts
+- `vanhasbroeck-2021-testing-a-computational-model-of-subjective-well-being-replication-of-rutledge-2014-author-version.txt`, `blain-2020-momentary-subjective-well-being-depends-on-learning-and-not-reward.txt`, `forbes-2024-the-effect-of-reward-prediction-errors-on-subjective-affect-depends-on-outcome-valence-and-decision-context-accepted-manuscript.txt`
+
 Anthropics and imperfect recall
 - `armstrong-2011-anthropic-decision-theory-arxiv-v1.txt`, `armstrong-2017-anthropic-decision-theory-arxiv-v3.txt`
 - `elga-2000-self-locating-belief-and-the-sleeping-beauty-problem.txt`

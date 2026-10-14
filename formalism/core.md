@@ -51,30 +51,58 @@ plus direct news with an echoed kernel `ν′`.
 - Closed forms live in the reduced form (P5, P6, decision.md D3). Boundaries, nonlinearity
   and restrictions on the kernel family are where the two forms part (the 2×2 below).
 
-**Calibration.** What pins the coefficients, as far as known. [anchors marked "to verify"
-are being checked]
+**Calibration.** What pins the coefficients, as far as known. Choice-revealed and felt
+quantities differ, and the hedonic reading needs the felt ones.
 - Constraints, not values: `M < 1`; `λ(ν·g) < 1`.
-- Present bias inverts to primitives (one-sided P3): `a = β_L/(1−β_L)`, `β = δ_lr (1−β_L)`,
-  with `δ_lr` the long-run per-period discount factor. Hence `M = β_L δ_lr / (1 − δ_lr + β_L δ_lr)`.
-  [proved; checked at annual periods]
-  - If all present bias came from recursion, realistic values would put the echo share near
-    1: `β_L = 0.7` gives `M = 0.94` with annual periods (base utility one eighteenth of
-    felt experience) and `M = 0.9998` with daily periods. Two-sided with modest memory
-    (`m = 0.05, α = 0.75`, `β_L = 0.7`, `p = 0.96`): `M = 0.965`. So recursion is likely one
-    source of present bias among several, and "discounting is an echo" carries this bill.
-    [checked]
-- `λ ≈ 2`–`2.6` in news-utility calibrations (Pagel 2018: `η = 1`, `λ = 2`–`2.5`; `λ ≈ 2.6`
-  matching stock-market evidence). A meta-analytic loss-aversion estimate is to verify.
-- Tension: the standard `η = 1, λ = 2.5` would put recursive news past the threshold,
-  which needs `νλ` well below 1 (the `j = 0` term alone needs `νλ < 1`). Either news is
-  felt more weakly than consumption utility, or it is about base utility (direct news).
-- Anticipation reach for small pleasures is days: people pay more for a kiss three days
-  away than now, and more to avoid a shock delayed three hours to three days than an
-  immediate one (Loewenstein 1987).
-- Still to verify: anticipation against memory strength (vacation studies; Caruso,
-  Gilbert & Wilson 2008); realization surprise in outcome units (Rutledge et al. 2014;
-  Shepperd & McNulty 2002); how much of experience concerns past and future
-  (Killingsworth & Gilbert 2010).
+- **Present bias and patience invert to primitives** (one-sided P3): `a = β_L/(1−β_L)`,
+  `β = δ_lr (1−β_L)`, with `δ_lr` the long-run per-period discount factor. Hence
+  `M = β_L δ_lr / (1 − δ_lr + β_L δ_lr)`, and the base-utility share `1 − M ≈ ρ/β_L` for a
+  per-period discount rate `ρ`. [proved; checked]
+  - `M` lies below `δ_lr` and rises to it as `β_L → 1`. The bill is set by patience, not by
+    present bias: if long-run patience came from felt echo alone, nearly all experience
+    would be echo (`β_L = 0.7`, annual 4%: `M = 0.94`; daily periods: `M = 0.9998`;
+    two-sided with modest memory: `M = 0.965`).
+  - Experience sampling says felt echo is small on the positive side: pleasant
+    mind-wandering, mostly about past and future, leaves momentary happiness where
+    on-task focus has it, while unpleasant mind-wandering costs a lot (`b = −0.5`, n.s.,
+    against `−23.9` on a 0–100 scale; Killingsworth & Gilbert 2010). So patience is mostly
+    not felt echo: choices run on evaluative weights, and the momentary self's felt row
+    (P3, P4) is one source of present bias among several. [synthesis]
+  - Measured present bias: `β_QH ≈ 0.97` for money in convex time budgets (Imai, Rutter &
+    Camerer 2021), `0.82`–`0.87` for money across methods and `0.66` for non-monetary goods
+    (Cheung, Tymula & Wang 2021), `0.88`–`0.90` for effort (Augenblick, Niederle & Sprenger
+    2015), `0.52` with "now" in minutes (McClure et al., via Ericson & Laibson 2019). It
+    depends on how long "now" is.
+- **Loss aversion λ.** Choice-revealed: `1.96` (`1.74` bias-corrected; Brown et al. 2024
+  meta-analysis). Structural news utility: `λ ≈ 2.3`–`3.0` with `η ≈ 0.9`–`1.1` and
+  prospective weight `γ ≈ 0.53`–`0.87` (Pagel 2017, 2018); a lab kink `η(λ−1) ≈ 1.7` (Gill &
+  Prowse 2012). Felt: smaller. Losses are not experienced as worse than equal gains, a
+  forecasting error (Kermer et al. 2006); disappointment exceeds elation 1.4–1.9 times
+  (Mellers et al. 1997); surprise asymmetry 1.0–1.45 (Shepperd & McNulty 2002); only
+  downside surprise registers in Forbes & Bennett (2024). Working range for felt `λ`: 1–2.
+- **Surprise ν**, relative to the outcome's own effect: `≈ 0.25` each way, measured right
+  after the outcome (Shepperd & McNulty); `0.1`–`0.15`, downside only (Forbes & Bennett);
+  comparable to the outcome in the Rutledge model of momentary happiness (prediction-error
+  weight ≈ reward weight; Vanhasbroeck et al. 2021 replication). Working range: `0.1`–`0.3`.
+- The earlier tension dissolves under felt values: `νλ ≈ 0.1`–`0.6`, below the recursive-news
+  threshold. It was a clash between choice-calibrated news utility (`η = 1, λ = 2.5`) and felt
+  news.
+- **Anticipation against memory.** Thought runs forward about three times as often as back
+  (any-future 30% against any-past 9% of thoughts, Baumeister et al. 2020; mind-wandering
+  future:past ≈ 1.9, Song & Wang 2012), so `A > B` in attention. Anticipating an experience
+  lifts momentary happiness a little (`+1.2` to `+2.4` on 0–100; Kumar, Killingsworth &
+  Gilovich 2014); a planned vacation raises pre-trip happiness (Nawijn et al. 2010).
+  Valuation of future over past events, `×1.2`–`2.0` (Caruso, Gilbert & Wilson 2008), has a
+  failed replication of its first study.
+- **Reach scales with the event.** Memory: a vacation's afterglow halves in about a week
+  and is gone in 2–8 weeks (Kühnel & Sonnentag 2011; de Bloom et al. 2009; Nawijn et al.);
+  a small lab reward's, in seconds (forgetting factor 0.6–0.85 per trial; Rutledge et al.
+  2014; Blain & Rutledge 2020). Anticipation: days for a small pleasure (Loewenstein 1987:
+  willingness to pay for a kiss peaks around three days out), weeks for a vacation.
+- **Sign asymmetry is the empirical default.** Positive echoes add little and negative
+  echoes cost a lot (Killingsworth & Gilbert; anticipatory emotion averages `+0.35` on
+  `−3..+3` with 38% fear or anxiety, Barsics et al. 2016). Dread outweighs savoring, which is
+  what makes D5's dread-of-dread bite in the recursive model.
 - Identification (P10; Eliaz & Spiegler's ordinality) means choices alone cannot pin the
   hedonic coefficients. Experience sampling around scheduled events can.
 

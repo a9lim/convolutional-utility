@@ -922,6 +922,143 @@ Meta-emotion, rumination and bistability:
   and stressors in adolescents. *PLoS ONE* 13(9): e0204389. **FT** ·
   `papers/hosseinichimeh-2018-feedback-mechanisms-among-depression-rumination-and-stressors-in-adolescents.txt`
 
+## Calibration anchors (core, the canonical model)
+
+Loss aversion:
+- **Brown, A., Imai, T., Vieider, F. & Camerer, C. (2024).** Meta-analysis of empirical
+  estimates of loss aversion. *JEL* 62(2): 485–516. doi:10.1257/jel.20221698. **WP** (2022) ·
+  `papers/brown-2024-meta-analysis-of-empirical-estimates-of-loss-aversion-wp.txt`
+  - Mean `λ = 1.955` [1.82, 2.11] (Table 5); bias-corrected 1.74. Only 9 of 522 estimates use
+    a Kőszegi–Rabin reference point.
+- **Pagel, M. (2017).** Expectations-based reference-dependent life-cycle consumption.
+  *REStud* 84(2): 885–934. doi:10.1093/restud/rdx003. **WP** ·
+  `papers/pagel-2017-expectations-based-reference-dependent-life-cycle-consumption-wp.txt`
+  - Structural estimates, annual periods: `η ≈ 1`, `λ ≈ 2.3`–`2.4`, `γ ≈ 0.53`–`0.59` (text
+    and table differ).
+- **Pagel (2018)**, already above: Table 1 estimates `η = 0.87`, `λ = 3.03`, `γ = 0.87` from
+  life-cycle portfolio shares; plausible lab range `η ≈ 1`, `λ ∈ [2, 3]`, `γ ≈ 0.8` (p. 40).
+- **Pagel, M. (2016).** Expectations-based reference-dependent preferences and asset
+  pricing. *JEEA* 14(2): 468–514. doi:10.1111/jeea.12137. **WP** ·
+  `papers/pagel-2016-expectations-based-reference-dependent-preferences-and-asset-pricing-wp.txt`
+  - Calibration only: `η = 1`, `λ = 2.6`–`3.4`, `γ = 0.7`.
+- **Gill, D. & Prowse, V. (2012).** A structural analysis of disappointment aversion in a real
+  effort competition. *AER* 102(1): 469–503. doi:10.1257/aer.102.1.469. **WP** (IZA DP 4536) ·
+  `papers/gill-2012-a-structural-analysis-of-disappointment-aversion-in-a-real-effort-competition-iza-dp4536.txt`
+  - Kink `η(λ−1) ≈ 1.72` on average, with large heterogeneity; the reference point adjusts
+    almost instantly.
+- **Kermer, D., Driver-Linn, E., Wilson, T. & Gilbert, D. (2006).** Loss aversion is an
+  affective forecasting error. *Psychological Science* 17(8): 649–653.
+  doi:10.1111/j.1467-9280.2006.01760.x. **FT** ·
+  `papers/kermer-2006-loss-aversion-is-an-affective-forecasting-error.txt`
+  - Forecasters predicted losses would hurt more than gains please; experiencers showed no
+    asymmetry (Study 1), and losers were happier than they predicted (Study 2, d = 1.18).
+- Abstract level: McGraw, Larsen, Kahneman & Schkade (2010), *Psych. Sci.* 21(10),
+  judged-feelings loss aversion only under direct comparison; Harinck et al. (2007),
+  *Psych. Sci.* 18(12), gains loom larger for small amounts.
+
+Present bias and patience:
+- **Imai, T., Rutter, T. & Camerer, C. (2021).** Meta-analysis of present-bias estimation
+  using convex time budgets. *Economic Journal* 131(636): 1788–1814. doi:10.1093/ej/ueaa115.
+  **FT** (with online appendix) ·
+  `papers/imai-2021-meta-analysis-of-present-bias-estimation-using-convex-time-budgets.txt`
+  - `β = 0.97` for money, `0.88` for effort (Table 5); "now" within the day raises `β` by
+    about 0.05.
+- **Cheung, S., Tymula, A. & Wang, X. (2021).** Quasi-hyperbolic present bias: a
+  meta-analysis. IZA DP 14625. **WP** ·
+  `papers/cheung-2021-quasi-hyperbolic-present-bias-a-meta-analysis-iza-dp14625.txt`
+  - Money `0.82` (0.84–0.87 corrected); non-monetary `0.66`; convex time budgets alone 0.98.
+- **Augenblick, N., Niederle, M. & Sprenger, C. (2015).** Working over time. *QJE* 130(3):
+  1067–1115. doi:10.1093/qje/qjv020. **WP** (NBER w18734) ·
+  `papers/augenblick-2015-working-over-time-dynamic-inconsistency-in-real-effort-tasks-nber-w18734.txt`
+  - Money `β ≈ 0.97`–`0.99`; effort `≈ 0.88`–`0.90`; daily `δ ≈ 1`.
+- **Cohen, J., Ericson, K., Laibson, D. & White, J. (2020).** Measuring time preferences.
+  *JEL* 58(2): 299–347. doi:10.1257/jel.20191074. **WP** (NBER w22455) ·
+  `papers/cohen-2020-measuring-time-preferences-nber-w22455.txt`
+- **Ericson, K. & Laibson, D. (2019).** Intertemporal choice. *Handbook of Behavioral
+  Economics* 2: 1–67. doi:10.1016/bs.hesbe.2018.12.001. **WP** (NBER w25358) ·
+  `papers/ericson-2019-intertemporal-choice-nber-w25358.txt`
+  - "How soon is now?" (§4.1): McClure et al.'s juice `β = 0.52` with "now" in minutes.
+- Abstract level: Matoušek, Havránek & Iršová (2022), *Exp. Econ.* 25(1), mean experimental
+  annual discount rate 0.33 after correcting for publication bias.
+
+Anticipation, memory and the content of thought:
+- **Killingsworth, M. & Gilbert, D. (2010).** A wandering mind is an unhappy mind. *Science*
+  330: 932. doi:10.1126/science.1192439. **FT** (with supplement) ·
+  `papers/killingsworth-2010-a-wandering-mind-is-an-unhappy-mind.txt`
+  - Mind-wandering in 46.9% of samples. Against on-task focus: overall `b = −8.79`, pleasant
+    topics n.s., unpleasant `−23.9` (0–100 scale).
+- **Baumeister, R., Hofmann, W., Summerville, A., Reiss, P. & Vohs, K. (2020).** Everyday
+  thoughts in time. *PSPB* 46(12): 1631–1648. doi:10.1177/0146167220908411. **WP** (preprint) ·
+  `papers/baumeister-2020-everyday-thoughts-in-time-preprint.txt`
+  - Any-future 29.6% against any-past 9.0% of thoughts; the present is happiest, the past
+    least pleasant.
+- **Song, X. & Wang, X. (2012).** Mind wandering in Chinese daily lives. *PLoS ONE* 7(9):
+  e44423. **FT** · `papers/song-2012-mind-wandering-in-chinese-daily-lives-an-experience-sampling-study.txt`
+  - Mind-wandering orientation: future 40.5%, past 21.5%.
+- **D'Argembeau, A., Renaud, O. & Van der Linden, M. (2011).** Frequency, characteristics
+  and functions of future-oriented thoughts in daily life. *Applied Cognitive Psychology*
+  25(1): 96–103. **FT** · `papers/dargembeau-2011-frequency-characteristics-and-functions-of-future-oriented-thoughts-in-daily-life.txt`
+  - About 59 future thoughts a day, mostly within a week.
+- **Barsics, C., Van der Linden, M. & D'Argembeau, A. (2016).** Frequency, characteristics
+  and perceived functions of emotional future thinking in daily life. *QJEP* 69(2):
+  217–233. **WP** · `papers/barsics-2016-frequency-characteristics-and-perceived-functions-of-emotional-future-thinking-in-daily-life-author-version.txt`
+  - Anticipatory emotion averages +0.35 on −3..+3; 49% involve joy, 38% fear or anxiety.
+- **Stawarczyk, D. et al. (2011).** Mind-wandering: phenomenology and function. *Acta
+  Psychologica* 136: 370–381. **WP** · `papers/stawarczyk-2011-mind-wandering-phenomenology-and-function-as-assessed-with-a-novel-experience-sampling-method-author-version.txt`
+  - Future-oriented task-unrelated thought dominates (the prospective bias).
+- **Kumar, A., Killingsworth, M. & Gilovich, T. (2014).** Waiting for merlot. *Psychological
+  Science* 25(10): 1924–1931. doi:10.1177/0956797614546556. **FT** ·
+  `papers/kumar-2014-waiting-for-merlot-anticipatory-consumption-of-experiential-and-material-purchases.txt`
+  - Thinking about an upcoming experiential purchase: +2.4 (+1.2 within person) on 0–100.
+- **Nawijn, J., Marchand, M., Veenhoven, R. & Vingerhoets, A. (2010).** Vacationers happier,
+  but most not happier after a holiday. *Applied Research in Quality of Life* 5(1): 35–47.
+  doi:10.1007/s11482-009-9091-9. **FT** (author version) ·
+  `papers/nawijn-2010-vacationers-happier-but-most-not-happier-after-a-holiday.txt`
+  - Higher pre-trip happiness for vacationers; after the trip, only very relaxed trips
+    raise it, back to baseline within 8 weeks.
+- **Kühnel, J. & Sonnentag, S. (2011).** How long do you benefit from vacation? *J.
+  Organizational Behavior* 32(1): 125–143. doi:10.1002/job.699. **FT** ·
+  `papers/kuhnel-2011-how-long-do-you-benefit-from-vacation-a-closer-look-at-the-fade-out-of-vacation-effects.txt`
+  - The post-vacation boost halves in about a week and is gone by week 4.
+- **de Bloom, J. et al. (2009).** Do we recover from vacation? Meta-analysis. *J.
+  Occupational Health* 51(1): 13–25. doi:10.1539/joh.k8004. **FT** ·
+  `papers/de-bloom-2009-do-we-recover-from-vacation-meta-analysis-of-vacation-effects-on-health-and-well-being.txt`
+  - Vacation effect d = +0.43, fade-out d = −0.38 within 2–4 weeks.
+- **Caruso, E., Gilbert, D. & Wilson, T. (2008).** A wrinkle in time. *Psychological Science*
+  19(8): 796–801. doi:10.1111/j.1467-9280.2008.02159.x. **FT** ·
+  `papers/caruso-2008-a-wrinkle-in-time-asymmetric-valuation-of-past-and-future-events.txt`
+  - Future events valued 1.2–2.0 times past ones; Study 1 failed to replicate (Halabi et
+    al. 2022, reported in Caruso et al. 2025).
+- Abstract level: Van Boven & Ashworth (2007), anticipation more evocative than
+  retrospection; Finnbogadóttir & Berntsen (2013), *Consciousness & Cognition* 22(1),
+  involuntary future projections as frequent as memories and more positive.
+
+Surprise and momentary happiness:
+- **Rutledge, R., Skandali, N., Dayan, P. & Dolan, R. (2014).** A computational and neural
+  model of momentary subjective well-being. *PNAS* 111(33): 12252–12257.
+  doi:10.1073/pnas.1407535111. **ABS** (full text blocked) ·
+  `papers/rutledge-2014-a-computational-and-neural-model-of-momentary-subjective-well-being-abs.txt`
+  - Happiness = weighted, exponentially forgotten sums of certain rewards, expected values
+    and prediction errors; forgetting factor `γ = 0.61`.
+- **Vanhasbroeck, N. et al. (2021).** Testing a computational model of subjective
+  well-being: a replication. *Cognition & Emotion*. doi:10.1080/02699931.2021.1891863. **WP** ·
+  `papers/vanhasbroeck-2021-testing-a-computational-model-of-subjective-well-being-replication-of-rutledge-2014-author-version.txt`
+  - Weights per €: certain reward 0.14, expected value 0.06, prediction error 0.15;
+    `γ = 0.81`.
+- **Blain, B. & Rutledge, R. (2020).** Momentary subjective well-being depends on learning
+  and not reward. *eLife* 9: e57977. doi:10.7554/eLife.57977. **FT** ·
+  `papers/blain-2020-momentary-subjective-well-being-depends-on-learning-and-not-reward.txt`
+  - Happiness tracks probability prediction errors, how surprised one is, not reward size;
+    forgetting factor about 0.6.
+- **Forbes, L. & Bennett, D. (2024).** The effect of reward prediction errors on subjective
+  affect depends on outcome valence and decision context. *Emotion* 24(3): 894–911.
+  doi:10.1037/emo0001310. **WP** (accepted manuscript) ·
+  `papers/forbes-2024-the-effect-of-reward-prediction-errors-on-subjective-affect-depends-on-outcome-valence-and-decision-context-accepted-manuscript.txt`
+  - With the outcome controlled, only negative prediction errors register, at about a
+    tenth of the outcome's effect.
+- Abstract level: Rutledge et al. (2015), *J. Neuroscience* 35(27), dopamine and momentary
+  well-being.
+
 ## Anthropics and imperfect recall
 
 - **Armstrong, S. (2011; rev. 2017).** Anthropic decision theory (for self-locating

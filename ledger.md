@@ -56,3 +56,8 @@ Periodically compacted to git history.
   kernels; Kőszegi & Rabin's `γ` kept as an extension. Calibration: inverting present bias
   shows recursion alone would need an echo share near 1, and standard news-utility
   calibrations sit past the recursive-news threshold.
+- A fifth literature agent supplied calibration anchors. Felt and choice-revealed values
+  differ: felt loss aversion is near 1–2 (choice: about 2–3), which dissolves the
+  recursive-news threshold tension. The echo-share bill is set by patience, and
+  experience sampling suggests positive echo is small, so present bias has sources beyond
+  felt echo.
