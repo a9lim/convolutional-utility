@@ -108,3 +108,7 @@ Periodically compacted to git history.
   - The retried agent found Bernheim & Thomadsen's 2004 draft: partial prior art for D1
     (anticipation felt after the choice, dependence through self-inference). Bergstrom 1999
     has only the nearest-neighbour case, so P4 stands; Hori 1992 stayed paywalled.
+- a9 agreed with rational forecasts as canonical and offered academic access for paywalled
+  texts (list in `next-steps.md`, drop folder `references/inbox/`). a9 proposed folding the
+  decision-theory post into the model post, and an extension: training an agent to choose
+  its own expectations to maximize its felt utility, as an observer or in games.
