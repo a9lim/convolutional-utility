@@ -118,6 +118,11 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
         the event will feel contains the expected disappointment, so realized news is more
         often relief. The news loop amplifies loss aversion; near the threshold the felt
         reference sinks while the optimal belief bias stays bounded. *not found; checked*
+        - Figure: the optimal felt belief path under a cost of self-deception. Calibrated
+          far from the event, braced as it nears, frozen over the last few periods because
+          each further revision is itself felt as news. At the life calibration optimism
+          never pays. A network trained on felt welfare learns these paths
+          (`experiments/learned_expectations/`). *checked*
       - News over experienced utility (N4): good news about far events is felt now,
         because tomorrow you'll be looking forward; cancelling a plan costs the
         anticipation too. Needs `λκ < 1`. Memory feeds the loop and anticipation does not.
