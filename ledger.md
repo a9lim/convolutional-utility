@@ -66,3 +66,8 @@ Periodically compacted to git history.
   to match; checks output identical apart from labels.
 - a9 proposed three natural horizons: a waking day, a full life, an LLM's context window
   (a9's wife is studying the peak-end effect in LLMs). Added to core calibration.
+- Plan (a9): the model ships as a standalone post first; decision theory and the LLM
+  peak-end study become follow-ups. a9 extended the horizons to a 2×2 (human/LLM ×
+  short/long, soft/hard boundaries) and read compaction as a change of agent with memory
+  and anticipation held across; recorded with the Parfit mapping (connectedness = direct
+  kernel, continuity = resolvent).

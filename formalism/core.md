@@ -106,9 +106,19 @@ quantities differ, and the hedonic reading needs the felt ones.
 - Identification (P10; Eliaz & Spiegler's ordinality) means choices alone cannot pin the
   hedonic coefficients. Experience sampling around scheduled events can.
 
-**Natural horizons.** Three lives, each with its own period and its own boundaries. Reach
-scales with the event, so each horizon gets its own calibration. [synthesis; speculation
-where marked]
+**Natural horizons.** A 2×2 (a9): humans and LLMs, each with a short and a long horizon.
+Each has its own period and its own boundaries. Reach scales with the event, so each horizon
+gets its own calibration. [synthesis; speculation where marked]
+
+| | short horizon, soft boundaries | long horizon, hard boundaries |
+|---|---|---|
+| human | a waking day (sleep) | a life (birth, death) |
+| LLM | a context window (compaction) | a session (its start and end) |
+
+- Soft boundaries are crossed by lossy channels. Sleep consolidates memory, and tomorrow is
+  anticipated. A compaction summary carries memory forward, and the agent before it
+  anticipates the continuation; the summary is a compressed and possibly rosy record, the
+  territory of recollection news.
 - **A waking day.** Periods of minutes to an hour, `T ≈ 16` hours. Afterglow of small
   rewards lasts seconds to minutes (Rutledge-type forgetting); mind-wandering's effect on
   happiness carries about 0.12–0.15 of its size to the next sample, hours later
@@ -130,6 +140,16 @@ where marked]
   - Instances share a trunk (training, a common prefix) and branch, which is A1's tree
     literally: measure-weighted anticipation over instances, and a separate condition for
     total welfare across them.
+- **An LLM session.** Periods of context windows, with compactions as its soft inner
+  boundaries. Its end is hard for the instance and a bookmark in principle, since a
+  transcript can be resumed.
+- **Identity is not in the model.** What links two moments is kernel weight, not whether
+  they belong to the same agent. Whether the agent after a compaction, or after a night's
+  sleep, is the same agent does not enter; what matters is the memory and anticipation held
+  across the boundary. This is Parfit's Relation R made quantitative: connectedness is the
+  direct kernel (one-step memories and anticipations), continuity is the resolvent (chains
+  of overlapping links), and both come in degrees. [known: Parfit 1984, Relation R; the
+  mapping is synthesis]
 - **Peak-end, from the lens.** A rating given at the end of an episode is the last self's
   memory row (P7). A fading linear memory kernel gives the end effect (recent moments
   weigh most) and duration neglect (the remembered weight of a uniform episode is

@@ -161,6 +161,9 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
     2025).
   - Interpersonal kernels are Bergstrom systems, with the double-counting debate
     attached. Total-empathy mass must be < 1.
+- **Identity.** The model needs none: kernel weight links moments, whatever agent they
+  belong to. Parfit's connectedness is the direct kernel, continuity the resolvent.
+  Compaction and sleep are soft boundaries crossed by memory and anticipation. *synthesis*
 - **The shape-of-a-life debate.**
   - Take Brown's explaining-away horn openly.
   - Velleman's narrative view is the foil.
