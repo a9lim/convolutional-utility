@@ -1,0 +1,17 @@
+[payoff] mean payoff by round: +0.003 +0.142 +0.195 +0.207 +0.211 +0.215 +0.213 +0.214 +0.214 +0.214
+    last-round modal play is a pure equilibrium: unique-efficient 53.6%, PD-like 27.8%, two-equilibrium 71.2%
+    critic bias (forecast minus realized) by round: -0.015 +0.012 +0.034 +0.012 -0.016 -0.025 -0.034 -0.041 -0.034 +0.008
+    game-class probe (balanced accuracy, chance 25%) after rounds 1/2/3/5/10: 25.0% 25.8% 30.0% 35.1% 34.8%
+[calibrated] mean payoff by round: +0.003 +0.137 +0.193 +0.208 +0.213 +0.215 +0.215 +0.216 +0.216 +0.216
+    last-round modal play is a pure equilibrium: unique-efficient 53.7%, PD-like 27.6%, two-equilibrium 71.8%
+    critic bias (forecast minus realized) by round: -0.022 -0.090 -0.060 -0.019 -0.002 +0.010 +0.021 +0.015 +0.009 -0.028
+    game-class probe (balanced accuracy, chance 25%) after rounds 1/2/3/5/10: 25.0% 24.6% 30.2% 34.4% 35.4%
+[motivated] mean payoff by round: +0.003 +0.137 +0.193 +0.207 +0.214 +0.215 +0.216 +0.215 +0.215 +0.215
+    last-round modal play is a pure equilibrium: unique-efficient 53.6%, PD-like 27.4%, two-equilibrium 71.4%
+    critic bias (forecast minus realized) by round: -0.091 +1.808 +2.191 +2.185 +2.090 +1.961 +1.739 +1.434 +1.076 +0.634
+    game-class probe (balanced accuracy, chance 25%) after rounds 1/2/3/5/10: 25.0% 24.5% 30.6% 33.3% 35.0%
+[calibrated, a = 0.05, seed 0] critic bias by round: +0.006 -0.035 -0.012 +0.020 +0.026 +0.026 +0.023 -0.002 -0.052 -0.078; last-round payoff +0.216
+[calibrated, a = 0.05, seed 1] critic bias by round: +0.029 -0.043 -0.007 +0.026 +0.025 +0.019 +0.002 -0.021 -0.083 -0.060; last-round payoff +0.217
+[motivated, a = 0.05, seed 0] critic bias by round: -2.430 -1.161 -0.625 -0.445 -0.398 -0.341 -0.311 -0.271 -0.241 -0.165; last-round payoff +0.310
+[motivated, a = 0.05, seed 1] critic bias by round: -2.396 -1.046 -0.617 -0.486 -0.414 -0.347 -0.277 -0.218 -0.167 -0.090; last-round payoff +0.307
+done in 929s

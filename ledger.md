@@ -138,3 +138,13 @@ Periodically compacted to git history.
   alike. The objective's kinks at zero revisions stalled L-BFGS (beliefs are sticky); Adam
   from several starts works. A network trained for two minutes captures a median 71% of the
   exact gain on held-out events.
+- Overnight (a9 asleep, standing go-ahead): built the scheduling agent (the `J` dial as a
+  gradient setting reproduces fixed-past and commitment play; graded `w` gives a staircase),
+  the game agent (random 2×2 games; the twin dial reproduces causal against evidential play,
+  graded `w` matching analytic thresholds), the hidden-game agent (a felt critic: rosy or
+  braced by `aν` against `nλ(1−ν)`, play unchanged; a braced critic unexpectedly improves
+  play through the shared state) and the credible-plan selection study (learning picks the
+  earliest credible plan). Bugs found and fixed on the way: an off-by-one initialization that
+  saturated a logit, Adam stalls on saturated sigmoids (fixed by preconditioning each self's
+  gradient by reach and slope), and a coupled-game variant that trained against the wrong
+  opponent policy.

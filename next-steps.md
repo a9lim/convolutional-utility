@@ -5,9 +5,11 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
 
 ## The post
 
-1. **Learned expectations** (`experiments/learned_expectations/`): the observer is built,
-   with a KL cost of self-deception as the tether (a9). Next, the agent, in order: scheduling
-   (D3), reliability (D6), self-Newcomb (D1), then two-player games.
+1. **Learned expectations** (`experiments/learned_expectations/`): built the observer, the
+   scheduling agent (the `J` dial reproduces fixed-past and commitment play), the game agent
+   (random 2×2 games; the twin dial reproduces causal against evidential play) and the
+   hidden-game agent (a felt critic). Next: which credible plan learning selects under
+   loss-averse news; reliability (D6) as an agent; the canonical (recursive) critic.
 2. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
    choices; coda: selves), and the technical companion.
 3. **Figures:** the Disneyland decomposition; primitive against effective kernels; `w(s)`

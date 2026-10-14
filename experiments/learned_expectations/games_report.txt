@@ -1,0 +1,14 @@
+held-out games: cyclic 2565, unique, efficient 13950, unique, dominated (PD-like) 959, two equilibria 2526; two-equilibrium games where risk and payoff dominance disagree: 346
+[payoff] plays a pure equilibrium: unique-efficient 93.4%, PD-like 86.9%, two-equilibrium 92.0%; where risk and payoff dominance disagree, picks the risk-dominant one 92.3%; cyclic games: mean |P(move 0) - 1/2| 0.442
+[calibrated] plays a pure equilibrium: unique-efficient 94.3%, PD-like 87.0%, two-equilibrium 91.8%; where risk and payoff dominance disagree, picks the risk-dominant one 95.5%; cyclic games: mean |P(move 0) - 1/2| 0.457
+[free] plays a pure equilibrium: unique-efficient 95.6%, PD-like 90.7%, two-equilibrium 94.1%; where risk and payoff dominance disagree, picks the risk-dominant one 96.9%; cyclic games: mean |P(move 0) - 1/2| 0.461
+    belief tilt toward the outcome good for me (q - p): cyclic +0.016, unique, efficient -0.000, unique, dominated (PD-like) +0.005, two equilibria +0.003
+[coupled] plays a pure equilibrium: unique-efficient 99.7%, PD-like 98.3%, two-equilibrium 94.8%; where risk and payoff dominance disagree, picks the risk-dominant one 96.9%; cyclic games: mean |P(move 0) - 1/2| 0.431
+    belief tilt toward the outcome good for me (q - p): cyclic +0.266, unique, efficient +0.002, unique, dominated (PD-like) +0.027, two equilibria +0.002
+[free, tau = 30] pure equilibrium: unique-efficient 95.7%, PD-like 92.2%, two-equilibrium 92.2%; belief tilt toward the good outcome: cyclic +0.079, unique, efficient +0.007, unique, dominated (PD-like) +0.008, two equilibria +0.013
+[coupled, tau = 30] pure equilibrium: unique-efficient 99.6%, PD-like 97.6%, two-equilibrium 93.9%; belief tilt toward the good outcome: cyclic +0.223, unique, efficient +0.007, unique, dominated (PD-like) +0.033, two equilibria +0.007
+linear probe for game class: raw payoffs 71.0%; payoff hidden layer 82.5%, calibrated hidden layer 80.7%, free hidden layer 88.5%, coupled hidden layer 83.2%
+[calibrated] modal move differs from the payoff agent in: cyclic 39.9%, unique, efficient 5.7%, unique, dominated (PD-like) 13.0%, two equilibria 17.4%
+[free] modal move differs from the payoff agent in: cyclic 42.1%, unique, efficient 4.3%, unique, dominated (PD-like) 8.1%, two equilibria 10.6%
+[coupled] modal move differs from the payoff agent in: cyclic 46.4%, unique, efficient 3.3%, unique, dominated (PD-like) 7.3%, two equilibria 13.4%
+done in 142s
