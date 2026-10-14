@@ -1,7 +1,8 @@
 """Numerical checks for formalism/core.md. Run: python formalism/checks.py
 
 Conventions: K[t, s] is the weight of e(s) (recursive model R) or u(s) (direct model D)
-in e(t). Geometric family: forward a*b**(s-t) for s > t, backward m*al**(t-s) for s < t.
+in e(t). Geometric family: forward a*al**(s-t) for s > t, backward m*mu**(t-s) for s < t
+(docs: a·α^j, m·μ^j; news n·ν^j).
 """
 import importlib.util
 import math
@@ -12,31 +13,31 @@ import numpy as np
 rng = np.random.default_rng(0)
 
 
-def K_matrix(T, a, b, m, al):
+def K_matrix(T, a, al, m, mu):
     d = np.arange(T)[None, :] - np.arange(T)[:, None]  # s - t
-    fwd = np.where(d > 0, a * b ** np.clip(d, 0, None), 0.0)
-    bwd = np.where(d < 0, m * al ** np.clip(-d, 0, None), 0.0)
+    fwd = np.where(d > 0, a * al ** np.clip(d, 0, None), 0.0)
+    bwd = np.where(d < 0, m * mu ** np.clip(-d, 0, None), 0.0)
     return fwd + bwd
 
 
-def resolvent_line(a, b, m, al, N=4096):
+def resolvent_line(a, al, m, mu, N=4096):
     """Laurent coefficients r[n] (weight on u(t+n) in e(t)) of 1/(1 - K(z)) on the unit circle."""
     z = np.exp(2j * np.pi * np.arange(N) / N)
-    K = a * b * z / (1 - b * z) + m * al / (z - al)
+    K = a * al * z / (1 - al * z) + m * mu / (z - mu)
     return np.real(np.fft.fft(1 / (1 - K)) / N)
 
 
-def mass(a, b, m, al):
-    return a * b / (1 - b) + m * al / (1 - al)
+def mass(a, al, m, mu):
+    return a * al / (1 - al) + m * mu / (1 - mu)
 
 
-def geometric_closed_form(a, b, m, al):
-    A, B = (1 + a) * b, (1 + m) * al
-    C = 1 + (1 + a + m) * b * al
+def geometric_closed_form(a, al, m, mu):
+    A, B = (1 + a) * al, (1 + m) * mu
+    C = 1 + (1 + a + m) * al * mu
     D = np.sqrt(C * C - 4 * A * B)
     H = (C + D) / 2
     p, q = A / H, B / H
-    r0 = (1 + b * al - b * q - al * p) / D
+    r0 = (1 + al * mu - al * q - mu * p) / D
     return p, q, r0
 
 
@@ -44,9 +45,9 @@ def stable_draws(n, amp=(0.05, 2.0), rate=(0.02, 0.9), cap=0.95):
     out = []
     while len(out) < n:
         a, m = rng.uniform(*amp, 2)
-        b, al = rng.uniform(*rate, 2)
-        if mass(a, b, m, al) < cap:
-            out.append((a, b, m, al))
+        al, mu = rng.uniform(*rate, 2)
+        if mass(a, al, m, mu) < cap:
+            out.append((a, al, m, mu))
     return out
 
 
@@ -54,32 +55,32 @@ def report(name, err, tol=1e-8):
     print(f"{'PASS' if err < tol else 'FAIL'}  {name}  (max err {err:.2e})")
 
 
-# P1(b): constant u on the line -> e = u/(1-M); echo share = M
-a, b, m, al = 1, 0.3, 1, 0.2
+# P1(al): constant u on the line -> e = u/(1-M); echo share = M
+a, al, m, mu = 1, 0.3, 1, 0.2
 T = 400
-e = np.linalg.solve(np.eye(T) - K_matrix(T, a, b, m, al), np.ones(T))
-M = mass(a, b, m, al)
+e = np.linalg.solve(np.eye(T) - K_matrix(T, a, al, m, mu), np.ones(T))
+M = mass(a, al, m, mu)
 report("P1b echo share = M (interior)", abs((e[T // 2] - 1) / e[T // 2] - M))
 
 # P1(c): M > 1 yet positive on every finite life, with explosive growth
-a, b, m, al = 1, 0.6, 1, 0.05
-print(f"P1c  M = {mass(a, b, m, al):.3f}, predicted sup rho(K_T) = "
-      f"{2 * np.sqrt(b * al) / (1 - np.sqrt(b * al)):.4f}")
+a, al, m, mu = 1, 0.6, 1, 0.05
+print(f"P1c  M = {mass(a, al, m, mu):.3f}, predicted sup rho(K_T) = "
+      f"{2 * np.sqrt(al * mu) / (1 - np.sqrt(al * mu)):.4f}")
 for T in [20, 100, 400]:
-    R = np.linalg.inv(np.eye(T) - K_matrix(T, a, b, m, al))
+    R = np.linalg.inv(np.eye(T) - K_matrix(T, a, al, m, mu))
     print(f"     T={T:3d}: min resolvent entry {R.min():.2e} (>= 0), e_mid for u=1: {(R @ np.ones(T))[T // 2]:.2e}")
 
-# P3: one-sided recursion -> quasi-hyperbolic 1, (a/(1+a))((1+a)b)^n
-a, b = 1.0, 0.3
-r = resolvent_line(a, b, 0.0, 0.5)
-pred = np.array([1] + [(a / (1 + a)) * ((1 + a) * b) ** n for n in range(1, 6)])
+# P3: one-sided recursion -> quasi-hyperbolic 1, (a/(1+a))((1+a)al)^n
+a, al = 1.0, 0.3
+r = resolvent_line(a, al, 0.0, 0.5)
+pred = np.array([1] + [(a / (1 + a)) * ((1 + a) * al) ** n for n in range(1, 6)])
 report("P3 one-sided resolvent", np.max(np.abs(r[:6] - pred)))
 
 # P4: two-sided geometric closed form and beta_L = 1 - 1/((1+a) r0)
 err_cf, err_bl, max_bl = 0.0, 0.0, 0.0
-for a, b, m, al in stable_draws(300):
-    p, q, r0 = geometric_closed_form(a, b, m, al)
-    r = resolvent_line(a, b, m, al)
+for a, al, m, mu in stable_draws(300):
+    p, q, r0 = geometric_closed_form(a, al, m, mu)
+    r = resolvent_line(a, al, m, mu)
     err_cf = max(err_cf, abs(r0 - r[0]), abs((r0 - 1 / (1 + a)) * p ** 3 - r[3]),
                  abs((r0 - 1 / (1 + m)) * q ** 2 - r[-2]))
     bl = r[1] / (r[0] * r[3] / r[2])
@@ -91,57 +92,57 @@ print(f"     max beta_L over draws: {max_bl:.4f} (< 1)")
 
 # P5 + P6: finite-life weights and ramp, closed forms for R; exact formula for D
 err_w, err_E, err_D = 0.0, 0.0, 0.0
-for a, b, m, al in stable_draws(100):
-    p, q, r0 = geometric_closed_form(a, b, m, al)
-    W = 1 / (1 - mass(a, b, m, al))
-    Linf, Uinf = W * (p - b) / (1 - b), W * (q - al) / (1 - al)
+for a, al, m, mu in stable_draws(100):
+    p, q, r0 = geometric_closed_form(a, al, m, mu)
+    W = 1 / (1 - mass(a, al, m, mu))
+    Linf, Uinf = W * (p - al) / (1 - al), W * (q - mu) / (1 - mu)
     for T in [2, 7, 40]:
-        cT = (p - b) * q ** T / (1 - b * q)
-        dT = (q - al) * p ** T / (1 - al * p)
+        cT = (p - al) * q ** T / (1 - al * q)
+        dT = (q - mu) * p ** T / (1 - mu * p)
         LT = (Linf - cT * Uinf) / (1 - cT * dT)
         UT = (Uinf - dT * Linf) / (1 - cT * dT)
         s = np.arange(T)
-        K = K_matrix(T, a, b, m, al)
+        K = K_matrix(T, a, al, m, mu)
         w = np.linalg.solve(np.eye(T) - K.T, np.ones(T))
         err_w = max(err_w, np.max(np.abs(W - LT * p ** s - UT * q ** (T - 1 - s) - w)))
         J = lambda x: np.sum(((T - 1) / 2 - s) * x ** s)
         err_E = max(err_E, abs(LT * J(p) - UT * J(q) - w @ (s - (T - 1) / 2)))
         wD = 1 + K.sum(axis=0)
         taus = np.arange(-(T - 1), T)
-        kt = np.where(taus > 0, a * b ** np.clip(taus, 0, None), 0) \
-            + np.where(taus < 0, m * al ** np.clip(-taus, 0, None), 0)
+        kt = np.where(taus > 0, a * al ** np.clip(taus, 0, None), 0) \
+            + np.where(taus < 0, m * mu ** np.clip(-taus, 0, None), 0)
         err_D = max(err_D, abs(wD @ (s - (T - 1) / 2) - 0.5 * np.sum(kt * (T - np.abs(taus)) * taus)))
 report("P5 finite-life weight closed form (R)", err_w)
 report("P6 ramp closed form (R)", err_E)
 report("P6 ramp exact formula (D)", err_D)
 
 # P6: finite-T sign flip despite negative first moment
-a, b, m, al = 1, 0.1, 0.1, 0.5
+a, al, m, mu = 1, 0.1, 0.1, 0.5
 signs = []
 for T in [2, 3, 5, 10, 40]:
-    w = np.linalg.solve(np.eye(T) - K_matrix(T, a, b, m, al).T, np.ones(T))
+    w = np.linalg.solve(np.eye(T) - K_matrix(T, a, al, m, mu).T, np.ones(T))
     signs.append(f"T={T}:{w @ (np.arange(T) - (T - 1) / 2):+.3f}")
-print("P6  sign flip (mu1 < 0):", "  ".join(signs))
+print("P6  sign flip (M1 < 0):", "  ".join(signs))
 
-# P6: asymptotic slope mu1 / (2 (1-M)^2)
-a, b, m, al = 1, 0.3, 1, 0.2
-mu1 = a * b / (1 - b) ** 2 - m * al / (1 - al) ** 2
-M = mass(a, b, m, al)
+# P6: asymptotic slope M1 / (2 (1-M)^2)
+a, al, m, mu = 1, 0.3, 1, 0.2
+M1 = a * al / (1 - al) ** 2 - m * mu / (1 - mu) ** 2
+M = mass(a, al, m, mu)
 T1, T2 = 400, 800
-E = [np.linalg.solve(np.eye(T) - K_matrix(T, a, b, m, al).T, np.ones(T)) @ (np.arange(T) - (T - 1) / 2)
+E = [np.linalg.solve(np.eye(T) - K_matrix(T, a, al, m, mu).T, np.ones(T)) @ (np.arange(T) - (T - 1) / 2)
      for T in (T1, T2)]
-report("P6 asymptotic slope", abs((E[1] - E[0]) / (T2 - T1) - mu1 / (2 * (1 - M) ** 2)), tol=1e-6)
+report("P6 asymptotic slope", abs((E[1] - E[0]) / (T2 - T1) - M1 / (2 * (1 - M) ** 2)), tol=1e-6)
 
-# P6: size of the shape preference relative to the base utility rearranged, 4 mu1 / T (D),
-# 4 mu1 / ((1-M)^2 T) (R)
-a, b, m, al = 0.15, 0.8, 0.1, 0.5
-mu1, M = a * b / (1 - b) ** 2 - m * al / (1 - al) ** 2, mass(a, b, m, al)
+# P6: size of the shape preference relative to the base utility rearranged, 4 M1 / T (D),
+# 4 M1 / ((1-M)^2 T) (R)
+a, al, m, mu = 0.15, 0.8, 0.1, 0.5
+M1, M = a * al / (1 - al) ** 2 - m * mu / (1 - mu) ** 2, mass(a, al, m, mu)
 rows = []
 for T in [100, 1000, 3000]:
-    K, u = K_matrix(T, a, b, m, al), np.arange(T) - (T - 1) / 2
+    K, u = K_matrix(T, a, al, m, mu), np.arange(T) - (T - 1) / 2
     gD = 2 * (1 + K.sum(axis=0)) @ u / np.abs(u).sum()
     gR = 2 * np.linalg.solve(np.eye(T) - K.T, np.ones(T)) @ u / np.abs(u).sum()
-    rows.append(f"T={T}: D {gD:.4f} vs {4 * mu1 / T:.4f}, R {gR:.4f} vs {4 * mu1 / ((1 - M) ** 2 * T):.4f}")
+    rows.append(f"T={T}: D {gD:.4f} vs {4 * M1 / T:.4f}, R {gR:.4f} vs {4 * M1 / ((1 - M) ** 2 * T):.4f}")
 print("P6  relative gap:", "; ".join(rows))
 
 # P2: two-sided one-step R has exponential twin (beta_L = 1)
@@ -151,9 +152,9 @@ r = np.real(np.fft.fft(1 / (1 - f * z - g / z)) / 4096)
 report("P2 one-step R -> exponential", np.ptp([r[n + 1] / r[n] for n in range(5)]))
 
 # P9: causal semantics -- decision weights are the first row on the remaining life
-a, b, m, al = 1, 0.3, 1, 0.2
+a, al, m, mu = 1, 0.3, 1, 0.2
 for L in [60, 5, 3]:
-    R = np.linalg.inv(np.eye(L) - K_matrix(L, a, b, m, al))
+    R = np.linalg.inv(np.eye(L) - K_matrix(L, a, al, m, mu))
     f = R[0]
     bl = f[1] / (f[0] * f[2] / f[1])
     print(f"P9  remaining life {L:2d}: r0={f[0]:.4f}  beta_L={bl:.4f}  "
@@ -194,10 +195,10 @@ T, n, pl, pa, losses = 40, 0, 0, 0, []
 for _ in range(1500):
     rec = rng.random() < 0.5
     a, m = rng.uniform(0.05, 1.5, 2)
-    b, al = rng.uniform(0.1, 0.9, 2)
-    if rec and mass(a, b, m, al) >= 0.9:
+    al, mu = rng.uniform(0.1, 0.9, 2)
+    if rec and mass(a, al, m, mu) >= 0.9:
         continue
-    K = K_matrix(T, a, b, m, al)
+    K = K_matrix(T, a, al, m, mu)
     n += 1
     c1, f1, w1 = schedule(K, +1, rec)
     c2, f2, w2 = schedule(K, -1, rec)
@@ -208,9 +209,9 @@ print(f"D3  {n} draws: pleasure CDT not earlier than commitment {pl / n:.3f}; pa
       f"commitment {pa / n:.3f}; pleasure loss median {np.median(losses):.3f}, max {max(losses):.3f}")
 
 # D4: momentary hedonist, bilateral interior row vs fixed-past (remaining-life) first row
-a, b, m, al = 1, 0.3, 1, 0.2
+a, al, m, mu = 1, 0.3, 1, 0.2
 for name, L, row in [("bilateral", 600, 300), ("fixed-past", 300, 0)]:
-    R = np.linalg.inv(np.eye(L) - K_matrix(L, a, b, m, al))
+    R = np.linalg.inv(np.eye(L) - K_matrix(L, a, al, m, mu))
     f = R[row, row:row + 3]
     print(f"D4  {name}: r0={f[0]:.4f}  beta_L={f[1] / (f[0] * f[2] / f[1]):.4f}")
 
@@ -220,21 +221,21 @@ for _ in range(1500):
     T = int(rng.integers(2, 40))
     N = T - 1
     a, m = rng.uniform(0.02, 2, 2)
-    b, al = rng.uniform(0.05, 0.95, 2)
-    K = K_matrix(T, a, b, m, al)
-    A = lambda h: sum(a * b ** j for j in range(1, h + 1))
-    B = lambda h: sum(m * al ** j for j in range(1, h + 1))
+    al, mu = rng.uniform(0.05, 0.95, 2)
+    K = K_matrix(T, a, al, m, mu)
+    A = lambda h: sum(a * al ** j for j in range(1, h + 1))
+    B = lambda h: sum(m * mu ** j for j in range(1, h + 1))
     t = int(rng.integers(0, T))
     h = N - t
     c = weights_cdt(K, t, False)
-    bad += any(abs((c[d] - c[0]) - (A(d) - al ** (h - d) * B(d))) > 1e-9 for d in range(h + 1))
+    bad += any(abs((c[d] - c[0]) - (A(d) - mu ** (h - d) * B(d))) > 1e-9 for d in range(h + 1))
     cp, _, _ = schedule(K, +1, False)
     cq, fq, w = schedule(K, -1, False)
     if N >= 1:
         bad += (cp == N) != all(A(k) > B(k) for k in range(1, N + 1))
         bad += (cq == N) != all(A(k) < B(k) for k in range(1, N + 1))
-        if b >= al:
-            hs = max([0] + [k for k in range(1, N + 1) if m * al ** k >= a * b])
+        if al >= mu:
+            hs = max([0] + [k for k in range(1, N + 1) if m * mu ** k >= a * al])
             bad += cp != N - hs
     bad += cq not in (0, N)
     bad += (cq > fq) and abs(w[cq] - w[fq]) > 1e-9
@@ -246,26 +247,26 @@ for rec in (False, True):
           f"loss {1 - w[cp] / w[fp]:.3f}")
 
 # D3: the exception is preemption. Continuation times and each self's own optimum (D)
-a, b, m, al, T = 0.0465, 0.896, 0.0196, 0.964, 40
-K = K_matrix(T, a, b, m, al)
+a, al, m, mu, T = 0.0465, 0.896, 0.0196, 0.964, 40
+K = K_matrix(T, a, al, m, mu)
 tau = [0] * T
 tau[T - 1] = T - 1
 for t in range(T - 2, -1, -1):
     c = weights_cdt(K, t, False)
     tau[t] = t if c[0] >= c[tau[t + 1] - t] else tau[t + 1]
 own = [t + int(np.argmax(weights_cdt(K, t, False))) for t in range(T)]
-A = lambda h: a * b * (1 - b ** h) / (1 - b)
-B = lambda h: m * al * (1 - al ** h) / (1 - al)
+A = lambda h: a * al * (1 - al ** h) / (1 - al)
+B = lambda h: m * mu * (1 - mu ** h) / (1 - mu)
 print(f"D3  preemption: tau[0..5] = {tau[:6]}, own optima[0..5] = {own[:6]}, "
       f"first h with B_h >= A_h: {min(h for h in range(1, T) if B(h) >= A(h))}")
 
 # D4: half-line (fixed past) row: R+_00 = 1/H, beta_L = 1 - H/(1+a)
 err = 0.0
-for a, b, m, al in stable_draws(100):
-    A_, B_ = (1 + a) * b, (1 + m) * al
-    C = 1 + (1 + a + m) * b * al
+for a, al, m, mu in stable_draws(100):
+    A_, B_ = (1 + a) * al, (1 + m) * mu
+    C = 1 + (1 + a + m) * al * mu
     H = (C + np.sqrt(C * C - 4 * A_ * B_)) / 2
-    R = np.linalg.inv(np.eye(400) - K_matrix(400, a, b, m, al))
+    R = np.linalg.inv(np.eye(400) - K_matrix(400, a, al, m, mu))
     f = R[0, :4]
     err = max(err, abs(f[0] - 1 / H), abs(f[1] / (f[0] * f[2] / f[1]) - (1 - H / (1 + a))))
 report("D4 half-line row closed form", err, tol=1e-8)
@@ -273,7 +274,7 @@ report("D4 half-line row closed form", err, tol=1e-8)
 
 # D5: timing of information. Causal form with state-contingent paths and sign-dependent
 # kernels; two equiprobable states differ in the last period's u, revealed at time r.
-def info_welfare(r, rec, kp, km, T=6, b=0.7, mp=0.15, mm=0.15, al=0.6):
+def info_welfare(r, rec, kp, km, T=6, al=0.7, mp=0.15, mm=0.15, mu=0.6):
     u = np.full((2, T), 0.3)
     u[0, -1], u[1, -1] = 1.0, -1.0
     e = u.copy()
@@ -282,10 +283,10 @@ def info_welfare(r, rec, kp, km, T=6, b=0.7, mp=0.15, mm=0.15, al=0.6):
         new = u.copy()
         for t in range(T):
             for j in range(1, T - t):
-                v = np.where(X[:, t + j] >= 0, kp, km) * b ** j * X[:, t + j]
+                v = np.where(X[:, t + j] >= 0, kp, km) * al ** j * X[:, t + j]
                 new[:, t] += v if t >= r else v.mean()
             for j in range(1, t + 1):
-                new[:, t] += np.where(X[:, t - j] >= 0, mp, mm) * al ** j * X[:, t - j]
+                new[:, t] += np.where(X[:, t - j] >= 0, mp, mm) * mu ** j * X[:, t - j]
         if np.max(np.abs(new - e)) < 1e-13:
             break
         e = new
@@ -304,7 +305,7 @@ report("D5 timing-neutral unless R with dread asymmetry",
 print(f"     R with dread asymmetry: later revelation is better, spread {spread[('dread > savoring', True)]:.5f}")
 
 
-# N (core extension): felt news n_t = sum_j nu(j) mu(E[u_{t+j}|G_t] - E[u_{t+j}|G_{t-1}]), f = u + n
+# N (core extension): felt news N_t = sum_j kn(j) phi(E[u_{t+j}|G_t] - E[u_{t+j}|G_{t-1}]), f = u + n
 def cond(Y, cells, p):
     out = np.empty(len(Y))
     for c in np.unique(cells):
@@ -312,13 +313,13 @@ def cond(Y, cells, p):
     return out
 
 
-def news_welfare(u, G, p, nu, lam, kf, kb, rec):
+def news_welfare(u, G, p, kn, lam, kf, kb, rec):
     """Expected life-sum with felt news. u: (T, S) base utility by state; G: (T, S) felt-information
     cell labels (realized u_t is felt at t). Returns (welfare, expected news by period)."""
     T, S = u.shape
     fc = lambda t, s: u[s] if s <= t else cond(u[s], np.zeros(S, int) if t < 0 else G[t], p)
-    mu = lambda x: np.where(x >= 0, x, lam * x)
-    n = np.array([sum(nu(s - t) * mu(fc(t, s) - fc(t - 1, s)) for s in range(t, T)) for t in range(T)])
+    phi = lambda x: np.where(x >= 0, x, lam * x)
+    n = np.array([sum(kn(s - t) * phi(fc(t, s) - fc(t - 1, s)) for s in range(t, T)) for t in range(T)])
     f = u + n
     e = f.copy()
     for _ in range(5000):
@@ -348,13 +349,13 @@ wts = {False: 1 + Kn.sum(axis=0), True: np.linalg.solve(np.eye(T) - Kn.T, np.one
 err_neutral, err_id, rows = 0.0, 0.0, []
 for rec in (False, True):
     base = news_welfare(u, schedules["at realization"], p, lambda j: 0.5, 1.0, kf, kb, rec)[0]
-    for nu_name, nu in [("flat", lambda j: 0.5), ("decaying", lambda j: 0.5 * 0.8 ** j)]:
+    for kn_name, kn in [("flat", lambda j: 0.5), ("decaying", lambda j: 0.5 * 0.8 ** j)]:
         Ws = {}
         for name, G in schedules.items():
-            err_neutral = max(err_neutral, abs(news_welfare(u, G, p, nu, 1.0, kf, kb, rec)[0] - base))
-            Ws[name], En = news_welfare(u, G, p, nu, 2.5, kf, kb, rec)
+            err_neutral = max(err_neutral, abs(news_welfare(u, G, p, kn, 1.0, kf, kb, rec)[0] - base))
+            Ws[name], En = news_welfare(u, G, p, kn, 2.5, kf, kb, rec)
             err_id = max(err_id, abs(Ws[name] - base - wts[rec] @ En))
-        rows.append(f"{'R' if rec else 'D'} {nu_name} nu: " + ", ".join(f"{k} {v:.4f}" for k, v in Ws.items()))
+        rows.append(f"{'R' if rec else 'D'} {kn_name} kn: " + ", ".join(f"{k} {v:.4f}" for k, v in Ws.items()))
 report("N1 lam = 1: information timing neutral (D, R)", err_neutral)
 report("N2 news cost = sum_r w(r) E[n_r] (D, R)", err_id)
 for row in rows:
@@ -368,41 +369,41 @@ pz = np.exp(-z ** 2 / 2)
 pz /= pz.sum()
 kf, kb = (lambda j: 0.3 * 0.8 ** j), (lambda j: 0.25 * 0.6 ** j)
 A, B = sum(kf(s - t) for t in range(s)), sum(kb(t - s) for t in range(s + 1, T))
-mu = lambda x: np.where(x >= 0, x, lam * x)
+phi = lambda x: np.where(x >= 0, x, lam * x)
 
 
-def W_bias(b, nu0):
-    """Event-related welfare when the felt forecast of u_s is biased by b before s; the agent
-    believes itself unbiased, so its anticipated news has the unbiased shape."""
-    realized = pz @ (z + nu0 * mu(z - b))
-    return A * (b + pz @ (nu0 * mu(z))) + (1 + B) * realized
+def W_bias(bias, n0):
+    """Event-related welfare when the felt forecast of u_s is biased by `bias` before s; the
+    agent believes itself unbiased, so its anticipated news has the unbiased shape."""
+    realized = pz @ (z + n0 * phi(z - bias))
+    return A * (bias + pz @ (n0 * phi(z))) + (1 + B) * realized
 
 
 err_slope, err_q = 0.0, 0.0
-for nu0 in (0.3, 0.5):
+for n0 in (0.3, 0.5):
     h = 1e-5
-    err_slope = max(err_slope, abs((W_bias(h, nu0) - W_bias(-h, nu0)) / (2 * h)
-                                   - (A - nu0 * (1 + B) * (1 + lam) / 2)))
+    err_slope = max(err_slope, abs((W_bias(h, n0) - W_bias(-h, n0)) / (2 * h)
+                                   - (A - n0 * (1 + B) * (1 + lam) / 2)))
     bs = np.linspace(-4, 4, 8001)
-    b_star = bs[np.argmax([W_bias(b, nu0) for b in bs])]
-    err_q = max(err_q, abs(Phi(b_star) - (A / (nu0 * (1 + B)) - 1) / (lam - 1)))
-report("N3 optimism slope at b = 0: A - nu0 (1+B)(1+lam)/2", err_slope)
-report("N3 optimal bias at quantile (A/(nu0(1+B)) - 1)/(lam - 1)", err_q, tol=1e-3)
+    b_star = bs[np.argmax([W_bias(x, n0) for x in bs])]
+    err_q = max(err_q, abs(Phi(b_star) - (A / (n0 * (1 + B)) - 1) / (lam - 1)))
+report("N3 optimism slope at bias 0: A - n0 (1+B)(1+lam)/2", err_slope)
+report("N3 optimal bias at quantile (A/(n0(1+B)) - 1)/(lam - 1)", err_q, tol=1e-3)
 
-# A1: recursive memory-only kernel, mirror of P3: r(-j) = (m/(1+m))((1+m)al)^j
-m, al = 1.0, 0.3
-r = resolvent_line(0.0, 0.5, m, al)
-report("A1 memory-only resolvent", max(abs(r[-j] - (m / (1 + m)) * ((1 + m) * al) ** j) for j in range(1, 6)))
-print(f"A1  b=2, m=1, al=0.3: per-observer M = {m * al / (1 - al):.3f} (< 1); copy-counted "
-      f"total ratio b(1+m)al = {2 * (1 + m) * al:.2f} (>= 1 diverges); measure-weighted ratio "
-      f"(1+m)al = {(1 + m) * al:.2f}")
+# A1: recursive memory-only kernel, mirror of P3: r(-j) = (m/(1+m))((1+m)mu)^j
+m, mu = 1.0, 0.3
+r = resolvent_line(0.0, 0.5, m, mu)
+report("A1 memory-only resolvent", max(abs(r[-j] - (m / (1 + m)) * ((1 + m) * mu) ** j) for j in range(1, 6)))
+print(f"A1  b=2, m=1, mu=0.3: per-observer M = {m * mu / (1 - mu):.3f} (< 1); copy-counted "
+      f"total ratio b(1+m)mu = {2 * (1 + m) * mu:.2f} (>= 1 diverges); measure-weighted ratio "
+      f"(1+m)mu = {(1 + m) * mu:.2f}")
 
 
 # N4: news over experienced utility. e_t = u_t + anticipation + memory
-#     + sum_{j>=0} nu(j) mu(E[e_{t+j}|G_t] - E[e_{t+j}|G_{t-1}]), the j = 0 term being e_t itself.
-def news_e_welfare(u, G, p, nu, lam, kf, kb, damp=0.5):
+#     + sum_{j>=0} kn(j) phi(E[e_{t+j}|G_t] - E[e_{t+j}|G_{t-1}]), the j = 0 term being e_t itself.
+def news_e_welfare(u, G, p, kn, lam, kf, kb, damp=0.5):
     T, S = u.shape
-    mu = lambda x: np.where(x >= 0, x, lam * x)
+    phi = lambda x: np.where(x >= 0, x, lam * x)
     prior = np.zeros(S, int)
     e = u.copy()
     for _ in range(20000):
@@ -414,7 +415,7 @@ def news_e_welfare(u, G, p, nu, lam, kf, kb, damp=0.5):
                 new[t] += kb(j) * e[t - j]
             for j in range(T - t):
                 now = e[t] if j == 0 else cond(e[t + j], G[t], p)
-                new[t] += nu(j) * mu(now - cond(e[t + j], G[t - 1] if t else prior, p))
+                new[t] += kn(j) * phi(now - cond(e[t + j], G[t - 1] if t else prior, p))
         if np.max(np.abs(new - e)) < 1e-12:
             return p @ e.sum(axis=0)
         e = damp * new + (1 - damp) * e
@@ -427,15 +428,15 @@ schedules = {"clumped at 2": sched(2, 2), "piecemeal 2,5": sched(2, 5), "clumped
              "at realization": sched(7, 7)}
 kf, kb = (lambda j: 0.25 * 0.7 ** j), (lambda j: 0.2 * 0.6 ** j)
 base = news_welfare(u, schedules["at realization"], p, lambda j: 0.3, 1.0, kf, kb, True)[0]
-err = max(abs(news_e_welfare(u, G, p, nu, 1.0, kf, kb) - base)
-          for G in schedules.values() for nu in (lambda j: 0.3, lambda j: 0.3 * 0.7 ** j))
+err = max(abs(news_e_welfare(u, G, p, kn, 1.0, kf, kb) - base)
+          for G in schedules.values() for kn in (lambda j: 0.3, lambda j: 0.3 * 0.7 ** j))
 report("N4 news over e, lam = 1: neutral in expectation, equal to base R", err, tol=1e-9)
-for nu_name, nu in [("flat", lambda j: 0.3), ("decaying", lambda j: 0.3 * 0.7 ** j)]:
-    W = {k: news_e_welfare(u, G, p, nu, 2.0, kf, kb) for k, G in schedules.items()}
-    print(f"     lam = 2, {nu_name} nu: " + ", ".join(f"{k} {v:.4f}" for k, v in W.items()))
+for kn_name, kn in [("flat", lambda j: 0.3), ("decaying", lambda j: 0.3 * 0.7 ** j)]:
+    W = {k: news_e_welfare(u, G, p, kn, 2.0, kf, kb) for k, G in schedules.items()}
+    print(f"     lam = 2, {kn_name} kn: " + ", ".join(f"{k} {v:.4f}" for k, v in W.items()))
 
-# N4: well-foundedness. Felt news at a surprise solves h(s) = s - sum_j nu_j mu(x0_j + s g_j) = 0;
-# unique iff lam (nu . g) < 1. Beyond it a bad shock has no felt state.
+# N4: well-foundedness. Felt news at a surprise solves h(s) = s - sum_j nu_j phi(x0_j + s g_j) = 0;
+# unique iff lam (kn . g) < 1. Beyond it a bad shock has no felt state.
 T, t0 = 40, 20
 j = np.arange(T)
 kf_v, kb_v = np.where(j > 0, 0.1 * 0.85 ** j, 0), np.where(j > 0, 0.1 * 0.75 ** j, 0)
@@ -445,14 +446,14 @@ Rinv = np.linalg.inv(np.eye(n) - A_)
 g = Rinv[:, 0]
 grid = np.linspace(-200, 50, 5001)
 rows = []
-for nu0, lam in [(0.3, 2.0), (0.45, 2.5)]:
-    nu = np.array([nu0] + [0.1 * 0.7 ** q for q in range(1, n)])
-    mu = lambda x: np.where(x >= 0, x, lam * x)
+for n0, lam in [(0.3, 2.0), (0.45, 2.5)]:
+    kn = np.array([n0] + [0.1 * 0.7 ** q for q in range(1, n)])
+    phi = lambda x: np.where(x >= 0, x, lam * x)
     counts = []
     for shock in (-3.0, 3.0):
-        hv = np.array([s - nu @ mu(g * shock + s * g) for s in grid])
+        hv = np.array([s - kn @ phi(g * shock + s * g) for s in grid])
         counts.append(int(np.sum(np.sign(hv[:-1]) != np.sign(hv[1:]))))
-    rows.append(f"lam (nu.g) = {lam * nu @ g:.3f}: felt states after bad / good shock = {counts[0]} / {counts[1]}")
+    rows.append(f"lam (kn.g) = {lam * kn @ g:.3f}: felt states after bad / good shock = {counts[0]} / {counts[1]}")
 print("N4  " + "; ".join(rows))
 
 
@@ -460,33 +461,33 @@ print("N4  " + "; ".join(rows))
 spec_pw = importlib.util.spec_from_file_location("pathwise", os.path.join(os.path.dirname(__file__), "pathwise.py"))
 pw = importlib.util.module_from_spec(spec_pw)
 spec_pw.loader.exec_module(pw)
-a, b, m, al = 0.09, 0.88, 0.05, 0.75
-p, q, r0 = geometric_closed_form(a, b, m, al)
-print(f"RF  r(0) = {r0:.3f}, p = {p:.3f}, q = {q:.3f}; reach fwd {1 / (1 - b):.1f} -> {1 / (1 - p):.1f}, "
-      f"bwd {1 / (1 - al):.1f} -> {1 / (1 - q):.1f}")
+a, al, m, mu = 0.09, 0.88, 0.05, 0.75
+p, q, r0 = geometric_closed_form(a, al, m, mu)
+print(f"RF  r(0) = {r0:.3f}, p = {p:.3f}, q = {q:.3f}; reach fwd {1 / (1 - al):.1f} -> {1 / (1 - p):.1f}, "
+      f"bwd {1 / (1 - mu):.1f} -> {1 / (1 - q):.1f}")
 T, t0 = 120, 40
-kf_r, kb_r = pw.kernels(T, a, b, m, al)
-nu_r = 0.3 * 0.8 ** np.arange(T)
+kf_r, kb_r = pw.kernels(T, a, al, m, mu)
+kn_r = 0.3 * 0.8 ** np.arange(T)
 eff, prim = [], []
 for h in (1, 5, 20, 30, 50):
     ev = [(t0, t0 + h, 1.0, None)]
-    eff.append(pw.run(T, 0.0, ev, kf_r, kb_r, nu_r, 1.0, "e")[1]["news"][t0])
-    prim.append(pw.run(T, 0.0, ev, kf_r, kb_r, nu_r, 1.0, "u")[1]["news"][t0])
-report("RF direct news equals the primitive kernel", max(abs(x - nu_r[h]) for x, h in zip(prim, (1, 5, 20, 30, 50))))
+    eff.append(pw.run(T, 0.0, ev, kf_r, kb_r, kn_r, 1.0, "e")[1]["news"][t0])
+    prim.append(pw.run(T, 0.0, ev, kf_r, kb_r, kn_r, 1.0, "u")[1]["news"][t0])
+report("RF direct news equals the primitive kernel", max(abs(x - kn_r[h]) for x, h in zip(prim, (1, 5, 20, 30, 50))))
 print("RF  echoed news kernel at h = 1, 5, 20, 30, 50: " + ", ".join(f"{x:.3f}" for x in eff))
 
 # P1(d): non-summable tails. Simple-hyperbolic kernels with the same short-run rates
 j = np.arange(1, 2000)
 for T in (50, 2000):
     jj = j[: T - 1]
-    M_T = (a / (1 - np.log(b) * jj)).sum() + (m / (1 - np.log(al) * jj)).sum()
+    M_T = (a / (1 - np.log(al) * jj)).sum() + (m / (1 - np.log(mu) * jj)).sum()
     print(f"P1d simple-hyperbolic tails: M_T = {M_T:.2f} at T = {T}")
 
 # Calibration: invert present bias to one-sided primitives; the echo share it implies
 err = 0.0
 for bL, d in [(0.7, 0.96), (0.9, 0.96), (0.7, 0.9)]:
-    a, b = bL / (1 - bL), d * (1 - bL)
-    r = resolvent_line(a, b, 0.0, 0.5)
+    a, al = bL / (1 - bL), d * (1 - bL)
+    r = resolvent_line(a, al, 0.0, 0.5)
     M_pred = bL * d / (1 - d + bL * d)
-    err = max(err, abs(r[1] / (r[0] * r[2] / r[1]) - bL), abs(r[2] / r[1] - d), abs(mass(a, b, 0.0, 0.5) - M_pred))
+    err = max(err, abs(r[1] / (r[0] * r[2] / r[1]) - bL), abs(r[2] / r[1] - d), abs(mass(a, al, 0.0, 0.5) - M_pred))
 report("CAL inversion a = bL/(1-bL), beta = d(1-bL); M = bL d/(1-d+bL d)", err)

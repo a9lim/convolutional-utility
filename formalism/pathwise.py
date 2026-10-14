@@ -5,17 +5,17 @@ Deterministic announcements. At each t the self solves for its felt e_t and its 
 [t, T), given current forecasts of u, realized past e, and its previous forecast path. Forecasts are
 certainty-equivalent: later selves are forecast to receive no further news (no anxiety term).
     x = u_hat[t:] + A x + mem_past + s e_0,   s = felt news at t
-over="u": s = sum_j nu(j) mu(u_hat_{t+j} - u_prev_{t+j})        news over base utility
-over="e": s = sum_j nu(j) mu(x_j - x_prev_{t+j}), a 1-D root     news over experienced utility
-The root is unique iff lam * (nu . g) < 1, with g = (I - A)^{-1} e_0 (core N4)."""
+over="u": s = sum_j kn(j) phi(u_hat_{t+j} - u_prev_{t+j})        news over base utility
+over="e": s = sum_j kn(j) phi(x_j - x_prev_{t+j}), a 1-D root     news over experienced utility
+The root is unique iff lam * (kn . g) < 1, with g = (I - A)^{-1} e_0 (core N4)."""
 import sys
 
 import numpy as np
 
 
-def kernels(T, a, b, m, al):
+def kernels(T, a, al, m, mu):
     j = np.arange(T)
-    return np.where(j > 0, a * b ** j, 0.0), np.where(j > 0, m * al ** j, 0.0)
+    return np.where(j > 0, a * al ** j, 0.0), np.where(j > 0, m * mu ** j, 0.0)
 
 
 def forecast_u(T, base, events, t):
@@ -29,8 +29,8 @@ def forecast_u(T, base, events, t):
     return u
 
 
-def run(T, base, events, kf, kb, nu, lam, over):
-    mu = lambda x: np.where(x >= 0, x, lam * x)
+def run(T, base, events, kf, kb, kn, lam, over):
+    phi = lambda x: np.where(x >= 0, x, lam * x)
     e = np.zeros(T)
     comp = {k: np.zeros(T) for k in ("base", "anticipation", "memory", "news")}
     loop = np.zeros(T)
@@ -50,12 +50,12 @@ def run(T, base, events, kf, kb, nu, lam, over):
         x0, g = path(t, uh)
         n = T - t
         if over == "u":
-            s = nu[:n] @ mu(uh[t:] - u_prev[t:])
+            s = kn[:n] @ phi(uh[t:] - u_prev[t:])
         else:
-            loop[t] = lam * (nu[:n] @ np.abs(g))
+            loop[t] = lam * (kn[:n] @ np.abs(g))
             if loop[t] >= 1:
-                raise RuntimeError(f"news over e not well-founded at t={t}: lam (nu . g) = {loop[t]:.3f}")
-            h = lambda s: s - nu[:n] @ mu(x0 + s * g - x_prev[t:])
+                raise RuntimeError(f"news over e not well-founded at t={t}: lam (kn . g) = {loop[t]:.3f}")
+            h = lambda s: s - kn[:n] @ phi(x0 + s * g - x_prev[t:])
             lo, hi = -1e3, 1e3
             for _ in range(200):
                 mid = (lo + hi) / 2
@@ -74,7 +74,7 @@ def run(T, base, events, kf, kb, nu, lam, over):
 
 T = 60
 KF, KB = kernels(T, 0.1, 0.85, 0.1, 0.75)
-NU = 0.3 * 0.7 ** np.arange(T)          # nu(j) = nu * delta^j, nu = 0.3, delta = 0.7
+KN = 0.3 * 0.7 ** np.arange(T)          # k_n(j) = n * nu^j, n = 0.3, nu = 0.7
 EVENTS = [(5, 20, 3.0, None),       # trip announced at 5, happens at 20
           (25, 45, 3.0, 40),        # second trip announced at 25, cancelled at 40
           (None, 33, -3.0, None)]   # unannounced loss at 33
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(2, 1, figsize=(11, 8), sharex=True)
     colors = {"base": "#7f7f7f", "anticipation": "#2a7ab9", "memory": "#d08a1e", "news": "#c0392b"}
     for ax, over, title in [(axes[0], "u", "News over base utility"), (axes[1], "e", "News over experienced utility")]:
-        e, c, loop = run(T, 0.0, EVENTS, KF, KB, NU, 2.0, over)
+        e, c, loop = run(T, 0.0, EVENTS, KF, KB, KN, 2.0, over)
         t = np.arange(T)
         for k, col in colors.items():
             ax.plot(t, c[k], color=col, lw=1.6, label=k)

@@ -61,3 +61,8 @@ Periodically compacted to git history.
   recursive-news threshold tension. The echo-share bill is set by patience, and
   experience sampling suggests positive echo is small, so present bias has sources beyond
   felt echo.
+- Notation (a9): every kernel is Latin strength times Greek reach, `a·α^j`, `m·μ^j`, `n·ν^j`;
+  the first moment became `M₁`, the gain-loss function `φ_λ`, felt news `N_t`. Code renamed
+  to match; checks output identical apart from labels.
+- a9 proposed three natural horizons: a waking day, a full life, an LLM's context window
+  (a9's wife is studying the peak-end effect in LLMs). Added to core calibration.

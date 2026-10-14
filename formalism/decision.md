@@ -66,17 +66,17 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   life-sum objective. Compare a sophisticated fixed-past equilibrium (backward induction
   over selves) with the commitment optimum (`argmax/argmin w` over `[t₀, T)`, crediting
   no anticipation before the news).
-- **Direct geometric model, exact.** Let `N = T − 1`, `A_h = Σ_{j≤h} aβ^j`,
-  `B_h = Σ_{j≤h} mα^j`.
+- **Direct geometric model, exact.** Let `N = T − 1`, `A_h = Σ_{j≤h} aα^j`,
+  `B_h = Σ_{j≤h} mμ^j`.
   - Fixed-past weight: `c_t(s) = 1 + A_{s−t} + B_{N−s}`.
-  - Delaying by `d` (with `h = N − t`) gains `A_d − α^{h−d} B_d`: new anticipation minus
+  - Delaying by `d` (with `h = N − t`) gains `A_d − μ^{h−d} B_d`: new anticipation minus
     lost memory.
-  - **Pleasure:** taken at death (`τ = N`) iff `A_h > B_h` for every `h`, iff `aβ > mα`
-    and `A_N > B_N`. If `β ≥ α`, it is taken at `τ = N − h*`, where
-    `h* = max({0} ∪ {h ≤ N : mα^h ≥ aβ})`. It lands in a terminal region whose depth is
+  - **Pleasure:** taken at death (`τ = N`) iff `A_h > B_h` for every `h`, iff `aα > mμ`
+    and `A_N > B_N`. If `α ≥ μ`, it is taken at `τ = N − h*`, where
+    `h* = max({0} ∪ {h ≤ N : mμ^h ≥ aα})`. It lands in a terminal region whose depth is
     the number of memory steps before memory weight falls below the first step of
     anticipation.
-  - **Pain:** `τ ∈ {0, N}`. Taken at death iff `aβ < mα` and `A_N < B_N`. Fixed-past
+  - **Pain:** `τ ∈ {0, N}`. Taken at death iff `aα < mμ` and `A_N < B_N`. Fixed-past
     timing is never later than commitment timing (the commitment weight
     `1 + A_s + B_{N−s}` is concave, so its minimum is at an endpoint).
   - Commitment: a pleasure goes to the interior peak of the concave weight.
@@ -84,8 +84,8 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   commitment for pleasures in 99% of cases, and not later for pains in 100%. Pleasure
   loss: median ~7.5%, max ~54% of the event's life-value.
 - **The exceptions are preemption.** When fixed-past takes a pleasure *earlier* than
-  commitment, the terminal region has unravelled to the front. Example (`β < α`, outside
-  the closed form): `a = 0.0465, β = 0.896, m = 0.0196, α = 0.964, T = 40`. [checked]
+  commitment, the terminal region has unravelled to the front. Example (`α < μ`, outside
+  the closed form): `a = 0.0465, α = 0.896, m = 0.0196, μ = 0.964, T = 40`. [checked]
   - Each self compares only "now" against what later selves will do. `B_h ≥ A_h` first
     at `h = 38`, so every self from `t = 2` on prefers death to now and the continuation
     is `t = 39`, though each self's own optimum is interior (15–30).
@@ -111,7 +111,7 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
 **D4. Momentary hedonist: boundary treatment changes the present bias.** [checked]
 - Fixed-past (half-line) row: `R⁺₀₀ = 1/H`, `β_L = 1 − H/(1+a)`.
 - Bilateral row: `β_L = 1 − 1/((1+a) r(0))` (core P4).
-- Example `a = m = 1, β = 0.3, α = 0.2`: fixed-past `r(0) = 1.088`, `β_L = 0.541`;
+- Example `a = m = 1, α = 0.3, μ = 0.2`: fixed-past `r(0) = 1.088`, `β_L = 0.541`;
   bilateral `r(0) = 1.215`, `β_L = 0.588`.
 - This compares boundary treatments, not a theorem about FDT. Momentary hedonists at
   different times also have different objectives.
@@ -220,7 +220,7 @@ against Good's theorem and updatelessness is synthesis; speculation where marked
 - **Which `G` is best depends on the nonlinearity.** [checked]
   - R with dread asymmetry (D5): the coarsest `G`. Strict updateless affect is optimal.
   - Loss-averse felt news (core N2): *batching*. Feel each body of news once it is
-    complete, at the time where `ν(s−r) w(r)` is lowest — usually as soon as the picture
+    complete, at the time where `k_n(s−r) w(r)` is lowest — usually as soon as the picture
     is complete. Strict updateless affect is optimal only if realization is that time.
 - **The split in decision-theory terms.** Good's theorem and updatelessness concern the
   action policy, where information is ignorable. The affect policy is where information
@@ -266,13 +266,13 @@ against Good's theorem and updatelessness is synthesis; speculation where marked
 - **What measure-weighting rules out.** Copy-counting anticipation would make anticipation
   a *sum* over successors, so a branching future could outweigh a single past without
   bound.
-  - Per observer: copy-counted forward mass is `abβ/(1 − bβ)`, which needs `bβ < 1`.
+  - Per observer: copy-counted forward mass is `abα/(1 − bα)`, which needs `bα < 1`.
   - Total across observers: a trunk event is remembered by every descendant, so the
-    copy-counted total needs `bα < 1` (D) or `b(1+m)α < 1` (R; memory-only resolvent
-    `r(−j) = (m/(1+m))((1+m)α)^j`). Example: `b = 2, m = 1, α = 0.3` keeps each observer
-    bounded (`M = 0.43`) while the copy-counted total diverges (`b(1+m)α = 1.2`). [checked]
-- **Under measure-weighting branching is welfare-invisible.** Forward mass is `aβ/(1 − β)`,
-  and the measure-weighted total memory of a trunk event is `m Σ α^j`, the unbranched
+    copy-counted total needs `bμ < 1` (D) or `b(1+m)μ < 1` (R; memory-only resolvent
+    `r(−j) = (m/(1+m))((1+m)μ)^j`). Example: `b = 2, m = 1, μ = 0.3` keeps each observer
+    bounded (`M = 0.43`) while the copy-counted total diverges (`b(1+m)μ = 1.2`). [checked]
+- **Under measure-weighting branching is welfare-invisible.** Forward mass is `aα/(1 − α)`,
+  and the measure-weighted total memory of a trunk event is `m Σ μ^j`, the unbranched
   conditions exactly: it adds up to normality.
 - These are utility weights, not credences, so they are not SSA or SIA. Armstrong derives
   SSA- or SIA-like *betting* from preferences plus linked decisions, and treats subjective

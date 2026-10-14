@@ -23,8 +23,8 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
 - **The model.** One equation: experienced utility is base utility plus anticipation and
   memory of experienced utility, plus felt news about it (core, the canonical model).
   *synthesis*
-  - Present it in full, with the coefficient table: what `a, β, m, α, ν, δ, λ` each
-    do, and the two conditions (`M < 1`, `λ(ν·g) < 1`).
+  - Present it in full, with the coefficient table: what `a, α, m, μ, n, ν, λ` each
+    do, and the two conditions (`M < 1`, `λ(k_n·g) < 1`).
   - The direct form is its reduced form, mentioned as an equivalent model under
     reparametrization (P2, N4); recursion stretches anticipation's reach and makes news
     about further-off events felt more.
@@ -57,7 +57,7 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
     anticipation and memory, never from the god's-eye view.
   - Shape: the first-moment theorem (P6) — anticipation's lever arm against memory's.
     - In a linear echo model shape is a boundary effect, not a slope effect.
-    - Its size is about reach over lifespan (`4μ₁/T`): sizeable for whole lives only if
+    - Its size is about reach over lifespan (`4M₁/T`): sizeable for whole lives only if
       anticipation and memory reach across decades; strongest for short sequences.
   - Directionality: improvement wins iff anticipation reaches further, *or* memory works
     by contrast.
@@ -93,7 +93,7 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
       bracing is documented, its hedonic payoff is not (Golub, Gilbert & Wilson).
     - News over experienced utility (N4): good news about far events is felt now,
       because tomorrow you'll be looking forward; cancelling a plan costs the
-      anticipation too. Needs `λ(ν·g) < 1`, and beyond it bad news has no felt state:
+      anticipation too. Needs `λ(k_n·g) < 1`, and beyond it bad news has no felt state:
       a despair spiral. *checked; reading speculative.* Credit Kimball & Willis (elation
       over lifetime-utility news, solved simultaneously, the same threshold) and the
       bistability models of depression and panic.
@@ -153,6 +153,9 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
   - Copy-counting would let a branching future outweigh a single past without bound.
   - Under measure-weighting, branching is welfare-invisible: it adds up to normality.
   - Utility weights, not SSA/SIA credences.
+  - A context window as a life: hard boundaries both ends, retrieval-style memory that need
+    not fade (well-founded only for short contexts or weak echo), and instances as A1's
+    tree. *speculation*
 - **Utilitarian corollaries.** *synthesis / speculation*
   - Forgotten pain counts less, but not zero (Parfit's amnesia case; Lee 2022; Shardlow
     2025).
@@ -164,6 +167,6 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
   - Hersch & Weltman's "begs the question" is the objection to answer.
 - **Limits.**
   - Real kernels are sign-asymmetric and nonlinear (dread > savouring).
-  - Power-law forgetting threatens `M` and `μ₁`.
+  - Power-law forgetting threatens `M` and `M₁`.
   - The evidence for a past–future asymmetry is thin.
   - Identification (P10).

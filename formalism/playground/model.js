@@ -3,15 +3,17 @@
 (function (root) {
   "use strict";
 
+  // Anticipation a·α^j, memory m·μ^j, news k_n(j) = n·ν^j (γ·n·ν^j for j ≥ 1 with Kőszegi–Rabin's γ).
   function kernels(p) {
-    const kf = new Float64Array(p.T), kb = new Float64Array(p.T), nu = new Float64Array(p.T);
+    const kf = new Float64Array(p.T), kb = new Float64Array(p.T), kn = new Float64Array(p.T);
+    const gamma = p.gamma == null ? 1 : p.gamma;
     for (let j = 1; j < p.T; j++) {
-      kf[j] = p.a * Math.pow(p.b, j);
-      kb[j] = p.m * Math.pow(p.al, j);
-      nu[j] = p.nu1 * Math.pow(p.nuDecay, j - 1);
+      kf[j] = p.a * Math.pow(p.al, j);
+      kb[j] = p.m * Math.pow(p.mu, j);
+      kn[j] = gamma * p.n * Math.pow(p.nu, j);
     }
-    nu[0] = p.nu0;
-    return { kf, kb, nu };
+    kn[0] = p.n;
+    return { kf, kb, kn };
   }
 
   // Forecast at time t of base utility on [0, T). t = -1 is the prior.
@@ -68,15 +70,15 @@
     return A;
   }
 
-  // All roots of h(s) = s - sum_j nu_j mu(x0_j + s g_j - prev_j). h is piecewise linear with kinks
+  // All roots of h(s) = s - sum_j nu_j phi(x0_j + s g_j - prev_j). h is piecewise linear with kinks
   // where a revision changes sign, so its roots are found exactly, interval by interval.
-  function newsRoots(x0, g, xPrev, t, nu, n, mu) {
+  function newsRoots(x0, g, xPrev, t, kn, n, phi) {
     // Revisions below rounding noise are no news (past the threshold, any bad news has no felt state).
     const d = new Float64Array(n);
     for (let j = 0; j < n; j++) { const r = x0[j] - xPrev[t + j]; d[j] = Math.abs(r) < 1e-9 * (1 + Math.abs(x0[j])) ? 0 : r; }
-    const h = (s) => { let v = s; for (let j = 0; j < n; j++) v -= nu[j] * mu(d[j] + s * g[j]); return v; };
+    const h = (s) => { let v = s; for (let j = 0; j < n; j++) v -= kn[j] * phi(d[j] + s * g[j]); return v; };
     const br = [];
-    for (let j = 0; j < n; j++) if (nu[j] !== 0 && Math.abs(g[j]) > 1e-15) br.push(-d[j] / g[j]);
+    for (let j = 0; j < n; j++) if (kn[j] !== 0 && Math.abs(g[j]) > 1e-15) br.push(-d[j] / g[j]);
     br.sort((p, q) => p - q);
     const pts = [];
     if (br.length === 0) pts.push(-1, 1); else { pts.push(br[0] - 1); for (const b of br) pts.push(b); pts.push(br[br.length - 1] + 1); }
@@ -102,8 +104,8 @@
   }
 
   function simulate(p) {
-    const T = p.T, { kf, kb, nu } = kernels(p);
-    const lam = p.lam, mu = (x) => (x >= 0 ? x : lam * x);
+    const T = p.T, { kf, kb, kn } = kernels(p);
+    const lam = p.lam, phi = (x) => (x >= 0 ? x : lam * x);
     const e = new Float64Array(T), fHist = new Float64Array(T);
     const comp = { base: new Float64Array(T), anticipation: new Float64Array(T),
                    memory: new Float64Array(T), news: new Float64Array(T) };
@@ -161,13 +163,13 @@
       const { x0, g } = pa;
       let s = 0;
       if (p.over === "u") {
-        for (let j = 0; j < n; j++) s += nu[j] * mu(uh[t + j] - uPrev[t + j]);
+        for (let j = 0; j < n; j++) s += kn[j] * phi(uh[t + j] - uPrev[t + j]);
       } else {
         let loop = 0;
-        for (let j = 0; j < n; j++) loop += nu[j] * Math.abs(g[j]);
+        for (let j = 0; j < n; j++) loop += kn[j] * Math.abs(g[j]);
         loop *= lam;
         out.maxLoop = Math.max(out.maxLoop, loop);
-        const roots = newsRoots(x0, g, xPrev, t, nu, n, mu);
+        const roots = newsRoots(x0, g, xPrev, t, kn, n, phi);
         if (roots.length === 0) { out.failAt = t; out.failLoop = loop; break; }
         if (roots.length > 1) out.multiAt.push(t);
         s = roots[roots.length - 1];   // the better felt state when there are two

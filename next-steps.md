@@ -3,9 +3,13 @@
 Ordered by dependency.
 
 1. **Calibrate** (core, the canonical model): pick a default parameter set from the felt
-   anchors (felt `λ` 1–2, `ν` 0.1–0.3, `A > B`, reach scaling with event size, dread >
+   anchors (felt `λ` 1–2, `n` 0.1–0.3, `A > B`, reach scaling with event size, dread >
    savoring); settle how the post treats the echo-share bill (patience is mostly not felt
    echo); retrieve the Rutledge 2014 full text and Halabi et al. 2022.
+   - one parameter set per natural horizon: a waking day, a full life, a context window;
+   - the peak-end design: positional weights of an end-of-episode rating as a direct
+     measurement of the memory kernel (relevant to the peak-end study in LLMs); verify Liu
+     et al. on positional use of context.
 2. **Pick the spine.** Leading candidate: beliefs are welfare (D5), with the past self as
    predictor (D1, D3, D6) second and the life-sum results (P5, P6) as setup.
 3. **Beliefs are welfare** (`decision.md` D5), the formal work the spine needs:
@@ -19,7 +23,7 @@ Ordered by dependency.
      cancellation, dread-of-dread information aversion);
    - felt news (core N1–N4): N3 under news
      over `e`; the dynamic bracing path, with self-revision felt as news; the despair
-     threshold `λ(ν·g)` analytically; how `λ` and `ν` are pinned (P10);
+     threshold `λ(k_n·g)` analytically; how `λ`, `n` and `ν` are pinned (P10);
    - recollection news (core sketch): formalize; the backward version of N3 with
      reminders; prior art on rosy retrospection and the fading affect bias;
    - the delusional optimist: unaware (Brunnermeier & Parker) versus sophisticated
@@ -47,7 +51,7 @@ Ordered by dependency.
      defecting, with both the acausal and the self-reputation channel;
    - make `J` concrete for imperfect foresight: past forecasts as noisy predictions of
      the policy, and FDT's `J` as a function of predictability;
-   - the recursive-model analogue of the D3 stopping conditions, and the `β < α` case;
+   - the recursive-model analogue of the D3 stopping conditions, and the `α < μ` case;
    - read Kőszegi 2010 §3.2 closely, since D3's mechanism is his.
 6. **Formal loose ends** (`core.md`):
    - check the stock-form ODE numerically;
@@ -57,5 +61,5 @@ Ordered by dependency.
 8. **Figures:**
    - `w(s)` profiles;
    - the lens plot (P7);
-   - a ramp-sign phase diagram in `(β, α)`;
+   - a ramp-sign phase diagram in `(α, μ)`;
    - CDT-versus-FDT schedules (D3).
