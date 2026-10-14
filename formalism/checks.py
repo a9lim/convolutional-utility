@@ -3,7 +3,9 @@
 Conventions: K[t, s] is the weight of e(s) (recursive model R) or u(s) (direct model D)
 in e(t). Geometric family: forward a*b**(s-t) for s > t, backward m*al**(t-s) for s < t.
 """
+import importlib.util
 import math
+import os
 
 import numpy as np
 
@@ -452,3 +454,30 @@ for nu0, lam in [(0.3, 2.0), (0.45, 2.5)]:
         counts.append(int(np.sum(np.sign(hv[:-1]) != np.sign(hv[1:]))))
     rows.append(f"lam (nu.g) = {lam * nu @ g:.3f}: felt states after bad / good shock = {counts[0]} / {counts[1]}")
 print("N4  " + "; ".join(rows))
+
+
+# Canonical model, reduced form (core.md): effective coefficients and the echoed news kernel
+spec_pw = importlib.util.spec_from_file_location("pathwise", os.path.join(os.path.dirname(__file__), "pathwise.py"))
+pw = importlib.util.module_from_spec(spec_pw)
+spec_pw.loader.exec_module(pw)
+a, b, m, al = 0.09, 0.88, 0.05, 0.75
+p, q, r0 = geometric_closed_form(a, b, m, al)
+print(f"RF  r(0) = {r0:.3f}, p = {p:.3f}, q = {q:.3f}; reach fwd {1 / (1 - b):.1f} -> {1 / (1 - p):.1f}, "
+      f"bwd {1 / (1 - al):.1f} -> {1 / (1 - q):.1f}")
+T, t0 = 120, 40
+kf_r, kb_r = pw.kernels(T, a, b, m, al)
+nu_r = np.array([0.3] + [0.06 * 0.97 ** (j - 1) for j in range(1, T)])
+eff, prim = [], []
+for h in (1, 5, 20, 30, 50):
+    ev = [(t0, t0 + h, 1.0, None)]
+    eff.append(pw.run(T, 0.0, ev, kf_r, kb_r, nu_r, 1.0, "e")[1]["news"][t0])
+    prim.append(pw.run(T, 0.0, ev, kf_r, kb_r, nu_r, 1.0, "u")[1]["news"][t0])
+report("RF direct news equals the primitive kernel", max(abs(x - nu_r[h]) for x, h in zip(prim, (1, 5, 20, 30, 50))))
+print("RF  echoed news kernel at h = 1, 5, 20, 30, 50: " + ", ".join(f"{x:.3f}" for x in eff))
+
+# P1(d): non-summable tails. Simple-hyperbolic kernels with the same short-run rates
+j = np.arange(1, 2000)
+for T in (50, 2000):
+    jj = j[: T - 1]
+    M_T = (a / (1 - np.log(b) * jj)).sum() + (m / (1 - np.log(al) * jj)).sum()
+    print(f"P1d simple-hyperbolic tails: M_T = {M_T:.2f} at T = {T}")

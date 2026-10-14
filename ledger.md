@@ -49,3 +49,6 @@ Periodically compacted to git history.
   15 existing reference files; it restored them by re-extraction, and three spot-checks
   matched their PDFs byte for byte.
 - a9 raised the 2×2 (echoes × news); added to core with measured signatures.
+- Canonicalized recursive echoes with recursive news as the main model (a9's suggestion);
+  the direct form is presented as its reduced form. A full comparison of discounting
+  schemes was started and dropped at a9's call once the tail result was clear (P1d).

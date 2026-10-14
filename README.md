@@ -3,7 +3,8 @@
 Working abstract:
 
 - Experienced utility as base utility convolved with a two-sided kernel: anticipation
-  forward, memory backward, optionally recursive (echoes of echoes).
+  forward, memory backward, recursive (echoes of echoes), with felt news when forecasts
+  change. The one-layer direct model is its reduced form.
 - The recursive model is well-founded iff the echo share `M` is below one. A finite life
   can stay monotone above that, but its echo grows without bound with lifespan.
 - Summed over a life, each moment is weighted by its centrality in the

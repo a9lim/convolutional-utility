@@ -4,14 +4,57 @@ Status tags: **[standard]** textbook math · **[known: …]** in the literature,
 **[not found]** not located in the lit pass (see `bibliography.md`), so possibly new ·
 **[checked]** `formalism/checks.py` verifies numerically · **[proved]** proof sketch here.
 
+## The canonical model
+
+Recursive echoes and recursive news: anticipation, memory and news are all about experienced
+utility. In causal form, for each moment `t` of a life `[0, T)`:
+
+```
+e_t = u_t                                                          base
+    + Σ_{j=1}^{T−1−t} a β^j  Ê_t[e_{t+j}]                           anticipation
+    + Σ_{j=1}^{t}     m α^j  e_{t−j}                                memory
+    + Σ_{j=0}^{T−1−t} ν(j)   μ_λ( Ê_t[e_{t+j}] − Ê_{t−1}[e_{t+j}] )  news
+```
+
+- `Ê_t` is the self's forecast at `t`, with `Ê_t[e_t] = e_t`. `ν(0) = ν₀`, `ν(j) = ν₁ δ^{j−1}`
+  for `j ≥ 1`. `μ_λ(x) = x` for `x ≥ 0` and `λx` for `x < 0`.
+- Welfare is the life-sum `W = Σ_t e_t`, scored by the objective expectation.
+- Well-founded iff `M = aβ/(1−β) + mα/(1−α) < 1` (echoes converge, P1) and `λ(ν·g) < 1`
+  (felt news is unique, N4).
+
+| coefficient | what it does | where it shows |
+|---|---|---|
+| `a` | anticipation strength | forward echo mass `A = aβ/(1−β)`; present bias `β_L ≥ a/(1+a)` (P3, P4) |
+| `β` | anticipation reach | the ramp before an event; mean reach `1/(1−β)` |
+| `m` | memory strength | the afterglow; backward mass `B = mα/(1−α)` |
+| `α` | memory reach | how long the afterglow lasts; mean reach `1/(1−α)` |
+| `ν₀` | surprise when a moment arrives | elation or disappointment against the last forecast (N3) |
+| `ν₁`, `δ` | news about the future | the jolt on hearing; `δ` sets how far ahead news is felt |
+| `λ` | loss aversion of news | prices information (N2); sets the despair threshold (N4) |
+
+**The reduced form.** With `λ = 1`, on ℤ, the canonical model is a direct model with
+effective coefficients (P2, P4, N4):
+`e_t = r(0) u_t + Σ_{n≥1} (r(0) − 1/(1+a)) pⁿ u_{t+n} + Σ_{n≥1} (r(0) − 1/(1+m)) qⁿ u_{t−n}`,
+plus direct news with an echoed kernel `ν′`.
+- Example (`a = 0.09, β = 0.88, m = 0.05, α = 0.75, ν₀ = 0.3, ν₁ = 0.06, δ = 0.97`):
+  `r(0) = 1.032`, `p = 0.971`, `q = 0.798`. Anticipation's mean reach stretches from 8.3 to
+  35 periods, and memory's from 4.0 to 4.9. [checked]
+- The echoed news kernel rises with distance before it falls: per unit of news about `h`
+  periods ahead, `ν′ = 0.15, 0.17, 0.19, 0.19, 0.15` at `h = 1, 5, 20, 30, 50`, against the
+  primitive `0.06, 0.053, 0.034, 0.025, 0.013`. News about a further-off event changes more
+  days of anticipation. [checked]
+- Closed forms live in the reduced form (P5, P6, decision.md D3). Boundaries, nonlinearity
+  and restrictions on the kernel family are where the two forms part (the 2×2 below).
+
 ## Objects
 
 - Discrete time `t`; base utility `u(t)`; experienced utility `e(t)`.
 - Kernel `k(τ)`, `k(0) = 0`: weight at `t` on the thing at `t + τ`. `τ > 0` anticipation,
   `τ < 0` memory. Mass `M = Σ_τ k(τ)`. First moment `μ₁ = Σ_τ τ k(τ)`.
-- **Direct (D):** `e = (I + K) u`. One layer of echo.
-- **Recursive (R):** `e = u + K e`, so `e = (I − K)^{-1} u = Σ_n K^n u`. Entry `r(n)` sums
-  over every zigzag path of anticipations and memories with net displacement `n`.
+- **Recursive (R), canonical:** `e = u + K e`, so `e = (I − K)^{-1} u = Σ_n K^n u`. Entry
+  `r(n)` sums over every zigzag path of anticipations and memories with net displacement `n`.
+- **Direct (D), the reduced form:** `e = (I + K) u`, one layer of echo. On ℤ every R is a D
+  with kernel `(I − K_R)^{-1} − I` (P2); statements about D are about that reduced form.
 - **Finite life** `[0, T)`: `K_T`, the Toeplitz section. Life total `E = Σ_t e(t) = wᵀu`,
   with `w = 1 + K_Tᵀ 1` (D) or `w = (I − K_Tᵀ)^{-1} 1` (R) — the Katz centrality of each
   moment in the anticipation/memory graph.
@@ -36,6 +79,17 @@ Status tags: **[standard]** textbook math · **[known: …]** in the literature,
   finite life, yet constant `u = 1` gives `e_mid ≈ 10¹⁹` at `T = 400`. [checked]
 - Reading: `ρ(K_T) < 1` means monotone on this life; `M < 1` means bounded echo at any
   lifespan.
+- (d) Tails. A kernel whose tail is not summable (the simple hyperbola `1/(1+κj)` and
+  heavier) has echo mass growing with lifespan, so for a fixed strength R is well-founded
+  only up to a longest life. Example (`a = 0.09, m = 0.05`, short-run rates of `β = 0.88`,
+  `α = 0.75`, simple-hyperbolic tails): `M_T = 1.81` at `T = 50` and `4.94` at `T = 2000`.
+  Generalized hyperbolas `(1+κj)^{−γ/κ}` with `γ/κ > 1` are summable and fine. [standard;
+  checked]
+  - Light-tailed primitives lose nothing: recursion turns exponential primitives
+    quasi-hyperbolic (P3, P4), and a mixture of exponentials gives gradual decreasing
+    impatience while staying summable. [synthesis]
+  - The tension is memory: forgetting curves fit power laws (Wixted & Ebbesen 1991). The
+    model then predicts a cutoff in memory's far tail, or weak recursion. [speculation]
 - The regress objection. Caplin & Leahy (2001, p. 75) treat "anticipatory feelings about
   anticipatory feelings … ad infinitum" as the case with no complete model of
   psychological states. R is that regress, and its fixed point exists iff `M < 1`.
@@ -292,10 +346,10 @@ Artstein-Avidan & Dillenberger 2015]
   reduced overconfidence) and decisions (repeating experiences remembered as better than
   they were).
 
-**The 2×2: echoes × news.** Echoes are direct (anticipation and memory of base utility) or
-recursive (of experienced utility); news is direct (about base utility) or recursive (about
-experienced utility). [checked where numbers are given; `formalism/playground` spans all
-four]
+**The 2×2: echoes × news.** The canonical model is the recursive/recursive corner. Echoes
+are direct (anticipation and memory of base utility) or recursive (of experienced utility);
+news is direct (about base utility) or recursive (about experienced utility). [checked where
+numbers are given; `formalism/playground` spans all four]
 - With `λ = 1` and linear kernels, all four are reparametrizations of one another on ℤ (P2
   and N4), so the choice shows only through boundaries, nonlinearity and restrictions on
   the kernel family.

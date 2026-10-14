@@ -20,10 +20,18 @@ centrality ("moments matter by their echo"), discounting ("discounting is an ech
 
 - **Hook.** Discounting looks forward. Run the same kernel backward for memory, let
   echoes echo, and treat a life as a signal convolved with a kernel.
-- **The model.** Base `u` and a kernel `k` (anticipation for `τ > 0`, memory for
-  `τ < 0`); direct `e = (I+K)u` or recursive `e = (I−K)^{-1}u`. *synthesis*
-  - Direct and recursive are two readings of one agent (P2). An agent that cares only
-    about the next and previous moments already acts on its whole life, exponentially.
+- **The model.** One equation: experienced utility is base utility plus anticipation and
+  memory of experienced utility, plus felt news about it (core, the canonical model).
+  *synthesis*
+  - Present it in full, with the coefficient table: what `a, β, m, α, ν₀, ν₁, δ, λ` each
+    do, and the two conditions (`M < 1`, `λ(ν·g) < 1`).
+  - The direct form is its reduced form, mentioned as an equivalent model under
+    reparametrization (P2, N4); recursion stretches anticipation's reach and makes news
+    about further-off events felt more.
+  - An agent that cares only about the next and previous moments already acts on its whole
+    life, exponentially (P2).
+  - Well-foundedness favours light-tailed primitives, and recursion still delivers
+    quasi-hyperbolic present bias (P1d, P3, P4).
   - Present bias is the signature of caring directly about more than the next moment
     (P2, P3).
   - The kernel family is free (exponential, hyperbolic): the model is a frame for
