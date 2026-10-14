@@ -18,6 +18,12 @@ life-sum `W = Σ_t e(t)`. "Momentary hedonist" names the alternative objective `
     the planner's weights `w_T` (core P5).
   - Intermediate `J`: past anticipation tracks the present policy only as well as past
     selves could predict it. The graded case.
+- **As a learning rule.** Whether gradients flow through past selves' forecasts of the
+  policy is `J`: in a scheduling learner, holding them fixed learns the fixed-past date and
+  letting them through learns the commitment date, and a partial weight gives the dates in
+  between; in symmetric games the same switch on the other player's policy separates causal
+  from twin play. [checked in `experiments/learned_expectations/`; known in kind:
+  Oesterheld, Treutlein, Cooper & Hudson 2023, stop-gradients and performative stability]
 - **With news (the canonical model).** A choice the past forecast did not predict
   revises forecasts, so the deviating self feels it as news.
   - The `J` identity above then needs two more things: the derivative of expected news
@@ -158,6 +164,10 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     commitment device. [known in kind: Kőszegi & Rabin 2009, Prop. 5 and p. 925]
   - The exact stopping conditions above are for the direct model without news, and the
     `argmax/argmin w` commitment benchmark likewise.
+  - Which credible plan does learning select? A fixed-past learner, started near uniform,
+    lands on the earliest credible plan, not the preferred one: under loss aversion,
+    uncertainty about one's own timing is itself felt as news, so resolving it early pays.
+    [checked in `experiments/learned_expectations/`, forecasts certainty-equivalent in news]
 - **Commitment versus FDT.** A causal agent with a binding commitment at news time
   reaches the commitment optimum. FDT's claimed advantage is reaching it without a
   device, *if* past forecasts track the policy (D2).
@@ -380,6 +390,10 @@ marked]
     (2023).
   - The constraint: the affect policy must not corrupt the beliefs action uses (Ruby, "A
     quick guide to confronting doom").
+- **In a learner.** An actor-critic whose critic is its felt forecast (core, the RL reading)
+  plays hidden games identically whether or not the critic may ascend felt utility; a free
+  critic turns rosy or braced by the sign of `aν − nλ(1−ν)`. Affect comes apart from action.
+  [checked in `experiments/learned_expectations/`]
 - **Open.** Fixed-past selves hurry pains (D3), and a body of news is a pain. Does that make
   them feel news piecemeal, i.e. over-check? Subadditivity pulls the other way; untested.
 

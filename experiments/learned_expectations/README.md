@@ -103,4 +103,7 @@ which also ascends felt utility, tethered by its TD loss. `repeated.py`, `run_re
   realized) and braced otherwise (`a = 0.05`: −2.4 at round 1, relaxing to −0.1): affect
   decoupled from action (D7). A surprise: the braced critic raises payoffs to 0.31 (two seeds);
   the ablation puts the gain in the critic's felt objective acting on the shared state, not in
-  the felt reward. Mechanism open (`repeated_report.txt`, `repeated.png`).
+  the felt reward. The braced agent's state also encodes its own payoff matrix better (linear
+  R² 0.44 against 0.35 after round 3, 0.59 against 0.46 after round 5): bracing works as an
+  auxiliary task that makes the state represent the hidden game. Why bracing does this and
+  rosiness does not is open (`repeated_report.txt`, `repeated.png`).
