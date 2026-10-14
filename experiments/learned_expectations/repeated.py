@@ -152,4 +152,5 @@ def train(policy="payoff", critic="honest", steps=3000, G=2048, K=10, seed=0, lr
             with torch.no_grad():
                 Cn = torch.cat([R["C"][:, 1:], torch.zeros(G, 1)], 1)
                 level += 0.1 * ((R["r"] + feel["nu"] * Cn).mean(0) - level)
+    agent.level = level if center else torch.zeros(K)      # the critic's forecast is the head's output + level
     return agent

@@ -173,6 +173,11 @@ quantities differ, and the hedonic reading needs the felt ones.
     keep about a third at two weeks (Kühnel & Sonnentag 2011). A small lab reward's
     afterglow lasts seconds (forgetting factor 0.6–0.85 per ~10 s trial; Rutledge et al. 2014;
     Vanhasbroeck et al.; Blain & Rutledge 2020).
+  - In the Great Brain Experiment data (47,067 people, 1.1M ratings), the recursive kernel, a
+    jump at lag 0 then `γ = 0.90` per trial, beats the single geometric (`γ = 0.72`) on
+    held-out participants; read recursively, `m ≈ 1.0` and `μ ≈ 0.45` per trial, and
+    prediction errors echo with the same kernel as rewards. A transient-plus-mood model has
+    the same shape. [checked in `experiments/happiness/`]
   - Ceilings from emotional inertia, which also contains slowly moving base utility: affect
     autocorrelation 0.2–0.3 between beeps about 1.6 h apart (Kuppens, Allen & Sheeber 2010,
     Table 1); 0.61 at one hour for valence in a continuous-time fit (Vansteelandt & Verbeke

@@ -1,0 +1,11 @@
+91058 plays, 47067 participants, 1082040 ratings (z-scored within participant); test set 18869 plays of a fifth of participants.
+[Rutledge 2014] gamma 0.723 kappa 0.723; test MSE 0.6698; CR +0.408, EV +0.268, RPE +0.616  (5s)
+[jump kernel] gamma 0.890 kappa 0.457; test MSE 0.6626; CR +0.481, EV +0.306, RPE +0.713  (23s)
+[Rutledge, RPE by sign] gamma 0.729 kappa 0.729; test MSE 0.6689; CR +0.408, EV +0.282, RPE+ +0.534, RPE- +0.688  (27s)
+[jump, RPE by sign] gamma 0.899 kappa 0.450; test MSE 0.6610; CR +0.478, EV +0.333, RPE+ +0.630, RPE- +0.796  (47s)
+    jump kernel: test MSE -1.07% against Rutledge 2014
+    Rutledge, RPE by sign: test MSE -0.14% against Rutledge 2014
+    jump, RPE by sign: test MSE -1.32% against Rutledge 2014
+Jump kernel, RPE by sign, bootstrap 95% intervals (20 resamples of participants): gamma 0.899 [0.895, 0.905], kappa 0.450 [0.445, 0.456]; recursive reading mu = gamma - kappa 0.449 [0.440, 0.458], m = kappa/mu 1.00 [0.974, 1.035]; RPE-/RPE+ 1.26 [1.244, 1.273]; EV/CR 0.70 [0.685, 0.707]
+[jump kernel per component] CR gamma 0.876 kappa 0.506 (weight +0.467), EV gamma 0.867 kappa 0.554 (weight +0.287), RPE gamma 0.897 kappa 0.434 (weight +0.723); test MSE -1.13% against Rutledge 2014
+done in 481s

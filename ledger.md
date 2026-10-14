@@ -196,3 +196,9 @@ Periodically compacted to git history.
 - Data: a search agent found open trial-level datasets (the Great Brain Experiment smartphone
   data, CC0, 87.5 MB; Forbes & Bennett 2024 on OSF). Downloads await a9's go-ahead. Forbes &
   Bennett already report negative prediction errors moving affect and positive ones not.
+- a9 cleared downloads. The Great Brain Experiment archive (Zenodo, MD5 checked) and Forbes &
+  Bennett's CSVs (OSF, sizes checked) are in gitignored `data/`. First fits: Rutledge's model
+  replicates (`γ = 0.72`); the recursive kernel wins on held-out participants. Caught before
+  reporting: within gain-only and loss-only trials a gamble's EV equals the size of its RPE, so
+  splitting RPE by sign within trial type was a choice of basis; that model is out, and `λ`
+  waits for a mixed-trial analysis.

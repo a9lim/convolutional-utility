@@ -1252,6 +1252,9 @@ Surprise and momentary happiness:
     prediction error 12.9; the text gives only EV < RPE (t(25) = 4.3). Replications and
     the smartphone sample: EV/CR 0.46–0.65, RPE/CR 1.1–1.3. A model splitting expected
     value by timing: reward +10.4, EV at choice +3.35, EV at outcome −8.1. [figure reads]
+  - Data: the Great Brain Experiment smartphone task, deposited by Rutledge (Zenodo 4421847,
+    mirror of Dryad doi:10.5061/dryad.prr4xgxkk; CC0): 47,067 participants, 91,058 plays,
+    1.1M ratings. Fitted in `experiments/happiness/` (local copy in `data/`, gitignored).
 - **Vanhasbroeck, N. et al. (2021).** Testing a computational model of subjective
   well-being: a replication. *Cognition & Emotion*. doi:10.1080/02699931.2021.1891863. **WP** ·
   `papers/vanhasbroeck-2021-testing-a-computational-model-of-subjective-well-being-replication-of-rutledge-2014-author-version.txt`

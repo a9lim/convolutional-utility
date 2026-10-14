@@ -3,3 +3,4 @@ references/*
 !references/INDEX.md
 __pycache__/
 *.pt
+data/

@@ -34,10 +34,15 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
      `M + λN < 1`.
    - The twin dial in hidden repeated games (cooperation in hidden prisoner's dilemmas);
      reliability (D6) as an agent.
-2. **Fit to momentary-happiness data.** Rutledge et al. 2014 model happiness as decaying sums
-   of rewards, expected values and prediction errors: the direct model with linear news.
-   If their data are available: does the recursive model fit better, and is `λ > 1` on
-   prediction errors?
+2. **Fit to momentary-happiness data** (`experiments/happiness/`). On the Great Brain
+   Experiment data the recursive kernel (a jump at lag 0, then `γ = 0.90`) beats Rutledge's
+   single geometric on held-out participants, with `m ≈ 1.0, μ ≈ 0.45` read recursively, and
+   news echoes with the same kernel as rewards. Next:
+   - `λ` cleanly, from mixed trials, where EV and RPE vary independently, with gains and
+     losses of the outcome itself controlled;
+   - Forbes & Bennett's long series (56 ratings a person, downloaded) for per-person kernels;
+   - what separates the recursion from a transient-plus-mood model (forward echoes: does a
+     rating anticipate the trials left in the play?).
 3. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
    choices; coda: selves), and the technical companion.
 4. **Figures:** the Disneyland decomposition; primitive against effective kernels; `w(s)`

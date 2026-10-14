@@ -65,7 +65,7 @@ def evaluate(agent, nu=FEEL["nu"]):
     with torch.no_grad():
         rec = rollout(agent, A, Bm, K, torch.Generator().manual_seed(1))
     R = rec[0]
-    r, C, pi = R["r"], R["C"], R["pi"]
+    r, C, pi = R["r"], R["C"] + getattr(agent, "level", 0.0), R["pi"]
     move = (R["logp"] - torch.log(pi.clamp_min(1e-12))).abs() > 1e-9                    # True: played move 1
     disc, acc = torch.zeros_like(r), torch.zeros(G)
     for k in reversed(range(K)):
