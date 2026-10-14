@@ -1405,6 +1405,18 @@ LLM context windows (core, natural horizons):
 - Not found: an agent trained on felt utility built from its own forecasts, or emergent
   optimism or information avoidance in trained agents.
 
+- **Chung, W., Thomas, V., Machado, M. C. & Le Roux, N. (2021).** Beyond variance reduction:
+  understanding the true impact of baselines on policy optimization. *ICML*, PMLR 139:
+  1999–2009. arXiv:2008.13773. **FT** (arXiv v3) ·
+  `papers/chung-2021-beyond-variance-reduction-understanding-the-true-impact-of-baselines-on-policy-optimization.txt`
+  - Baselines matter beyond variance: with sampled-action updates, a baseline below the
+    min-variance one is *committal* (most sampled actions reinforced, premature
+    near-determinism; Prop. 1–2, 2-arm bandit), one above it non-committal (sampled actions
+    pushed down, exploration kept). Absent under the true gradient; needs sampling noise
+    with on-policy coupling (§2.1, §4). Theory for bandits; MDPs empirical, tabular, exact
+    `Q^π` (§5). The decision-rule channel for a critic's optimism, against the
+    shared-state channel in the hidden-game agent.
+
 ## Anthropics and imperfect recall
 
 - **Armstrong, S. (2011; rev. 2017).** Anthropic decision theory (for self-locating

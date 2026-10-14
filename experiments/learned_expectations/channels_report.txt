@@ -1,0 +1,13 @@
+Policy ascends payoffs; critic on undiscounted payoffs-to-go; 6 seeds. Escaped: late payoff
+above 0.26; escape step: first evaluation above 0.25. Shift: switch rate after a round-1 loss / gain.
+channel         critic          escaped  escape step      late (escaped/not)   shift bad/good   bias
+shared state    honest           1/6    2250 (2250-2250)  0.265 / 0.210      0.55 / 0.02    +0.07
+shared state    rosy (+1.5)      0/6    -                  -   / 0.210      0.46 / 0.00    +1.39
+shared state    braced (-1.5)    3/6    1000 (750-1000)  0.292 / 0.211      0.73 / 0.07    -1.56
+decision rule   honest           3/6    750 (250-1250)   0.304 / 0.214      0.71 / 0.05    +0.21
+decision rule   rosy (+1.5)      2/6    1000 (250-1750)  0.300 / 0.206      0.66 / 0.04    +1.64
+decision rule   braced (-1.5)    3/6    1250 (250-1750)  0.301 / 0.212      0.72 / 0.07    -1.45
+both            honest           1/6    2250 (2250-2250)  0.294 / 0.214      0.53 / 0.06    +0.21
+both            rosy (+1.5)      2/6    2125 (1250-3000)  0.285 / 0.210      0.63 / 0.04    +1.36
+both            braced (-1.5)    3/6    750 (750-1000)   0.289 / 0.215      0.71 / 0.08    -1.31
+done in 2260s

@@ -10,10 +10,12 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
    forecasts with anticipated news), the game agent (random 2×2 games; the twin dial
    reproduces causal against evidential play) and the hidden-game agent (a felt critic: a rosy
    critic keeps it complacent through the shared state). Next:
-   - **Two channels for optimism** (proposed first). Make the critic the policy's baseline, so
-     optimism also enters through the decision rule, where inflated values should drive
-     exploration ("optimism in the face of uncertainty"), against the shared state, where they
-     read as "stay". Which wins, and when.
+   - **Two channels for optimism.** Built (`run_channels.py`): with the critic as the policy's
+     baseline its level does nothing detectable at batch 2048, as Chung et al.'s theory
+     predicts. Next: the same at small batches, where a baseline's level should matter
+     (optimistic non-committal, pessimistic committal), and a decision rule that reads values
+     directly (softmax over learned move values), the classic optimism-explores case, against
+     the shared state, where a high level reads as "stay".
    - **The mechanism, finished.** Codex's three-branch one-step diagnostic near the plateau:
      clone weights and Adam state, apply the policy gradient alone, plus the game-varying
      critic gradient, plus its per-round mean; read the round-2 stay logit on fixed first-round

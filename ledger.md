@@ -166,6 +166,11 @@ Periodically compacted to git history.
   learning the bias is the intervention), and proposed the value/stay coupling, which the
   alignment measurement supports. Its centering test, verified for routing, stopped even the
   honest critic from escaping; left open.
+- Not optimism but level: an honest critic of rewards shifted by +0.5 for the learners only
+  (inputs and the policy's gradient unchanged) stays complacent 6/6, shifted by −0.5 escapes
+  6/6, so the shared state carries the critic's absolute level, and "rosy" was a proxy for
+  "high". Through the policy's baseline instead (Chung et al. 2021, verified), the level did
+  nothing detectable at batch 2048.
 - Lesson kept: learned-agent comparisons need seeds. The game agent's equilibrium-selection
   result is next in line for the same check.
 - a9 asked which extensions I find exciting. My picks: optimism through the decision rule

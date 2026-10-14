@@ -138,6 +138,7 @@ Calibration anchors
 Decision theory by learning
 - `oesterheld-2023-incentivizing-honest-performative-predictions-with-proper-scoring-rules.txt`, `perdomo-2020-performative-prediction.txt`, `krueger-2020-hidden-incentives-for-auto-induced-distributional-shift.txt`, `everitt-2015-sequential-extensions-of-causal-and-evidential-decision-theory.txt`, `everitt-2021-reward-tampering-problems-and-solutions-in-reinforcement-learning.txt`, `gershman-2026-subjective-functions.txt` — arXiv
 - `bell-2021-reinforcement-learning-in-newcomblike-environments.txt`, `oesterheld-2018-doing-what-has-worked-well-in-the-past-leads-to-evidential-decision-theory.txt`, `oesterheld-2019-approval-directed-agency-and-the-decision-theory-of-newcomb-like-problems.txt`
+- `chung-2021-beyond-variance-reduction-understanding-the-true-impact-of-baselines-on-policy-optimization.txt` — arXiv v3
 - `iigaya-2020-the-value-of-whats-to-come-neural-mechanisms-coupling-prediction-error-and-the-utility-of-anticipation.txt` — CC BY, Europe PMC
 
 Anthropics and imperfect recall

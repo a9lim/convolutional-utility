@@ -76,11 +76,14 @@ they share.
 - Variants: payoffs only; felt with an honest (TD-only) critic; felt with a motivated critic,
   which also ascends felt utility, tethered by its TD loss. Critic controls: a fixed per-round
   offset in the TD loss, expectile TD, a canonical critic that forecasts felt utility itself,
-  and a critic detached from the shared state.
+  rewards shifted for the learners only, a critic detached from the shared state, and the
+  critic as the policy's baseline.
 - `repeated.py` (agent, felt utility, trainer); `run_repeated.py` (the variants over seeds;
   `repeated_report.txt`, `repeated.png`); `run_braced.py` (what the critic's level does,
-  fourteen critics over seeds; `braced_report.txt`, `braced.png`); `run_alignment.py` (value
-  and staying share a direction in the state; `alignment_report.txt`).
+  sixteen critics over seeds; `braced_report.txt`, `braced.png`); `run_alignment.py` (value
+  and staying share a direction in the state; `alignment_report.txt`); `run_channels.py` (the
+  critic's level through the state, through the policy's baseline, or both;
+  `channels_report.txt`).
 
 ## Results so far
 
@@ -120,24 +123,33 @@ they share.
   late). It then usually escapes to win-stay, lose-shift at zero (switch after 99% of losses,
   about 10% of gains), which explores and learns the game (about 0.30). One honest seed stays
   complacent for 9000 steps.
-- **A rosy critic keeps the agent complacent.** A free critic is rosy when anticipation
-  outweighs chronic disappointment (`aν > nλ(1−ν)`) and braced otherwise. Its level decides the
-  escape, through the state it shares with the policy (the policy never reads it): honest
+- **A high critic keeps the agent complacent.** The policy never reads the critic, yet the
+  critic's level decides the escape, through the state they share. A free critic is rosy when
+  anticipation outweighs chronic disappointment (`aν > nλ(1−ν)`) and braced otherwise: honest
   critics escape in 7/8 seeds (steps 250–1500), braced ones in 8/8 (by step 750), rosy ones in
   0/8 (`braced_report.txt`, `braced.png`).
-  - Neither loss aversion nor the felt objective is needed. At `λ = 1` the motivated critic's
-    gradients equal a fixed offset's exactly (Codex), and fixed offsets, like expectile
-    critics, do the same: below realized payoffs, 16/16 escape by step 750, however deep;
-    well above, 0/8; mildly above, slowly. Detached from the state, a rosy critic escapes 2/4.
+  - It is the level, not the bias. An honest critic of rewards shifted by +0.5 (a shift the
+    state does not see and the policy's baseline removes, so only the critic's numbers move)
+    stays complacent in 6/6 seeds, like a rosy one; shifted by −0.5 it escapes in 6/6 at step
+    500, like a braced one. Fixed offsets and expectile critics agree: below realized payoffs
+    16/16 escape by step 750, however deep; well above, 0/8; mildly above, slowly. Neither loss
+    aversion nor the felt objective is needed (at `λ = 1` the motivated critic's gradients
+    equal a fixed offset's exactly; Codex). Detached from the state, a rosy critic escapes 2/4.
   - Mechanism, partly: once learning starts, the critic's value and the policy's stay logit
     share a direction in the state (gradient cosine 0.34–0.58 at step 150, about 0 at
     initialization), and a step that raises value raises staying after losses and gains alike
-    in every seed and checkpoint (`alignment_report.txt`). A critic held above its targets
-    keeps telling the policy things are fine. Open: removing the per-round mean of the
-    critic's push on the state also stops the honest critic from escaping (0/4), though its
-    mean residual is small and fluctuates in sign.
+    in every seed and checkpoint (`alignment_report.txt`). A critic that must output high
+    numbers keeps telling the policy things are fine. Open: removing the per-round mean of
+    the critic's push on the state also stops the honest critic from escaping (0/4), though
+    its mean residual is small and fluctuates in sign.
   - The canonical critic, honest about felt utility, sits above payoffs at `λ = 1` (its target
     includes echoes) and escapes in 1/4; at `λ = 2` in 3/8, late.
+- **Through the decision rule instead.** With the critic as the policy's baseline and kept off
+  the state, its level makes no detectable difference (honest 3/6, rosy 2/6, braced 3/6;
+  `channels_report.txt`): a baseline's level leaves the expected gradient unchanged and acts
+  only through sampling noise (Chung et al. 2021), which batches of 2048 games average away.
+  With an undiscounted critic, whose honest values are higher, the shared-state channel keeps
+  its order at lower rates (braced 3/6, honest 1/6, rosy 0/6).
 - **Felt utility as the policy's reward** leaves the escape rate unchanged at `a = 0.3` (3/4
   seeds, as for payoffs); at weak anticipation it escapes 1/4, and a motivated, braced critic
   restores 4/4 (`repeated_report.txt`, 4 seeds each). Escaped agents' states tell game classes

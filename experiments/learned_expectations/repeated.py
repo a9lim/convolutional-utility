@@ -106,8 +106,11 @@ def td_loss(rec, feel=FEEL, critic="honest", offset=None, expectile=None):
 
 
 def train(policy="payoff", critic="honest", steps=3000, G=2048, K=10, seed=0, lr=3e-3, feel=FEEL,
-          offset=None, expectile=None, detach=False, monitor=None):
+          offset=None, expectile=None, detach=False, baseline="batch", reward_shift=0.0, monitor=None):
     """detach: the critic reads the state without training it, so it cannot shape what the policy sees.
+    baseline: "batch" (the batch mean of rewards-to-go) or "critic" (the critic's forecast, so its level also
+    enters the policy's update). reward_shift: a constant added to every payoff the learners see as reward
+    (the state still sees the raw payoff), which moves the honest critic's level without biasing it.
     monitor(step, agent), if given, is called every 250 steps."""
     gen = torch.Generator().manual_seed(seed)
     torch.manual_seed(seed)
@@ -122,11 +125,14 @@ def train(policy="payoff", critic="honest", steps=3000, G=2048, K=10, seed=0, lr
         loss = 0.0
         for i in range(2):
             R = rec[i]
+            if reward_shift:
+                R = dict(R, r=R["r"] + reward_shift)
             if detach:
                 R = dict(R, C=agent.critic(R["h"].detach())[:, :, 0])
             reward = R["r"] if policy == "payoff" else felt(R, R["C"].detach(), feel)
             ret = torch.flip(torch.cumsum(torch.flip(reward.detach(), [1]), 1), [1])     # rewards-to-go
-            loss = loss - (R["logp"] * (ret - ret.mean(0, keepdim=True))).mean()
+            base = R["C"].detach() if baseline == "critic" else ret.mean(0, keepdim=True)
+            loss = loss - (R["logp"] * (ret - base)).mean()
             loss = loss + td_loss(R, feel, critic, off, expectile)
             if critic == "motivated":
                 loss = loss - felt(R, R["C"], feel).sum(1).mean()                        # ascends felt utility

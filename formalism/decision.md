@@ -409,10 +409,12 @@ marked]
   in hidden repeated games. A critic free to ascend felt utility turns rosy or braced by the
   sign of `aν − nλ(1−ν)`. Affect does not stay apart from action when the critic shares its
   state with the policy, even though the policy never reads it: value and staying come to
-  share a direction in the state, so a rosy critic keeps the agent on a complacent policy
-  (0/8 seeds learn to shift after losses, against 7/8 honest and 8/8 braced). Decoupling
-  needs the affect head kept off the representation that acts. [checked in
-  `experiments/learned_expectations/`; mechanism partly open]
+  share a direction in the state, so a critic that expects much keeps the agent on a
+  complacent policy (rosy: 0/8 seeds learn to shift after losses, against 7/8 honest and
+  8/8 braced). It is the level, not the bias: an honest critic of rewards shifted up, with
+  nothing else changed, does the same. Decoupling needs the affect head kept off the representation that acts; through
+  the decision rule, as the policy's baseline, its level barely matters at large batches.
+  [checked in `experiments/learned_expectations/`; mechanism partly open]
 - **Open.** Fixed-past selves hurry pains (D3), and a body of news is a pain. Does that make
   them feel news piecemeal, i.e. over-check? Subadditivity pulls the other way; untested.
 

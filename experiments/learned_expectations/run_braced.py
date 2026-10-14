@@ -3,9 +3,11 @@ python experiments/learned_expectations/run_braced.py   (writes braced_report.tx
 
 Learning first finds a complacent policy (switch only after quite bad payoffs; about 0.20 per round late),
 then may escape to win-stay, lose-shift at zero, which explores the game (about 0.31). The policy ascends
-payoffs throughout, so the critic acts only through the state it shares with the policy. Per critic: how
-many seeds escape and when, the play that separates the basins, and the critic's level against realized
-payoffs, overall and just after bad or good news."""
+payoffs throughout, so the critic acts only through the state it shares with the policy. Critics differ in
+level: rosy or braced (felt objective, offsets, expectiles), forecasting felt utility (canonical), or honest
+about rewards shifted by a constant that the state does not see and the policy's baseline removes (so only
+the critic's level moves). Per critic: how many seeds escape and when, the play that separates the basins,
+and the critic's level against realized payoffs, overall and just after bad or good news."""
 import os
 import sys
 import time
@@ -42,6 +44,8 @@ CRITICS = {                                                       # name: (train
     "expectile 0.9": (dict(critic="expectile", expectile=0.9), 4),
     "canonical (a = 0.05)": (dict(critic="canonical", feel=BRACED), 8),
     "canonical, lam = 1": (dict(critic="canonical", feel=dict(BRACED, lam=1.0)), 4),
+    "honest, rewards +0.5": (dict(critic="honest", reward_shift=0.5), 6),
+    "honest, rewards -0.5": (dict(critic="honest", reward_shift=-0.5), 6),
     "honest, detached": (dict(critic="honest", detach=True), 4),
     "offset, rosy profile, detached": (dict(critic="offset", offset=ROSY_PROFILE, detach=True), 4),
 }
@@ -52,7 +56,7 @@ def games(G, seed):
     return torch.rand(G, 2, 2, generator=gen) * 2 - 1, torch.rand(G, 2, 2, generator=gen) * 2 - 1
 
 
-def evaluate(agent):
+def evaluate(agent, nu=FEEL["nu"]):
     G = 20000
     A, Bm = games(G, 4242)
     with torch.no_grad():
@@ -62,10 +66,10 @@ def evaluate(agent):
     move = (R["logp"] - torch.log(pi.clamp_min(1e-12))).abs() > 1e-9                    # True: played move 1
     disc, acc = torch.zeros_like(r), torch.zeros(G)
     for k in reversed(range(K)):
-        acc = r[:, k] + FEEL["nu"] * acc
+        acc = r[:, k] + nu * acc
         disc[:, k] = acc
     bias = C - disc
-    delta = r + FEEL["nu"] * torch.cat([C[:, 1:], torch.zeros(G, 1)], 1) - C
+    delta = r + nu * torch.cat([C[:, 1:], torch.zeros(G, 1)], 1) - C
     bad = delta[:, :-1] < 0
     sw = move[:, 1] != move[:, 0]
     return dict(late=float(r[:, -3:].mean()), shift_bad=float(sw[r[:, 0] < 0].float().mean()),
@@ -123,9 +127,9 @@ if __name__ == "__main__":
     axes[0].set_ylabel("late-round payoff (held-out games)")
     axes[0].set_title("Escaping the complacent plateau", fontsize=10)
     axes[1].axvline(0, color="#aaa", lw=0.8)
-    axes[1].set_xlabel("critic bias, forecast minus realized (rounds 2-10)")
+    axes[1].set_xlabel("critic level, forecast minus realized payoff-to-go (rounds 2-10)")
     axes[1].set_ylabel("late-round payoff")
-    axes[1].set_title("Critics above realized payoffs keep the agent on the plateau", fontsize=10)
+    axes[1].set_title("A high critic keeps the agent on the plateau, biased or not", fontsize=10)
     axes[1].legend(fontsize=6, frameon=False, loc="lower left")
     fig.tight_layout()
     fig.savefig(os.path.join(HERE, "braced.png"), dpi=130)
