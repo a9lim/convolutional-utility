@@ -138,7 +138,10 @@ quantities differ, and the hedonic reading needs the felt ones.
   experienced as worse than equal gains, a forecasting error (Kermer et al. 2006);
   disappointment exceeds elation 1.4–1.9 times (Mellers et al. 1997); surprise asymmetry
   1.0–1.45 (Shepperd & McNulty 2002); only downside surprise registers in Forbes & Bennett
-  (2024). Working range for felt `λ`: 1–2.
+  (2024). In the Great Brain Experiment, identified from mixed gambles with base utility pinned
+  by certain payoffs, `λ = 1.42` [1.37, 1.50] on prediction errors, with news `n ≈ 0.5` per
+  unit of base utility over a few seconds. [checked in `experiments/happiness/`] Working range
+  for felt `λ`: 1–2.
 - **Surprise n**, relative to the outcome's own effect: `≈ 0.25` each way, measured right
   after the outcome (Shepperd & McNulty); `0.1`–`0.15`, downside only (Forbes & Bennett).
   Working range for events: `0.1`–`0.3`.
@@ -174,10 +177,11 @@ quantities differ, and the hedonic reading needs the felt ones.
     afterglow lasts seconds (forgetting factor 0.6–0.85 per ~10 s trial; Rutledge et al. 2014;
     Vanhasbroeck et al.; Blain & Rutledge 2020).
   - In the Great Brain Experiment data (47,067 people, 1.1M ratings), the recursive kernel, a
-    jump at lag 0 then `γ = 0.90` per trial, beats the single geometric (`γ = 0.72`) on
-    held-out participants; read recursively, `m ≈ 1.0` and `μ ≈ 0.45` per trial, and
-    prediction errors echo with the same kernel as rewards. A transient-plus-mood model has
-    the same shape. [checked in `experiments/happiness/`]
+    jump at lag 0 then `γ = 0.89` per trial, beats the single geometric (`γ = 0.68`) on
+    held-out participants; read recursively, `m ≈ 0.86` and `μ ≈ 0.48` per trial, and
+    prediction errors echo with the same kernel as rewards. Forbes & Bennett's two
+    experiments give the same kernel (`γ ≈ 0.88`, `κ` 0.46–0.52). A transient-plus-mood
+    model has the same shape. [checked in `experiments/happiness/`]
   - Ceilings from emotional inertia, which also contains slowly moving base utility: affect
     autocorrelation 0.2–0.3 between beeps about 1.6 h apart (Kuppens, Allen & Sheeber 2010,
     Table 1); 0.61 at one hour for valence in a continuous-time fit (Vansteelandt & Verbeke

@@ -1,0 +1,15 @@
+[exp1] 150 people, 600 blocks, 8400 ratings (valence z-scored within person)
+    geometric (Rutledge): gamma 0.800 kappa 0.800; cross-validated MSE 0.5490; paid+ +0.168, paid- +0.196, RPE+ -0.004, RPE- +0.044
+    jump kernel: gamma 0.885 kappa 0.516; cross-validated MSE 0.5434; paid+ +0.200, paid- +0.231, RPE+ -0.002, RPE- +0.052
+    jump against geometric: -1.03% cross-validated MSE
+    news by sign (jump kernel held): RPE+ -0.002, RPE- +0.052, RPE- minus RPE+ +0.054 [0.00, 0.10]; paid-/paid+ 1.15 [0.95, 1.43] (bootstrap over people)
+    by choice: paid+ +0.194, paid- +0.235, RPE+ free +0.051, RPE- free +0.077, RPE+ forced -0.046, RPE- forced +0.010
+    own kernels: median gamma 0.90, kappa 0.70; kappa below gamma (by > 0.05) in 57% of people, above in 18%
+[exp2] 150 people, 600 blocks, 8400 ratings (valence z-scored within person)
+    geometric (Rutledge): gamma 0.757 kappa 0.757; cross-validated MSE 0.5678; paid+ +0.161, paid- +0.195, RPE+ -0.005, RPE- +0.083
+    jump kernel: gamma 0.883 kappa 0.457; cross-validated MSE 0.5587; paid+ +0.200, paid- +0.228, RPE+ -0.002, RPE- +0.088
+    jump against geometric: -1.59% cross-validated MSE
+    news by sign (jump kernel held): RPE+ -0.002, RPE- +0.088, RPE- minus RPE+ +0.090 [0.04, 0.15]; paid-/paid+ 1.14 [0.93, 1.40] (bootstrap over people)
+    by counterfactual: paid+ +0.206, paid- +0.235, RPE+ -0.008, RPE- +0.081, unchosen+ -0.028, unchosen- -0.019
+    own kernels: median gamma 0.90, kappa 0.62; kappa below gamma (by > 0.05) in 62% of people, above in 17%
+done in 17s

@@ -53,15 +53,20 @@ def load(path=TIDY):
 
 def features(D, split="rpe"):
     """Per-trial regressors (plays x 30 x k), in hundreds of points.
-    split: "none" (CR, EV, RPE: Rutledge 2014), "rpe" (RPE by sign), "all" (CR, EV and RPE each by sign)."""
+    split: "none" (CR, EV, RPE: Rutledge 2014), "rpe" (RPE by sign), or "structural": what the trial paid
+    (base utility, by sign, the same for certain and risky payoffs), plus a gamble's EV (anticipation) and
+    RPE by sign (news). Base utility is pinned by safe choices; mixed trials, where EV and RPE vary
+    independently, then identify anticipation and news by sign (in gain-only or loss-only trials EV equals
+    the size of RPE)."""
     g = D["g"]
     ev = (D["w"] + D["l"]) / 2
     CR, EV, RPE = (1 - g) * D["c"], g * ev, g * (D["o"] - ev)
     pos, neg = lambda x: np.maximum(x, 0), lambda x: np.minimum(x, 0)
+    out = (1 - g) * D["c"] + g * D["o"]                      # what the trial paid
     cols = {"none": [CR, EV, RPE], "rpe": [CR, EV, pos(RPE), neg(RPE)],
-            "all": [pos(CR), neg(CR), pos(EV), neg(EV), pos(RPE), neg(RPE)]}[split]
+            "structural": [pos(out), neg(out), EV, pos(RPE), neg(RPE)]}[split]
     names = {"none": ["CR", "EV", "RPE"], "rpe": ["CR", "EV", "RPE+", "RPE-"],
-             "all": ["CR+", "CR-", "EV+", "EV-", "RPE+", "RPE-"]}[split]
+             "structural": ["paid+", "paid-", "EV", "RPE+", "RPE-"]}[split]
     return np.stack(cols, -1) / 100.0, names
 
 
@@ -78,9 +83,17 @@ def filtered(F, gamma, kappa, G=None):
     return F + kappa * (echoes(F, gamma) if G is None else G)
 
 
+def design(F, gamma, kappa):
+    """Predictors for the rating stored on each trial's row: the filtered regressors, except that the first
+    rating is made before trial 1 and sees no outcome."""
+    X = filtered(F, gamma, kappa)
+    X[:, 0] = 0.0
+    return X
+
+
 def ratings(D, keep):
-    """z-scored happiness (within subject, over all its ratings) and the rating mask; the first rating, before
-    trial 1, sees no outcome and anchors the play's intercept."""
+    """z-scored happiness (within subject, over all its ratings) and the rating mask. The first rating is made
+    before trial 1 (design() gives it no outcome), so it anchors the play's intercept."""
     h = D["h"][keep]
     subj = D["subj"][keep]
     z = np.full_like(h, np.nan)

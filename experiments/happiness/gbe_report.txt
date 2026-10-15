@@ -1,11 +1,14 @@
 91058 plays, 47067 participants, 1082040 ratings (z-scored within participant); test set 18869 plays of a fifth of participants.
-[Rutledge 2014] gamma 0.723 kappa 0.723; test MSE 0.6698; CR +0.408, EV +0.268, RPE +0.616  (5s)
-[jump kernel] gamma 0.890 kappa 0.457; test MSE 0.6626; CR +0.481, EV +0.306, RPE +0.713  (23s)
-[Rutledge, RPE by sign] gamma 0.729 kappa 0.729; test MSE 0.6689; CR +0.408, EV +0.282, RPE+ +0.534, RPE- +0.688  (27s)
-[jump, RPE by sign] gamma 0.899 kappa 0.450; test MSE 0.6610; CR +0.478, EV +0.333, RPE+ +0.630, RPE- +0.796  (47s)
-    jump kernel: test MSE -1.07% against Rutledge 2014
-    Rutledge, RPE by sign: test MSE -0.14% against Rutledge 2014
-    jump, RPE by sign: test MSE -1.32% against Rutledge 2014
-Jump kernel, RPE by sign, bootstrap 95% intervals (20 resamples of participants): gamma 0.899 [0.895, 0.905], kappa 0.450 [0.445, 0.456]; recursive reading mu = gamma - kappa 0.449 [0.440, 0.458], m = kappa/mu 1.00 [0.974, 1.035]; RPE-/RPE+ 1.26 [1.244, 1.273]; EV/CR 0.70 [0.685, 0.707]
-[jump kernel per component] CR gamma 0.876 kappa 0.506 (weight +0.467), EV gamma 0.867 kappa 0.554 (weight +0.287), RPE gamma 0.897 kappa 0.434 (weight +0.723); test MSE -1.13% against Rutledge 2014
-done in 481s
+[Rutledge 2014] gamma 0.680 kappa 0.680; test MSE 0.6604; CR +0.442, EV +0.293, RPE +0.684  (9s)
+[jump kernel] gamma 0.882 kappa 0.419; test MSE 0.6516; CR +0.520, EV +0.334, RPE +0.789  (39s)
+[Rutledge, RPE by sign] gamma 0.684 kappa 0.684; test MSE 0.6589; CR +0.444, EV +0.313, RPE+ +0.585, RPE- +0.777  (47s)
+[jump, RPE by sign] gamma 0.890 kappa 0.412; test MSE 0.6493; CR +0.517, EV +0.368, RPE+ +0.692, RPE- +0.888  (80s)
+[jump, structural] gamma 0.888 kappa 0.413; test MSE 0.6488; paid+ +0.462, paid- +0.554, EV -0.139, RPE+ +0.242, RPE- +0.343  (117s)
+    jump kernel: test MSE -1.33% against Rutledge 2014
+    Rutledge, RPE by sign: test MSE -0.23% against Rutledge 2014
+    jump, RPE by sign: test MSE -1.69% against Rutledge 2014
+    jump, structural: test MSE -1.76% against Rutledge 2014
+Jump kernel, RPE by sign, bootstrap 95% intervals (20 resamples of participants): gamma 0.890 [0.886, 0.896], kappa 0.412 [0.408, 0.418]; recursive reading mu = gamma - kappa 0.478 [0.469, 0.486], m = kappa/mu 0.86 [0.842, 0.891]; RPE-/RPE+ 1.28 [1.265, 1.291]; EV/CR 0.71 [0.698, 0.723]
+Structural (base utility pinned by safe choices; news identified by mixed trials): news RPE+ +0.242, RPE- +0.343, lam = 1.42 [1.37, 1.50]; per unit of base utility n = 0.52 [0.49, 0.56], anticipation a = -0.30 [-0.32, -0.29]; base loss aversion 1.20 [1.17, 1.22]
+[jump kernel per component] CR gamma 0.875 kappa 0.477 (weight +0.499), EV gamma 0.865 kappa 0.506 (weight +0.316), RPE gamma 0.887 kappa 0.397 (weight +0.800); test MSE -1.39% against Rutledge 2014
+done in 777s

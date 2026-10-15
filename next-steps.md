@@ -34,15 +34,13 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
      `M + λN < 1`.
    - The twin dial in hidden repeated games (cooperation in hidden prisoner's dilemmas);
      reliability (D6) as an agent.
-2. **Fit to momentary-happiness data** (`experiments/happiness/`). On the Great Brain
-   Experiment data the recursive kernel (a jump at lag 0, then `γ = 0.90`) beats Rutledge's
-   single geometric on held-out participants, with `m ≈ 1.0, μ ≈ 0.45` read recursively, and
-   news echoes with the same kernel as rewards. Next:
-   - `λ` cleanly, from mixed trials, where EV and RPE vary independently, with gains and
-     losses of the outcome itself controlled;
-   - Forbes & Bennett's long series (56 ratings a person, downloaded) for per-person kernels;
-   - what separates the recursion from a transient-plus-mood model (forward echoes: does a
-     rating anticipate the trials left in the play?).
+2. **Fit to momentary-happiness data** (`experiments/happiness/`). The recursive kernel (a jump
+   at lag 0, then `γ ≈ 0.89`) beats Rutledge's single geometric in the Great Brain Experiment
+   and in both Forbes & Bennett experiments; news echoes with the same kernel as rewards;
+   `λ = 1.42` on prediction errors where it is identified. Left: what separates the recursion
+   from a transient-plus-mood model (forward echoes: does a rating anticipate the trials left
+   in the play?); whether the negative anticipation of a chosen gamble (`a ≈ −0.3`) is dread
+   or the certainty effect.
 3. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
    choices; coda: selves), and the technical companion.
 4. **Figures:** the Disneyland decomposition; primitive against effective kernels; `w(s)`
@@ -113,6 +111,17 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
   - New relative to that literature: a temporal stream of felt anticipation, memory and
     news; `J` graded inside a life-sum; belief and affect heads (D7's two filtrations); the
     LLM-welfare angle.
+
+## Parked (a9): separate projects
+
+- **A felt learner in a Bates world** (geometric Brownian motion, Heston stochastic
+  volatility, Merton jumps). Of interest for its own sake, not the post. How its prediction
+  moves as it tries to match the near-martingale, and how its felt utility moves with it.
+  Sharp points to check: loss-averse news on a diffusion watched continuously costs without
+  bound (infinite total variation), so attention is discrete and looks less when volatility
+  is high or after falls (the ostrich effect: Karlsson, Loewenstein & Seppi 2009; Sicherman et
+  al. 2016; known in kind via Andries & Haddad, Pagel); lumpy jump news against diffusive news
+  of the same variance; built-in bracing tracking volatility.
 
 ## Follow-up: LLMs
 

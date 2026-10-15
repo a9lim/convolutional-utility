@@ -202,3 +202,13 @@ Periodically compacted to git history.
   reporting: within gain-only and loss-only trials a gamble's EV equals the size of its RPE, so
   splitting RPE by sign within trial type was a choice of basis; that model is out, and `λ`
   waits for a mixed-trial analysis.
+
+## 2026-10-15 — unfinished business
+
+- a9 parked the Bates-world learner as its own future project (in `next-steps.md`). I had said
+  it was noted there before it was; it is now.
+- Happiness data: a bug, caught while writing the Forbes loader. Each GBE play's first rating
+  comes before trial 1, but the fit had given it trial 1's outcome. Fixed (`gbe.design`); the
+  kernel moved from `κ 0.45, γ 0.90` to `κ 0.41, γ 0.89`, `m` from 1.00 to 0.86, and the
+  geometric's `γ` from 0.72 to 0.68. `λ` identified structurally from mixed gambles: 1.42.
+  Forbes & Bennett reproduce the kernel in both experiments.

@@ -7,8 +7,8 @@ Models, fitted on 80% of participants and scored on the rest (play fixed effects
 - each with the RPE split by sign;
 - the jump kernel fitted separately for CR, EV and RPE: does news echo like the rest of felt utility?
 Bootstrap over participants for the kernel and the recursive parameters (mu = gamma - kappa, m = kappa/mu).
-Not identified, so not fitted: RPE asymmetry within gain-only or loss-only trials, where a gamble's EV equals
-the size of its RPE (EV = RPE+ - RPE- on gain trials), so the split there is a choice of basis."""
+The structural model pins base utility by safe choices and identifies news by sign from mixed trials; within
+gain-only or loss-only trials alone it is not identified (a gamble's EV equals the size of its RPE there)."""
 import os
 import sys
 import time
@@ -27,7 +27,7 @@ def best_kernel(F, z, mask, jump):
     def rss(p):
         gam = float(np.clip(p[0], 0.0, 0.999))
         kap = float(np.clip(p[1], 0.0, 2.0)) if jump else gam
-        return gbe.fit(gbe.filtered(F, gam, kap), z, mask)[1]
+        return gbe.fit(gbe.design(F, gam, kap), z, mask)[1]
     grid = [(g, k) for g in np.arange(0.1, 1.0, 0.1) for k in (np.arange(0.0, 1.01, 0.1) if jump else [g])]
     p0 = min(grid, key=rss)
     p = minimize(rss, p0 if jump else [p0[0]], method="Nelder-Mead",
@@ -37,7 +37,7 @@ def best_kernel(F, z, mask, jump):
 
 
 def test_mse(F, z, mask, gam, kap, w):
-    _, _, _, X, y = gbe.fit(gbe.filtered(F, gam, kap), z, mask)
+    _, _, _, X, y = gbe.fit(gbe.design(F, gam, kap), z, mask)
     r = y - X @ w
     return float(r @ r) / len(y), r
 
@@ -53,12 +53,13 @@ if __name__ == "__main__":
     say(f"{len(D['subj'])} plays, {len(subjects)} participants, {int(mask.sum())} ratings (z-scored within "
         f"participant); test set {int(test.sum())} plays of a fifth of participants.")
     models = [("Rutledge 2014", "none", False), ("jump kernel", "none", True),
-              ("Rutledge, RPE by sign", "rpe", False), ("jump, RPE by sign", "rpe", True)]
+              ("Rutledge, RPE by sign", "rpe", False), ("jump, RPE by sign", "rpe", True),
+              ("jump, structural", "structural", True)]
     fits = {}
     for name, split, jump in models:
         F, names = gbe.features(D, split)
         gam, kap = best_kernel(F[~test], z[~test], mask[~test], jump)
-        w, rss, n, _, _ = gbe.fit(gbe.filtered(F[~test], gam, kap), z[~test], mask[~test])
+        w, rss, n, _, _ = gbe.fit(gbe.design(F[~test], gam, kap), z[~test], mask[~test])
         mse, r = test_mse(F[test], z[test], mask[test], gam, kap, w)
         fits[name] = dict(gam=gam, kap=kap, w=w, names=names, mse=mse, r=r, F=F)
         say(f"[{name}] gamma {gam:.3f} kappa {kap:.3f}; test MSE {mse:.4f}; "
@@ -76,7 +77,7 @@ if __name__ == "__main__":
     for b in range(int(os.environ.get("BOOT", "20"))):
         pick = np.concatenate([play_idx[s] for s in rng.choice(tr_subj, len(tr_subj))])
         gam, kap = best_kernel(F[pick], z[pick], mask[pick], True)
-        w = gbe.fit(gbe.filtered(F[pick], gam, kap), z[pick], mask[pick])[0]
+        w = gbe.fit(gbe.design(F[pick], gam, kap), z[pick], mask[pick])[0]
         boots.append([gam, kap, gam - kap, kap / (gam - kap), w[3] / w[2], w[1] / w[0]])
     B = np.array(boots)
     ci = lambda c: f"[{np.quantile(B[:, c], .025):.3f}, {np.quantile(B[:, c], .975):.3f}]"
@@ -85,13 +86,26 @@ if __name__ == "__main__":
         f"gamma {j['gam']:.3f} {ci(0)}, kappa {j['kap']:.3f} {ci(1)}; recursive reading mu = gamma - kappa "
         f"{j['gam'] - j['kap']:.3f} {ci(2)}, m = kappa/mu {j['kap'] / (j['gam'] - j['kap']):.2f} {ci(3)}; "
         f"RPE-/RPE+ {j['w'][3] / j['w'][2]:.2f} {ci(4)}; EV/CR {j['w'][1] / j['w'][0]:.2f} {ci(5)}")
+    st = fits["jump, structural"]
+    s_ = dict(zip(st["names"], st["w"]))
+    SB = []
+    for b in range(100):                     # kernel held at its estimate; participants resampled
+        pick = np.concatenate([play_idx[s] for s in rng.choice(tr_subj, len(tr_subj))])
+        wb = gbe.fit(gbe.design(st["F"][pick], st["gam"], st["kap"]), z[pick], mask[pick])[0]
+        SB.append([wb[4] / wb[3], wb[3] / wb[0], wb[2] / wb[0], wb[1] / wb[0]])
+    SB = np.array(SB)
+    sq = lambda c: f"[{np.quantile(SB[:, c], .025):.2f}, {np.quantile(SB[:, c], .975):.2f}]"
+    say("Structural (base utility pinned by safe choices; news identified by mixed trials): news RPE+ "
+        f"{s_['RPE+']:+.3f}, RPE- {s_['RPE-']:+.3f}, lam = {s_['RPE-'] / s_['RPE+']:.2f} {sq(0)}; per unit of base "
+        f"utility n = {s_['RPE+'] / s_['paid+']:.2f} {sq(1)}, anticipation a = {s_['EV'] / s_['paid+']:+.2f} {sq(2)}; "
+        f"base loss aversion {s_['paid-'] / s_['paid+']:.2f} {sq(3)}")
     # per-component jump kernels (CR, EV, RPE), coordinate descent from the shared fit
     F, names = gbe.features(D, "none")
     j0 = fits["jump kernel"]
     par = np.array([[j0["gam"], j0["kap"]]] * 3)
 
     def comp_rss(par, F, z, mask):
-        Ff = np.stack([gbe.filtered(F[..., c:c + 1], *par[c])[..., 0] for c in range(3)], -1)
+        Ff = np.stack([gbe.design(F[..., c:c + 1], *par[c])[..., 0] for c in range(3)], -1)
         return gbe.fit(Ff, z, mask)
 
     for sweep in range(3):
