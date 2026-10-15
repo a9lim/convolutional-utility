@@ -54,6 +54,67 @@ Drafting sketch, 2026-10-15. Identities checked numerically in the session scrat
   separates the adaptation level from the hedonic zero that A1 and D5 use. *known; the
   consequence for the zero is synthesis*
 
+## With the other terms
+
+- **Adapting to base, echoes on the adapted base** (`e = R(u − h r)`, `r` the EMA of `u`):
+  by parts, `W = (1−h) Σ w_t u_t + h [w_{T−1} r_T − w_0 r_0 − Σ_t (w_t − w_{t−1}) r_t]/(1−ρ)`,
+  with `w` the life weights. The interior is flat, so up to edge corrections where `w`
+  ramps (P5's deficits), the net-rise term is multiplied by the interior weight:
+  `≈ (1−h) Σ w u + h W̄ (r_T − r_0)/(1−ρ)`, `W̄ = 1/(1−M)` additive, 1 under Z (555.50
+  exact against 555.01 in a 300-period check). [checked]
+- **Adapting to felt states, with echoes** (`e = u + Ke − h r`, `r` the EMA of `e`):
+  `W = [Σ_t (u + Ke)_t + h (r_T − r_0)/(1−ρ)]/(1 + h)`, exactly. The level term keeps
+  weight `1/(1+h)` however strong adaptation is. [checked]
+- **Linear news** adds `Σ_r w_r N_r` (N2); with flat `ν` it telescopes to the total forecast
+  revision, a second change channel; zero in expectation at `λ = 1`.
+- What breaks the telescoping: the loss kink, asymmetric adaptation, saturation.
+
+## Adapting to felt states, in more detail
+
+- The reference tracks how things felt, so you adapt to your own anticipation, afterglow and
+  news as well as to circumstances. Formally a negative recursive memory kernel of mass `−h`
+  on `e`; with afterglow, biphasic recursive memory.
+- Incomplete by construction: steady state `X/(1+h)`; full adaptation needs the memory
+  that never fades. A structural reason for the incomplete adaptation set-point studies
+  report (speculation).
+- Predictions that separate it from adapting to base: long anticipation raises the
+  reference, so a long-savored event is felt against an elevated bar (Baucells & Bellezza's
+  conceptual consumption moves the reference); savoring practices wane as their echo becomes
+  baseline; a stream of good news stops lifting you (a news treadmill).
+
+## The forward reference, in more detail
+
+- `e_t = u_t − h_f Ê_{t−1}[u_t] + …`: the reference is what you expected for now. Under
+  rational expectations `E[e_t] = (1 − h_f) E[u_t]`, and surprises are felt in full.
+- Kőszegi–Rabin is not forward adaptation of levels: consumption utility plus gain-loss
+  feels a predictable `u` fully. Forward adaptation replaces part of the level term.
+- Separating backward from forward: an announced permanent change is absorbed at the
+  announcement (forward: a jolt, then the new level at `1 − h_f`) or after it arrives
+  (backward: a contrast transient that fades). Predictable cycles: forward adaptation
+  shrinks their amplitude to `1 − h_f` without transients; fast backward adaptation shows
+  contrast at the transitions.
+- The week, from core's calibration (Helliwell & Wang): weekends are felt higher though
+  perfectly predictable, Monday is no worse than midweek, Sunday shows no dip. So a level
+  term exists (full forward adaptation is out), and backward adaptation is slow against a
+  week (no contrast at the transitions).
+
+## a9's spitball: base utility only through news
+
+- Remove `u_t`; let it enter only as the realization term. As written, with the `j = 0`
+  term over `e`, nothing exogenous enters and `e ≡ 0` is the unique felt state below the
+  N4 threshold. The working version puts `u` there: `n φ_λ(u_t − Ê_{t−1}[u_t])`, with news
+  about later periods over `u` or `e`. This is full forward adaptation.
+- Forward telescoping: with linear news and flat `ν`, `Σ_t N_t = Σ_s (u_s − Ê_{−1}[u_s])`,
+  the total surprise against the expectations at birth: the mirror of the backward "how far
+  the reference rose". A foreseen life is felt only through its birth announcement.
+- Consequences: under rational expectations expected welfare is 0 at `λ = 1` and negative
+  above it, whatever the outcomes; sure outcomes are all equally good once expected, so
+  choice of more over less runs only through surprising oneself (`J = 0` feels a better
+  deviation as good news, the planner does not). This is why Kőszegi & Rabin keep
+  consumption utility. The weekend effect refutes it as a complete model.
+- Partial versions are the interesting space: level, backward and forward adaptation with
+  weights `1 − h_b − h_f`, `h_b`, `h_f`, each change channel telescoping when linear.
+
 ## Level, integral, derivative
 
 - Base utility is a level term; anticipation a forward integral (+); memory a backward
