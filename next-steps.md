@@ -25,8 +25,10 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
    - **Seeds for the game agent.** Equilibrium selection toward risk dominance holds over five
      seeds (97.4% against 93.4%, every seed); the motivated-belief pattern is still one run.
    - **Iterated randomized games** (`run_iterated.py`): reciprocity across games emerges only
-     with mixed partners. Next: longer training (cooperation was still rising), partner
-     populations of learners rather than scripts, felt-utility variants (does a rosy critic
+     with mixed partners. Three times longer training (scratch, 4 seeds) does not raise
+     self-play cooperation (prisoner's dilemma 0.22–0.38) but sharpens the end game: against
+     tit for tat, about 0.7 through round 9, then 0.06–0.12 in round 10. Next: partner
+     populations of learners rather than scripts; felt-utility variants (does a rosy critic
      make a sucker?).
    - **Evolving felt parameters.** Built (`run_evolve.py`): selection on lifetime payoff runs
      against anticipation and for felt news, and is indifferent to loss aversion. Next: is
