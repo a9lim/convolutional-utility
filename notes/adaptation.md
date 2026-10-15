@@ -184,6 +184,9 @@ core; one of those should be renamed when this reaches core.
   of the end-of-play effect at 4 minutes, 23% at 22 minutes, 10% at 10 hours, 6% at 2.4
   days, −2% [−16, 11] at 38 days (power law, exponent about 0.3). Between Forbes & Bennett
   blocks, minutes apart, it carries nearly in full (88% and 137%, noisy).
+- Caveat: the gap is chosen, and unlucky players replay sooner (65% against 42% within 10
+  minutes, bottom and top fifth of luck); selection on mood would inflate short-gap
+  carryover, not create or hide a negative lobe.
 - So at task scales memory is monophasic: no adaptation lobe, and a negative tail is
   bounded at about −16% of the end-of-play effect beyond a week. The tested domain is game
   points over minutes to weeks; adaptation is claimed for life circumstances over months

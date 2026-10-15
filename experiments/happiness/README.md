@@ -106,7 +106,10 @@ Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
   roughly a power law in wall-clock time with exponent about 0.3, positive throughout. Raw
   ratings, since within-person z-scores would make a lucky play mechanically lower the
   person's others. Not a cursor artefact: a cursor starting at 50 carries less (28%) than a
-  random start (61%). Game points may not move a reference the way life circumstances do;
+  random start (61%). The gap is the player's choice, and unlucky players replay sooner (65%
+  of the unluckiest fifth within 10 minutes, 42% of the luckiest): if that selection also
+  runs on mood, short-gap carryover is inflated. Game points may not move a reference the
+  way life circumstances do;
   months and years are out of reach here (`audit/biphasic.py`, `audit/carryover.py`).
 - **News does not echo like the outcome.** Fitted separately, the kernels of certain rewards,
   expected values and prediction errors nearly coincide (`γ` 0.88, 0.87, 0.89), but the RPE
