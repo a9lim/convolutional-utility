@@ -78,7 +78,7 @@ tethered felt display of a martingale forecast is a reflected martingale, half-w
     life and not just at the ends (Codex's alternating-beats-clustered example). Second
     response: `D²e[h₁, h₂] = RK[f″(e₀)(Rh₁)(Rh₂)]`; `M sup|f′| < 1` suffices for uniqueness.
   - Also where the peak in peak-end lives (salience).
-- **B4. Adaptation is not an echo.** *synthesis*
+- **B4. Adaptation is not an echo.** *synthesis* Worked further in `notes/adaptation.md`.
   - Full hedonic adaptation is direct mass −1, and that has no recursive twin: the twin's
     symbol `1 − 1/(1 + K̂_D)` has a pole at `z = 1`, so its mass is −∞. In the recursive
     model the treadmill is the limit `M → −∞` of contrast memory. So adaptation forces a

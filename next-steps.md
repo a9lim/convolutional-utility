@@ -183,8 +183,9 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
 
 ## Parked (a9, 2026-10-15): additive or displacement echo
 
-- Whether echo adds to the present or takes attention from it, and with which boundary
-  convention (Z, Tr, Rn, Pr survival-weighted, or the normalized additive total). a9 wants
+- Whether echo adds to the present or takes attention from it. Narrowed (a9): a positive
+  continuation must not lower welfare, which leaves additive and Z (death a zero-valued
+  attention target) and rules out Tr, Rn, Pr and the normalized total. a9 wants
   to explore the model further first, especially uncertain death and other
   counterfactuals. State of play: `notes/displacement.md`; discriminating extensions:
   `notes/extensions-menu.md`, section G.
