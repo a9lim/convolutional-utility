@@ -64,8 +64,17 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
    - a multi-scale reading of the heavy tail against `M < 1`;
    - whether `a < 0` is dread, the certainty effect, or curvature (it halves under power
      utility);
-   - slow adaptation needs step data: candidates in `notes/adaptation.md` (the Dartmouth
-     College Experience Study first, 25.2 MB on Zenodo; download awaits a9's go-ahead).
+   - slow adaptation needs step data: candidates in `notes/adaptation.md`. Parked mid-way
+     (a9, 2026-10-15, memory pressure from other jobs): download approved for the Dartmouth
+     College Experience Study, Zenodo record 22953080 (v2.0.0 of concept 17348144). Only
+     `0040_nepal_codebook_2.csv` is in `data/dartmouth/` (md5 checked). Still to fetch and
+     md5-check: `0040_nepal_ts.tsv` (25,205,478 bytes, `3edfef152aa9f0af348f8466ef9ef6e2`)
+     and `0040_nepal_codebook.csv` (`c739cf843dc0eb4975fc63e59c3b8c72`), from
+     `https://zenodo.org/api/records/22953080/files/<name>/content`. Then the step test:
+     weekly valence around the spring 2020 onset, person-demeaned, against
+     same-week-of-term baselines from 2017–2019; fit a drop and a recovery share `h` with
+     time constant `τ` (bootstrap over people), on a balanced panel, with the reopening
+     dates as the end of the step.
 3. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
    choices; coda: selves), and the technical companion. Parked by a9 (2026-10-15) until the
    contents settle; two inputs from the second review:
