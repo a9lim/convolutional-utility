@@ -259,3 +259,26 @@ Periodically compacted to git history.
   news-loop gain), P4's rates `p̄, q̄` (were `A, B`, the masses). New checks: calibration
   numbers, P6 signs, A1's tail. 42 pass.
 - Extensions menu for discussion: `notes/extensions-menu.md`.
+
+## 2026-10-15 (later) — echo as addition or displacement; adaptation
+
+- a9 raised additive against displacement echo. Worked out with Codex (threads
+  `cu-displacement`, `cu-disc-ext`): under zero-padded displacement (Z) it is a rescale of
+  the additive model; conserving conventions (Tr, Rn, and Pr, attention conditioned on
+  existence, a9's reading) make felt states averages and life weights PageRank-like. A
+  claim of mine that conservation tames copy-counted anthropics was wrong (Codex's
+  counterexample). The epilogue test (Claude and Codex independently: anticipating a
+  mediocre addition degrades an excellent present) rules out every convention in which
+  death frees attention; a9: only additive and Z remain. Parked.
+- Found on the way, checked and patched into D5: mortality information is priced even in
+  the linear recursive model, since the remembered-anticipation loop runs only in surviving
+  branches.
+- Adaptation (B4): the EMA reference telescopes (welfare = level plus the reference's net
+  rise), still with echoes and linear news; full adaptation has a recursive twin as a
+  memory that never fades; adapting to felt states keeps a level term `1/(1+h)`; a9's
+  base-free spitball is full forward adaptation, refuted by the weekend effect. a9 chose
+  biphasic memory, notation `c γ^j`, and asked for a data test first.
+- The data say no adaptation dip at task scales: within plays and blocks the kernels stay
+  positive; between plays luck's afterglow decays as a power law in wall-clock time
+  (exponent about 0.3) and never turns negative. Game points over minutes to weeks only.
+  Codex game-agent brainstorm (thread `cu-games-ext`) added to the extensions menu.

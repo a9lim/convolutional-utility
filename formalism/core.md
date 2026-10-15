@@ -211,6 +211,12 @@ quantities differ, and the hedonic reading needs the felt ones.
   - Prediction errors do not echo like outcomes once the outcome's base utility is moved to
     its own regressor: news alone persists through the play (`γ` at the bound), a level of
     accumulated luck. [checked in `audit/`]
+  - No adaptation dip at task scales. Kernels allowed a slow negative tail stay positive
+    within a play and within a Forbes & Bennett block, and between plays a play's luck
+    lifts the next play's starting rating by 45% of its end-of-play effect after 4
+    minutes, 10% after 10 hours, 6% after 2.4 days and none after a month: a positive,
+    heavy-tailed afterglow in wall-clock time (power law, exponent about 0.3). Adaptation
+    to life circumstances over months is out of these data's reach. [checked in `audit/`]
   - The front-loading echoes P3's quasi-hyperbolic shape on the memory side (`k₁/γ` 0.46–0.58
     per trial, near the minutes-scale `β_QH ≈ 0.52` below), though a hyperbola fits better
     than the quasi-hyperbolic jump. Both depend on how long a period is. [speculation, the

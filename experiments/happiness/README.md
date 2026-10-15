@@ -96,6 +96,18 @@ Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
   returns 0.26 from a true 0.5, so it is not a clock estimate. Bands are cross-sectional, so
   age carries cohort and selection into a smartphone game; intervals for the within-play
   sensitivity rest on 16 draws (`audit/felt_clock.py`).
+- **No adaptation dip; luck's afterglow lasts days.** A biphasic kernel, afterglow minus a
+  slow negative tail `c γ^lag`, collapses to the jump kernel within a play (the fitted reach
+  of the negative part goes to 0); a hyperbola minus an exponential gains 0.026% [0.014,
+  0.037] by flattening the positive tail, never crossing zero. Between plays, a play's luck
+  (summed RPE, random given choices) lifts the next play's pre-trial rating by 45% [40, 50]
+  of its end-of-play effect after a median 4.4 minutes, 23% [5, 44] after 22 minutes, 10%
+  [−1, 21] after 10 hours, 6% [−5, 17] after 2.4 days and −2% [−16, 11] after 38 days:
+  roughly a power law in wall-clock time with exponent about 0.3, positive throughout. Raw
+  ratings, since within-person z-scores would make a lucky play mechanically lower the
+  person's others. Not a cursor artefact: a cursor starting at 50 carries less (28%) than a
+  random start (61%). Game points may not move a reference the way life circumstances do;
+  months and years are out of reach here (`audit/biphasic.py`, `audit/carryover.py`).
 - **News does not echo like the outcome.** Fitted separately, the kernels of certain rewards,
   expected values and prediction errors nearly coincide (`γ` 0.88, 0.87, 0.89), but the RPE
   regressor there still carries the outcome's base utility. With base utility in its own
@@ -151,3 +163,9 @@ experiments/happiness/audit/kernel_shapes.py`; `confounds.py` needs `extract_tim
   all on 12 cores).
 - `forbes_shapes_risk.py`, `forbes_pooling_null.py`: kernel shapes, the lottery-SD
   separation, and the pooling null on Forbes & Bennett.
+- `biphasic.py` (2026-10-15): afterglow-minus-adaptation kernels within a play (the audit
+  split) and within a Forbes & Bennett block (5-fold CV), against the jump kernel and the
+  hyperbola.
+- `carryover.py` (2026-10-15): a play's luck against the change in the next play's pre-trial
+  rating, by the gap between plays (day number and time of day from the archive), and the
+  same between Forbes & Bennett blocks.

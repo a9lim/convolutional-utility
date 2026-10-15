@@ -87,10 +87,10 @@ tethered felt display of a martingale forecast is a reflected martingale, half-w
   - Prior art: habit formation and opponent processes; Kimball & Willis separate happiness
     adaptation from habit formation.
   - Refinement (2026-10-15, checked numerically): the recursive twin of exponential full
-    adaptation exists, as a memory that never fades, `e_t = u_t − (1−ρ) Σ_{s<t} e_s`: the
+    adaptation exists, as a memory that never fades, `e_t = u_t − (1−γ) Σ_{s<t} e_s`: the
     reference is a fixed share of everything felt so far. Infinite negative mass, so it needs
     a stability criterion for signed kernels (the symbol, not the mass). And the life-sum
-    telescopes: with `r_{t+1} = ρr_t + (1−ρ)u_t`, `Σ_t e_t = (r_T − r_0)/(1 − ρ)`. Under full
+    telescopes: with `r_{t+1} = γr_t + (1−γ)u_t`, `Σ_t e_t = (r_T − r_0)/(1 − γ)`. Under full
     adaptation a life's welfare is how far its reference rose, so any decline before death
     costs: "quit while ahead" with felt-negative declines, where P6's level term vanishes
     and only the edge term is left.
