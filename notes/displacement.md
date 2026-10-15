@@ -24,6 +24,16 @@ the session scratchpad's `disp.py`; Codex review in thread `cu-displacement`.
   received and value. Rn's weights are uniform-teleport PageRank with damping `M`; Tr's are
   termination weights of an absorbing walk. Additive weights are Katz centrality.
   [checked numerically; Codex verified]
+- **Tr against Rn.** Read `H` as an attention walk: from `t`, stop with the self-share and
+  feel that moment's base utility, else jump along the kernel. Tr keeps every link's
+  absolute weight and lets edges hold the walker (self-share rises where targets are
+  missing); Rn keeps the self-share at `1 − M` and scales links up so the walker is
+  reflected inward. Lost anticipation stays present under Tr and becomes memory under Rn
+  (and lost memory becomes anticipation). Symmetric example (`a = m = 0.3, α = μ = 0.5`,
+  `T = 5`): Tr weights `1.05, 0.97, 0.94, 0.97, 1.05`, a U; Rn `0.84, 1.09, 1.14, 1.09, 0.84`,
+  a hump; Z `0.59 … 0.69`, the additive hump scaled. So Tr reverses P5's "deficits at birth
+  and death". Rn needs a fallback where a row has no targets (a one-moment life). A second
+  dial, the share of unusable attention that stays present, spans the two.
 - **Boundaries become substantive under conservation.** Life calibration: the ramp tilt
   per unit welfare doubles (Tr 144, Rn 145, against 72 additive or Z). At `a = 0.09,
   α = 0.88, m = 0.05, μ = 0.75`, Tr weights the last moment 3.6 against 0.96 in the
