@@ -22,8 +22,12 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
      push on the state traps the honest critic (Codex's three-branch one-step diagnostic:
      clone weights and Adam state; policy gradient alone, plus the game-varying critic
      gradient, plus its per-round mean; round-2 stay logit on fixed first-round histories).
-   - **Seeds for the game agent.** Equilibrium selection toward risk dominance (97% against 92%)
-     and the motivated-belief pattern are single training runs; rerun over seeds.
+   - **Seeds for the game agent.** Equilibrium selection toward risk dominance holds over five
+     seeds (97.4% against 93.4%, every seed); the motivated-belief pattern is still one run.
+   - **Iterated randomized games** (`run_iterated.py`): reciprocity across games emerges only
+     with mixed partners. Next: longer training (cooperation was still rising), partner
+     populations of learners rather than scripts, felt-utility variants (does a rosy critic
+     make a sucker?).
    - **Evolving felt parameters.** Built (`run_evolve.py`): selection on lifetime payoff runs
      against anticipation and for felt news, and is indifferent to loss aversion. Next: is
      `λ`'s neutrality the consolation term undoing its bracing (evolve `λ` with `n` fixed, and

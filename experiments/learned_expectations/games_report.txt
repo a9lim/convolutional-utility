@@ -11,4 +11,5 @@ linear probe for game class: raw payoffs 71.0%; payoff hidden layer 82.5%, calib
 [calibrated] modal move differs from the payoff agent in: cyclic 39.9%, unique, efficient 5.7%, unique, dominated (PD-like) 13.0%, two equilibria 17.4%
 [free] modal move differs from the payoff agent in: cyclic 42.1%, unique, efficient 4.3%, unique, dominated (PD-like) 8.1%, two equilibria 10.6%
 [coupled] modal move differs from the payoff agent in: cyclic 46.4%, unique, efficient 3.3%, unique, dominated (PD-like) 7.3%, two equilibria 13.4%
-done in 142s
+risk-dominant share over 5 seeds: payoff 0.923 0.963 0.913 0.940 0.934 (mean 0.934); calibrated 0.955 0.984 0.969 0.994 0.969 (mean 0.974); calibrated higher in 5/5 seeds
+done in 263s

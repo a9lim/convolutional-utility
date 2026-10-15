@@ -3,6 +3,7 @@ Run: python experiments/learned_expectations/run_games.py   (writes games_report
 import os
 import sys
 import time
+from concurrent.futures import ProcessPoolExecutor
 
 import numpy as np
 import torch
@@ -33,6 +34,27 @@ def risk_dominant(A, Bm, ne):
         elif A[b, i1, j1] > A[b, i0, j0] and Bm[b, i1, j1] > Bm[b, i0, j0]:
             pd[b] = 1
     return rd, pd
+
+
+def selection_seed(job):
+    """Equilibrium play and the risk-dominant share for one variant and seed (the seed sweep)."""
+    v, seed = job
+    torch.set_num_threads(2)
+    gen = torch.Generator().manual_seed(2026)
+    A, Bm = sample_games(20000, gen)
+    ne, cls = pure_nash(A, Bm), classify(A, Bm)
+    rd, pd = risk_dominant(A, Bm, ne)
+    sel = (rd >= 0) & (pd >= 0) & (rd != pd)
+    net, felt = train(v, steps=6000, batch=1024, seed=seed)
+    with torch.no_grad():
+        _, (pi1, _, pi2, _) = objectives(net, felt, A, Bm, v)
+    i1, i2 = (pi1 < 0.5).long(), (pi2 < 0.5).long()
+    chosen = torch.full_like(rd, -1)
+    for b in torch.nonzero(sel)[:, 0].tolist():
+        eqs = [(i, j) for i in (0, 1) for j in (0, 1) if ne[b, i, j]]
+        if (int(i1[b]), int(i2[b])) in eqs:
+            chosen[b] = eqs.index((int(i1[b]), int(i2[b])))
+    return v, seed, float((chosen[sel] == rd[sel]).float().sum() / (chosen[sel] >= 0).float().sum().clamp_min(1))
 
 
 def probe(X, y, Xt, yt, steps=3000):
@@ -115,6 +137,13 @@ if __name__ == "__main__":
         diff = ((res[v][2] < 0.5) != base)
         say(f"[{v}] modal move differs from the payoff agent in: " + ", ".join(
             f"{CLASSES[k]} {float(diff[cls == k].float().mean()):.1%}" for k in range(4)))
+    # equilibrium selection over seeds: payoff against calibrated felt utility
+    with ProcessPoolExecutor(10) as ex:
+        sweep = list(ex.map(selection_seed, [(v, s) for v in ("payoff", "calibrated") for s in range(5)]))
+    by = {v: [x for v_, _, x in sweep if v_ == v] for v in ("payoff", "calibrated")}
+    say("risk-dominant share over 5 seeds: payoff " + " ".join(f"{x:.3f}" for x in by["payoff"])
+        + f" (mean {np.mean(by['payoff']):.3f}); calibrated " + " ".join(f"{x:.3f}" for x in by["calibrated"])
+        + f" (mean {np.mean(by['calibrated']):.3f}); calibrated higher in {sum(c > p for p, c in zip(by['payoff'], by['calibrated']))}/5 seeds")
     # figure: PCA of the free agent's hidden layer, coloured by class; belief tilt by class
     import matplotlib
     matplotlib.use("Agg")

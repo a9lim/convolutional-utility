@@ -86,6 +86,18 @@ they share.
   `channels_report.txt`); `run_evolve.py` (heritable felt parameters under selection on
   lifetime payoff; `evolve_report.txt`, `evolve.png`).
 
+## The iterated-games agent
+
+A different known game every round with the same partner: each round draws a prisoner's
+dilemma, chicken, stag hunt or harmony game with fresh payoffs, shown to both players in
+their own randomly ordered action labels, so the cooperative move must be read off the
+matrix. A GRU carries the history (each past game, both moves, my payoff); a head reads the
+state and the current game and gives the move and a critic (honest, its level kept outside
+the network, D8). Self-play with shared weights, REINFORCE on rewards-to-go; objective
+selfish (my payoffs) or team (both players'). With mixed partners, half of each batch is
+played against scripted partners (always cooperate, always defect, tit for tat, coin flip).
+`iterated.py`; `run_iterated.py` (writes `iterated_report.txt`, `iterated.png`).
+
 ## Results so far
 
 - **Observer.** Optimal beliefs at the life calibration stay calibrated far from the event,
@@ -112,9 +124,10 @@ they share.
   against 2.5), and the planner reaches commitment more often (73% against 60%).
 - **Games.** One network plays random 2×2 games at 91–96% equilibrium play, and a linear probe
   recovers game class from its hidden layer at 88% against 71% from raw payoffs: it tells
-  games apart. Felt utility shifts equilibrium selection toward risk dominance (97% against
-  92%). Motivated beliefs appear almost only in cyclic games, where outcomes are uncertain,
-  as optimism about the other's move (`games_report.txt`, `games.png`).
+  games apart. Felt utility shifts equilibrium selection toward risk dominance: 97.4% against
+  93.4% over five seeds, higher in every seed. Motivated beliefs appear almost only in cyclic
+  games, where outcomes are uncertain, as optimism about the other's move (single training
+  run; `games_report.txt`, `games.png`).
 - **The twin dial.** In symmetric games, `w = 0` defects in prisoner's dilemmas and hunts hare;
   `w = 1` cooperates and hunts stag. Graded `w` matches the analytic thresholds game by game:
   all-cooperate is stable iff `w ≥ (T−R)/(R−S)`, all-defect iff `w ≤ (P−S)/(T−P)` (known in
@@ -167,6 +180,23 @@ they share.
   lifetime payoff their founders' affect cost. Weak anticipation and real news make a braced
   critic, which escapes complacency (D8); loss aversion adds bracing before outcomes and
   consolation after them, which may be why it is not selected (`evolve_report.txt`).
+- **Iterated randomized games: strategy needs someone to strategize against.** Selfish
+  learners trained only against themselves play each game as if it were one-shot: defect in
+  the prisoner's dilemma (99%), cooperate in harmony, and in stag hunts coordinate on one
+  equilibrium per game (same move 94%) without regard to history; the one-round control plays
+  the same. Nothing depends on the partner's last move, the round, or who the partner is. Team
+  learners cooperate everywhere. Trained against a mix of partners, the agent learns to
+  strategize across games (4 seeds, `iterated_report.txt`):
+  - reciprocity across different games: after the partner cooperated in a different game it
+    cooperates in a prisoner's dilemma 43% of the time, after a defection 6% (stag hunt 86%
+    against 54%);
+  - reading the partner: against always-defect, cooperation in prisoner's dilemmas falls from
+    43% to 4% after one round; against tit for tat it rises to about 75% and holds until the
+    last rounds; against an unconditional cooperator it rises and then is exploited, down to
+    11% by round 10;
+  - an end game: prisoner's dilemma cooperation 38% in rounds 1–9, 9% in round 10;
+  - reciprocity carries back into self-play (prisoner's dilemma 35%, stag hunt 78%, from 1% and
+    50%), and appears late in training, after about 1,500 steps of near-total defection.
 - **Consolation.** At `λ = 2` the motivated critic braces before outcomes and consoles itself
   after bad ones: just after a negative TD error it sits 0.18 below realized payoffs, after a
   positive one 0.51 below. At `λ = 1` the gap vanishes (0.33 against 0.29), as the critic's
