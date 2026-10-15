@@ -153,7 +153,7 @@ Periodically compacted to git history.
 
 - Anticipated news: the scheduling agent now solves the canonical model exactly (Bayesian
   forecasts over the worlds, sign iteration on the news terms), replacing a version whose
-  forecasts left anticipated news out (git `c51a53e`). Fixed-past selection was unchanged seed
+  forecasts left anticipated news out (git `fd60c6c`). Fixed-past selection was unchanged seed
   for seed. The planner reached commitment 73% against 60%: those forecasts were rosier than
   rational, and randomizing away from a plan cost less with rational ones in 84% of directions.
 - The braced critic, deflated and replaced. The "braced critic raises payoffs" result compared
@@ -239,3 +239,23 @@ Periodically compacted to git history.
   cube-root band; a DP confirms it (in `next-steps.md` under the parked Bates item). Codex's
   saturating-echo example (alternating rewards beat clustered ones with no boundary, checked)
   is the cleanest escape from the linear shape theorem.
+
+## 2026-10-15 — second fresh-eyes review
+
+- a9 asked for fresh eyes again (Codex and subagents), patches for the easy, discussion for
+  the substantive, and a menu of extensions. Codex (gpt-6-astra; threads `cu-round2-core`,
+  `cu-round2-ext`) and three subagents (LessWrong reception, `[checked]`-tag audit, learner
+  claims). Verdict, shared: nothing sinks the project; several headlines overreached.
+- Adopted and patched: P6 is a ramp theorem (Codex's end-pulse counterexample, `M₁ < 0`
+  with the improving pulse winning, now in `checks.py`); the momentary felt row is choice
+  behaviour only for a momentary hedonist; "truth is free" needs linear news and a
+  calibrated prior; `J` is one channel, not a classification of decision theories; A1's
+  measure-weighting is assumed, not forced by the forecast reading, and copy-counted totals
+  need `bq < 1` (memory-only `b(1+m)μ < 1` misses anticipation's feedback; checked); the
+  hedonic zero is stated; Yudkowsky's Anthropic Trilemma added as A1's LessWrong precedent;
+  learner claims narrowed (twin dial runs without felt utility; evolved critics are roughly
+  honest, not braced; selection for news is not above drift; credible-plan selection rests
+  on 4 informative draws). Notation: the jump kernel's lag-1 weight is `k₁` (was `κ`, the
+  news-loop gain), P4's rates `p̄, q̄` (were `A, B`, the masses). New checks: calibration
+  numbers, P6 signs, A1's tail. 42 pass.
+- Extensions menu for discussion: `notes/extensions-menu.md`.

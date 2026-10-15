@@ -295,7 +295,7 @@ footer a { color: var(--accent); }
       params: { ...SHARED }, over: "e", recursive: true,
       events: [{ name: "Loss", at: 38, value: -4, announce: 10, cancel: null }] },
     { key: "threshold", name: "Past the threshold",
-      note: "<strong>Strong surprise weight and high loss aversion.</strong> The news loop gain λ(ν·g) is above 1. Good news then has two possible felt states (the chart keeps the brighter one), and the first bad news has none, so the life stops there. Lower λ or n to bring it back.",
+      note: "<strong>Strong surprise weight and high loss aversion.</strong> The news loop gain λκ is above 1. Good news then has two possible felt states (the chart keeps the brighter one), and the first bad news has none, so the life stops there. Lower λ or n to bring it back.",
       params: { a: 0.1, al: 0.85, m: 0.1, mu: 0.75, n: 0.45, nu: 0.7, lam: 2.5, base: 0, T: 50 }, over: "e", recursive: true,
       events: [{ name: "Good news", at: 12, value: 3, announce: null, cancel: null },
                { name: "Bad news", at: 28, value: -3, announce: null, cancel: null }] },
@@ -631,9 +631,9 @@ footer a { color: var(--accent); }
     } else pill("plain", `Echo weight M = ${M.toFixed(2)}`);
     if (state.over === "e") {
       const L = result.maxLoop;
-      if (result.failAt != null) pill("bad", `No felt state at t = ${result.failAt}: bad news past the threshold`, "λ(ν·g) ≥ 1: disappointment about disappointment does not settle");
-      else if (L >= 1) pill("warn", `News loop λ(ν·g) = ${L.toFixed(2)}: past the threshold`);
-      else pill("ok", `News loop λ(ν·g) = ${L.toFixed(2)}`, "Below 1: every piece of news has exactly one felt state");
+      if (result.failAt != null) pill("bad", `No felt state at t = ${result.failAt}: bad news past the threshold`, "λκ ≥ 1: disappointment about disappointment does not settle");
+      else if (L >= 1) pill("warn", `News loop λκ = ${L.toFixed(2)}: past the threshold`);
+      else pill("ok", `News loop λκ = ${L.toFixed(2)}`, "Below 1: every piece of news has exactly one felt state");
       if (result.multiAt.length) pill("warn", `Two felt states at t = ${result.multiAt.join(", ")} (showing the brighter)`);
     }
   }

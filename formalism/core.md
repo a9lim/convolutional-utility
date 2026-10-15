@@ -59,7 +59,7 @@ effective coefficients (P2, P4):
 - Example (`a = 0.09, α = 0.88, m = 0.05, μ = 0.75`, so `M = 0.81`): `r(0) = 1.032`,
   `p = 0.971`, `q = 0.798`. Anticipation's mean reach stretches from 8.3 to 35 periods, and
   memory's from 4.0 to 4.9. [checked] The stretch needs `M` near 1: at the felt
-  calibrations below (`M ≈ 0.3`) reach stretches by a fifth to a quarter.
+  calibrations below (`M ≈ 0.3`) reach stretches by 21–28%.
 - **Surprises are information boundaries.** A shock unknown until it arrives cannot reach
   the earlier selves who would have anticipated it, so it acts through the remaining-life
   column, `g_0 = 1/H` now and `g_j = (q−μ) q^{j−1}/H` after, not the bilateral row: with
@@ -101,8 +101,8 @@ quantities differ, and the hedonic reading needs the felt ones.
   - These are illustrative scenarios: the anchors pin orders of magnitude, not masses (see
     anticipation below).
   - What follows: echo is about 30% of steady-state experience. Recursion stretches reach
-    by a fifth to a quarter (5.0 → 6.4 hours ahead, +28%; 3.3 → 4.0 weeks, +21%). Life weights dip by about a
-    sixth at birth and death (1.22 and 1.21 against an interior 1.47, P5). Felt news is well
+    by 21–28% (5.0 → 6.4 hours ahead, +28%; 3.3 → 4.0 weeks, +21%). Life weights dip by
+    about a sixth at birth and death (1.22 and 1.21 against an interior 1.47, P5). Felt news is well
     inside its local threshold, which allows `λ` up to 4.64 (day) and 4.42 (life).
   - The momentary self's felt row is strongly present-weighted: `β_L ≈ 0.055` (day) and
     `0.076` (life) on P4's bilateral row, `0.051` and `0.068` on the causal half-line row
@@ -126,7 +126,7 @@ quantities differ, and the hedonic reading needs the felt ones.
     `δ_lr` and rises to it as `β_L → 1`, so it is set by patience, not by present bias.
     Long-run patience from felt echo alone would make nearly all experience echo
     (`β_L = 0.7`, annual 4%: `M = 0.94`; daily periods: `M = 0.9998`; two-sided with modest
-    memory: `M = 0.965`). Identifying a choice-revealed discount curve with the momentary
+    memory, `m = 0.2, μ = 0.5`: `M = 0.965`). Identifying a choice-revealed discount curve with the momentary
     self's felt row is itself a behavioral assumption. [Codex]
   - Experience sampling bounds the positive echo's contrast, not its share: pleasant
     mind-wandering, mostly about past and future, leaves momentary happiness where on-task
@@ -199,7 +199,8 @@ quantities differ, and the hedonic reading needs the felt ones.
     `∝ age^−q` (Janet, Lemlich) cannot do that; a fast transient plus a slow mood on the same
     clock can, so one felt clock from seconds to years is not yet tested. [checked in
     `experiments/happiness/` and its `audit/`]
-  - The reading-invariant quantity is the echo share, `κ/(1−γ+κ)` on the jump fit: 0.79,
+  - The reading-invariant quantity is the echo share, `k₁/(1−γ+k₁)` on the jump fit
+    `(1, k₁, k₁γ, k₁γ², …)` (`k₁` the lag-1 weight; `kappa` in the code): 0.78,
     0.82 and 0.80 (per person, Forbes & Bennett, median 0.85). It is the memory mass only on
     the recursive reading (3.5 on the direct one). With power-law exponents below one it does
     not settle (Great Brain Experiment exponent): 0.81 over 30 trials, 0.87 over 100, 0.93
@@ -210,7 +211,7 @@ quantities differ, and the hedonic reading needs the felt ones.
   - Prediction errors do not echo like outcomes once the outcome's base utility is moved to
     its own regressor: news alone persists through the play (`γ` at the bound), a level of
     accumulated luck. [checked in `audit/`]
-  - The front-loading echoes P3's quasi-hyperbolic shape on the memory side (`κ/γ` 0.46–0.58
+  - The front-loading echoes P3's quasi-hyperbolic shape on the memory side (`k₁/γ` 0.46–0.58
     per trial, near the minutes-scale `β_QH ≈ 0.52` below), though a hyperbola fits better
     than the quasi-hyperbolic jump. Both depend on how long a period is. [speculation, the
     comparison]
@@ -311,12 +312,16 @@ gets its own calibration. [synthesis; speculation where marked]
     kernel, which sidesteps P10 for it. In the geometric family the past weights give `q` and
     `(q−μ)/H`; with the diagonal `1/H` also identified, memory's primitives `m, μ` follow.
     Anticipation's do not: `(a, α) = (0.09, 0.88)` and `(0.319, 0.5)`, with `m = 0.05,
-    μ = 0.75`, share the whole row. For an LLM, the base-utility scale of the inputs and the
+    μ = 0.75`, share the whole row (to 2e-5, 0.319 being rounded). For an LLM, the base-utility scale of the inputs and the
     map from rating to experience are further assumptions. [synthesis; Codex]
 
 ## Objects
 
 - Discrete time `t`; base utility `u(t)`; experienced utility `e(t)`.
+- **Zero is hedonic neutrality**, the level of non-experience. A shift `u + c` moves `W` by
+  `c Σ_s w(s)`, so linear rankings of lives of one length ignore it; comparisons across
+  lifespans (P5's boundaries, A1's death branches), P8's sign condition and dread's kink
+  (D5) use it. News compares forecasts, so it does not.
 - Kernel `k(τ)`, `k(0) = 0`: weight at `t` on the thing at `t + τ`. `τ > 0` anticipation,
   `τ < 0` memory. Mass `M = Σ_τ k(τ)`. First moment `M₁ = Σ_τ τ k(τ)`.
 - **Recursive (R), canonical:** `e = u + K e`, so `e = (I − K)^{-1} u = Σ_n K^n u`. Entry
@@ -353,13 +358,13 @@ gets its own calibration. [synthesis; speculation where marked]
 - Structural cousin: existence and uniqueness of recursive utility turn on the spectral
   radius of a valuation operator (Borovička & Stachurski 2020, Thm. 3.1), with growth and
   discounting in place of echo.
-- (d) Tails. A kernel whose tail is not summable (the simple hyperbola `1/(1+κj)` and
+- (d) Tails. A kernel whose tail is not summable (the simple hyperbola `1/(1+hj)` and
   heavier) has echo mass growing with lifespan, so no fixed strength keeps echo bounded
   over all lifespans. Two-sided, it can also cross the finite-life criterion. Example
   (`a = 0.09, m = 0.05`, short-run rates of `α = 0.88`, `μ = 0.75`, simple-hyperbolic
   tails): `ρ(K_T)` crosses 1 between `T = 41` and `42` and reaches 3.9 at `T = 2000`, so
   the recursive model is well-founded only up to a 41-period life. Generalized hyperbolas
-  `(1+κj)^{−γ/κ}` with `γ/κ > 1` are summable and fine. [standard; checked]
+  `(1+hj)^{−ω}` with `ω > 1` are summable and fine. [standard; checked]
   - Light-tailed primitives lose nothing: recursion turns exponential primitives
     quasi-hyperbolic (P3, P4), and a mixture of exponentials gives gradual decreasing
     impatience while staying summable. [synthesis]
@@ -399,8 +404,9 @@ gets its own calibration. [synthesis; speculation where marked]
 **P4. Two-sided geometric recursion: closed form and generic present bias.**
 [not found (Bergstrom 1999 has the nearest-neighbour case; Hori 1992, unread, reportedly
 gives no explicit form); proved; checked]
-- Let `A = (1+a)α`, `B = (1+m)μ`, `C = 1 + (1+a+m)αμ`, `Δ = √(C² − 4AB)`, `H = (C+Δ)/2`,
-  `p = A/H`, `q = B/H` (both in (0,1) when `M < 1`). Then
+- Let `p̄ = (1+a)α`, `q̄ = (1+m)μ` (P3's one-sided rates), `C = 1 + (1+a+m)αμ`,
+  `Δ = √(C² − 4p̄q̄)`, `H = (C+Δ)/2`, `p = p̄/H`, `q = q̄/H` (both in (0,1) when `M < 1`).
+  Then
   `R(z) = (1−αz)(1−μ/z) / (H(1−pz)(1−q/z))` and
   - `r(0) = (1 + αμ − αq − μp)/Δ`
   - `r(n) = (r(0) − 1/(1+a)) pⁿ`, `n ≥ 1`
@@ -424,7 +430,8 @@ gives no explicit form); proved; checked]
   `L_∞ = W(p−α)/(1−α)`, `U_∞ = W(q−μ)/(1−μ)`, `c_T = (p−α)q^T/(1−αq)`,
   `d_T = (q−μ)p^T/(1−μp)`, `L_T = (L_∞ − c_T U_∞)/(1 − c_T d_T)`,
   `U_T = (U_∞ − d_T L_∞)/(1 − c_T d_T)`. [not found; checked]
-- A single hump is a geometric-family fact (`k(±2) = 0.2`, `T = 5` is not unimodal).
+- A single hump is a geometric-family fact (`k(±2) = 0.2`, `T = 5` is not unimodal in R:
+  1.30, 1.25, 1.52, 1.25, 1.30).
 
 **P6. Ramp theorem: shape preference is set by the first moment.**
 Centered ramp `u(s) = s − (T−1)/2`; the increasing-minus-decreasing gap is `2E`.
@@ -436,12 +443,13 @@ Centered ramp `u(s) = s − (T−1)/2`; the increasing-minus-decreasing gap is `
   `J_T(x) = Σ_s ((T−1)/2 − s) xˢ`. [not found; checked]
 - Finite-`T` sign. In D it is the sign of the truncated first moment
   `Σ_τ k(τ)(T−|τ|)τ`, which can differ from `M₁`'s: `a = 1, α = 0.1, m = 0.1, μ = 0.5` has
-  `M₁ < 0` but `E > 0` for `T ≤ 5`. In R it is the sign of the path sum, which can differ
+  `M₁ < 0` but `E > 0` for `T ≤ 5` (and in R). In R it is the sign of the path sum, which can differ
   from D's: `T = 6, a = 0.2, α = 0.7, m = 1, μ = 0.3` gives `E_D > 0 > E_R`. [Codex;
   checked] Equal amplitudes `a = m`: the sign is exactly `sign(α − μ)` for all `T ≥ 2`, in
   both (path reflection). [checked]
 - On ℤ, `Σ_t e(t) = Σ_t u(t)/(1−M)` is rearrangement-invariant for any linear,
-  translation-invariant kernel, signed ones included: **in a linear echo model, shape
+  translation-invariant, absolutely summable kernel (in R, with a bounded resolvent), signed
+  ones included: **in a linear echo model, shape
   preference is purely a boundary effect** — a life's ends, not its slope as such. Slope
   effects as such need nonlinearity.
 - Size: for `T` well beyond the kernel's reach, the gap relative to the base utility
@@ -451,10 +459,17 @@ Centered ramp `u(s) = s − (T−1)/2`; the increasing-minus-decreasing gap is `
   preferences are strongest over short horizons. [checked; prediction speculation]
 - A negative (contrast) memory kernel adds to `M₁`, favouring improvement; this is a
   linear-contrast specification, not general habit formation.
+- Ramps only. Other profiles are not ranked by `M₁`: an end pulse against a start pulse
+  compares `w(T−1)` with `w(0)`, echo masses. `a = 2, α = 0.2, m = 0.05, μ = 0.8` has
+  `M₁ = −0.375`, so the falling ramp wins (`T = 200`: −66.9 D, −728 R), yet the unit pulse
+  at the end beats the one at the start (+0.30 D, +0.60 R), unchanged at `T = 1000`. A
+  slight tilt makes both profiles strictly monotone. [Codex; checked]
 
 **P7. Each self is a lens.** Ramp tilt by evaluator (geometric, `T = 60`): the first self
-prefers declining profiles, the last self improving (recency), a mid-life self is near
-neutral, and the life-sum tilts by `M₁`. [numerical]
+prefers declining profiles, the last self improving (recency), and the life-sum tilts by
+`M₁`. Where a mid-life self falls depends on the kernel: at `a = 0.09, α = 0.88, m = 0.05,
+μ = 0.75` (R), rising minus falling is −100 for the first self, +56 mid-life and +71 for
+the last. [numerical]
 
 **P8. James Dean effect from contrast memory.** [numerical; speculation as psychology]
 - With a negative memory kernel, appending mildly positive years after a peak lowers the
@@ -462,7 +477,7 @@ neutral, and the life-sum tilts by `M₁`. [numerical]
   contrast with the remembered peak. With nonnegative kernels, `ρ(K_T) < 1` and
   nonnegative experience it cannot happen. A positive year can still lower the life-sum by
   remembering a bad past (base history `(−100, 10)`, `m = 0.1, μ = 0.5`: appending `0.1`
-  adds `−2.15`), but that is the past's weight, not contrast. [Codex]
+  adds `−2.15` in R, `−1.90` in D), but that is the past's weight, not contrast. [Codex]
 - The effect is a failure of the monotonicity P1(a) treats as well-foundedness. With
   signed kernels non-monotonicity is the phenomenon. The natural requirement is then that
   the path expansion converge absolutely (`ρ(|K_T|) < 1`; on ℤ, `Σ|k| < 1`), stronger than
@@ -480,8 +495,9 @@ neutral, and the life-sum tilts by `M₁`. [numerical]
   from the start and wrong for a choice made at `t`.
 - Causal form: `e_t = u_t + Σ_{j>0} k(j) E[e_{t+j} | F_t] + Σ_{j>0} k(−j) e_{t−j}`, with
   the realized past fixed. The self at `t` solves the section on `[t, T)` with the past as
-  boundary data, so its decision weights are the first row of the remaining-life resolvent
-  — a newborn's.
+  boundary data, so, if it maximizes its current experience, its decision weights are the
+  first row of the remaining-life resolvent — a newborn's. A self maximizing the remaining
+  life-sum uses its column sums instead (decision.md, `J = 0`).
 - With correct foresight the realized path equals the full fixed point, so P5–P8 stand as
   rankings of foreseen lives.
 - Decision weights are stationary until the last few kernel widths before death. On the
@@ -603,8 +619,9 @@ condition and quantile not found; checked]
     there; anticipated news still enters welfare). With a fixed reference and one period
     this reduces to Codex's `W′(0) = A − (n/2)(1/(1−n) + λ/(1−λn))`.
   - At the felt calibrations the interior band `1 < Θ < λ̃` is narrow (`λ̃ ≈ 1.6`–`1.8`).
-    An event mid-life gives `Θ ≈ 1.0` (day, at the edge) and `0.7` (life), the pessimism
-    corner; with `n = 0.1`, the life sits at the optimism corner. Beliefs free to move go
+    An event mid-life gives `Θ = 1` at the day defaults (exactly the edge, since there
+    `n = A` and `ν = α`) and `0.7` (life), the pessimism corner; `n = 0.1 = A/λ` puts the
+    life on the optimism corner's edge (`Θ ≈ λ̃`, which side depends on rounding). Beliefs free to move go
     to a corner, so what bounds them (plausibility, decisions, sophistication) sets the
     bias actually seen. [checked]
   - Reading: the loop makes disappointment dearer and the built-in bracing makes it rarer.
@@ -650,7 +667,7 @@ the regimes beyond the threshold are new here. Formal cousins: Skiadas 1998; Rou
     no felt state, and the loop runs away. A good one has two: the normal state, stable,
     and a lower one with feedback slope above 1 (`λκ` when every revised component is on
     the loss branch), unstable. The lower one is a tipping point: pushed below it, the felt
-    state runs away. Mixed revisions generically have none, one or two; degenerate ones can
+    state runs away. Mixed revisions generically have none or two (one only at tangency); degenerate ones can
     have a whole interval (`g = (1, ½)`, `k_n = (4/9, 2/9)`, `d = (−1, 4)`, `λ = 2`). A zero
     revision has the single root 0. [proved; checked; Codex]
   - `κ > 1`: one root again, with perverse comparative statics; equality cases can have none

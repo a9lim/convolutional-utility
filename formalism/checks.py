@@ -145,6 +145,37 @@ for T in [100, 1000, 3000]:
     rows.append(f"T={T}: D {gD:.4f} vs {4 * M1 / T:.4f}, R {gR:.4f} vs {4 * M1 / ((1 - M) ** 2 * T):.4f}")
 print("P6  relative gap:", "; ".join(rows))
 
+# P6 is about ramps: an end pulse against a start pulse compares echo masses, w(T-1) against w(0),
+# not first moments. M1 < 0 (the decreasing ramp wins) while the end pulse beats the start pulse.
+a, al, m, mu = 2, 0.2, 0.05, 0.8
+M1 = a * al / (1 - al) ** 2 - m * mu / (1 - mu) ** 2
+rows, ok = [], M1 < 0
+for T in (200, 1000):
+    K, u = K_matrix(T, a, al, m, mu), np.arange(T) - (T - 1) / 2
+    for name, w in (("D", 1 + K.sum(axis=0)), ("R", np.linalg.solve(np.eye(T) - K.T, np.ones(T)))):
+        pulse, ramp = w[-1] - w[0], w @ u - w @ u[::-1]
+        ok = ok and pulse > 0 > ramp
+        rows.append(f"T={T} {name}: end-minus-start pulse {pulse:+.3f}, ramp {ramp:+.1f}")
+print(f"{'PASS' if ok else 'FAIL'}  P6 ramps only (M1 = {M1:.3f}): " + "; ".join(rows))
+
+# P6 finite-T signs: R can differ from D; at equal amplitudes a = m the sign is sign(al - mu), D and R.
+def ramp_gap(T, a, al, m, mu, rec):
+    K, u = K_matrix(T, a, al, m, mu), np.arange(T) - (T - 1) / 2
+    w = np.linalg.solve(np.eye(T) - K.T, np.ones(T)) if rec else 1 + K.sum(axis=0)
+    return w @ u
+
+
+bad, rng_p6 = 0, np.random.default_rng(6)  # own stream, so later draws are unchanged
+for _ in range(500):
+    a_, al_, mu_ = rng_p6.uniform(0.05, 1.0), rng_p6.uniform(0.02, 0.9), rng_p6.uniform(0.02, 0.9)
+    if mass(a_, al_, a_, mu_) >= 0.95 or abs(al_ - mu_) < 1e-3:
+        continue
+    for T in (2, 3, 6, 20):
+        bad += any(np.sign(ramp_gap(T, a_, al_, a_, mu_, rec)) != np.sign(al_ - mu_) for rec in (False, True))
+flip = ramp_gap(6, 0.2, 0.7, 1, 0.3, False) > 0 > ramp_gap(6, 0.2, 0.7, 1, 0.3, True)
+print(f"{'PASS' if bad == 0 and flip else 'FAIL'}  P6 signs: T = 6 example E_D > 0 > E_R; "
+      f"a = m gives sign(al - mu) in D and R ({bad} violations)")
+
 # P2: two-sided one-step R has exponential twin (beta_L = 1)
 f, g = 0.3, 0.25
 z = np.exp(2j * np.pi * np.arange(4096) / 4096)
@@ -397,6 +428,14 @@ report("A1 memory-only resolvent", max(abs(r[-j] - (m / (1 + m)) * ((1 + m) * mu
 print(f"A1  b=2, m=1, mu=0.3: per-observer M = {m * mu / (1 - mu):.3f} (< 1); copy-counted "
       f"total ratio b(1+m)mu = {2 * (1 + m) * mu:.2f} (>= 1 diverges); measure-weighted ratio "
       f"(1+m)mu = {(1 + m) * mu:.2f}")
+# A1 with anticipation: anticipation feeds back through memory, so the memory tail of the line
+# resolvent is P4's q, longer than (1+m)mu; copy-counted totals need b q < 1.
+a, al, m, mu, b = 0.3, 0.6, 0.6, 0.3, 2
+q_tail = geometric_closed_form(a, al, m, mu)[1]
+r = resolvent_line(a, al, m, mu)
+report("A1 memory tail ratio with anticipation is q", max(abs(r[-j - 1] / r[-j] - q_tail) for j in range(1, 8)))
+print(f"A1  b=2, a=0.3, al=0.6, m=0.6, mu=0.3: M = {mass(a, al, m, mu):.3f}; b(1+m)mu = "
+      f"{b * (1 + m) * mu:.3f} (< 1) but b q = {b * q_tail:.4f} (>= 1 diverges)")
 
 
 # N4: news over experienced utility. e_t = u_t + anticipation + memory
@@ -679,6 +718,24 @@ for name, (A_, al, B_, mu, n0, nu, lam) in {"waking day, hourly": (0.2, 0.8, 0.1
           f"(bilateral), {1 - H / (1 + a):.3f} (causal); "
           f"reach {1 / (1 - al):.1f} -> {1 / (1 - p):.1f} ahead, {1 / (1 - mu):.1f} -> {1 / (1 - q):.1f} back; "
           f"lam kappa = {lam * kap:.2f}")
+
+# Calibration, the quoted numbers: life weights at the ends against the interior (life, P5), the
+# largest lam each default allows (1/kappa), and the threshold's memory multiplier and examples.
+def kappa_half(a, al, m, mu, n0, nu):
+    _, q_, _ = geometric_closed_form(a, al, m, mu)
+    C_ = 1 + (1 + a + m) * al * mu
+    H_ = (C_ + np.sqrt(C_ * C_ - 4 * (1 + a) * al * (1 + m) * mu)) / 2
+    return n0 / H_ * (1 - nu * mu) / (1 - nu * q_), (1 - nu * mu) / (H_ * (1 - nu * q_))
+
+
+day, life = (0.05, 0.8, 0.1, 0.5), (0.15 * 0.3 / 0.7, 0.7, 0.17 * 0.7 / 0.3, 0.3)
+w = np.linalg.solve(np.eye(400) - K_matrix(400, *life).T, np.ones(400))
+got = [w[0], w[-1], w[200], 1 / kappa_half(*day, 0.2, 0.8)[0], 1 / kappa_half(*life, 0.2, 0.7)[0],
+       kappa_half(*life, 0.2, 0.7)[1], kappa_half(0.0, 0.7, 0.5, 0.6, 0.6, 0.9)[0],
+       kappa_half(0.064, 0.7, 0.5, 0.6, 0.6, 0.9)[0]]
+doc = [1.22, 1.21, 1.47, 4.64, 4.42, 1.13, 1.45, 1.90]
+report("CAL quoted numbers: ends 1.22/1.21 vs 1.47; lam up to 4.64/4.42; multiplier 1.13; lam kappa 1.45/1.90",
+       max(abs(g - d) for g, d in zip(got, doc)), tol=0.006)
 
 # N4 with saturating gain-loss, y = D + c clip(phi(y), -1, 1): bistable over a range of shocks only
 # (Codex: c = 0.7, lam = 2 gives roots -0.6, -0.25, 1/3 at D = 0.1, one root at D = +-1).

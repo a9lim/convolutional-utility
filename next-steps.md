@@ -42,6 +42,12 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
      `M + λN < 1`.
    - The twin dial in hidden repeated games (cooperation in hidden prisoner's dilemmas);
      reliability (D6) as an agent.
+   - Evidence gaps from the 2026-10-15 audit: archive the twin-dial output and the
+     anticipated-news comparison (the "84% of directions" figure has no script); report the
+     consolation gap stratified by round (pooled 0.33 overstates it by a quarter or so); an
+     initialization ablation for credible-plan selection (only 4 of 16 draws are
+     informative); does the shared-state sign reverse on a task whose optimum is
+     stay-heavy?
 2. **Fit to momentary-happiness data** (`experiments/happiness/`). The 2026-10-14 audit
    (`audit/`) recast the results: front-loaded echoes, closer to a power law than to either
    the jump kernel or Rutledge's geometric; recursion and direct echo indistinguishable
@@ -165,6 +171,10 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
   salience. Integrate with the peak-end study in LLMs.
 
 ## Formal loose ends
+
+- Write out what the docs only assert: P4's matching step for `r(0)`, the half-line `g_j`
+  behind N4's `κ`, and N3-canonical's `Θ, λ̃, b*`.
+- Archive the D3 news table's script (80 draws; currently a session script).
 
 - Check the stock-form ODE numerically.
 - Sign-asymmetric kernels: what survives of P6 and D3?

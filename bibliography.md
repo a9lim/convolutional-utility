@@ -1517,6 +1517,16 @@ LLM context windows (core, natural horizons):
   **FT** · `web/armstrong-2011-subjective-anticipation-as-a-decision-process.md`
   - Anticipation is encoded in the utility function. Related posts saved in `web/`
     (ADT I, ADT IV, Solving selfishness for UDT 2014).
+- **Yudkowsky, E. (2009).** The anthropic trilemma. LessWrong. **FT** ·
+  `web/yudkowsky-2009-the-anthropic-trilemma.md`
+  - The lottery trick: copy yourself a trillion times on winning, merge afterwards, and
+    "subjectively" win. Horns: accept anthropic psychic powers (copy-counted anticipation),
+    give up joint subjective probabilities, give up the personal future, or deny that
+    copies add weight. The fifth: quantum measure is conserved by splits and merges, so
+    Born-weighted branching avoids the trilemma.
+  - A1's measure-weighted anticipation is the conserved-measure horn, applied to felt
+    anticipation; A1's separate aggregation axiom is where the trillion copies' own welfare
+    goes. The nearest LessWrong statement of the problem A1 answers.
 - **Greaves, H. (2004).** Understanding Deutsch's probability in a deterministic
   multiverse. arXiv:quant-ph/0312136. **2ND** (literature agent)
   - Caring measure: the precedent for share-weighted anticipation in A1.

@@ -201,6 +201,7 @@ Personal identity
 - `armstrong-2011-anthropic-decision-theory-iv-solving-selfish-and-average.md`
 - `armstrong-2011-subjective-anticipation-as-a-decision-process.md`
 - `armstrong-2014-solving-selfishness-for-udt.md`
+- `yudkowsky-2009-the-anthropic-trilemma.md`
 - `eugman-2011-newcomb-and-procrastination.md`
 - `barta-2011-real-world-newcomb-like-problems.md`
 - `apprentice-2012-the-noddy-problem.md`

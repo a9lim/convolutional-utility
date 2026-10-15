@@ -2,8 +2,10 @@
 
 Agents whose reward is their own felt utility (`formalism/core.md`), computed from their own
 forecasts and realized against the world. The observer and the scheduling agent use the
-canonical model; the game, hidden-game, evolution and iterated agents use a direct first pass
-(echoes of base payoffs, news on the aggregate TD error), and even the canonical critic kinks
+canonical model, and so does the game agent, through `felt.py`'s closed form (checked against
+`observer.py`); the hidden-game and evolution agents use a direct first pass (echoes of base
+payoffs, news on the aggregate TD error); the iterated agent learns on payoffs alone, with no
+felt utility. Even the canonical critic kinks
 the aggregate TD error rather than each horizon's revision, which agree only at `λ = 1` or when
 the revisions share a sign. Expected return under
 the true environment is then the objective expectation of the felt life-sum: Brunnermeier &
@@ -108,7 +110,8 @@ played against scripted partners (always cooperate, always defect, tit for tat, 
 
 - **Observer.** Optimal beliefs at the life calibration stay calibrated far from the event,
   brace as it nears, and freeze over the last few periods; optimism never pays there. A
-  network trained on felt welfare captures a median 71% of the reference optimizer's gain on held-out events.
+  network trained on felt welfare captures a median 71% of the reference optimizer's gain on
+  ten held-out events (one training run; the reference has no optimality certificate).
 - **Scheduling: the `J` dial reproduces the decision theories.** Over 30 draws, `w = 0` learns
   the subgame-perfect fixed-past date in every draw without news and 90% with linear news
   (the misses sit right after the announcement: two unconverged, one a second equilibrium);
@@ -117,7 +120,8 @@ played against scripted partners (always cooperate, always defect, tit for tat, 
 - **Which credible plan does learning select?** With loss-averse news (`n = 0.3, λ = 2`),
   16 draws, all with several credible plans: fixed-past learning always lands on a credible
   plan, the earliest one in 96%, and the preferred one only when that is the earliest (75%).
-  A likely mechanism: uncertainty about one's own timing is felt as loss-averse news, so
+  Only 4 draws separate the two: the earliest wins in 3, every seed, and seeds vary in 1.
+  A likely mechanism, untested: uncertainty about one's own timing is felt as loss-averse news, so
   resolving it early pays. The planner (`w = 1`) reaches commitment 73% (median shortfall
   0%): a stochastic policy's own randomness is felt as news, so deterministic plans are local
   optima even for the planner (`selection_report.txt`).
@@ -127,10 +131,13 @@ played against scripted partners (always cooperate, always defect, tit for tat, 
   Those forecasts are rosier than rational ones, and in these draws loss-averse news
   outweighs anticipation, so rational bracing makes one's own randomness cheaper: the
   first-order cost of randomizing away from a plan is lower in 84% of directions (median 1.6
-  against 2.5), and the planner reaches commitment more often (73% against 60%).
+  against 2.5; no archived script), and the planner reaches commitment more often (73%
+  against 60%, the earlier code's `selection_report.txt` at git `fd60c6c`; 16 draws, not
+  significant).
 - **Games.** One network plays random 2×2 games at 87–96% equilibrium play (prisoner's-dilemma-like
   games lowest), and a linear probe recovers game class from its hidden layer at 81–89% against
-  71% from raw payoffs (highest with free beliefs): it tells games apart. Felt utility shifts equilibrium selection toward risk dominance: 97.4% against
+  71% from raw payoffs (highest with free beliefs): it tells games apart, felt or not (the
+  payoff-only agent: 82.5%; one run). Felt utility shifts equilibrium selection toward risk dominance: 97.4% against
   93.4% over five seeds, higher in every seed. Motivated beliefs appear almost only in cyclic
   games, where outcomes are uncertain, as optimism about the other's move, strongly only when
   action is coupled to belief (`q − p` +0.27 against +0.02 free; single training run;
@@ -185,10 +192,18 @@ played against scripted partners (always cooperate, always defect, tit for tat, 
   on loss aversion: lifetime payoff (×1000) per s.d. of log `a` −4.4 and −5.4, of log `n` +4.0
   and +3.4, of log `(λ − 1)` +0.1 and −0.2 (pooled s.e. 0.8 each, which treat learners as
   independent despite shared games and ancestry; run-level uncertainty is larger, with 3 runs
-  per variant); a neutral control shows none (all within one s.e.). Populations end braced (`a` about 0.03, `n` 0.1–0.17), recovering the 10% of
-  lifetime payoff their founders' affect cost. Weak anticipation and real news make a braced
-  critic, which escapes complacency (D8); loss aversion adds bracing before outcomes and
-  consolation after them, which may be why it is not selected (`evolve_report.txt`).
+  per variant); a neutral control shows none (all within one s.e.). Only anticipation moves
+  the population: final `a` 0.025 and 0.038 against the neutral control's 0.134. Final `n`
+  (0.10, 0.17) sits near the founders' median 0.1, inside the neutral control's drift (IQR
+  0.017–0.25), so selection for news shows within generations, not above drift. Populations
+  recover the 10% of lifetime payoff their founders' affect cost. Critics trained at the
+  final medians sit slightly below payoffs (−0.03 to −0.13; a 3-seed, 1000-step check in the
+  2026-10-15 review) against +0.79 at the founders' median: selection removes the rosy push
+  and leaves critics roughly honest, which escape complacency as braced ones do (7/8 against
+  8/8, D8). Loss aversion adds bracing before outcomes and consolation after them, which
+  may be why it is not selected. Fitness is payoff over a short lifetime, mostly escape
+  speed, and the report ran with 1200 steps, 10 generations and 3 runs, not the script's
+  defaults (`evolve_report.txt`).
 - **Iterated randomized games: strategy needs someone to strategize against.** Selfish
   learners trained only against themselves play each game as if it were one-shot: defect in
   the prisoner's dilemma (99%), cooperate in harmony, and in stag hunts coordinate on one

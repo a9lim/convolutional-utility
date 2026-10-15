@@ -36,8 +36,8 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
       further-off events felt more. A surprise is an information boundary: it misses the
       anticipation paths, so recursion has content even on an infinite line.
     - Illustrative parameters per horizon (a waking day, a life): echo about 30% of
-      steady-state experience, recursion stretching reach by a fifth, and a strongly
-      present-weighted felt row (`β ≈ 0.06`). Scenarios, not estimates. The robust part is
+      steady-state experience, recursion stretching reach by 21–28%, and a strongly
+      present-weighted felt row (`β ≈ 0.05`–`0.08`). Scenarios, not estimates. The robust part is
       the inversion: explaining measured patience by the momentary felt row needs an echo
       share near one, so patience, if hedonic, belongs to the life-sum. *synthesis*
     - An agent that cares only about the next and previous moments already acts on its whole
@@ -54,6 +54,11 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
       (`ρ(K_T) < 1`) (P1c). Footnote.
     - Why hedonic. Echoes are real experiences, so `Σ_t e(t)` counts them honestly. This
       is Caplin & Leahy's Jevonian defence and Kahneman et al.'s instant-utility axiom.
+    - It answers double counting, not echo maximization: the model endorses amplifying
+      echoes of good felt states and damping echoes of bad ones (`∂W/∂K_ij = w_i e_j`).
+      Accept it: savoring is welfare. The linear model has no optimum over kernels
+      (welfare grows without bound as `M → 1`), so attention and saturation are the
+      missing costs, and more pleasure is not larger numbers (P10). [Codex]
   - **Lineage.** Credit the premise, claim the synthesis and the results. *standard*
     - Jevons and Bentham
     - Bergstrom's one-paragraph sketch
@@ -63,21 +68,26 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
 - **Act I: a life.**
   - **What the life-sum says: moments as centrality.** *synthesis*
     - Moments matter in proportion to their echo.
-    - The interior is flat: the planner has no pure time preference (Ramsey).
+    - The interior is flat: given time-neutral aggregation of experience (assumed in `W`),
+      echoes add no pure time preference over base utility (Ramsey). Derived for `u`, not
+      for `e`.
     - Deficits at birth and death. A kernel with no forward or backward bias favours a good
       midlife.
-    - No moment of a life sees these weights. Each moment rates the life through its own
-      anticipation and memory, never from the god's-eye view.
-    - Shape: the first-moment theorem (P6) — anticipation's lever arm against memory's.
+    - No moment *feels* these weights: each felt state weighs the life through its own
+      anticipation and memory. A self can still choose by the life-sum (D3's selves do).
+    - Shape: the ramp theorem (P6) — for linear ramps, anticipation's lever arm against
+      memory's (the first moment `M₁`). Ramps only: an end pulse against a start pulse
+      compares echo masses, so `M₁ < 0` can still favour the improving pulse.
       - In a linear echo model shape is a boundary effect, not a slope effect.
       - Its size is about reach over lifespan (`4M₁/T`): sizeable for whole lives only if
         anticipation and memory reach across decades; strongest for short sequences.
-    - Directionality: improvement wins iff anticipation reaches further, *or* memory works
-      by contrast.
+    - Directionality, for ramps: the rising ramp wins iff `M₁ > 0` (at equal amplitudes,
+      iff anticipation reaches further), *or* memory works by contrast.
     - Each self is a lens (P7): judging a life from its end inherits recency. Two lines.
     - The James Dean effect from contrast memory (P8). *speculation*; evidence is
       evaluative. Cut candidate.
-  - **What the momentary self does.** *synthesis*
+  - **What the momentary self feels.** *synthesis* Its choice weights only if it maximizes
+    current experience; a life-sum chooser is the other case.
     - Discounting is the forward resolvent.
     - Recursion makes exponential primitives present-biased: one-sided case *standard*;
       two-sided P4 *not found*.
@@ -91,8 +101,9 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
   - **Beliefs are welfare.** (D5) *synthesis / speculation*
     - Felt anticipation is a forecast, so learning changes how your life feels now.
       Welfare is scored by the objective expectation of the felt life.
-    - In expectation the truth is free (tower property; a textbook benchmark). Pathwise
-      it is not: bad news hurts now.
+    - In expectation the truth is free (tower property; a textbook benchmark), given
+      linear echoes and news, a calibrated prior, and actions held fixed. Pathwise it is
+      not: bad news hurts now.
     - What prices information is nonlinearity in beliefs. Dread outweighing savoring, as a
       kernel on outcomes, does it only in the recursive model, where you anticipate your
       own future dread. (Concavity in the posterior itself prices information in any
@@ -126,8 +137,9 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
         - Figure: the optimal felt belief path under a cost of self-deception. Calibrated
           far from the event, braced as it nears, frozen over the last few periods because
           each further revision is itself felt as news. At the life calibration optimism
-          never pays. A network trained on felt welfare learns these paths
-          (`experiments/learned_expectations/`). *checked*
+          never pays. A network trained on felt welfare captures a median 71% of the
+          reference optimizer's gain on ten held-out events (one run;
+          `experiments/learned_expectations/`). *checked*
       - News over experienced utility (N4): good news about far events is felt now,
         because tomorrow you'll be looking forward; cancelling a plan costs the
         anticipation too. Needs `λκ < 1`. Memory feeds the loop and anticipation does not.
@@ -174,12 +186,14 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
   - **Decision theory: your past self as predictor.** (`decision.md`)
     - A choice is Newcomb-like when already-felt anticipation depends on an accurate
       prediction of it (D1). *synthesis*
-    - One dial, `J` = how much the felt past depends on the present choice (D2).
-      *synthesis*
+    - One dial, `J` = how much of the felt past a decision rule counts as depending on the
+      present choice (D2). Nothing is moved: for FDT the past forecast is an output of the
+      function now being chosen. *synthesis*
       - `J = 0` is fixed-past sequential choice (CDT).
       - `J = J_pf` is advance commitment, i.e. the planner.
-      - FDT and EDT pick `J` by their own dependence theories. Neither equals the planner
-        by default.
+      - FDT reaches the planner when past forecasts were accurate evaluations of the
+        decision function on the realized input (the transparent-Newcomb condition); EDT
+        need not. Otherwise each picks `J` by its own dependence theory.
     - With felt news, deviating from the plan your past selves predicted is itself felt
       as news, so plans become reference points. Choice needs a credible-plan concept;
       adopt Kőszegi–Rabin's preferred credible plan, credited, for a means-based model
@@ -200,14 +214,21 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
       interest. *checked on examples*
 - **Coda: selves.**
   - **Anthropics.** (`decision.md` A1–A2) *synthesis*
-    - Anticipation is a forecast, so it is measure-weighted. Doom branches count as zero,
-      so a likely early end discounts the future correctly.
+    - Anticipation as a forecast of one continuing path is measure-weighted. That is an
+      assumption: a forecast of total successor experience is also an expectation. Doom
+      branches count as zero (hedonic neutral), so a likely early end discounts the
+      future. This is the unnormalized choice; anticipation renormalized on survival
+      (quantum immortality) would not discount.
+    - It takes the conserved-measure horn of Yudkowsky's Anthropic Trilemma: copying
+      yourself on a lottery win changes how many experience winning, not what you should
+      anticipate.
     - Copy-counting would let a branching future outweigh a single past without bound.
     - Under measure-weighted anticipation *and* aggregation, branching is
-      welfare-invisible: it adds up to normality. The second weighting is an axiom (right
-      for Everett branches); real copies are extra welfare subjects, and there the
-      copy-counted condition `bμ < 1` is a real constraint.
-    - Utility weights, not SSA/SIA credences.
+      welfare-invisible: it adds up to normality. The second weighting is an axiom (total
+      utilitarianism with measure as the population weight; right for Everett branches);
+      real copies are extra welfare subjects, and there `bμ < 1` (`bq < 1` in R) is what
+      keeps the copy-counted aggregate finite. The trilemma's trillion copies land here.
+    - Aggregation weights are normative; they are not SSA/SIA credences.
     - A context window as a life: hard boundaries both ends, retrieval-style memory that need
       not fade (U-shaped use of context; echo compounds unless per-step echo is weak), and
       instances as A1's tree. *speculation*

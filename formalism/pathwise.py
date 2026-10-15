@@ -127,8 +127,8 @@ if __name__ == "__main__":
         ax.set_title(f"{title}   (life-sum {e.sum():+.2f})", loc="left", fontsize=11)
     axes[0].legend(loc="lower left", fontsize=8, ncol=5, frameon=False)
     axes[1].set_xlabel("time")
-    fig.suptitle("Recursive model with felt news: a = m = 0.1, β = 0.85, α = 0.75 (M = 0.87), "
-                 "ν = 0.3, δ = 0.7, λ = 2", fontsize=11)
+    fig.suptitle("Recursive model with felt news: a = m = 0.1, α = 0.85, μ = 0.75 (M = 0.87), "
+                 "n = 0.3, ν = 0.7, λ = 2", fontsize=11)
     fig.tight_layout()
     fig.savefig(out, dpi=130)
     print(f"saved {out}")

@@ -72,7 +72,14 @@ Geanakoplos 1996 casts Newcomb as a one-player psychological game]
   dependence of *later* anticipation on the choice, through what the remembered action
   reveals.
 
-**D2. Decision rules as choices of `J`.** [synthesis]
+**D2. Decision rules through `J`.** [synthesis]
+- `J` is one channel, an accounting of dependence on past experience, not a classification
+  of decision theories. The identity does not supply the counterfactuals `J` comes from;
+  each theory brings its own (FDT: intervention on the decision function's output, with the
+  dependence structure as an input). With `K = 0` and a Newcomb problem placed entirely in
+  future payoffs, `J` is zero everywhere and the theories still disagree. Accuracy does not
+  fix `J` either: a habitual forecast and one that evaluates the decision procedure can
+  agree on the realized act and differ on the alternatives. [Codex]
 - **CDT**: `J = 0`.
 - **FDT**: `J` comes from the logical dependence of past forecasts on the decision
   function. It equals `J_pf` only when those forecasts were accurate evaluations of that
@@ -128,7 +135,7 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   the closed form): `a = 0.0465, α = 0.896, m = 0.0196, μ = 0.964, T = 40`. [checked]
   - Each self compares only "now" against what later selves will do. `B_h ≥ A_h` first
     at `h = 38`, so every self from `t = 2` on prefers death to now and the continuation
-    is `t = 39`, though each self's own optimum is interior (15–30).
+    is `t = 39`, though the early selves' own optima are interior (15–30).
   - Self 1 foresees this and takes the pleasure at once; self 0 waits one step for the
     anticipation. Fixed-past takes it at 1 against commitment's 15 (D, ~12% loss); at 4
     against 16 in R.
@@ -140,8 +147,10 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   whatever the past. Credible plans: `C_{T−1} = {T−1}`, `A_t = {t} ∪ C_{t+1}`, and `C_t` the
   `p ∈ A_t` with `Δ_t(p→q) ≤ 0` for every `q ∈ A_t`. At the announcement the self picks the
   best of `{0} ∪ C_1`; the commitment benchmark is the best date given that announcement,
-  news jolt included, from a zero prior reference. 80 draws, `T = 20`. [checked; the
-  recursion is Codex's]
+  news jolt included, from a zero prior reference. 80 draws, `T = 20`. [checked in a
+  session script, not archived; a rerun on `run_scheduling.draws` reproduces the pattern
+  within seed noise, dropping the 3–5 draws of 80 past the news threshold in the last row,
+  which have no felt state; the recursion is Codex's]
 
   | news | commitment credible: pleasure | pain | mean `|C_1|`, pleasure |
   |---|---|---|---|
@@ -165,16 +174,19 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   - The exact stopping conditions above are for the direct model without news, and the
     `argmax/argmin w` commitment benchmark likewise.
   - Which credible plan does learning select? A fixed-past learner, started near uniform,
-    lands on the earliest credible plan, not the preferred one: under loss aversion,
-    uncertainty about one's own timing is itself felt as news, so resolving it early pays.
-    [checked in `experiments/learned_expectations/`]
+    lands on the earliest credible plan. Only 4 of 16 draws separate the earliest from the
+    preferred plan; there it lands on the earliest in 3 (every seed) and varies in 1. A
+    conjectured mechanism, untested: under loss aversion, uncertainty about one's own
+    timing is itself felt as news, so resolving it early pays. [observed in
+    `experiments/learned_expectations/`]
   - Anticipated news changes none of this. Deterministic plans carry none, so the credible
     plans and the commitment optimum are as without it; it acts only on mixed policies, the
     learning path. There rational forecasts brace for one's own randomness (core N3's
     built-in bracing). Where news outweighs anticipation this makes randomness cheaper, and
     the planner reaches the commitment date more often; the fixed-past learner selects the
     same dates, seed for seed, as with forecasts that leave anticipated news out. [synthesis;
-    checked]
+    checked against the earlier code's `selection_report.txt` at git `fd60c6c`; the planner's
+    73% against 60% is 16 draws, not significant]
 - **Commitment versus FDT.** A causal agent with a binding commitment at news time
   reaches the commitment optimum. FDT's claimed advantage is reaching it without a
   device, *if* past forecasts track the policy (D2).
@@ -207,7 +219,10 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
 - **Which probability scores welfare.** Welfare is the objective expectation of the felt
   life-sum, as in Brunnermeier & Parker's well-being (2005, Def. 1). The agent's beliefs
   shape what is felt; they do not score it.
-- **In expectation, the truth is free.** Anticipation linear in beliefs, Bayesian
+- **In expectation, the truth is free.** Needs a calibrated prior, linear echoes, no
+  nonlinear news (`λ = 1`), and actions held fixed: with direct news alone (`n = 0.2,
+  ν = 0.5, λ = 2`, `Z = ±1` at realization) revelation a period early costs 0.05 and at
+  realization 0.10. [Codex; checked by hand] Anticipation linear in beliefs, Bayesian
   updating: forecasts are martingales, so by the tower property expected welfare does not
   depend on whether or when information arrives. [standard: Epstein 2008 p. 1121;
   Eliaz & Spiegler 2006 Prop. 1; Bénabou 2015 fn. 16; Kimball & Willis 2006. Kőszegi &
@@ -479,39 +494,59 @@ with the same sign (Sun et al. 2022)]
 **A1. Echo on a branching tree: measure-weighting.** [synthesis; checked where marked]
 - A `b`-ary tree of successors (copies) with geometric kernels.
 - **Stance: anticipation is measure-weighted.** In the causal form, anticipation is a
-  forecast `E_t[e_{t+j}]`, which already weights successors by their measure (Born weight,
-  probability, share). Death or doom branches enter as zero experience, so a likely early
+  forecast `E_t[e_{t+j}]`, which, as a forecast of one continuing path, weights successors
+  by their measure (Born weight, probability, share). Death or doom branches enter as zero experience, so a likely early
   end discounts the anticipated future.
+  - Zero is hedonic neutrality, the level of non-experience; the model is not invariant to
+    shifting it (core, Objects). Renormalizing anticipation on survival, as quantum
+    immortality would, drops the discount; measure-weighting is the unnormalized choice.
+  - This is the conserved-measure horn of Yudkowsky's Anthropic Trilemma (2009): copying
+    yourself a trillion times on a lottery win, then merging, changes how many copies feel
+    the win, not what the pre-copy self should anticipate. Where the copies' own welfare
+    goes is the aggregation axiom below.
 - **What measure-weighting rules out.** Copy-counting anticipation would make anticipation
   a *sum* over successors, so a branching future could outweigh a single past without
   bound.
   - Per observer: copy-counted forward mass is `abα/(1 − bα)`, which needs `bα < 1`.
   - Total across observers: a trunk event is remembered by every descendant, so the
-    copy-counted total needs `bμ < 1` (D) or `b(1+m)μ < 1` (R; memory-only resolvent
-    `r(−j) = (m/(1+m))((1+m)μ)^j`). Example: `b = 2, m = 1, μ = 0.3` keeps each observer
-    bounded (`M = 0.43`) while the copy-counted total diverges (`b(1+m)μ = 1.2`). [checked]
-- **Two weightings, both needed.** Anticipation is a forecast, so measure-weighting it
-  follows from the causal form. Aggregating welfare across observers is a separate axiom:
-  with every kernel zero, two real copies each at `+1` sum to 2 under ordinary additive
+    copy-counted total needs `bμ < 1` (D) or `bq < 1` (R), with `q` P4's memory tail.
+    Memory-only, `q = (1+m)μ` (resolvent `r(−j) = (m/(1+m))((1+m)μ)^j`): `b = 2, m = 1,
+    μ = 0.3` keeps each observer bounded (`M = 0.43`) while the copy-counted total diverges
+    (`b(1+m)μ = 1.2`). Anticipation feeds back through memory and lengthens the tail:
+    `b = 2, a = 0.3, α = 0.6, m = 0.6, μ = 0.3` passes the memory-only test
+    (`b(1+m)μ = 0.96`) but `bq = 1.014`. [checked; the second example is Codex's]
+- **Two weightings, both needed.** Anticipation is a forecast; measure-weighting it is the
+  choice to forecast one continuing path. Aggregating welfare across observers is a
+  separate axiom: with every kernel zero, two real copies each at `+1` sum to 2 under ordinary additive
   aggregation, whatever anyone forecasts. Invisibility below assumes welfare is also
-  aggregated by measure (conserved measure, as for Everettian branches); for real copies
+  aggregated by measure (total utilitarianism with measure as the population weight;
+  conserved measure, as for Everettian branches); for real copies
   (uploads, LLM instances) the copy-counted total above is the population-ethics case, and
-  its condition `bμ < 1` or `b(1+m)μ < 1` is a real constraint on it. [Codex]
-- **Under measure-weighted anticipation and aggregation, branching is welfare-invisible**,
-  at `λ = 1`. Duplicating
-  identical branches adds no information and no news. Branches with different felt
-  outcomes are resolved like any uncertainty (core N2): with loss-averse news that costs in
+  `bμ < 1` or `bq < 1` is the condition for its aggregate to stay finite. Infinitely many
+  real subjects can have infinite total welfare, so finiteness is an added requirement,
+  not coherence. [Codex]
+- **Under measure-weighted anticipation and aggregation, branching is welfare-invisible.**
+  Duplicating identical branches adds no information and no news, at any `λ`. Branches with
+  different felt outcomes are resolved like any uncertainty (core N2): neutral ex ante (not
+  pathwise) at `λ = 1`, and with loss-averse news it costs in
   expectation, and updateless affect (D7) can postpone or batch the news but not remove it
   (one period, `u = ±1` equiprobable, `n = 0.2, λ = 2`: `E[e] = −1/7`). [Codex] Forward
   mass is `aα/(1 − α)`,
   and the measure-weighted total memory of a trunk event is `m Σ μ^j`, the unbranched
   conditions exactly: it adds up to normality.
-- These are utility weights, not credences, so they are not SSA or SIA. Armstrong derives
+- Aggregation weights are normative and the weights inside a forecast epistemic; they can
+  coincide numerically without being one object, and neither is SSA or SIA as a theory of
+  self-location (A2 still needs self-locating credences). Armstrong derives
   SSA- or SIA-like *betting* from preferences plus linked decisions, and treats subjective
   anticipation as encoded in the utility function (LW 2011). Precedent for the weighting:
   Greaves's (2004) caring measure.
 - Well-foundedness alone does not force measure-weighting (faster decay, bounded depth or
-  saturation would also bound the sums); the forecast reading does.
+  saturation would also bound the sums), and neither does the forecast reading by itself: an
+  expectation of one successor's experience and an expectation of total successor
+  experience are both forecasts. Forecasting one continuing path is assumed, defensibly for
+  Everett branches (Born-weighted caring, Greaves), not derived. Armstrong's demand stands:
+  say which successors the agent cares about, how much, and which decisions are linked.
+  [Codex]
 
 **A2. Imperfect recall.** [synthesis]
 - Amnesia cuts particular memory links. It creates self-location uncertainty only when

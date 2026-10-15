@@ -38,11 +38,12 @@ state, that contribution plus echoes of earlier ones through a kernel `k(lag)`.
 
 - Rutledge et al.: `k = γ^lag`, one geometric.
 - Recursive memory over felt states, `e_t = f_t + m Σ_j μ^j e_{t−j}`, has resolvent kernel
-  `(1, κ, κγ, κγ², …)` with `κ = mμ` and `γ = μ(1 + m)`: a jump at lag 0, then a slower
-  geometric, `κ < γ`. Rutledge's kernel is the case `κ = γ`.
+  `(1, k₁, k₁γ, k₁γ², …)` with `k₁ = mμ` and `γ = μ(1 + m)`: a jump at lag 0, then a slower
+  geometric, `k₁ < γ`. Rutledge's kernel is the case `k₁ = γ`. (`k₁` is the lag-1 weight,
+  `kappa` in the code and reports; core's `κ` is the news-loop gain.)
 - Direct (one-layer) memory, `e_t = f_t + m′ Σ_j μ′^j f_{t−j}`, has kernel
-  `(1, m′μ′, m′μ′², …)`: the same two-parameter family, with `γ = μ′` and `κ = m′μ′`, and any
-  sign of `γ − κ`. Rutledge's kernel is the direct case `m′ = 1`. The fits below cannot tell
+  `(1, m′μ′, m′μ′², …)`: the same two-parameter family, with `γ = μ′` and `k₁ = m′μ′`, and any
+  sign of `γ − k₁`. Rutledge's kernel is the direct case `m′ = 1`. The fits below cannot tell
   the two readings apart (core P2), and neither from transient-plus-mood.
 - Shape alternatives (audit): a power law `(1 + lag)^{−ρ}` (one parameter) and a hyperbola
   `(1 + h·lag)^{−ρ}` (two).
@@ -52,16 +53,16 @@ state, that contribution plus echoes of earlier ones through a kernel `k(lag)`.
 Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
 - **Replication.** Rutledge's model gives `γ = 0.68` per trial (their lab sample: 0.61 ± 0.30
   SD per person; ours is a pooled fit).
-- **Echoes are front-loaded, with a slow tail.** The jump kernel (`γ = 0.882, κ = 0.419`)
+- **Echoes are front-loaded, with a slow tail.** The jump kernel (`γ = 0.882, k₁ = 0.419`)
   cuts held-out within-play error 1.3% against Rutledge's (1.7% with prediction errors split by
-  sign, where `γ = 0.890, κ = 0.412`; 20-resample bootstrap [0.886, 0.896], [0.408, 0.418]).
+  sign, where `γ = 0.890, k₁ = 0.412`; 20-resample bootstrap [0.886, 0.896], [0.408, 0.418]).
   But it is not the best shape: a one-parameter power law (`ρ = 0.81`) beats it by 0.48%
   [0.40, 0.56] and a hyperbola by 0.66% (paired bootstrap over held-out participants). A free
   30-lag kernel decays progressively (successive ratios 0.52, 0.71, 0.86, …), not one drop
   then a constant ratio. Recursive reading of the sign-split fit: `μ = 0.48`, `m = 0.86`;
   direct reading: `μ′ = 0.89`, `m′ = 0.46`, with identical fit
   (`audit/direct_vs_recursive.py`).
-- **Echo share, not memory mass.** `B = κ/(1−γ+κ) ≈ 0.78`, the share of a sustained input's
+- **Echo share, not memory mass.** `B = k₁/(1−γ+k₁) ≈ 0.78`, the share of a sustained input's
   long-run response that comes from earlier trials, is the same under every reading (the
   memory mass is 0.78 read recursively and 3.5 read directly). It depends on the tail: under
   the power law, whose exponent is below one, it is 0.81 over 30 trials, 0.87 over 100 and
@@ -83,7 +84,7 @@ Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
 - **Age reshapes the kernel; whether through a slower felt clock is not settled.** From 18–24
   to 60–69, relative to the current trial, the lag-1 echo shrinks and the tail lengthens: the
   hyperbola's exponent falls from 0.71 [0.68, 0.75] to 0.49 [0.42, 0.56], and the jump
-  kernel's `κ` from 0.46 to 0.34 while `γ` rises from 0.86 to 0.91. The test is of one felt
+  kernel's `k₁` from 0.46 to 0.34 while `γ` rises from 0.86 to 0.91. The test is of one felt
   clock from seconds to years, felt rate `∝ age^−q` (Janet `q = 1`; Lemlich 1975,
   `ds/dt ∝ 1/s`, `q = ½`). A hyperbolic kernel on such a clock keeps its shape: ratings
   simulated from a pure Lemlich clock return a flat exponent (0.60–0.66) and `q = 0.48`, so
@@ -98,7 +99,7 @@ Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
 - **News does not echo like the outcome.** Fitted separately, the kernels of certain rewards,
   expected values and prediction errors nearly coincide (`γ` 0.88, 0.87, 0.89), but the RPE
   regressor there still carries the outcome's base utility. With base utility in its own
-  regressor, news alone has `γ` at the bound 0.999 (`κ` 0.27): a persistent level, luck
+  regressor, news alone has `γ` at the bound 0.999 (`k₁` 0.27): a persistent level, luck
   accumulated over the play, against `γ ≈ 0.79` for base utility (`audit/news_kernel.py`).
 - **Chosen risk lowers happiness; loss-averse news is not identified.** The structural model
   (base utility pinned by safe choices, linear in money; news by mixed trials) gives
@@ -113,11 +114,11 @@ Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
   sensitivity predicts.
 
 Forbes & Bennett 2024 (`forbes_report.txt`, `audit/`):
-- **The same front-loading.** Jump kernel `γ = 0.885, κ = 0.516` (experiment 1) and
-  `γ = 0.883, κ = 0.457` (experiment 2), against single geometrics of 0.80 and 0.76;
+- **The same front-loading.** Jump kernel `γ = 0.885, k₁ = 0.516` (experiment 1) and
+  `γ = 0.883, k₁ = 0.457` (experiment 2), against single geometrics of 0.80 and 0.76;
   cross-validated error over people 1.0% and 1.6% lower. A power law (`ρ` 0.69, 0.76) does
-  better, 2.5% and 2.8%. Fitted person by person (56 ratings each), `κ` is below `γ` for 57%
-  and 62% of people (31% and 39% in the pooling null) and above for 18% and 17%; `κ > γ` is
+  better, 2.5% and 2.8%. Fitted person by person (56 ratings each), `k₁` is below `γ` for 57%
+  and 62% of people (31% and 39% in the pooling null) and above for 18% and 17%; `k₁ > γ` is
   inconsistent with recursion at any noise level.
 - **Bad surprises register more, and only on one's own choices.** Every payoff is a lottery's,
   so RPE weights are news net of anticipation. Positive RPE adds nothing beyond the outcome
