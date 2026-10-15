@@ -96,3 +96,58 @@ exp2 rating gaps {np.int64(4): 2400, np.int64(3): 2400, np.int64(5): 3000}
    null (per-person geometric): pooled jump gamma 0.847 kappa 0.600 B 0.80; pooled geometric 0.800; jump in-sample RSS -0.56% vs geometric
    null per-person jump grid: kappa below gamma by >0.05 in 39%, above in 33%
    real per-person: below 62%, above 17%; B median 0.85
+
+## felt_clock.py (2026-10-15; stages pooled, age, within, null, mixture)
+jump                             held-out MSE 0.65162  {'gamma': 0.8815, 'kappa': 0.4188}  nit 32 ok True
+hyperbola                        held-out MSE 0.64767  {'h': 2.0376, 'a': 0.6048}  nit 34 ok True
+jump + seconds                   held-out MSE 0.65040  {'gamma': 0.9946, 'kappa': 0.4728, 'theta': 0.0174}  nit 122 ok True
+jump + deviation                 held-out MSE 0.65136  {'gamma': 0.8804, 'kappa': 0.4197, 'theta': 0.0099}  nit 86 ok True
+hyperbola + seconds              held-out MSE 0.64760  {'h': 3.0198, 'a': 0.4842, 'theta': 0.0027}  nit 95 ok True
+hyperbola + deviation            held-out MSE 0.64737  {'h': 2.0042, 'a': 0.6094, 'theta': 0.0098}  nit 92 ok True
+hyperbola + deviation + events   held-out MSE 0.64668  {'h': 1.3731, 'a': 0.7159, 'theta': 0.0096, 'eta': 0.9348, 'rho': 1.1463}  nit 357 ok True
+  hyperbola vs jump: -0.606% [-0.676, -0.532]
+  jump + seconds vs jump: -0.187% [-0.241, -0.130]
+  hyperbola + seconds vs hyperbola: -0.011% [-0.029, +0.006]
+  hyperbola + deviation vs hyperbola: -0.046% [-0.064, -0.028]
+  hyperbola + deviation + events vs hyperbola: -0.152% [-0.194, -0.111]
+pooled hyperbola exponent a = 0.597
+band  mid   -ln gamma  kappa   h_free  a_free  h(shared a)  sec/trial
+   1  21.0  0.1557   0.456   1.392   0.710   2.011      7.08
+   2  27.0  0.1360   0.437   1.723   0.641   2.015      7.20
+   3  34.5  0.1152   0.408   2.315   0.572   2.094      7.33
+   4  44.5  0.1029   0.400   2.646   0.537   2.062      7.41
+   5  54.5  0.0919   0.369   3.519   0.503   2.312      7.57
+   6  64.5  0.0898   0.342   4.337   0.492   2.662      7.42
+   7  75.0  0.1017   0.332   3.873   0.533   2.916      7.90
+q from jump decay -ln gamma                 c0=0.0 18-69 : 0.562 [0.350, 0.745]
+q from jump decay -ln gamma                 c0=0.0 18-70+: 0.473 [0.135, 0.858]
+q from jump decay -ln gamma                 c0=1.5 18-69 : 0.554 [0.341, 0.734]
+q from jump decay -ln gamma                 c0=1.5 18-70+: 0.461 [0.122, 0.847]
+q from hyperbola scale h, shared exponent   c0=0.0 18-69 : -0.164 [-0.261, -0.028]
+q from hyperbola scale h, shared exponent   c0=0.0 18-70+: -0.210 [-0.348, -0.076]
+q from hyperbola scale h, shared exponent   c0=1.5 18-69 : -0.173 [-0.270, -0.039]
+q from hyperbola scale h, shared exponent   c0=1.5 18-70+: -0.222 [-0.358, -0.086]
+free hyperbola exponent a by band, bootstrap 95%: ['0.710 [0.677, 0.753]', '0.641 [0.611, 0.686]', '0.572 [0.549, 0.599]', '0.537 [0.504, 0.576]', '0.503 [0.461, 0.535]', '0.492 [0.421, 0.555]', '0.533 [0.363, 0.762]']
+first attempt (timesPlayed 1): q (jump, c0=0, 18-69) 0.298; q (hyperbola, shared a) -0.111
+design v3-5: q (jump, c0=0, 18-69) 0.646; q (hyperbola, shared a) -0.132
+band 1 (21.0): theta per second of deviation +0.0115 [+0.0081, +0.0147]  h 1.059 a 0.779
+band 2 (27.0): theta per second of deviation +0.0131 [+0.0111, +0.0179]  h 1.153 a 0.771
+band 3 (34.5): theta per second of deviation +0.0100 [+0.0086, +0.0125]  h 1.365 a 0.727
+band 4 (44.5): theta per second of deviation +0.0059 [+0.0020, +0.0084]  h 1.521 a 0.696
+band 5 (54.5): theta per second of deviation +0.0100 [+0.0042, +0.0138]  h 2.128 a 0.622
+band 6 (64.5): theta per second of deviation +0.0123 [+0.0064, +0.0189]  h 2.336 a 0.629
+band 7 (75.0): theta per second of deviation +0.0105 [-0.0023, +0.0224]  h 2.583 a 0.591
+q from within-play theta, 18-69: 0.16
+simulated pure Lemlich clock: pooled exponent 0.647
+band  free exponent a   h(shared a)   -ln gamma
+   1   0.660            1.821         0.1451
+   2   0.637            1.710         0.1345
+   3   0.661            1.526         0.1357
+   4   0.661            1.374         0.1325
+   5   0.605            1.304         0.1158
+   6   0.634            1.081         0.1124
+   7   0.599            1.017         0.1019
+recovered q (hyperbola, shared a, c0=1) 0.482; (jump, c0=1) 0.261
+age 21         k1 0.671 k5 0.428 k10 0.248 k20 0.083; trial hyperbola h 0.13 a 1.796
+64.5, Lemlich  k1 0.617 k5 0.442 k10 0.324 k20 0.173; trial hyperbola h 0.60 a 0.651
+64.5, Janet    k1 0.646 k5 0.434 k10 0.362 k20 0.253; trial hyperbola h 1.83 a 0.373

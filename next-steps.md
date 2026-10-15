@@ -50,7 +50,11 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
    - a test that separates recursion from its rivals: forward echoes (does a rating
      anticipate the trials left?), or the interaction of two outcomes (linear echo predicts
      none, saturating echo some);
-   - time rather than trial count as the kernel's clock (the spinner and latency effects);
+   - the direct felt-clock test (`audit/felt_clock.py` left it open): a fast transient plus a
+     slow mood in elapsed seconds, the current trial's rating delay included, with rate
+     `∝ age^−q`, against an age-specific kernel shape; calibrated on simulations with
+     z-scoring, heterogeneous people and repeated draws. It separates a slower felt clock
+     (Janet `q = 1`, Lemlich `q = ½`) from reactivity and persistence changing with age;
    - a multi-scale reading of the heavy tail against `M < 1`;
    - whether `a < 0` is dread, the certainty effect, or curvature (it halves under power
      utility).

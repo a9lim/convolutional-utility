@@ -193,8 +193,12 @@ quantities differ, and the hedonic reading needs the felt ones.
     all three datasets (exponents 0.69–0.81). The recursive reading is one two-parameter fit
     to the front-loading; the direct model's geometric memory is the same family (P2), and a
     transient plus a mood level, or pooling people with different geometrics, produce it too.
-    The weights also depend on what happened between outcome and rating, not on trial count
-    alone. [checked in `experiments/happiness/` and its `audit/`]
+    Seconds count within a play (about 1% of an echo per second of delay against a player's
+    own pace) and not between players, and gambles and ratings in between move the weights.
+    With age the lag-1 echo shrinks and the tail lengthens. A hyperbolic kernel on a felt clock
+    `∝ age^−q` (Janet, Lemlich) cannot do that; a fast transient plus a slow mood on the same
+    clock can, so one felt clock from seconds to years is not yet tested. [checked in
+    `experiments/happiness/` and its `audit/`]
   - The reading-invariant quantity is the echo share, `κ/(1−γ+κ)` on the jump fit: 0.79,
     0.82 and 0.80 (per person, Forbes & Bennett, median 0.85). It is the memory mass only on
     the recursive reading (3.5 on the direct one). With power-law exponents below one it does

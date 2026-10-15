@@ -66,13 +66,35 @@ Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
   memory mass is 0.78 read recursively and 3.5 read directly). It depends on the tail: under
   the power law, whose exponent is below one, it is 0.81 over 30 trials, 0.87 over 100 and
   0.93 over 1000, so it does not settle (core P1(d)).
-- **The kernel is not a fixed function of trial count.** The lag-1 weight is 0.61 after a safe
-  last trial and 0.13 lower after a gamble (whose spinner takes seconds), and, within safe trials,
-  falls with choice latency; the lag-1 trial never precedes a rating in this design, so a reset at ratings
-  cannot be tested directly (`audit/confounds.py`). Pooling heterogeneous people also makes a
-  jump: Forbes-like data simulated with each person's own single geometric give a pooled
-  jump with `B ≈ 0.8` and a third of the real advantage (`audit/forbes_pooling_null.py`). Real
-  people still front-load more than that null (below).
+- **Seconds count within a play, not between players.** The lag-1 weight is 0.61 after a safe
+  last trial and 0.13 lower after a gamble (whose spinner takes seconds), and, within safe
+  trials, falls with choice latency (`audit/confounds.py`). On the hyperbola, the raw seconds
+  between outcome and rating add nothing (−0.011% [−0.029, +0.006]); the apparent clock in the
+  jump kernel (−0.19%) was its shape. Delays against the play's own pace do count, about 1% of
+  an echo per second (`θ ≈ 0.010`; −0.046% [−0.064, −0.028]), so slower players do not forget
+  more per trial, but a delay within a play costs. Each gamble resolved in between lowers an
+  echo (`η = 0.93`) and each rating in between raises it (`ρ = 1.15`) (`audit/felt_clock.py`).
+  The clock factor multiplies a hyperbola in trials, which is not a hyperbola in seconds; a
+  kernel fitted directly in elapsed seconds is open. The lag-1 trial never precedes a rating
+  in this design, so a reset at ratings cannot be tested directly. Pooling heterogeneous people also makes a jump:
+  Forbes-like data simulated with each person's own single geometric give a pooled jump with
+  `B ≈ 0.8` and a third of the real advantage (`audit/forbes_pooling_null.py`). Real people
+  still front-load more than that null (below).
+- **Age reshapes the kernel; whether through a slower felt clock is not settled.** From 18–24
+  to 60–69, relative to the current trial, the lag-1 echo shrinks and the tail lengthens: the
+  hyperbola's exponent falls from 0.71 [0.68, 0.75] to 0.49 [0.42, 0.56], and the jump
+  kernel's `κ` from 0.46 to 0.34 while `γ` rises from 0.86 to 0.91. The test is of one felt
+  clock from seconds to years, felt rate `∝ age^−q` (Janet `q = 1`; Lemlich 1975,
+  `ds/dt ∝ 1/s`, `q = ½`). A hyperbolic kernel on such a clock keeps its shape: ratings
+  simulated from a pure Lemlich clock return a flat exponent (0.60–0.66) and `q = 0.48`, so
+  that form is out. A fast transient plus a slow mood is not: slowed by Lemlich's or Janet's
+  factor, it leaves the current outcome more of its transient at the rating, and gives the
+  same crossing (the trial hyperbola's exponent 1.8 → 0.65 or 0.38). Sensitivity to delays
+  within a play is flat across age (`q ≈ 0.16`), but for a hyperbolic clock that need not
+  scale with the clock's speed. The jump kernel's decay alone gives `q = 0.56` [0.35, 0.75]; it
+  returns 0.26 from a true 0.5, so it is not a clock estimate. Bands are cross-sectional, so
+  age carries cohort and selection into a smartphone game; intervals for the within-play
+  sensitivity rest on 16 draws (`audit/felt_clock.py`).
 - **News does not echo like the outcome.** Fitted separately, the kernels of certain rewards,
   expected values and prediction errors nearly coincide (`γ` 0.88, 0.87, 0.89), but the RPE
   regressor there still carries the outcome's base utility. With base utility in its own
@@ -121,5 +143,10 @@ experiments/happiness/audit/kernel_shapes.py`; `confounds.py` needs `extract_tim
 - `risk_cost.py`: the structural model with a cost of having gambled and power utility.
 - `news_kernel.py`: per-component kernels with base utility separated from news.
 - `confounds.py`: the lag-1 weight by trial type and latency, and the rating boundary.
+- `felt_clock.py`: trials against seconds (raw, and against the play's own pace) on the jump
+  and the hyperbola; kernels by age band against a felt clock `∝ age^−q`; a recovery check on
+  ratings simulated from a pure Lemlich clock; the two-timescale counterexample. Stages
+  `pooled`, `age`, `within`, `null`, `mixture` (needs `extract_timing.py`; about 25 minutes in
+  all on 12 cores).
 - `forbes_shapes_risk.py`, `forbes_pooling_null.py`: kernel shapes, the lottery-SD
   separation, and the pooling null on Forbes & Bennett.
