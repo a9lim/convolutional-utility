@@ -108,9 +108,13 @@ Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
   person's others. Not a cursor artefact: a cursor starting at 50 carries less (28%) than a
   random start (61%). The gap is the player's choice, and unlucky players replay sooner (65%
   of the unluckiest fifth within 10 minutes, 42% of the luckiest): if that selection also
-  runs on mood, short-gap carryover is inflated. Game points may not move a reference the
-  way life circumstances do;
-  months and years are out of reach here (`audit/biphasic.py`, `audit/carryover.py`).
+  runs on mood, short-gap carryover is inflated. An impulse test is nearly blind to slow
+  adaptation: even complete adaptation lets a 5-minute pulse leave at most 27% of itself as
+  a negative lobe at 4 minutes (time constant 7 minutes), 7.6% at 22 minutes, 0.3% at 10
+  hours and under 0.1% beyond, far inside these intervals. So the data rule out only fast
+  adaptation, and a positive afterglow could mask even that; slow adaptation shows in
+  responses to sustained changes, where the lobe accumulates (`audit/biphasic.py`,
+  `audit/carryover.py`, `audit/impulse_detectability.py`).
 - **News does not echo like the outcome.** Fitted separately, the kernels of certain rewards,
   expected values and prediction errors nearly coincide (`γ` 0.88, 0.87, 0.89), but the RPE
   regressor there still carries the outcome's base utility. With base utility in its own
@@ -169,6 +173,8 @@ experiments/happiness/audit/kernel_shapes.py`; `confounds.py` needs `extract_tim
 - `biphasic.py` (2026-10-15): afterglow-minus-adaptation kernels within a play (the audit
   split) and within a Forbes & Bennett block (5-fold CV), against the jump kernel and the
   hyperbola.
+- `impulse_detectability.py` (2026-10-15): the largest adaptation lobe a play-length pulse can
+  leave at each gap, over all time constants; why `carryover.py` cannot see slow adaptation.
 - `carryover.py` (2026-10-15): a play's luck against the change in the next play's pre-trial
   rating, by the gap between plays (day number and time of day from the archive), and the
   same between Forbes & Bennett blocks.

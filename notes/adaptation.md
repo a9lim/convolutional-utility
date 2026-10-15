@@ -187,8 +187,12 @@ core; one of those should be renamed when this reaches core.
 - Caveat: the gap is chosen, and unlucky players replay sooner (65% against 42% within 10
   minutes, bottom and top fifth of luck); selection on mood would inflate short-gap
   carryover, not create or hide a negative lobe.
-- So at task scales memory is monophasic: no adaptation lobe, and a negative tail is
-  bounded at about −16% of the end-of-play effect beyond a week. The tested domain is game
-  points over minutes to weeks; adaptation is claimed for life circumstances over months
-  and years, which these data cannot reach. Scripts: `experiments/happiness/audit/`
+- What this rules out is only fast adaptation. An impulse test is nearly blind to slow
+  adaptation: after a pulse of length `δ` an EMA reference with time constant `τ` leaves a
+  lobe `−h(1 − e^{−δ/τ}) e^{−g/τ}` at gap `g`, at most about `(δ/g)/e` over all `τ`. For a
+  5-minute play, even at `h = 1`: 27% at 4 minutes, 7.6% at 22, 0.3% at 10 hours, under
+  0.1% beyond; the intervals are ±10–20%. And a positive afterglow can mask a lobe. Slow
+  adaptation shows in step responses (sustained changes), where the lobe accumulates to
+  `−h`, and in welfare, where its integrated mass counts in full (the telescoping). So
+  biphasic memory with a slow adaptation lobe is untouched by these data. Scripts: `experiments/happiness/audit/`
   (`biphasic.py`, `carryover.py`).

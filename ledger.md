@@ -278,7 +278,10 @@ Periodically compacted to git history.
   memory that never fades; adapting to felt states keeps a level term `1/(1+h)`; a9's
   base-free spitball is full forward adaptation, refuted by the weekend effect. a9 chose
   biphasic memory, notation `c γ^j`, and asked for a data test first.
-- The data say no adaptation dip at task scales: within plays and blocks the kernels stay
+- The data rule out only fast adaptation: within plays and blocks the kernels stay
   positive; between plays luck's afterglow decays as a power law in wall-clock time
-  (exponent about 0.3) and never turns negative. Game points over minutes to weeks only.
+  (exponent about 0.3) and never turns negative. I first reported this as "no adaptation at
+  task scales"; when a9 asked about the literature, a check showed an impulse test is nearly
+  blind to slow adaptation (a play-length pulse leaves under 0.3% of itself as a lobe beyond
+  10 hours), and the claims were corrected. Slow adaptation needs step responses.
   Codex game-agent brainstorm (thread `cu-games-ext`) added to the extensions menu.
