@@ -96,6 +96,15 @@ the session scratchpad's `disp.py`; Codex review in thread `cu-displacement`.
   effect with no contrast memory, so P8's impossibility is additive-only. Pr prices
   mortality information by present against future, `ΔW = a²q(1−q)(x−y)/(c+aq)` without
   memory. And the additive recursive model prices it too (now in D5, checked).
+- **The epilogue reductio, diagnosed.** The culprit is death freeing attention, not
+  displacement as such. Under Z death is a zero-valued target that still takes attention,
+  so any positive continuation beats it (5 → 5.075), consistent with A1. Under Tr, Rn and
+  Pr death returns attention to what exists, so a future worth less than `a·x/(c + 2a)` is
+  net negative (two moments: a sixth of the present at the life calibration's `a`, a third
+  at `a = ½`). Chosen attention (KL to the habitual split) shrinks the loss to about
+  `τ ln(1/c)`, the price of not thinking about it, but at `a = ½` death still wins until
+  `τ < 0.14` for `y = 0.1`. Under adaptation the same verdict comes with felt-negative
+  declines; here every felt state stays positive.
 - **Boundaries become substantive under conservation.** Life calibration: the ramp tilt
   per unit welfare doubles (Tr 144, Rn 145, against 72 additive or Z). At `a = 0.09,
   α = 0.88, m = 0.05, μ = 0.75`, Tr weights the last moment 3.6 against 0.96 in the

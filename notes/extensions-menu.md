@@ -86,6 +86,14 @@ tethered felt display of a martingale forecast is a reflected martingale, half-w
     improvement's felt value survives it.
   - Prior art: habit formation and opponent processes; Kimball & Willis separate happiness
     adaptation from habit formation.
+  - Refinement (2026-10-15, checked numerically): the recursive twin of exponential full
+    adaptation exists, as a memory that never fades, `e_t = u_t − (1−ρ) Σ_{s<t} e_s`: the
+    reference is a fixed share of everything felt so far. Infinite negative mass, so it needs
+    a stability criterion for signed kernels (the symbol, not the mass). And the life-sum
+    telescopes: with `r_{t+1} = ρr_t + (1−ρ)u_t`, `Σ_t e_t = (r_T − r_0)/(1 − ρ)`. Under full
+    adaptation a life's welfare is how far its reference rose, so any decline before death
+    costs: "quit while ahead" with felt-negative declines, where P6's level term vanishes
+    and only the edge term is left.
 - **B5. Fading affect bias.** *synthesis*
   - Separate positive and negative memory kernels, negative faster. Strong dread with a
     later benefit from remembering. Does it reverse N3's bracing optimum? What survives of
