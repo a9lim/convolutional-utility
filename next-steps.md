@@ -201,6 +201,20 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
   counterfactuals. State of play: `notes/displacement.md`; discriminating extensions:
   `notes/extensions-menu.md`, section G.
 
+## Parked (a9, 2026-10-15): hedonic adaptation (B4)
+
+- State of play in `notes/adaptation.md`: candidate models, the telescoping identities,
+  biphasic memory (`c γ^j`) with its signed-kernel well-foundedness, and the data tests (no
+  fast level adaptation; impulse tests are blind to slow adaptation; partial range
+  adaptation of sensitivity, about a tenth of full normalization). Left: the Dartmouth step
+  test (parked mid-download, item 2 above) and a frequency-principle test in the Great
+  Brain Experiment (does a rating track the current payoff's rank among recent payoffs
+  beyond its value?).
+- a9 does not buy range-frequency's reductio (scheduling awful days to raise welfare), nor
+  full adaptation's "quit while ahead".
+- Next in discussion: C1, actions leak information into affect (`notes/extensions-menu.md`,
+  section C; decision.md D7).
+
 ## Formal loose ends
 
 - Write out what the docs only assert: P4's matching step for `r(0)`, the half-line `g_j`
