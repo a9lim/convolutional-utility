@@ -32,6 +32,17 @@ Working abstract:
 - With the past held fixed, selves sharing the life-sum objective fall into a savoring
   trap: pleasures drift toward the unremembered end of life and pains are hurried. The
   mechanism is known (Kőszegi 2010); the exact stopping conditions are new.
+- In momentary-happiness data (the Great Brain Experiment, 47,067 people; Forbes & Bennett's
+  two experiments), the recursive model's kernel, a jump at the latest outcome and then a
+  slower decay, beats the single exponential, with matching constants across datasets;
+  surprise echoes like everything else, and news is loss-averse (`λ ≈ 1.4`).
+  (`experiments/happiness/`)
+- Learners that feel their own forecasts reproduce the decision theories by a gradient
+  setting, brace or turn rosy by the sign of anticipation against chronic disappointment,
+  and console themselves after bad news. A critic that shares its state with the policy
+  carries its level into action: high expectations, biased or not, keep a learner
+  complacent. Selection on payoff over generations of learners favors weak anticipation and
+  real news, a braced critic. (`experiments/learned_expectations/`)
 - Anthropics: measure-weighted anticipation makes branching welfare-invisible;
   copy-counting would let a branching future outweigh the past without bound.
 - Prior art: the premise is old in economics (Jevons; Bergstrom 1987/1999; Caplin & Leahy

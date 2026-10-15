@@ -182,6 +182,14 @@ quantities differ, and the hedonic reading needs the felt ones.
     prediction errors echo with the same kernel as rewards. Forbes & Bennett's two
     experiments give the same kernel (`γ ≈ 0.88`, `κ` 0.46–0.52). A transient-plus-mood
     model has the same shape. [checked in `experiments/happiness/`]
+  - What is stable across the three is the memory mass, `B = mμ/(1−μ) = κ/(1−γ+κ)`: 0.79,
+    0.82 and 0.80, with `m` and `μ` trading off (`μ` 0.37–0.48, `m` 0.86–1.4 per trial).
+    Person by person (Forbes & Bennett) `B` has median 0.85, interquartile range 0.70–0.93.
+    At the scale of a few-minute task, most of momentary mood is echo; the hour and week
+    defaults above (`B` 0.1–0.17) are far lower, as reach scaling expects. [checked]
+  - The kernel's jump is P3's quasi-hyperbolic shape on the memory side: `β_mem = κ/γ =
+    m/(1+m)` is 0.46–0.58 per trial, near the minutes-scale `β_QH ≈ 0.52` below. Both depend
+    on how long a period is. [speculation, the comparison]
   - Ceilings from emotional inertia, which also contains slowly moving base utility: affect
     autocorrelation 0.2–0.3 between beeps about 1.6 h apart (Kuppens, Allen & Sheeber 2010,
     Table 1); 0.61 at one hour for valence in a continuous-time fit (Vansteelandt & Verbeke
