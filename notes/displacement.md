@@ -51,6 +51,25 @@ the session scratchpad's `disp.py`; Codex review in thread `cu-displacement`.
   - Under Rn the dying self's own weight changes only through loops (remembered
     anticipation of now): 0.47 against 0.50 mid-life (symmetric, `T = 5`), 0.28 against 0.20
     (long anticipation).
+- **Uncertain death under Pr (a9's question).** Not the expected death date: attention to
+  `t + j` is `k(j)·S_t(j)`, with `S_t(j)` the probability of being alive then, renormalized
+  with the present and past; the content is the forecast conditional on being alive then.
+  Certain death recovers Pr, no risk the plain kernel, continuously in `S`.
+  - Conservation holds over branches, measure-weighted (`πᵀH1 = πᵀ1`), not within one: in
+    a surprise-death branch the final selves spent attention on times that exist only in the
+    other branch, so that branch's welfare depends on the other branch's base utility.
+    Pathwise imbalance, balance in expectation, as with the truth being free.
+  - Endings weigh in proportion to how foreseen they are. One-step present share before a
+    possible death, life calibration: `(1−M)/((1−M) + B + A(1−p))`, 0.68 at `p = 0`, 0.735
+    at ½, 0.80 at 1.
+  - Three treatments of a doomed branch: Z (attend as usual, its content is zero: likely
+    death dilutes the felt state, A1 carried over literally); survival-weighted Pr (attend
+    less, redirect to present and past, content conditional); quantum immortality (attend
+    as if surviving). Additively the first two coincide (`k·S·E[e | alive] = k·E[e]` with
+    zeros), so A1 never had to choose; displacement forces it, and Pr at known edges forces
+    survival weighting by continuity. A1 survives modified: a likely early end discounts the
+    future's attention, which goes to present and past, not to nothing; the jolt is news.
+    No copy-counting: attention to a time totals its measure across copies.
 - **Boundaries become substantive under conservation.** Life calibration: the ramp tilt
   per unit welfare doubles (Tr 144, Rn 145, against 72 additive or Z). At `a = 0.09,
   α = 0.88, m = 0.05, μ = 0.75`, Tr weights the last moment 3.6 against 0.96 in the
