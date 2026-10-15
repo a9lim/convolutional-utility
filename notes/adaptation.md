@@ -187,6 +187,10 @@ core; one of those should be renamed when this reaches core.
 - Caveat: the gap is chosen, and unlucky players replay sooner (65% against 42% within 10
   minutes, bottom and top fifth of luck); selection on mood would inflate short-gap
   carryover, not create or hide a negative lobe.
+- Divisive (range) adaptation does show, small and fast: after a run of high-stakes trials
+  each outcome moves happiness 1–3% less per s.d. of recent stakes, about a tenth of full
+  normalization over a five-trial window (`audit/divisive.py`). Adaptation of gain, not of
+  level, at the minute scale.
 - What this rules out is only fast adaptation. An impulse test is nearly blind to slow
   adaptation: after a pulse of length `δ` an EMA reference with time constant `τ` leaves a
   lobe `−h(1 − e^{−δ/τ}) e^{−g/τ}` at gap `g`, at most about `(δ/g)/e` over all `τ`. For a

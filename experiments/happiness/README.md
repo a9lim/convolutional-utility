@@ -115,6 +115,13 @@ Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
   adaptation, and a positive afterglow could mask even that; slow adaptation shows in
   responses to sustained changes, where the lobe accumulates (`audit/biphasic.py`,
   `audit/carryover.py`, `audit/impulse_detectability.py`).
+- **Range adaptation, partial and fast.** After a run of high-stakes trials (the mean of each
+  trial's largest offered amount over the previous five, random draws), outcomes move
+  happiness less: per s.d. of recent stakes, positive RPE −2.8% [−3.7, −1.7], negative RPE
+  −1.9% [−2.9, −0.9], EV −1.6% [−3.1, −0.4], certain rewards −1.1% [−2.5, +0.2]. Full
+  divisive normalization over that window would be −16%, so about a tenth of it; too small
+  to improve held-out error. Forbes & Bennett are too noisy to tell (positive RPE carries no
+  weight there, so its ratio is undefined) (`audit/divisive.py`).
 - **News does not echo like the outcome.** Fitted separately, the kernels of certain rewards,
   expected values and prediction errors nearly coincide (`γ` 0.88, 0.87, 0.89), but the RPE
   regressor there still carries the outcome's base utility. With base utility in its own
@@ -175,6 +182,8 @@ experiments/happiness/audit/kernel_shapes.py`; `confounds.py` needs `extract_tim
   hyperbola.
 - `impulse_detectability.py` (2026-10-15): the largest adaptation lobe a play-length pulse can
   leave at each gap, over all time constants; why `carryover.py` cannot see slow adaptation.
+- `divisive.py` (2026-10-15): sensitivity to outcomes against recent offered stakes (range
+  adaptation), with a level term, in both datasets.
 - `carryover.py` (2026-10-15): a play's luck against the change in the next play's pre-trial
   rating, by the gap between plays (day number and time of day from the archive), and the
   same between Forbes & Bennett blocks.
