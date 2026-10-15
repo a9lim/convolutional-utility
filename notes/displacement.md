@@ -70,6 +70,24 @@ the session scratchpad's `disp.py`; Codex review in thread `cu-displacement`.
     survival weighting by continuity. A1 survives modified: a likely early end discounts the
     future's attention, which goes to present and past, not to nothing; the jolt is news.
     No copy-counting: attention to a time totals its measure across copies.
+- **Normalizing the additive total (a9's idea).** `W_N = (T / Σw) wᵀu`. Equivalent to Z
+  with a lifespan-tuned dial `d* = (1 − T/Σw)/M` (0.99 at the life calibration, 0.62 in the
+  symmetric `T = 5` example); mean-normalized Katz centrality; or the attention walk
+  conditioned, pooled over starting moments, on not leaving the life (Pr conditions each
+  step). Keeps every row's native shape and every fixed-lifespan ranking, conserves `Σw = T`,
+  and kills echo maximization across kernels.
+  - It is global, not local: every felt state is scaled by a factor that depends on the
+    whole lifespan. A constant life's felt states are not constant (symmetric example: 0.92
+    at the edges, 1.08 mid-life; every local conserving rule gives 1 throughout). With
+    memory only, the first moment's felt state falls from 1.00 to 0.51 as the life
+    lengthens from 2 to 100 periods, though it sees nothing ahead. A changed lifespan
+    rescales moments already lived, and uncertain death needs one normalization over the
+    whole tree, or the shared trunk takes a different value in each branch.
+  - The edge choice, generally: within a kernel's reach of an edge the native curve points
+    at moments that do not exist. Keep the native rows and lose that attention (Z), rescale
+    every row by one global constant (normalized), or reallocate it locally (Tr, Rn, Pr).
+    Keeping native rows everywhere and making every felt state an average of base
+    utilities are incompatible at the edges.
 - **Boundaries become substantive under conservation.** Life calibration: the ramp tilt
   per unit welfare doubles (Tr 144, Rn 145, against 72 additive or Z). At `a = 0.09,
   α = 0.88, m = 0.05, μ = 0.75`, Tr weights the last moment 3.6 against 0.96 in the
