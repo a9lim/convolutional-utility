@@ -1,21 +1,23 @@
 Policy ascends payoffs. Escaped: late payoff above 0.26; escape step: first evaluation (every 250 steps)
 above 0.25. Shift after round 1: switch rate after a negative / positive payoff. Bias: critic minus
 realized discounted payoff-to-go, rounds 2-10, overall and just after a negative / positive TD error.
-critic                          escaped  escape step   late (escaped/not)   shift bad/good   bias   after bad/good
-honest                           7/8       500 (250-1500)   0.303 / 0.215      0.92 / 0.08    +0.01   -0.00 / +0.01
-motivated, braced (a = 0.05)     8/8       500 (500-750)   0.307 /   -        0.99 / 0.11    -0.43   -0.18 / -0.51
-motivated, braced, lam = 1       4/4       375 (250-500)   0.303 /   -        0.98 / 0.11    -0.30   -0.33 / -0.29
-motivated, rosy (a = 0.3)        0/8         - (---)     -   / 0.212      0.44 / 0.00    +1.67   +1.65 / +1.76
-offset, braced profile           4/4       375 (250-500)   0.303 /   -        0.99 / 0.10    -0.42   -0.41 / -0.43
-offset, deep (-0.5 a round)      4/4       500 (500-500)   0.303 /   -        0.99 / 0.14    -1.50   -1.81 / -1.45
-offset, mild (+0.1 a round)      3/4      1250 (250-2500)   0.308 / 0.256      0.99 / 0.55    +0.32   +0.30 / +0.36
-offset, rosy profile             0/4         - (---)     -   / 0.210      0.48 / 0.00    +1.67   +1.61 / +1.94
-expectile 0.1                    4/4       500 (500-750)   0.302 /   -        0.99 / 0.15    -1.23   -1.61 / -1.15
-expectile 0.9                    0/4         - (---)     -   / 0.218      0.40 / 0.00    +0.59   +0.65 / +0.38
-canonical (a = 0.05)             3/8      2000 (2000-2250)   0.285 / 0.219      0.70 / 0.03    -0.37   -0.27 / -0.45
-canonical, lam = 1               1/4       750 (750-750)   0.300 / 0.210      0.59 / 0.04    +0.36   +0.44 / +0.22
-honest, rewards +0.5             0/6         - (---)     -   / 0.211      0.44 / 0.00    +1.54   +1.49 / +2.03
-honest, rewards -0.5             6/6       500 (500-500)   0.301 /   -        0.98 / 0.10    -1.52   -1.89 / -1.44
-honest, detached                 3/4       750 (750-2500)   0.300 / 0.210      0.83 / 0.06    +0.01   +0.12 / -0.07
-offset, rosy profile, detached   2/4      1625 (750-2500)   0.298 / 0.212      0.71 / 0.05    +1.71   +1.79 / +1.54
-done in 3484s
+critic                               escaped  escape step   late (escaped/not)   shift bad/good   bias   after bad/good
+honest                                7/8       500 (250-1500)   0.303 / 0.215      0.92 / 0.08    +0.01   -0.00 / +0.01
+motivated, braced (a = 0.05)          8/8       500 (500-750)   0.307 /   -        0.99 / 0.11    -0.43   -0.18 / -0.51
+motivated, braced, lam = 1            4/4       375 (250-500)   0.303 /   -        0.98 / 0.11    -0.30   -0.33 / -0.29
+motivated, rosy (a = 0.3)             0/8         - (---)     -   / 0.212      0.44 / 0.00    +1.67   +1.65 / +1.76
+offset, braced profile                4/4       375 (250-500)   0.303 /   -        0.99 / 0.10    -0.42   -0.41 / -0.43
+offset, deep (-0.5 a round)           4/4       500 (500-500)   0.303 /   -        0.99 / 0.14    -1.50   -1.81 / -1.45
+offset, mild (+0.1 a round)           3/4      1250 (250-2500)   0.308 / 0.256      0.99 / 0.55    +0.32   +0.30 / +0.36
+offset, rosy profile                  0/4         - (---)     -   / 0.210      0.48 / 0.00    +1.67   +1.61 / +1.94
+expectile 0.1                         4/4       500 (500-750)   0.302 /   -        0.99 / 0.15    -1.23   -1.61 / -1.15
+expectile 0.9                         0/4         - (---)     -   / 0.218      0.40 / 0.00    +0.59   +0.65 / +0.38
+canonical (a = 0.05)                  3/8      2000 (2000-2250)   0.285 / 0.219      0.70 / 0.03    -0.37   -0.27 / -0.45
+canonical, lam = 1                    1/4       750 (750-750)   0.300 / 0.210      0.59 / 0.04    +0.36   +0.44 / +0.22
+honest, rewards +0.5                  0/6         - (---)     -   / 0.211      0.44 / 0.00    +1.54   +1.49 / +2.03
+honest, rewards -0.5                  6/6       500 (500-500)   0.301 /   -        0.98 / 0.10    -1.52   -1.89 / -1.44
+honest, level outside                 6/6       500 (250-1250)   0.305 /   -        0.99 / 0.10    +0.04   +0.03 / +0.04
+honest, rewards +0.5, level outside   6/6       375 (250-500)   0.304 /   -        0.98 / 0.09    +1.52   +1.45 / +1.90
+honest, detached                      3/4       750 (750-2500)   0.300 / 0.210      0.83 / 0.06    +0.01   +0.12 / -0.07
+offset, rosy profile, detached        2/4      1625 (750-2500)   0.298 / 0.212      0.71 / 0.05    +1.71   +1.79 / +1.54
+done in 3912s
