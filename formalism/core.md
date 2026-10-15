@@ -59,7 +59,7 @@ effective coefficients (P2, P4):
 - Example (`a = 0.09, α = 0.88, m = 0.05, μ = 0.75`, so `M = 0.81`): `r(0) = 1.032`,
   `p = 0.971`, `q = 0.798`. Anticipation's mean reach stretches from 8.3 to 35 periods, and
   memory's from 4.0 to 4.9. [checked] The stretch needs `M` near 1: at the felt
-  calibrations below (`M ≈ 0.3`) reach stretches by about a fifth.
+  calibrations below (`M ≈ 0.3`) reach stretches by a fifth to a quarter.
 - **Surprises are information boundaries.** A shock unknown until it arrives cannot reach
   the earlier selves who would have anticipated it, so it acts through the remaining-life
   column, `g_0 = 1/H` now and `g_j = (q−μ) q^{j−1}/H` after, not the bilateral row: with
@@ -101,14 +101,20 @@ quantities differ, and the hedonic reading needs the felt ones.
   - These are illustrative scenarios: the anchors pin orders of magnitude, not masses (see
     anticipation below).
   - What follows: echo is about 30% of steady-state experience. Recursion stretches reach
-    by about a fifth (5.0 → 6.4 hours ahead; 3.3 → 4.0 weeks). Life weights dip by about a
+    by a fifth to a quarter (5.0 → 6.4 hours ahead, +28%; 3.3 → 4.0 weeks, +21%). Life weights dip by about a
     sixth at birth and death (1.22 and 1.21 against an interior 1.47, P5). Felt news is well
     inside its local threshold, which allows `λ` up to 4.64 (day) and 4.42 (life).
-  - The momentary self's felt row is nearly myopic: `β_L ≈ 0.055` (day) and `0.076` (life)
-    on P4's bilateral row, `0.051` and `0.068` on the causal half-line row (P9), against
-    choice-revealed `β ≈ 0.7`–`0.97`. Patience from felt echo alone needs an echo share near
-    0.94 (the bill below), against anchors of 0.1–0.3. On these anchors, choices run on
-    evaluative weights. [synthesis; checked]
+  - The momentary self's felt row is strongly present-weighted: `β_L ≈ 0.055` (day) and
+    `0.076` (life) on P4's bilateral row, `0.051` and `0.068` on the causal half-line row
+    (P9), against choice-revealed `β ≈ 0.7`–`0.97`. The row is what a momentary hedonist
+    would choose by; a life-sum maximizer is patient whatever it is (flat interior weights,
+    P5). So the claim is conditional: patience from the felt row alone needs an echo share
+    near 0.94 (the bill below), against anchors of 0.1–0.3, and patient choices run on
+    something other than felt echo (life-sum or evaluative weights). The robust input is
+    only that felt anticipation mass is well below one: the felt row's total weight on the
+    whole future is then about `A/(1−A)` of the present (one-sided), however that mass is
+    spread. `β_L` itself depends on the spread (one-step anticipation has `β_L = 1` and a
+    tiny `δ`). [synthesis; checked]
   - An LLM context window has an anchored shape and unanchored strengths (Natural horizons).
     Nothing anchors a session.
 - **Present bias and patience invert to primitives** (one-sided P3): `a = β_L/(1−β_L)`,
@@ -138,10 +144,13 @@ quantities differ, and the hedonic reading needs the felt ones.
   experienced as worse than equal gains, a forecasting error (Kermer et al. 2006);
   disappointment exceeds elation 1.4–1.9 times (Mellers et al. 1997); surprise asymmetry
   1.0–1.45 (Shepperd & McNulty 2002); only downside surprise registers in Forbes & Bennett
-  (2024). In the Great Brain Experiment, identified from mixed gambles with base utility pinned
-  by certain payoffs, `λ = 1.42` [1.37, 1.50] on prediction errors, with news `n ≈ 0.5` per
-  unit of base utility over a few seconds. [checked in `experiments/happiness/`] Working range
-  for felt `λ`: 1–2.
+  (2024). In 50/50 gambles, asymmetric news is the same regressor as a felt cost of the
+  chosen gamble's spread (`|RPE|` is half its range), so the Great Brain Experiment's
+  `λ = 1.42` falls to 1.04 [0.95, 1.13] once a cost of having gambled is allowed; where
+  probabilities vary (Forbes & Bennett) the lottery's spread absorbs the asymmetry in one
+  experiment and shrinks it in the other. Chosen risk lowers momentary happiness; whether
+  as loss-averse news is not identified there. [checked in `experiments/happiness/audit/`]
+  Working range for felt `λ`: 1–2, from the studies above.
 - **Surprise n**, relative to the outcome's own effect: `≈ 0.25` each way, measured right
   after the outcome (Shepperd & McNulty); `0.1`–`0.15`, downside only (Forbes & Bennett).
   Working range for events: `0.1`–`0.3`.
@@ -154,7 +163,8 @@ quantities differ, and the hedonic reading needs the felt ones.
     past the threshold. [speculation]
 - **The threshold in full:** `λκ = λn (1−νμ) / (H (1−νq))`. The memory multiplier
   `(1−νμ)/(H(1−νq))` is near 1 when memory is weak (1.13 at the life defaults) and grows with
-  strong, long memory: `m = 0.5, μ = 0.6, ν = 0.9` gives `λκ = 1.45` at `nλ = 0.6`. [Codex;
+  strong, long memory: `m = 0.5, μ = 0.6, ν = 0.9` gives `λκ = 1.45` at `nλ = 0.6` without
+  anticipation, and 1.90 with the life default's (`a = 0.064, α = 0.7`). [Codex;
   checked] Felt values sit well inside it; choice-calibrated news utility (`η = 1`,
   `λ = 2.5`) would not.
 - **Anticipation against memory.** Thought runs forward about three times as often as back
@@ -176,20 +186,30 @@ quantities differ, and the hedonic reading needs the felt ones.
     keep about a third at two weeks (Kühnel & Sonnentag 2011). A small lab reward's
     afterglow lasts seconds (forgetting factor 0.6–0.85 per ~10 s trial; Rutledge et al. 2014;
     Vanhasbroeck et al.; Blain & Rutledge 2020).
-  - In the Great Brain Experiment data (47,067 people, 1.1M ratings), the recursive kernel, a
-    jump at lag 0 then `γ = 0.89` per trial, beats the single geometric (`γ = 0.68`) on
-    held-out participants; read recursively, `m ≈ 0.86` and `μ ≈ 0.48` per trial, and
-    prediction errors echo with the same kernel as rewards. Forbes & Bennett's two
-    experiments give the same kernel (`γ ≈ 0.88`, `κ` 0.46–0.52). A transient-plus-mood
-    model has the same shape. [checked in `experiments/happiness/`]
-  - What is stable across the three is the memory mass, `B = mμ/(1−μ) = κ/(1−γ+κ)`: 0.79,
-    0.82 and 0.80, with `m` and `μ` trading off (`μ` 0.37–0.48, `m` 0.86–1.4 per trial).
-    Person by person (Forbes & Bennett) `B` has median 0.85, interquartile range 0.70–0.93.
-    At the scale of a few-minute task, most of momentary mood is echo; the hour and week
-    defaults above (`B` 0.1–0.17) are far lower, as reach scaling expects. [checked]
-  - The kernel's jump is P3's quasi-hyperbolic shape on the memory side: `β_mem = κ/γ =
-    m/(1+m)` is 0.46–0.58 per trial, near the minutes-scale `β_QH ≈ 0.52` below. Both depend
-    on how long a period is. [speculation, the comparison]
+  - In momentary-happiness data (the Great Brain Experiment, 47,067 people, 1.1M ratings;
+    Forbes & Bennett's two experiments), echoes of task outcomes are front-loaded with a
+    slow tail: a jump kernel (lag 0, then `γ ≈ 0.88` per trial) beats Rutledge's single
+    geometric (`γ = 0.68`) on held-out people, and a one-parameter power law beats both, in
+    all three datasets (exponents 0.69–0.81). The recursive reading is one two-parameter fit
+    to the front-loading; the direct model's geometric memory is the same family (P2), and a
+    transient plus a mood level, or pooling people with different geometrics, produce it too.
+    The weights also depend on what happened between outcome and rating, not on trial count
+    alone. [checked in `experiments/happiness/` and its `audit/`]
+  - The reading-invariant quantity is the echo share, `κ/(1−γ+κ)` on the jump fit: 0.79,
+    0.82 and 0.80 (per person, Forbes & Bennett, median 0.85). It is the memory mass only on
+    the recursive reading (3.5 on the direct one). With power-law exponents below one it does
+    not settle (Great Brain Experiment exponent): 0.81 over 30 trials, 0.87 over 100, 0.93
+    over 1000. So the data put trial-scale
+    memory at P1(d)'s heavy-tail edge, which the model must cut off at longer scales (reach
+    scaling) or treat as a superposition of exponentials across scales. [checked; the
+    reading speculation]
+  - Prediction errors do not echo like outcomes once the outcome's base utility is moved to
+    its own regressor: news alone persists through the play (`γ` at the bound), a level of
+    accumulated luck. [checked in `audit/`]
+  - The front-loading echoes P3's quasi-hyperbolic shape on the memory side (`κ/γ` 0.46–0.58
+    per trial, near the minutes-scale `β_QH ≈ 0.52` below), though a hyperbola fits better
+    than the quasi-hyperbolic jump. Both depend on how long a period is. [speculation, the
+    comparison]
   - Ceilings from emotional inertia, which also contains slowly moving base utility: affect
     autocorrelation 0.2–0.3 between beeps about 1.6 h apart (Kuppens, Allen & Sheeber 2010,
     Table 1); 0.61 at one hour for valence in a continuous-time fit (Vansteelandt & Verbeke
@@ -699,13 +719,14 @@ numbers are given; `formalism/playground` spans all four]
   the lost anticipation; disappointment about disappointment; the threshold `λκ < 1`.
 - Signatures (`a = 0.09, α = 0.88, m = 0.05, μ = 0.75, n = 0.3, ν = 0.8, λ = 2`, unforeseen
   announcements): the news felt on hearing of a +5 event 5 / 15 / 30 periods ahead, and the
-  life-sum of a plan announced and later cancelled:
+  life-sum of a plan announced and later cancelled (the playground's "cancelled" preset:
+  `+4` at 35, announced at 5, cancelled at 28, `T = 50`; `model.js` `simulate().lifeSum`):
 
   | echoes / news | jolt at 5 / 15 / 30 | cancelled plan's life-sum |
   |---|---|---|
   | direct / direct | 0.49 / 0.05 / 0.00 | +0.44 |
   | direct / recursive | 1.22 / 0.33 / 0.05 | −2.22 |
-  | recursive / direct | 0.49 / 0.05 / 0.00 | +5.74 |
+  | recursive / direct | 0.49 / 0.05 / 0.00 | +5.71 |
   | recursive / recursive | 1.55 / 0.92 / 0.57 | +1.48 |
 
   - Recursive news carries news about far events much further than the primitive kernel

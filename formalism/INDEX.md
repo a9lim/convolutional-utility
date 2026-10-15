@@ -5,7 +5,7 @@
   the threshold in the canonical model), and a recollection-news sketch, with status tags
 - `decision.md` — decision theory (CDT/EDT/FDT, the savoring trap, beliefs as welfare,
   reliability, affect policies) and anthropics (branching copies, imperfect recall) under
-  the hedonic reading, D1–D7 and A1–A2
+  the hedonic reading, D1–D8 and A1–A2
 - `checks.py` — numerical verification of `core.md` and `decision.md`;
   `python formalism/checks.py`
 - `pathwise.py` — pathwise simulation of the recursive model with felt news under

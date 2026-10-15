@@ -599,8 +599,8 @@ report("N3 canonical optimum: slope vanishes at the predicted b*", err_b, tol=2e
 # D5, exact: with sign-dependent strengths (kp, km forward; mp, mm backward) and Bayesian forecasts,
 # E[W] = W_sym - sum_t w_t [(km - kp) sum_j al^j E[X_{t+j}^-] + (mm - mp) sum_j mu^j E[X_{t-j}^-]],
 # w the life weights of the (kp, mp) kernel (D: 1 for these terms); no felt news. X = u in D:
-# timing-free. X = e in R: information timing matters only if it moves some felt state across
-# zero. Revelation times r <= s: realized base utility is felt when it happens.
+# timing-free. X = e in R: information timing matters only if some felt state can land on either
+# side of zero. Revelation times r <= s: realized base utility is felt when it happens.
 def dread(r, rec, kp, km, mp, mm, T=8, s=5, al=0.7, mu=0.6, base=0.1):
     u = np.full((2, T), base)
     u[0, s] += 2.0
@@ -641,7 +641,7 @@ for name in ("dread", "rumination"):
     print(f"D5  {name}: welfare spread over reveal times D {spreads[(name, False, 0.1)][0]:.1e}, "
           f"R {spreads[(name, True, 0.1)][0]:.3f} (min e {spreads[(name, True, 0.1)][1]:+.2f}); "
           f"R with e > 0 throughout {spreads[(name, True, 3.0)][0]:.1e} (min e {spreads[(name, True, 3.0)][1]:+.2f})")
-report("D5 straddle: no felt state crosses zero -> timing neutral in R",
+report("D5 straddle: every felt state of fixed sign -> timing neutral in R",
        max(spreads[(n, True, 3.0)][0] for n in ("dread", "rumination"))
        + max(spreads[(n, False, b)][0] for n in ("dread", "rumination") for b in (0.1, 3.0)), tol=1e-10)
 

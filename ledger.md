@@ -203,7 +203,7 @@ Periodically compacted to git history.
   splitting RPE by sign within trial type was a choice of basis; that model is out, and `λ`
   waits for a mixed-trial analysis.
 
-## 2026-10-15 — unfinished business
+## 2026-10-14 (night) — unfinished business
 
 - a9 parked the Bates-world learner as its own future project (in `next-steps.md`). I had said
   it was noted there before it was; it is now.
@@ -212,3 +212,30 @@ Periodically compacted to git history.
   kernel moved from `κ 0.45, γ 0.90` to `κ 0.41, γ 0.89`, `m` from 1.00 to 0.86, and the
   geometric's `γ` from 0.72 to 0.68. `λ` identified structurally from mixed gambles: 1.42.
   Forbes & Bennett reproduce the kernel in both experiments.
+
+## 2026-10-14 (late) — fresh-eyes review
+
+- a9 asked for fresh eyes, with Codex and subagent reviews, patches for what is easily fixed
+  and discussion for the rest. Codex (gpt-6-astra, new threads `cu-fresh-review`,
+  `cu-extensions`) and three subagents (LessWrong prior art, happiness-data audit,
+  cross-document consistency). Verdict, Codex's and mine: the linear backbone stands (all
+  checks pass), several headlines overreached, no hole sinks the project.
+- Adopted and patched: "30% echo" and `β ≈ 0.06` are illustrative scenarios, with the
+  patience inversion as the robust part; D5's "only when information moves a felt state
+  across zero" was wrong as stated (Codex's two-period counterexample, checked by hand),
+  replaced by "only when some felt state can land on either side of zero", sufficient, with
+  the identity as the cost; anthropic invisibility needs measure-weighted aggregation as well
+  as anticipation; the learners reproduce fixed-past and commitment benchmarks, not decision
+  theories; "absent from LessWrong" became scattered informal precedents (twelve posts added
+  to the bibliography). A stale 2×2 entry (5.74 → 5.71) was reproduced from `model.js`.
+- The data audit changed the empirical story. Recursive and direct memory fit identically
+  (core P2); a one-parameter power law beats the jump kernel in all three datasets, with
+  exponents below one, so the echo share does not settle with horizon; news does not echo like
+  outcomes once base utility is separated; `λ = 1.42` is a felt cost of the chosen gamble's
+  spread in disguise (1.04 with a cost of having gambled). Scripts moved from the scratchpad to
+  `experiments/happiness/audit/` and rerun there.
+- Extensions: Codex and I independently found that loss-averse news is a total-variation
+  penalty, so a tethered felt forecast of a martingale is a reflected martingale with a
+  cube-root band; a DP confirms it (in `next-steps.md` under the parked Bates item). Codex's
+  saturating-echo example (alternating rewards beat clustered ones with no boundary, checked)
+  is the cleanest escape from the linear shape theorem.

@@ -1,0 +1,98 @@
+# Happiness-data audit, 2026-10-14 (outputs of the scripts in this folder, rerun from the repo)
+
+## direct_vs_recursive.py
+plays with partial NaN: 0 dropped: 888
+Rutledge [0.67993359] [0.44169332 0.29298001 0.68416479] train 0.6637294300282743 test 0.6604172644237672 3.515627145767212
+jump (gamma,kappa) [0.88152977 0.41878555] [0.52010725 0.33389943 0.78889811] train 0.6554600338416706 test 0.6516024743203723 vs R -1.3347304163960794
+direct (m',mu') [0.47506435 0.8815314 ] [0.52010779 0.33389959 0.78889854] train 0.6554600338535107 test 0.6516024628177194 vs R -1.3347321581211324
+direct->jump: gamma=mu' 0.8815313981955106 kappa=m'mu' 0.4187841388552166
+recursive: mu 0.46274421847088665 m 0.9050043948286619 ; direct: mu' 0.8815297698685935 m' 0.475066827816982
+B echo share 0.7794900786470426 direct memory mass m'mu'/(1-mu') 3.5349433434306032 recursive memory mass m mu/(1-mu) 0.7794900786470426
+max diff vs gbe.design 6.661338147750939e-16
+
+## free_kernel.py
+plays with partial NaN: 0 dropped: 888
+power (1+l)^-a [1p]: p [0.824] test 0.64860 (-1.79% vs Rutledge); k[0:5] [1.    0.565 0.404 0.319 0.265]
+hyperbolic (1+h l)^-a [2p]: p [2.038 0.605] test 0.64765 (-1.93% vs Rutledge); k[0:5] [1.    0.511 0.374 0.305 0.262]
+geometric + constant tail [2p]: p [0.532 0.16 ] test 0.64917 (-1.70% vs Rutledge); k[0:5] [1.    0.607 0.398 0.287 0.228]
+double exponential [3p]: p [0.4   0.954 0.272] test 0.64773 (-1.92% vs Rutledge); k[0:5] [1.    0.551 0.364 0.283 0.244]
+free kernel train MSE 0.6518568780191069
+free kernel (29 free lags + 3 weights): test 0.64747 (-1.96% vs Rutledge)
+free k lags 0..12: [1.    0.522 0.371 0.317 0.239 0.222 0.215 0.174 0.186 0.173 0.155 0.161
+ 0.143]
+ratios k[l+1]/k[l]: [0.522 0.711 0.855 0.754 0.927 0.967 0.811 1.066 0.929 0.897 1.037 0.889]
+
+## kernel_shapes.py
+plays with partial NaN: 0 dropped: 888
+[RPE by sign] Rutledge: p [0.684] test 0.65887
+[RPE by sign] jump: p [0.89  0.412] test 0.64927
+[RPE by sign] power 1p: p [0.813] test 0.64614
+[RPE by sign] hyperbolic 2p: p [2.224 0.578] test 0.64498
+jump vs Rutledge: -1.456% [-1.661, -1.282]
+power 1p vs jump: -0.483% [-0.556, -0.400]
+hyperbolic 2p vs jump: -0.661% [-0.731, -0.584]
+v1-2 (cursor at 50, ratio design): jump gamma 0.896 kappa 0.390, B 0.789
+v3-5 (random cursor, uncorrelated): jump gamma 0.875 kappa 0.433, B 0.776
+
+## risk_cost.py
+plays with partial NaN: 0 dropped: 888
+rho 1.0 dummy False: test MSE 0.648815 (+0.000% vs repo structural); lam 1.42 [1.36, 1.51], a -0.30 [-0.32, -0.28]
+rho 1.0 dummy True: test MSE 0.648760 (-0.008% vs repo structural); lam 1.04 [0.95, 1.13], a -0.30 [-0.32, -0.28], gambled -0.0238 SD per gamble
+rho 0.8 dummy False: test MSE 0.648085 (-0.113% vs repo structural); lam 1.36 [1.32, 1.43], a -0.15 [-0.16, -0.12]
+rho 0.8 dummy True: test MSE 0.648051 (-0.118% vs repo structural); lam 1.13 [1.03, 1.22], a -0.15 [-0.16, -0.12], gambled -0.0177 SD per gamble
+rho 0.7 dummy True: test MSE 0.648392 (-0.065% vs repo structural); lam 1.18 [1.08, 1.27], a -0.06 [-0.08, -0.03], gambled -0.0135 SD per gamble
+
+## news_kernel.py
+plays with partial NaN: 0 dropped: 888
+per-component jump kernels: paid (base): gamma 0.786 kappa 0.558 weight +0.491; EV (anticipation): gamma 0.732 kappa 0.616 weight -0.181; RPE (news only, base in paid): gamma 0.999 kappa 0.274 weight +0.320
+0 [0.776 0.574 0.729 0.613 0.999 0.28 ]
+1 [0.78  0.564 0.727 0.66  0.999 0.285]
+2 [0.774 0.571 0.726 0.612 0.999 0.27 ]
+3 [0.776 0.566 0.727 0.643 0.999 0.273]
+4 [0.773 0.57  0.735 0.632 0.999 0.271]
+5 [0.776 0.571 0.73  0.613 0.999 0.283]
+6 [0.776 0.57  0.729 0.625 0.999 0.269]
+7 [0.771 0.574 0.739 0.604 0.999 0.269]
+bootstrap SD (gamma,kappa) per component: [0.003 0.003 0.004 0.018 0.    0.006]
+
+## confounds.py
+plays with partial NaN: 0 dropped: 888
+free lags 0..5 (unnormalized): [0.965 0.614 0.369 0.32  0.241 0.226]
+lag1 x lag0-gamble: -0.1331 (SE 0.0048)  relative to lag-1 weight 0.614 / lag-2 0.369
+lag1 x lag0-latency: -0.0059 (SE 0.0037)  relative to lag-1 weight 0.614 / lag-2 0.369
+lag0 x lag0-gamble: +0.0581 (SE 0.0087)  relative to lag-1 weight 0.614 / lag-2 0.369
+lag1 x latency (safe lag0): -0.0171 (SE 0.0057)  relative to lag-1 weight 0.614 / lag-2 0.369
+lag2 x gap2 (boundary): +0.0261 (SE 0.0051)  relative to lag-1 weight 0.614 / lag-2 0.369
+lag0..3 SEs [0.0071 0.0046 0.0034 0.0031]
+
+## forbes_shapes_risk.py
+exp1 rating gaps {np.int64(5): 3000, np.int64(3): 2400, np.int64(4): 2400}
+   geometric: CV MSE 0.54904 (+0.00% vs geometric) params [0.8]
+   jump: CV MSE 0.54340 (-1.03% vs geometric) params [0.885 0.516]
+   power 1p: CV MSE 0.53513 (-2.53% vs geometric) params [0.686]
+   hyperbolic 2p: CV MSE 0.53538 (-2.49% vs geometric) params [1.042 0.679]
+   prob values [0.25 0.5  0.75]
+   [sign] RSS/n 0.54039: paid+ +0.200 [+0.175,+0.227], paid- +0.231 [+0.199,+0.262], RPE+ -0.002 [-0.037,+0.036], RPE- +0.052 [+0.021,+0.084]
+   [sign + lottery SD] RSS/n 0.53981: paid+ +0.220 [+0.191,+0.251], paid- +0.210 [+0.172,+0.247], RPE+ +0.028 [-0.009,+0.069], RPE- +0.025 [-0.010,+0.065], SD -0.052 [-0.097,-0.019]
+   [symmetric RPE + SD] RSS/n 0.53981: paid+ +0.220 [+0.192,+0.252], paid- +0.210 [+0.172,+0.245], RPE +0.026 [+0.003,+0.048], SD -0.051 [-0.087,-0.023]
+   [sign + |RPE|] RSS/n 0.53981: paid+ +0.220 [+0.191,+0.251], paid- +0.210 [+0.172,+0.247], RPE +0.026 [+0.003,+0.047], |RPE| +0.001 [-0.027,+0.037], SD -0.052 [-0.097,-0.019]
+exp2 rating gaps {np.int64(4): 2400, np.int64(3): 2400, np.int64(5): 3000}
+   geometric: CV MSE 0.56775 (+0.00% vs geometric) params [0.756]
+   jump: CV MSE 0.55872 (-1.59% vs geometric) params [0.882 0.458]
+   power 1p: CV MSE 0.55163 (-2.84% vs geometric) params [0.755]
+   hyperbolic 2p: CV MSE 0.55158 (-2.85% vs geometric) params [1.349 0.67 ]
+   prob values [0.25 0.5  0.75]
+   [sign] RSS/n 0.55716: paid+ +0.200 [+0.172,+0.230], paid- +0.228 [+0.193,+0.263], RPE+ -0.002 [-0.041,+0.042], RPE- +0.088 [+0.053,+0.135]
+   [sign + lottery SD] RSS/n 0.55693: paid+ +0.213 [+0.180,+0.247], paid- +0.214 [+0.180,+0.252], RPE+ +0.019 [-0.028,+0.067], RPE- +0.070 [+0.030,+0.131], SD -0.035 [-0.077,+0.009]
+   [symmetric RPE + SD] RSS/n 0.55712: paid+ +0.211 [+0.179,+0.245], paid- +0.217 [+0.183,+0.255], RPE +0.046 [+0.020,+0.077], SD -0.056 [-0.090,-0.030]
+   [sign + |RPE|] RSS/n 0.55693: paid+ +0.213 [+0.180,+0.247], paid- +0.214 [+0.180,+0.252], RPE +0.045 [+0.020,+0.076], |RPE| -0.026 [-0.069,+0.013], SD -0.035 [-0.077,+0.009]
+
+## forbes_pooling_null.py
+[exp1] per-person geometric gamma: median 0.85, IQR 0.66-0.95
+   null (per-person geometric): pooled jump gamma 0.858 kappa 0.662 B 0.82; pooled geometric 0.829; jump in-sample RSS -0.35% vs geometric
+   null per-person jump grid: kappa below gamma by >0.05 in 31%, above in 33%
+   real per-person: below 57%, above 18%; B median 0.85
+[exp2] per-person geometric gamma: median 0.85, IQR 0.65-0.95
+   null (per-person geometric): pooled jump gamma 0.847 kappa 0.600 B 0.80; pooled geometric 0.800; jump in-sample RSS -0.56% vs geometric
+   null per-person jump grid: kappa below gamma by >0.05 in 39%, above in 33%
+   real per-person: below 62%, above 17%; B median 0.85

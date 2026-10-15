@@ -19,6 +19,8 @@ utilitarian aggregation, and anthropics. Target: a LessWrong post.
 - `next-steps.md` — the working plan
 - `formalism/` — proofs and formalization; `formalism/INDEX.md`
   is the manifest
+- `experiments/` — data fits (`happiness/`) and learned agents (`learned_expectations/`),
+  each with a README; `data/` holds the downloaded datasets (gitignored)
 - `notes/` — ephemeral drafting sketches; distilled into the core docs, then deleted
 - `references/` — the local project references; `references/INDEX.md`
   is the manifest

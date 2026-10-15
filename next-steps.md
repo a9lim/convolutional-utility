@@ -25,28 +25,35 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
    - **Seeds for the game agent.** Equilibrium selection toward risk dominance holds over five
      seeds (97.4% against 93.4%, every seed); the motivated-belief pattern is still one run.
    - **Iterated randomized games** (`run_iterated.py`): reciprocity across games emerges only
-     with mixed partners. Three times longer training (scratch, 4 seeds) does not raise
+     with mixed partners. Three times longer training (scratch, 4 seeds, output not archived; `iterated_report.txt`
+     is the shorter run) does not raise
      self-play cooperation (prisoner's dilemma 0.22–0.38) but sharpens the end game: against
      tit for tat, about 0.7 through round 9, then 0.06–0.12 in round 10. Next: partner
      populations of learners rather than scripts; felt-utility variants (does a rosy critic
      make a sucker?).
    - **Evolving felt parameters.** Built (`run_evolve.py`): selection on lifetime payoff runs
-     against anticipation and for felt news, and is indifferent to loss aversion. Next: is
-     `λ`'s neutrality the consolation term undoing its bracing (evolve `λ` with `n` fixed, and
-     with consolation removed); longer lifetimes, where escape speed matters less; welfare
+     against anticipation and for felt news, with no detectable selection on loss aversion
+     (pooled s.e.; run-level uncertainty still to do). Next: is `λ`'s neutrality the
+     consolation term undoing its bracing (evolve `λ` with `n` fixed, and with consolation
+     removed); longer lifetimes, where escape speed matters less; welfare
      (felt) against fitness (payoff) of the evolved populations.
    - **Well-foundedness as a learning failure.** The canonical critic at `a = 0.3, ν = 0.8`
      (anticipation mass 1.2) diverged; map where TD on felt utility diverges against
      `M + λN < 1`.
    - The twin dial in hidden repeated games (cooperation in hidden prisoner's dilemmas);
      reliability (D6) as an agent.
-2. **Fit to momentary-happiness data** (`experiments/happiness/`). The recursive kernel (a jump
-   at lag 0, then `γ ≈ 0.89`) beats Rutledge's single geometric in the Great Brain Experiment
-   and in both Forbes & Bennett experiments; news echoes with the same kernel as rewards;
-   `λ = 1.42` on prediction errors where it is identified. Left: what separates the recursion
-   from a transient-plus-mood model (forward echoes: does a rating anticipate the trials left
-   in the play?); whether the negative anticipation of a chosen gamble (`a ≈ −0.3`) is dread
-   or the certainty effect.
+2. **Fit to momentary-happiness data** (`experiments/happiness/`). The 2026-10-14 audit
+   (`audit/`) recast the results: front-loaded echoes, closer to a power law than to either
+   the jump kernel or Rutledge's geometric; recursion and direct echo indistinguishable
+   there; news not echoing like outcomes once base utility is separated; `λ` not identified
+   in 50/50 gambles (a cost of having gambled takes it to 1.04). Left:
+   - a test that separates recursion from its rivals: forward echoes (does a rating
+     anticipate the trials left?), or the interaction of two outcomes (linear echo predicts
+     none, saturating echo some);
+   - time rather than trial count as the kernel's clock (the spinner and latency effects);
+   - a multi-scale reading of the heavy tail against `M < 1`;
+   - whether `a < 0` is dread, the certainty effect, or curvature (it halves under power
+     utility).
 3. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
    choices; coda: selves), and the technical companion.
 4. **Figures:** the Disneyland decomposition; primitive against effective kernels; `w(s)`
@@ -63,7 +70,6 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
      whether fixed-past selves over-check; jointly implementable action and affect policies;
    - D2 with news: the `J` identity extended by the news-forcing derivative and a stated
      reference counterfactual;
-   - D3: which credible plan learning selects (the agent extension);
    - D5: the delusional optimist under felt news (unaware against sophisticated);
      rationalization given Bénabou's cancellation; recollection news formalized, with the
      backward version of N3; whether reflective consistency forces linear anticipation;
@@ -123,11 +129,29 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
 - **A felt learner in a Bates world** (geometric Brownian motion, Heston stochastic
   volatility, Merton jumps). Of interest for its own sake, not the post. How its prediction
   moves as it tries to match the near-martingale, and how its felt utility moves with it.
-  Sharp points to check: loss-averse news on a diffusion watched continuously costs without
-  bound (infinite total variation), so attention is discrete and looks less when volatility
-  is high or after falls (the ostrich effect: Karlsson, Loewenstein & Seppi 2009; Sicherman et
-  al. 2016; known in kind via Andries & Haddad, Pagel); lumpy jump news against diffusive news
-  of the same variance; built-in bracing tracking volatility.
+  Sharp points to check: loss-averse news on a diffusion whose felt forecast tracks it
+  exactly costs without bound (infinite total variation); lumpy jump news against diffusive news of the same
+  variance; built-in bracing tracking volatility (the ostrich effect: Karlsson, Loewenstein &
+  Seppi 2009; Sicherman et al. 2016; known in kind via Andries & Haddad, Pagel).
+  - First results (2026-10-14 review; a DP in the session scratchpad, Codex thread
+    `cu-extensions`, agreeing independently). `φ_λ(x) = ((1+λ)/2)x − ((λ−1)/2)|x|`, so
+    equal-weight loss-averse news is a telescoping term minus `c = n(λ−1)/2` times the
+    belief path's total variation. A felt display tethered by `(η/2)(q − M)²` to the
+    martingale forecast `M` is then a reflected martingale: unchanged inside a band, pushed
+    at its edges, half-width `b* = (3cσ²/(2η))^{1/3}` (singular control, Harrison–Taksar;
+    the cube-root law of transaction costs), centered by anticipation, not by `λ`. The DP
+    matches with the discrete-monitoring correction `b − 0.583σ√dt`. Watching continuously
+    then costs finitely, `∝ σ^{4/3}` (DP slope 1.32). The kink alone gives no asymmetric
+    updating; that needs unequal weights, memory asymmetry or state dependence.
+  - Cost concave in variance: clustered volatility at equal mean variance is cheaper (two
+    regimes against constant, −16% in one example); rarer, larger jumps are cheaper per unit
+    variance (`∝ σ√ι`).
+  - Attention against volatility has no fixed sign: with a fixed staleness cost, `h* ∝ σ^{2/3}`
+    (look less in high volatility, the ostrich direction); with quadratic tracking loss,
+    `h* ∝ σ^{−2/3}` (look more). Volatility-scaled bracing unwinds as volatility mean-reverts,
+    so no supermartingale in general; with the leverage effect, falls deepen bracing.
+  - Pitfall: a KL tether does not bound optimism for lognormal prices
+    (`sup_Q a E_Q[X] − KL(Q‖P)/τ = ∞`); use log or bounded utility.
 
 ## Follow-up: LLMs
 

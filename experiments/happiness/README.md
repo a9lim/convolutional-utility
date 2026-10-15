@@ -40,39 +40,86 @@ state, that contribution plus echoes of earlier ones through a kernel `k(lag)`.
 - Recursive memory over felt states, `e_t = f_t + m Σ_j μ^j e_{t−j}`, has resolvent kernel
   `(1, κ, κγ, κγ², …)` with `κ = mμ` and `γ = μ(1 + m)`: a jump at lag 0, then a slower
   geometric, `κ < γ`. Rutledge's kernel is the case `κ = γ`.
+- Direct (one-layer) memory, `e_t = f_t + m′ Σ_j μ′^j f_{t−j}`, has kernel
+  `(1, m′μ′, m′μ′², …)`: the same two-parameter family, with `γ = μ′` and `κ = m′μ′`, and any
+  sign of `γ − κ`. Rutledge's kernel is the direct case `m′ = 1`. The fits below cannot tell
+  the two readings apart (core P2), and neither from transient-plus-mood.
+- Shape alternatives (audit): a power law `(1 + lag)^{−ρ}` (one parameter) and a hyperbola
+  `(1 + h·lag)^{−ρ}` (two).
 
 ## Results so far
 
-Great Brain Experiment (`gbe_report.txt`, `gbe.png`):
+Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
 - **Replication.** Rutledge's model gives `γ = 0.68` per trial (their lab sample: 0.61 ± 0.30
-  SD).
-- **The recursive kernel fits better.** A jump at lag 0, then `γ = 0.89`: `κ = 0.412` [0.408,
-  0.418], `γ = 0.890` [0.886, 0.896] (95% bootstrap over participants). Held-out error falls
-  1.3% against Rutledge's kernel, six times what splitting prediction errors by sign buys
-  (0.23%). Read recursively: `μ = γ − κ = 0.48` per trial, `m = κ/μ = 0.86` [0.84, 0.89].
-  A transient-plus-mood model has the same shape, so the kernel is consistent with the
-  recursion rather than proof of it.
-- **News echoes like everything else.** Fitted separately, the kernels of certain rewards,
-  expected values and prediction errors nearly coincide (`γ` 0.88, 0.87, 0.89; `κ` 0.48, 0.51,
-  0.40), and buy only 0.06% more. A felt state that is remembered whole predicts this; a
-  model in which surprise is only transient does not.
-- **Loss-averse news, identified.** With base utility pinned by safe choices (the same for
-  certain and risky payoffs) and news identified by mixed trials: `λ = 1.42` [1.37, 1.50],
-  news `n = 0.52` [0.49, 0.56] per unit of base utility, base loss aversion 1.20 [1.17,
-  1.22], and anticipation of a chosen gamble's EV negative, `a = −0.30` [−0.32, −0.29]:
-  taking a gamble feels worse than its expected value, beyond what it pays. (Splitting RPE
-  by sign within gain-only or loss-only trials is not identified: there a gamble's EV equals
-  the size of its RPE.)
+  SD per person; ours is a pooled fit).
+- **Echoes are front-loaded, with a slow tail.** The jump kernel (`γ = 0.882, κ = 0.419`)
+  cuts held-out within-play error 1.3% against Rutledge's (1.7% with prediction errors split by
+  sign, where `γ = 0.890, κ = 0.412`; 20-resample bootstrap [0.886, 0.896], [0.408, 0.418]).
+  But it is not the best shape: a one-parameter power law (`ρ = 0.81`) beats it by 0.48%
+  [0.40, 0.56] and a hyperbola by 0.66% (paired bootstrap over held-out participants). A free
+  30-lag kernel decays progressively (successive ratios 0.52, 0.71, 0.86, …), not one drop
+  then a constant ratio. Recursive reading of the sign-split fit: `μ = 0.48`, `m = 0.86`;
+  direct reading: `μ′ = 0.89`, `m′ = 0.46`, with identical fit
+  (`audit/direct_vs_recursive.py`).
+- **Echo share, not memory mass.** `B = κ/(1−γ+κ) ≈ 0.78`, the share of a sustained input's
+  long-run response that comes from earlier trials, is the same under every reading (the
+  memory mass is 0.78 read recursively and 3.5 read directly). It depends on the tail: under
+  the power law, whose exponent is below one, it is 0.81 over 30 trials, 0.87 over 100 and
+  0.93 over 1000, so it does not settle (core P1(d)).
+- **The kernel is not a fixed function of trial count.** The lag-1 weight is 0.61 after a safe
+  last trial and 0.13 lower after a gamble (whose spinner takes seconds), and, within safe trials,
+  falls with choice latency; the lag-1 trial never precedes a rating in this design, so a reset at ratings
+  cannot be tested directly (`audit/confounds.py`). Pooling heterogeneous people also makes a
+  jump: Forbes-like data simulated with each person's own single geometric give a pooled
+  jump with `B ≈ 0.8` and a third of the real advantage (`audit/forbes_pooling_null.py`). Real
+  people still front-load more than that null (below).
+- **News does not echo like the outcome.** Fitted separately, the kernels of certain rewards,
+  expected values and prediction errors nearly coincide (`γ` 0.88, 0.87, 0.89), but the RPE
+  regressor there still carries the outcome's base utility. With base utility in its own
+  regressor, news alone has `γ` at the bound 0.999 (`κ` 0.27): a persistent level, luck
+  accumulated over the play, against `γ ≈ 0.79` for base utility (`audit/news_kernel.py`).
+- **Chosen risk lowers happiness; loss-averse news is not identified.** The structural model
+  (base utility pinned by safe choices, linear in money; news by mixed trials) gives
+  `λ = 1.42` [1.37, 1.50], `n = 0.52`, base loss aversion 1.20 and `a = −0.30`. But splitting
+  news by sign is `½(β₊+β₋)·RPE + ½(β₊−β₋)·|RPE|`, and in a 50/50 gamble `|RPE|` is half the
+  gamble's range, known at choice: asymmetric news and a felt cost of the chosen gamble's
+  spread are the same regressor. Adding one constant cost of having gambled (−0.024 SD) takes
+  `λ` to 1.04 [0.95, 1.13] and fits slightly better. `a = −0.30` mostly reflects linear base
+  utility extrapolated from safe amounts (30–55) to gamble outcomes (±150): with power utility
+  `ρ = 0.8`, `a = −0.15` and `λ = 1.36`, or 1.13 with the gamble cost (`audit/risk_cost.py`).
+  Under linear base utility, gamble outcomes feel worse than their EV implies, as diminishing
+  sensitivity predicts.
 
-Forbes & Bennett 2024 (`forbes_report.txt`):
-- **The same kernel in another task.** Jump kernel `γ = 0.885, κ = 0.516` (experiment 1) and
+Forbes & Bennett 2024 (`forbes_report.txt`, `audit/`):
+- **The same front-loading.** Jump kernel `γ = 0.885, κ = 0.516` (experiment 1) and
   `γ = 0.883, κ = 0.457` (experiment 2), against single geometrics of 0.80 and 0.76;
-  cross-validated error over people 1.0% and 1.6% lower. Fitted person by person (56 ratings
-  each), `κ` is below `γ` for 57% and 62% of people and above for 18% and 17%.
-- **Only bad surprises register, and only on one's own choices.** Here every payoff is a
-  lottery's, so RPE weights are news net of anticipation; their difference is news by sign.
-  Positive RPE adds nothing beyond the outcome (−0.002), negative RPE lowers affect (0.05 and
-  0.09 per 100 points; difference [0.00, 0.10] and [0.04, 0.15]), as Forbes & Bennett report.
-  In experiment 1 RPE registers on free choices (0.05 positive, 0.08 negative) and not on
-  forced ones. A better unchosen outcome lowers affect slightly (regret), a worse one raises
-  it (relief).
+  cross-validated error over people 1.0% and 1.6% lower. A power law (`ρ` 0.69, 0.76) does
+  better, 2.5% and 2.8%. Fitted person by person (56 ratings each), `κ` is below `γ` for 57%
+  and 62% of people (31% and 39% in the pooling null) and above for 18% and 17%; `κ > γ` is
+  inconsistent with recursion at any noise level.
+- **Bad surprises register more, and only on one's own choices.** Every payoff is a lottery's,
+  so RPE weights are news net of anticipation. Positive RPE adds nothing beyond the outcome
+  (−0.002), negative RPE lowers affect (0.05 and 0.09 per 100 points), as Forbes & Bennett
+  report. Probabilities vary here (0.25, 0.5, 0.75), which separates spread from `|RPE|`: with
+  the chosen lottery's SD as a regressor the asymmetry vanishes in experiment 1 (RPE+ 0.028,
+  RPE− 0.025; SD −0.052 [−0.097, −0.019]) and shrinks in experiment 2 (the `|RPE|` term −0.026
+  [−0.069, 0.013]). In experiment 1 RPE registers on free choices and not on forced ones. A
+  better unchosen outcome lowers affect slightly (regret), a worse one raises it (relief).
+
+## Audit (2026-10-14)
+
+`audit/`: a fresh-eyes review of the claims above (a subagent, rerun by Claude; data under
+`data/`, paths relative). Run each from anywhere, e.g. `python
+experiments/happiness/audit/kernel_shapes.py`; `confounds.py` needs `extract_timing.py` first
+(it writes `data/gbe/extra.npz`, choice latencies and spinner times). Outputs are in
+`audit/audit_report.txt`.
+- `direct_vs_recursive.py`: both parametrizations, identical fit; the readings' parameters.
+- `free_kernel.py`: a free 30-lag kernel against power, hyperbolic, geometric-plus-constant
+  and double-exponential shapes (the hyperbola is within 0.03% of the free kernel).
+- `kernel_shapes.py`: Rutledge, jump, power law and hyperbola on held-out participants, with
+  paired bootstrap differences; the jump by task version.
+- `risk_cost.py`: the structural model with a cost of having gambled and power utility.
+- `news_kernel.py`: per-component kernels with base utility separated from news.
+- `confounds.py`: the lag-1 weight by trial type and latency, and the rating boundary.
+- `forbes_shapes_risk.py`, `forbes_pooling_null.py`: kernel shapes, the lottery-SD
+  separation, and the pooling null on Forbes & Bennett.

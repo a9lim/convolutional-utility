@@ -7,7 +7,8 @@ pieces, new assembly) · *speculation*. Math is in `formalism/core.md` and
 Reading: **hedonic**. Anticipation and memory are felt, and welfare is the life-sum of
 experienced utility.
 
-Audience: LessWrong. The premise is old in economics and absent from LessWrong; the post's
+Audience: LessWrong. The premise is old in economics; LessWrong has scattered informal
+precedents (`bibliography.md`, the second LessWrong scan) but no unified treatment; the post's
 value is the reframing, bringing anticipation, memory and belief-dependent welfare into the
 familiar decision-theory vocabulary. Economists' results are support to cite, not a
 deflation.
@@ -34,9 +35,11 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
       reparametrization (P2); recursion stretches anticipation's reach and makes news about
       further-off events felt more. A surprise is an information boundary: it misses the
       anticipation paths, so recursion has content even on an infinite line.
-    - Calibrated per horizon (a waking day, a life): echo is about 30% of experience,
-      recursion stretches reach by a fifth, and the momentary self's felt row is nearly
-      myopic (`β ≈ 0.06`). Patience is not felt echo. *synthesis*
+    - Illustrative parameters per horizon (a waking day, a life): echo about 30% of
+      steady-state experience, recursion stretching reach by a fifth, and a strongly
+      present-weighted felt row (`β ≈ 0.06`). Scenarios, not estimates. The robust part is
+      the inversion: explaining measured patience by the momentary felt row needs an echo
+      share near one, so patience, if hedonic, belongs to the life-sum. *synthesis*
     - An agent that cares only about the next and previous moments already acts on its whole
       life, exponentially (P2).
     - Well-foundedness favours light-tailed primitives, and recursion still delivers
@@ -90,11 +93,13 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
       Welfare is scored by the objective expectation of the felt life.
     - In expectation the truth is free (tower property; a textbook benchmark). Pathwise
       it is not: bad news hurts now.
-    - What prices information is nonlinearity in beliefs. Dread outweighing savoring does
-      it only in the recursive model, where you anticipate your own future dread.
+    - What prices information is nonlinearity in beliefs. Dread outweighing savoring, as a
+      kernel on outcomes, does it only in the recursive model, where you anticipate your
+      own future dread. (Concavity in the posterior itself prices information in any
+      model; that is the known case.)
       - Exact identity: the cost is the dread excess times the life-weighted expected
         negative part of anticipated felt states (felt news aside). It bites only when
-        information moves a felt state across zero; heavier memory of bad states
+        some felt state can land on either side of zero; heavier memory of bad states
         (rumination) prices information the same way. *proved; direction checked on
         examples*
       - Credit the structure to Kreps–Porteus (a concave aggregator prefers late
@@ -198,7 +203,10 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
     - Anticipation is a forecast, so it is measure-weighted. Doom branches count as zero,
       so a likely early end discounts the future correctly.
     - Copy-counting would let a branching future outweigh a single past without bound.
-    - Under measure-weighting, branching is welfare-invisible: it adds up to normality.
+    - Under measure-weighted anticipation *and* aggregation, branching is
+      welfare-invisible: it adds up to normality. The second weighting is an axiom (right
+      for Everett branches); real copies are extra welfare subjects, and there the
+      copy-counted condition `bμ < 1` is a real constraint.
     - Utility weights, not SSA/SIA credences.
     - A context window as a life: hard boundaries both ends, retrieval-style memory that need
       not fade (U-shaped use of context; echo compounds unless per-step echo is weak), and

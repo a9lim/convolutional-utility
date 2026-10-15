@@ -104,7 +104,9 @@ described via the secondary named. Files are in `references/`. First verificatio
   *Econometrica* 85(4): 1175–1218. doi:10.3982/ECTA13937. **WP** (Jan 2017 preprint) ·
   `papers/galperti-2017-a-theory-of-intergenerational-altruism-preprint.txt`
   - Axiomatizes pure altruism toward future generations' total utility. Present bias
-    follows (Prop. 2).
+    follows (Prop. 2). Its footnote: a subset of the results appeared as "From
+    Anticipations to Present Bias: A Theory of Forward-Looking Preferences" (2014 WP), the
+    single-agent anticipation framing, so P3's credit covers anticipation too.
   - Cor. 3: linear `G` gives `βδ^t` with `β = γ/(1+γ)`, `δ = (1+γ)α`, on
     `γ < (1−α)/α` — our `M < 1`.
   - §4.5, "a first step" (p. 27): finite two-sided systems, solvable iff `αα̂ < 1` for two
@@ -970,6 +972,46 @@ LessWrong on truth, comfort and anticipation (all `web/`, **FT**):
   intrinsically costly through felt anticipation in a decision-theoretic setting, or of
   memory as utility in one. The literature agent's search relied on web search, so
   coverage is not exhaustive.
+
+LessWrong, EA Forum and blogs: the second scan (2026-10-14; GreaterWrong and site searches;
+pages fetched as model summaries and not saved, so read before quoting). Verdict: scattered
+informal precedents, no unified welfare treatment. No post found mentioning Kőszegi–Rabin,
+Caplin–Leahy, Loewenstein's anticipation work or psychological games; ACX and Overcoming
+Bias archives were not searchable.
+- **Yudkowsky, E. (2007).** Lotteries: a waste of hope. Hope as misallocated emotional
+  energy; commenters, Hanson among them, defend its value. The best-known LessWrong
+  treatment of anticipation as a good, and the natural foil.
+- **Hanson, R. (2008).** The hope premium. *Overcoming Bias*. Seen only as a search
+  summary (hope is priced); unverified.
+- **Metus (2012).** Expected utility and utility after time. Experiencing against
+  remembering self as an aggregation puzzle; comments cite peak-end. The nearest welfare
+  framing of Kahneman's two selves on LessWrong.
+- **lukeprog (2011).** Review of *Thinking, Fast and Slow*. Lists two selves, peak-end and
+  duration neglect as under-discussed.
+- **Galef, J. (2011).** Life extension versus replacement. In comments, Grognor argues
+  memories have utility in themselves and DanielLC rejects it: the only memory-as-utility
+  exchange found.
+- **Zvi (2011).** How I lost 100 pounds using TDT. Wei Dai's comment: a hyperbolic
+  discounter's successive selves play a prisoner's dilemma, so TDT applies. With
+  **Crowley, P. (2009)**, Akrasia, hyperbolic discounting, and picoeconomics, and **Alexander,
+  S. (2009)**, Applied picoeconomics (Ainslie's successive selves): the within-a-life
+  Newcomb and PD framing, without felt anticipation (D1–D3).
+- **twanvl (2011).** [LINK] Hyperbolic discounting is rational (Farmer & Geanakoplos:
+  hyperbolic curves from uncertain rates). Present bias from structure is familiar, from
+  felt echo not. With **Yudkowsky (2008)**, Against discount rates: no pure time preference
+  (P5's flat interior).
+- **McAuliffe, W. & Shriver, A. (2022).** Does the trajectory of pain matter? EA Forum
+  (Rethink Priorities). Sequence and peak-end in welfare; anticipation treated as a
+  confound. The nearest EA treatment of a life's shape.
+- **Zvi (2023).** AI: practical advice for the worried. Dread of a bleak future spoils
+  present fun: anticipation in present welfare, for the P(doom) example (D7).
+- **Byrnes, S. (2023).** Valence series. Separates valence, a forward-looking,
+  value-like signal, from hedonic tone; readers will ask which "felt anticipation" is. Also
+  a terminology collision: "Making beliefs pay rent (in anticipated experiences)" uses
+  anticipation epistemically.
+- Missing outside LessWrong, flagged by the scan, unread: **Ainslie, G. (2001)**,
+  *Breakdown of Will*; **Ainslie, G. (2003)**, Uncertainty as wealth (anticipation as
+  consumption, premature satiation; possibly the nearest neighbour of D3's savoring trap).
 
 ## Recollection, recursive news and rumination (core N4 and the recollection sketch)
 

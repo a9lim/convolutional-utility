@@ -237,9 +237,18 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     with `w` the life weights of the `(a⁺, m⁺)` kernel (1 in D) and `W_sym` its welfare.
     [proved; checked]
     - D: `X = u`. The negative parts do not depend on information, so timing is neutral.
-    - R: `X = e`. Timing matters only if information moves some felt state across zero.
-      With experienced utility positive throughout, dread asymmetry costs nothing however
+    - R: `X = e`. Timing matters only if some felt state can land on either side of zero
+      (its sign depends on the path): with every felt state of fixed sign, each kink is
+      inactive, the model is linear where it lives, and the tower property applies. With
+      experienced utility positive throughout, dread asymmetry costs nothing however
       information arrives. [proved; checked; Codex's three-period example agrees]
+    - That is sufficient for neutrality, not a description of the cost. Information can
+      change the expected negative parts without moving any state across zero between
+      schedules: two periods, `Z = ±1` equiprobable, `e_0 = 1 + E_0[ψ(e_1)]`,
+      `e_1 = Z + 0.1 e_0`, `ψ` with slopes 0.1 (gains) and 0.2 (losses). Early revelation
+      gives `E[W] = 1.06009`, revelation at realization `1.06091`, with every state's sign the
+      same under both: `e_1`'s negative branch is deeper when `e_0` already knows `Z`, through
+      memory. [Codex; checked by hand]
     - Which way it cuts is not in the identity. In every example checked, earlier
       information spreads felt states and raises their expected negative part, so later
       revelation is better. [checked on examples]
@@ -365,7 +374,7 @@ marked]
   [Codex]
 - **Which `G` is best depends on the nonlinearity.** [checked on examples]
   - R with dread or rumination asymmetry (D5): coarser `G` keeps felt states from spreading
-    across zero, which is what D5's identity charges. Strict updateless affect is best in
+    into negative parts, which is what D5's identity charges. Strict updateless affect is best in
     every example checked. A general comparison theorem is open: felt states under a
     coarser `G` are not simply conditional expectations of those under `F`.
   - Loss-averse felt news (core N2): a weighted scheduling problem. Subadditivity favours
@@ -454,8 +463,9 @@ with the same sign (Sun et al. 2022)]
   history, the policy and the round, so this illustrates how positively related targets
   align the heads; it is not a theorem about the agent.
 - In the GRU agent: the two heads' gradients go from unrelated at initialization to a
-  cosine of 0.34–0.58 by step 150, a step that raises value raises staying in every seed
-  and checkpoint measured, and reward shifts of ±0.5 decide complacency (6/6 against 0/6),
+  cosine of 0.34–0.58 by step 150 (drifting back to −0.27–+0.05 by step 500 in three of
+  four seeds), a step that raises value raises staying in every seed at every trained
+  checkpoint measured (steps 150–500; none at initialization), and reward shifts of ±0.5 decide complacency (6/6 against 0/6),
   though the policy's gradient is unchanged on every batch. The prediction that follows:
   keep the critic's level outside the network (a running mean of its targets, as
   PopArt-style normalization does) and the shift stops mattering. It does: 6/6 escape at
@@ -480,7 +490,15 @@ with the same sign (Sun et al. 2022)]
     copy-counted total needs `bμ < 1` (D) or `b(1+m)μ < 1` (R; memory-only resolvent
     `r(−j) = (m/(1+m))((1+m)μ)^j`). Example: `b = 2, m = 1, μ = 0.3` keeps each observer
     bounded (`M = 0.43`) while the copy-counted total diverges (`b(1+m)μ = 1.2`). [checked]
-- **Under measure-weighting branching is welfare-invisible**, at `λ = 1`. Duplicating
+- **Two weightings, both needed.** Anticipation is a forecast, so measure-weighting it
+  follows from the causal form. Aggregating welfare across observers is a separate axiom:
+  with every kernel zero, two real copies each at `+1` sum to 2 under ordinary additive
+  aggregation, whatever anyone forecasts. Invisibility below assumes welfare is also
+  aggregated by measure (conserved measure, as for Everettian branches); for real copies
+  (uploads, LLM instances) the copy-counted total above is the population-ethics case, and
+  its condition `bμ < 1` or `b(1+m)μ < 1` is a real constraint on it. [Codex]
+- **Under measure-weighted anticipation and aggregation, branching is welfare-invisible**,
+  at `λ = 1`. Duplicating
   identical branches adds no information and no news. Branches with different felt
   outcomes are resolved like any uncertainty (core N2): with loss-averse news that costs in
   expectation, and updateless affect (D7) can postpone or batch the news but not remove it

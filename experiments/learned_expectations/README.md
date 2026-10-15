@@ -1,7 +1,11 @@
 # Learned expectations
 
-Agents whose reward is their own felt utility (the canonical model, `formalism/core.md`),
-computed from their own forecasts and realized against the world. Expected return under
+Agents whose reward is their own felt utility (`formalism/core.md`), computed from their own
+forecasts and realized against the world. The observer and the scheduling agent use the
+canonical model; the game, hidden-game, evolution and iterated agents use a direct first pass
+(echoes of base payoffs, news on the aggregate TD error), and even the canonical critic kinks
+the aggregate TD error rather than each horizon's revision, which agree only at `λ = 1` or when
+the revisions share a sign. Expected return under
 the true environment is then the objective expectation of the felt life-sum: Brunnermeier &
 Parker's well-being, learned. Plan and prior art: `next-steps.md`, "Extension (a9)".
 
@@ -10,20 +14,22 @@ Parker's well-being, learned. Plan and prior art: `next-steps.md`, "Extension (a
 An event is announced at 0 and resolves at `s`. At each `t < s` the self holds a subjective
 probability `q_t` of the high outcome and forecasts its felt life rationally given `q_t`.
 Changing a belief revises forecasts, so it is felt as news. Realization is news against the
-last belief. The objective is the objective expected life-sum minus a cost of self-deception,
+last belief. Forecasts are rational given the current belief and naive about the self's own
+later revisions: at each `t` it expects to keep `q_t` until `s`. The objective is the objective expected life-sum minus a cost of self-deception,
 `Σ_t KL(q_t ‖ p) / τ`; without it, beliefs at the felt calibrations run to N3's corners.
 
 - `observer.py`: the model in closed form (core N3, canonical), differentiable in the belief
-  path, and the exact optimizer. Checked against an independent Bayesian tree solver at
+  path, and a numerical reference optimizer (multistart Adam plus the best step path; no
+  certificate of global optimality). Checked against an independent Bayesian tree solver at
   `q = p` (welfare to 1e-10) and against finite differences (gradient to 3e-10).
-- `run_observer.py`: exact optimal belief paths at the life calibration for three kinds of
+- `run_observer.py`: reference-optimal belief paths at the life calibration for three kinds of
   event and four tethers; writes `observer_paths.png`.
 - `learn_observer.py`: one network that maps an event's features to a belief path, trained on
-  felt welfare across random events and compared with the exact optimum on held-out events.
+  felt welfare across random events and compared with the reference optimum on held-out events.
 
 The objective has a kink wherever two consecutive beliefs agree (a zero revision, priced at
 `λ` on one side), so optimal beliefs are sticky and smooth optimizers stall on them; the
-exact optimizer uses Adam with a decaying rate from several starts, including the best
+reference optimizer uses Adam with a decaying rate from several starts, including the best
 step-shaped path.
 
 Run from the repo root, e.g. `python experiments/learned_expectations/run_observer.py`.
@@ -102,7 +108,7 @@ played against scripted partners (always cooperate, always defect, tit for tat, 
 
 - **Observer.** Optimal beliefs at the life calibration stay calibrated far from the event,
   brace as it nears, and freeze over the last few periods; optimism never pays there. A
-  network trained on felt welfare captures a median 71% of the exact gain on held-out events.
+  network trained on felt welfare captures a median 71% of the reference optimizer's gain on held-out events.
 - **Scheduling: the `J` dial reproduces the decision theories.** Over 30 draws, `w = 0` learns
   the subgame-perfect fixed-past date in every draw without news and 90% with linear news
   (the misses sit right after the announcement: two unconverged, one a second equilibrium);
@@ -122,12 +128,13 @@ played against scripted partners (always cooperate, always defect, tit for tat, 
   outweighs anticipation, so rational bracing makes one's own randomness cheaper: the
   first-order cost of randomizing away from a plan is lower in 84% of directions (median 1.6
   against 2.5), and the planner reaches commitment more often (73% against 60%).
-- **Games.** One network plays random 2×2 games at 91–96% equilibrium play, and a linear probe
-  recovers game class from its hidden layer at 88% against 71% from raw payoffs: it tells
-  games apart. Felt utility shifts equilibrium selection toward risk dominance: 97.4% against
+- **Games.** One network plays random 2×2 games at 87–96% equilibrium play (prisoner's-dilemma-like
+  games lowest), and a linear probe recovers game class from its hidden layer at 81–89% against
+  71% from raw payoffs (highest with free beliefs): it tells games apart. Felt utility shifts equilibrium selection toward risk dominance: 97.4% against
   93.4% over five seeds, higher in every seed. Motivated beliefs appear almost only in cyclic
-  games, where outcomes are uncertain, as optimism about the other's move (single training
-  run; `games_report.txt`, `games.png`).
+  games, where outcomes are uncertain, as optimism about the other's move, strongly only when
+  action is coupled to belief (`q − p` +0.27 against +0.02 free; single training run;
+  `games_report.txt`, `games.png`).
 - **The twin dial.** In symmetric games, `w = 0` defects in prisoner's dilemmas and hunts hare;
   `w = 1` cooperates and hunts stag. Graded `w` matches the analytic thresholds game by game:
   all-cooperate is stable iff `w ≥ (T−R)/(R−S)`, all-defect iff `w ≤ (P−S)/(T−P)` (known in
@@ -153,8 +160,9 @@ played against scripted partners (always cooperate, always defect, tit for tat, 
     does), the level stops mattering: the +0.5 critic escapes in 6/6, as D8 predicts.
   - Mechanism (decision.md D8): once learning starts, the critic's value and the policy's
     stay logit share a direction in the state (gradient cosine 0.34–0.58 at step 150, about
-    0 at initialization), and a step that raises value raises staying after losses and gains
-    alike in every seed and checkpoint (`alignment_report.txt`). A critic that must output
+    0 at initialization, drifting back toward 0 or below by step 500 in three of four seeds),
+    and a step that raises value raises staying after losses and gains alike in every seed at
+    every trained checkpoint (`alignment_report.txt`). A critic that must output
     high numbers keeps telling the policy things are fine. Open: removing the per-round mean of
     the critic's push on the state also stops the honest critic from escaping (0/4), though
     its mean residual is small and fluctuates in sign.
@@ -173,10 +181,11 @@ played against scripted partners (always cooperate, always defect, tit for tat, 
 - **Which ways of feeling survive?** Populations of learners born untrained, with heritable
   `(a, n, λ)`, selected on lifetime payoff over ten generations (weights not inherited; 3 runs
   per variant, 240 learners each). Whether affect shapes only the critic or also the policy's
-  reward, selection runs against anticipation and for felt news, and is indifferent to loss
-  aversion: lifetime payoff (×1000) per s.d. of log `a` −4.4 and −5.4, of log `n` +4.0 and
-  +3.4, of log `(λ − 1)` +0.1 and −0.2 (s.e. 0.8 each); a neutral control shows none (all
-  within one s.e.). Populations end braced (`a` about 0.03, `n` 0.1–0.17), recovering the 10% of
+  reward, selection runs against anticipation and for felt news, with no detectable selection
+  on loss aversion: lifetime payoff (×1000) per s.d. of log `a` −4.4 and −5.4, of log `n` +4.0
+  and +3.4, of log `(λ − 1)` +0.1 and −0.2 (pooled s.e. 0.8 each, which treat learners as
+  independent despite shared games and ancestry; run-level uncertainty is larger, with 3 runs
+  per variant); a neutral control shows none (all within one s.e.). Populations end braced (`a` about 0.03, `n` 0.1–0.17), recovering the 10% of
   lifetime payoff their founders' affect cost. Weak anticipation and real news make a braced
   critic, which escapes complacency (D8); loss aversion adds bracing before outcomes and
   consolation after them, which may be why it is not selected (`evolve_report.txt`).
