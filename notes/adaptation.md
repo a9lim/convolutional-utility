@@ -200,3 +200,26 @@ core; one of those should be renamed when this reaches core.
   `−h`, and in welfare, where its integrated mass counts in full (the telescoping). So
   biphasic memory with a slow adaptation lobe is untouched by these data. Scripts: `experiments/happiness/audit/`
   (`biphasic.py`, `carryover.py`).
+
+## Step data for slow adaptation (search, 2026-10-15; nothing downloaded)
+
+- None of the open pool has frequent affect around a life event (bereavement, childbirth,
+  job loss). Best open candidates:
+  - **Dartmouth College Experience Study** (openESM 0040; Zenodo
+    doi:10.5281/zenodo.17348144, one 25.2 MB TSV, CC BY-NC-SA 4.0, no registration): about
+    215 students, weekly EMA (valence/arousal pictures, PHQ-4, stress, self-esteem item),
+    Sept 2017 – June 2022. Steps: pandemic onset (spring 2020, two-plus years of baseline,
+    two after) and college arrival. Pre-pandemic years give same-term-week baselines
+    against academic seasonality.
+  - **CoCo, outbreak of the Ukraine war** (OSF 8f3yu, CC-BY 4.0): 1,341 Europeans around
+    24 Feb 2022, 5 prompts a day for 28 days; a shared exogenous onset, short windows.
+  - **EMOTIONS** (OSF 6kzx3): ESM waves before and during the 2020 lockdown, 14 days each;
+    the authors ask re-users to fill in a form.
+  - **Kossakowski/Wichers single-subject ESM** (OSF j4fg8, 796 KB, CC BY 4.0): 239 days, 10
+    prompts a day, a blinded antidepressant taper; a ramp, N = 1.
+- Gated: UCL COVID-19 Social Study and Understanding Society (UK Data Service
+  registration), SOEP (contract), HILDA (application), GLOBEM (PhysioNet credentialing),
+  How We Feel (on request).
+- The Great Brain Experiment's design switch (July 2013) is no step test: 626 people
+  played under both designs, and the change in stakes was small (payoff s.d. 56 → 60) and
+  confounded with the design.

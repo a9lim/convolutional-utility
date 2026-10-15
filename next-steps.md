@@ -63,7 +63,9 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
      (Janet `q = 1`, Lemlich `q = ½`) from reactivity and persistence changing with age;
    - a multi-scale reading of the heavy tail against `M < 1`;
    - whether `a < 0` is dread, the certainty effect, or curvature (it halves under power
-     utility).
+     utility);
+   - slow adaptation needs step data: candidates in `notes/adaptation.md` (the Dartmouth
+     College Experience Study first, 25.2 MB on Zenodo; download awaits a9's go-ahead).
 3. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
    choices; coda: selves), and the technical companion. Parked by a9 (2026-10-15) until the
    contents settle; two inputs from the second review:
