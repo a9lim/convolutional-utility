@@ -65,7 +65,18 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
    - whether `a < 0` is dread, the certainty effect, or curvature (it halves under power
      utility).
 3. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
-   choices; coda: selves), and the technical companion.
+   choices; coda: selves), and the technical companion. Parked by a9 (2026-10-15) until the
+   contents settle; two inputs from the second review:
+   - **Hook and order.** Two reviewers independently found "experience echoes" the
+     economist's way in. Candidate lead: beliefs are welfare and affect policies (the
+     P(doom) example), then the past self as predictor; Act I shrinks. The answer to "why
+     recursion?" should be its unique payoffs: dread-of-dread pricing information (D5), the
+     news threshold (N4), surprises as information boundaries.
+   - **Scope.** The reception reviewer's triage within one post: model 1.5k words, beliefs
+     and affect 3k, past self 2k, anthropics 1k, limits 0.5k; James Dean, recollection news,
+     rationalization, the 2×2, bistability, identity and context windows to the companion;
+     the data as a paragraph, the learners as one figure (the `J` dial). The abstract
+     features data and learners; the outline body has neither.
 4. **Figures:** the Disneyland decomposition; primitive against effective kernels; `w(s)`
    profiles; the 2×2 signatures; the threshold's regimes and its closed form against memory
    reach; built-in bracing; a ramp-sign phase diagram in `(α, μ)`; the savoring trap.

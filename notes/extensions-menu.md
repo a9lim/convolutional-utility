@@ -155,3 +155,67 @@ tethered felt display of a martingale forecast is a reflected martingale, half-w
     adjustment dynamics.
 - **E3. Forward echoes in the Great Brain Experiment.** Does a rating anticipate the trials
   left, or the play's end? Already in next-steps.md.
+
+## F. The game agents
+
+Sources: Claude, and Codex (thread `cu-games-ext`). Codex's framing, adopted: the question
+is which strategic effects need temporal feeling, rather than reweighted payoffs or a
+different learning path. Prior art to add to the bibliography: Dato, Grunewald, Müller &
+Strack 2017 (expectation-based loss aversion in strategic interaction); Duraj & He (dynamic
+information design with news utility); Todorov, ten Napel & Müller 2026 (parametric
+open-source games, coupling thresholds for cooperation, close to the twin dial).
+
+- ★ **F1. Why felt utility favours risk dominance.** *synthesis*
+  - Realization news on a binary payoff costs `(λ−1) p(1−p) |x₁ − x₀|`, so
+    `V_C − V_D = p(R−T) + (1−p)(S−P) − n(λ−1) p(1−p)(|R−S| − |T−P|)`: news penalizes the
+    action with the larger payoff spread. That is usually the payoff-dominant one, but not
+    always (`R = 4, S = 0, T = 2, P = 1`: stag is risk-dominant and also wider).
+  - First: on the trained networks, split held-out games where spread and risk dominance
+    disagree. Cheap, and it turns the 97.4% against 93.4% into a mechanism.
+- ★ **F2. Expectations as commitment in iterated games.** *synthesis*
+  - Add felt news to the iterated agent (it has none). D3 predicts plans become sticky:
+    stickier cooperation, but also stickier hostility. A two-date toy gives the threshold:
+    deviating gains `g` now, loses `ℓ` later, `ΔW = g − ℓ + n(g − λνℓ)`.
+  - Prerequisite: news per horizon, not on the netted TD error. Revisions `+g, −g` net to
+    zero news but cost `n(λ−1)g` per horizon, and exploitation is exactly a gain now
+    against a loss later.
+  - Own-payoff disappointment alone does not make guilt: terminal-round defection still
+    dominates.
+- ★ **F3. An affect firewall against commitment.** *synthesis*
+  - The agent picks an affect policy (immediate, batched, alerts) while its action policy
+    keeps full information. Conjecture: insulation protects felt welfare but removes the
+    expectation-based commitment F2 relies on. The LessWrong angle on D7, with C1's
+    leakage constraint built in.
+- ★ **F4. Observable dispositions and evolution.** *synthesis*
+  - Partners see my `(a, n, λ)` (true, noisy, or not). Prediction: loss aversion, neutral
+    when hidden, is selected when observed (a credible holdout), and selection against
+    anticipation may reverse. First: an invasion-payoff matrix over a grid, then a run.
+  - Extension: concealment and mimicry. Does the felt cost of actually feeling make the
+    signal honest? Test the incentive constraints; do not assume them.
+  - Prior art: Frank 1988; the indirect evolutionary approach; Dekel, Ely & Yilankaya 2007.
+- **F5. Promises and disclosure timing.** *synthesis; prior art heavy*
+  - Trust game with messages: underpromise, overdeliver, or staged disclosure to a
+    loss-averse partner. Charness & Dufwenberg 2006; Duraj & He; Lipnowski & Mathevet 2018.
+    New only if kernel reach changes the optimal expectation policy.
+- **F6. Guilt from a partner's felt disappointment.** *synthesis*
+  - An interpersonal kernel over the partner's felt news, not over payoffs: guilt aversion
+    (Battigalli & Dufwenberg) derived from coupling, with its persistence and dependence on
+    higher-order beliefs. Empathy, envy and inequity aversion as different kernels; static
+    linear empathy is just payoff reweighting.
+- **F7. Forgiveness: forecasts against felt memory.** *synthesis*
+  - "I no longer expect betrayal" against "the betrayal still hurts": one accidental
+    defection, short against long memory at matched forecasts.
+- **F8. Commitment races in emotional sensitivity.** *speculation*
+  - Publicly chosen loss sensitivity before chicken or bargaining: privately useful,
+    jointly ruinous? It may instead make a player exploitable.
+- **F9. One dependence graph for self, twin and past self.** *synthesis*
+  - The chain rule through the twin's action, the earlier self's forecast and the partner's
+    forecast, with interventions that cut different edges; plays against your own future
+    self as a special case. A differentiable graph is not FDT's semantics.
+- **F10. Exploiting the shared-state complacency.** *speculation*
+  - A partner that feeds early rewards to raise a learner's critic level, then exploits
+    it ("a rosy critic makes a sucker", adversarially).
+- **F11. News from one's own mixed action.** *synthesis; a modelling fix*
+  - `games.py` evaluates action-conditioned felt values, so resolving one's own lottery is
+    never felt as news. Timing matters most in cyclic games, where the motivated beliefs
+    are (Dato et al.).
