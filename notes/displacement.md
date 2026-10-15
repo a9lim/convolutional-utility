@@ -66,8 +66,10 @@ the session scratchpad's `disp.py`; Codex review in thread `cu-displacement`.
     death dilutes the felt state, A1 carried over literally); survival-weighted Pr (attend
     less, redirect to present and past, content conditional); quantum immortality (attend
     as if surviving). Additively the first two coincide (`k·S·E[e | alive] = k·E[e]` with
-    zeros), so A1 never had to choose; displacement forces it, and Pr at known edges forces
-    survival weighting by continuity. A1 survives modified: a likely early end discounts the
+    zeros), so A1 never had to choose; displacement forces it. Pr at known edges forces some
+    weighting that vanishes with survival, by continuity, but not the linear `k·S` (`k·S^γ`
+    is as continuous); linearity needs mixture consistency or invariance when a branch's
+    mass is subdivided (Codex). A1 survives modified: a likely early end discounts the
     future's attention, which goes to present and past, not to nothing; the jolt is news.
     No copy-counting: attention to a time totals its measure across copies.
 - **Normalizing the additive total (a9's idea).** `W_N = (T / Σw) wᵀu`. Equivalent to Z
@@ -88,6 +90,12 @@ the session scratchpad's `disp.py`; Codex review in thread `cu-displacement`.
     every row by one global constant (normalized), or reallocate it locally (Tr, Rn, Pr).
     Keeping native rows everywhere and making every felt state an average of base
     utilities are incompatible at the edges.
+- **Consequences found in the brainstorm (section G of the menu; Claude and Codex
+  independently).** Displacement breaks monotonicity: `u = (10)` against `(10, 0.1)` with
+  only `k(+1) = 0.5` goes 10 → 5.15 under Tr, Rn and Pr (additive 10 → 10.15), a James Dean
+  effect with no contrast memory, so P8's impossibility is additive-only. Pr prices
+  mortality information by present against future, `ΔW = a²q(1−q)(x−y)/(c+aq)` without
+  memory. And the additive recursive model prices it too (now in D5, checked).
 - **Boundaries become substantive under conservation.** Life calibration: the ramp tilt
   per unit welfare doubles (Tr 144, Rn 145, against 72 additive or Z). At `a = 0.09,
   α = 0.88, m = 0.05, μ = 0.75`, Tr weights the last moment 3.6 against 0.96 in the

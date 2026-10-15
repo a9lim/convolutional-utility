@@ -219,3 +219,74 @@ open-source games, coupling thresholds for cooperation, close to the twin dial).
   - `games.py` evaluates action-conditioned felt values, so resolving one's own lottery is
     never felt as news. Timing matters most in cyclic games, where the motivated beliefs
     are (Dato et al.).
+
+## G. Additive or displacement: what would decide it
+
+Sources: Claude and Codex (thread `cu-disc-ext`), converging independently on G1–G2. State of
+play in `notes/displacement.md`. Codex's protocol, adopted: news off first; survival-weight
+the available links before applying an edge convention (an assumption for Tr and Rn).
+
+- ★ **G1. Small mortality lotteries: the value of learning your death date.** *synthesis*
+  - Present `x`, one possible future moment `y`, survival `q`, anticipation `a`, no memory
+    (Codex): Pr's value of revelation is `a²q(1−q)(x−y)/(c+aq)` — seek it iff the present
+    beats the survived future; Rn `a(1−q)(x−y)`, discontinuous at `q = 0`; additive, Z and
+    Tr zero. With memory the additive recursive model is not neutral either: the loop runs
+    only in surviving branches, so the sign follows the anticipated future's felt value
+    (D5, checked). 40 periods, long anticipation, death after 10 with probability ½: future
+    better than now, additive +3.5 against Pr −6.6; future worse, +0.8 against +6.6.
+  - Normalization splits: one factor over the whole tree gives 0 in Codex's example,
+    separate factors per revealed life +0.42. Two different models.
+  - Hook: most people say they would not want to know their death date (Gigerenzer &
+    Garcia-Retamero 2017, from memory, unverified). Loss-averse news makes knowing costly
+    in every reading; the discriminating variable is whether people expect their future to
+    be better or worse than now.
+- ★ **G2. Must a positive epilogue improve a life?** *synthesis*
+  - `u = (10)` against `(10, 0.1)`, only `k(+1) = 0.5`: additive 10 → 10.15, Z 5 → 5.075,
+    Tr, Rn and Pr 10 → 5.15, normalized 10 → 8.12. A life of twenty 10s with long
+    anticipation: a +1 epilogue costs 16 under Pr and adds 7.9 additively. Anticipating a
+    mediocre addition degrades an excellent present: James Dean with no contrast memory.
+  - Three axioms to separate: raising a payoff on a fixed graph, adding a foreseen period,
+    appending an unforeseen one (which cannot lower welfare once the past is fixed).
+  - Decision form: under Pr, `dW/dq = y + ac(y−x)/(c+aq)²` can be negative with `x, y > 0`,
+    so the model can decline a positive continuation for competing with an excellent
+    present. Is that an acceptable hedonic opportunity cost, or a reductio?
+- ★ **G3. The Great Brain Experiment: current-outcome weight by position.** *synthesis*
+  - Memory only, accumulated mass `r_t`: the current input's coefficient is 1 (additive),
+    `c` (Z, Rn), `1 − r_t` (Tr), `c/(c + r_t)` (Pr). Interact the current regressors with
+    trial position, unrestricted bins first. Existing data, cheap.
+  - Limits: in fixed 30-trial plays elapsed and remaining trials are collinear; additive, Z
+    and normalized differ only in scale. Randomized play lengths would separate them.
+- ★ **G4. Axioms for deleting an attention target.** *synthesis on standard choice theory*
+  - What each rule preserves: additive and Z every surviving link (Z with an explicit null
+    target); Tr surviving links, removed mass to the present; Rn the echo budget and its
+    ratios, present excluded; Pr ratios among all remaining targets, present included (the
+    Luce choice axiom); normalized a global sum. Budget exhaustion plus ratio invariance
+    characterize Pr.
+  - Locality test: a disconnected future component rescales the present only under
+    normalization. Plus averaging (constant base, constant felt state), branch-independence
+    of a shared trunk, refinement invariance.
+- ★ **G5. Thought × activity, experimentally.** *synthesis*
+  - Cross current activity quality `x` with cued thought content `y` and induced thought
+    share `s`: `∂²e/∂s∂x = 0` under addition, −1 under displacement. Measure attention, not
+    just affect. Killingsworth & Gilbert motivate it without identifying it.
+- **G6. Foreseen against surprise endings.** *synthesis; reading speculative*
+  - After an ending is announced, does current stimulation matter more (Tr), do memory cues
+    (Rn), or both (Pr)? Measure sensitivity after the jolt. Codex: Ersner-Hershfield et al.
+    2008 found a meaningful ending raised sadness, not happiness (unverified), so "last
+    time" effects are not yet evidence. An LLM version fits the peak-end follow-up.
+- **G7. An absent future against a neutral one.** *synthesis*
+  - Additive and Z cannot tell death from neutral continuation; displacement can (an absent
+    target releases attention, a neutral one consumes it). What does the denominator count:
+    existing moments, represented ones, or attended experiences?
+- **G8. Ex ante against ex post on small trees.** *synthesis; a prerequisite*
+  - Solve felt states at information nodes and check that ex ante welfare is the
+    measure-weighted sum of the same realized states. Per-branch normalization gives a
+    shared trunk several values; whole-tree normalization rescales the past after news.
+- **G9. Chosen attention.** *speculation, tractable*
+  - `max_p [p₀u_t + Σ_j p_j ê_{t+j} − τ KL(p ‖ p̄)]`: a normalized habitual prior gives Pr, a
+    fixed present share Rn, present-only absorption Tr, a null option Z, a separate tonic
+    channel addition. Without the cost the objective picks the single best target.
+- **G10. Refinement in branches and in time.** Probability mass, not node counts; one
+  continuous kernel discretized at three resolutions should converge.
+- **G11. Impulse tests of boundary shape.** The same pulse at each position, foreseen and
+  as a surprise; the second must use the causal form, not perfect-foresight columns.

@@ -181,6 +181,14 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
   effective memory kernel; recency and duration neglect from linear memory, peak from
   salience. Integrate with the peak-end study in LLMs.
 
+## Parked (a9, 2026-10-15): additive or displacement echo
+
+- Whether echo adds to the present or takes attention from it, and with which boundary
+  convention (Z, Tr, Rn, Pr survival-weighted, or the normalized additive total). a9 wants
+  to explore the model further first, especially uncertain death and other
+  counterfactuals. State of play: `notes/displacement.md`; discriminating extensions:
+  `notes/extensions-menu.md`, section G.
+
 ## Formal loose ends
 
 - Write out what the docs only assert: P4's matching step for `r(0)`, the half-line `g_j`

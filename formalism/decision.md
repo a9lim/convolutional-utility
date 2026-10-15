@@ -222,7 +222,13 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
 - **In expectation, the truth is free.** Needs a calibrated prior, linear echoes, no
   nonlinear news (`λ = 1`), and actions held fixed: with direct news alone (`n = 0.2,
   ν = 0.5, λ = 2`, `Z = ±1` at realization) revelation a period early costs 0.05 and at
-  realization 0.10. [Codex; checked by hand] Anticipation linear in beliefs, Bayesian
+  realization 0.10. [Codex; checked by hand] It also needs a lifespan the information
+  does not move. Under death risk the recursive loop (remembered anticipation) runs only in
+  surviving branches, and its gain `1/(1 − a·m·S)` is convex in the survival probability
+  `S`, so mortality information is priced even linearly, with the sign of the anticipated
+  future's felt value: two moments, the second alive with probability ½, `u = (0, ±1)`,
+  `a = m = ½`: knowing at once changes expected welfare by `±1/7`. The direct model, and
+  either kernel alone, stay neutral. [checked] Anticipation linear in beliefs, Bayesian
   updating: forecasts are martingales, so by the tower property expected welfare does not
   depend on whether or when information arrives. [standard: Epstein 2008 p. 1121;
   Eliaz & Spiegler 2006 Prop. 1; Bénabou 2015 fn. 16; Kimball & Willis 2006. Kőszegi &

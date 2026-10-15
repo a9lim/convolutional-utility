@@ -685,6 +685,22 @@ report("D5 straddle: every felt state of fixed sign -> timing neutral in R",
        + max(spreads[(n, False, b)][0] for n in ("dread", "rumination") for b in (0.1, 3.0)), tol=1e-10)
 
 
+# D5 under death risk: moment 1 exists with probability 1 - p, learned at 0 or never. The recursive
+# loop runs only in the surviving branch and its gain is convex in survival, so information is priced.
+def mortality_info(u0, u1, a, m, p, rec):
+    if not rec:
+        return p * u0 + (1 - p) * (u0 + a * u1 + u1 + m * u0) - (u0 + a * (1 - p) * u1 + (1 - p) * (u1 + m * u0))
+    e0 = (u0 + a * (1 - p) * u1) / (1 - a * (1 - p) * m)
+    eB = (u0 + a * u1) / (1 - a * m)
+    return p * u0 + (1 - p) * (eB + u1 + m * eB) - (e0 + (1 - p) * (u1 + m * e0))
+
+
+got = [mortality_info(0, 1, .5, .5, .5, True), mortality_info(0, -1, .5, .5, .5, True),
+       mortality_info(0, 1, .5, .5, .5, False), mortality_info(0, 1, .5, .5, 0, True),
+       mortality_info(0, 1, .5, 0, .5, True), mortality_info(0, 1, 0, .5, .5, True)]
+report("D5 death risk: value of knowing +-1/7 (R), 0 direct, 0 without risk, 0 with either kernel alone",
+       max(abs(g - t) for g, t in zip(got, [1 / 7, -1 / 7, 0, 0, 0, 0])))
+
 # Information boundary: a surprise reaches the present through the remaining-life column (1/H now),
 # not the bilateral row r(0); the reduced form describes foreseen lives.
 a, al, m, mu = 1.0, 0.3, 1.0, 0.2
