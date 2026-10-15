@@ -34,6 +34,23 @@ the session scratchpad's `disp.py`; Codex review in thread `cu-displacement`.
   a hump; Z `0.59 … 0.69`, the additive hump scaled. So Tr reverses P5's "deficits at birth
   and death". Rn needs a fallback where a row has no targets (a one-moment life). A second
   dial, the share of unusable attention that stays present, spans the two.
+- **Pr, attention conditioned on existence (a9's reading).** Treat the present as one more
+  target (weight `1 − M` at lag 0) and renormalize the whole row, present included, over the
+  moments that exist. Lost attention then goes to the present and the remaining targets in
+  proportion: at the life calibration the dying self's present share is 0.80 (Tr 0.83, Rn
+  0.68, mid-life 0.68). Z is the same distribution unconditioned (mass on missing moments
+  lands on zero), so Z against Pr is unconditioned against conditioned, A1's question on the
+  time axis. Coherent with A1 if attention is over times and forecasts over branches.
+  - Conserves (`Σw = T`). Exact weights: `w = 1 − D′(I − K′ᵀ)^{-1}(r − c)/(1 − M)`, with
+    `r, c` the truncated kernel's row and column sums and `D′, K′` the normalized self-shares
+    and links. So `w = 1` wherever attention is balanced (each moment receives what it
+    gives): a symmetric kernel gives exactly flat weights, no boundary effects at all. At the
+    extreme edges `r − c = ±(A − B)`: the end outweighs the beginning iff anticipation mass
+    exceeds memory mass. Life calibration (`A ≈ B`) 1.01 and 0.99; long anticipation
+    (`A = 0.66, B = 0.15`) 0.29 at birth, 5.47 at death. [checked numerically, 200 draws]
+  - Under Rn the dying self's own weight changes only through loops (remembered
+    anticipation of now): 0.47 against 0.50 mid-life (symmetric, `T = 5`), 0.28 against 0.20
+    (long anticipation).
 - **Boundaries become substantive under conservation.** Life calibration: the ramp tilt
   per unit welfare doubles (Tr 144, Rn 145, against 72 additive or Z). At `a = 0.09,
   α = 0.88, m = 0.05, μ = 0.75`, Tr weights the last moment 3.6 against 0.96 in the
