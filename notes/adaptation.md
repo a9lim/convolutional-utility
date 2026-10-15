@@ -69,6 +69,42 @@ Drafting sketch, 2026-10-15. Identities checked numerically in the session scrat
   revision, a second change channel; zero in expectation at `λ = 1`.
 - What breaks the telescoping: the loss kink, asymmetric adaptation, saturation.
 
+## Biphasic memory in the canonical model
+
+Notation provisional (`h` and `ρ` collide with P1(d) and the spectral radius in core).
+
+- **The equation.** Memory becomes one signed kernel, afterglow minus adaptation:
+  ```
+  e_t = u_t + Σ_{j≥1} a α^j Ê_t[e_{t+j}] + Σ_{j≥1} (m μ^j − c ρ^j) e_{t−j}
+            + Σ_{j≥0} n ν^j φ_λ(Ê_t[e_{t+j}] − Ê_{t−1}[e_{t+j}])
+  ```
+  The new term is `−h r_t`, with `r_t = (1−ρ) Σ_{j≥1} ρ^{j−1} e_{t−j}` the EMA of felt
+  states and `h = cρ/(1−ρ)` its mass, the completeness of adaptation. Biphasic when
+  afterglow is faster (`μ < ρ`) and stronger at lag 1 (`mμ > cρ`): positive below lag
+  `ln(m/c)/ln(ρ/μ)`, negative after. Masses: `A = aα/(1−α)`, `B = mμ/(1−μ) − h` (net, may be
+  negative), `M = A + B`.
+- **Total utility.** `W = wᵀ(u + N)`, `w = (I − K_Tᵀ)^{-1} 1` with the signed kernel. Exactly,
+  `W = [Σ_t X_t + h (r_T − r_0)/(1−ρ)]/(1 + h)`, with `X_t = e_t + h r_t` everything but
+  adaptation (base, anticipation, afterglow, news): the level shrunk by `1/(1+h)` plus
+  `h/(1+h)` of the felt reference's net rise. Steady state `e = u/(1 − A − mμ/(1−μ) + h)`.
+  [checked]
+- **At the life calibration with `h = ½` and a year's adaptation** (`ρ = 1 − 1/52`): `M =
+  −0.18`, interior weight 0.85, birth 0.71, the last year 1.14, death 1.20. Adaptation more
+  than cancels echo inflation (exactly at `h = A + mμ/(1−μ)`), and P5's death deficit
+  reverses: the last moments are never used as a bar. Adaptation adds `h/(1−ρ)` to `M₁`
+  (26 weeks here), favouring rising lives. [checked]
+- **Well-foundedness for signed kernels.** Replace `M < 1` by: `1 − K(z)` has no zeros on
+  the unit circle and winding number zero (Wiener for the bilateral resolvent;
+  Gohberg–Krein and Coburn for half-line sections, which the causal form uses). For
+  nonnegative kernels this is `M < 1`. Necessary checks: `θ = 0` gives `M < 1`; `θ = π`
+  bounds overcorrection, `h(1−ρ)/(1+ρ) < 1 + aα/(1+α) + mμ/(1+μ)`. Pure felt adaptation is
+  stable iff `h < (1+ρ)/(1−ρ)`, failing by oscillating overshoot. The two endpoints are not
+  sufficient: in random draws `|1 − K|` is smallest strictly inside `(0, π)` 18% of the
+  time. *standard; the application synthesis*
+- Monotonicity is lost, as P8 says of signed kernels: here that is the phenomenon.
+- For the parked question: adapting to felt states can cancel echo inflation without
+  displacement. Savoring raises the bar.
+
 ## Adapting to felt states, in more detail
 
 - The reference tracks how things felt, so you adapt to your own anticipation, afterglow and
