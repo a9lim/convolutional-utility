@@ -96,7 +96,7 @@ Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
   returns 0.26 from a true 0.5, so it is not a clock estimate. Bands are cross-sectional, so
   age carries cohort and selection into a smartphone game; intervals for the within-play
   sensitivity rest on 16 draws (`audit/felt_clock.py`).
-- **No adaptation dip; luck's afterglow lasts days.** A biphasic kernel, afterglow minus a
+- **No fast adaptation; luck's afterglow lasts days.** A biphasic kernel, afterglow minus a
   slow negative tail `c γ^lag`, collapses to the jump kernel within a play (the fitted reach
   of the negative part goes to 0); a hyperbola minus an exponential gains 0.026% [0.014,
   0.037] by flattening the positive tail, never crossing zero. Between plays, a play's luck
