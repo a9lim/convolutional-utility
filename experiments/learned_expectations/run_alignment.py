@@ -11,7 +11,7 @@ import sys
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from repeated import rollout, train  # noqa: E402
+from rounds import Hidden, rollout, train  # noqa: E402
 
 
 def stay_logit(rec):
@@ -31,8 +31,8 @@ if __name__ == "__main__":
     for seed in range(4):
         for steps in (0, 150, 300, 500):
             agent = train("payoff", "honest", steps=steps, seed=seed)
-            gru = list(agent.gru.parameters())
-            rec = rollout(agent, A, Bm, 10, torch.Generator().manual_seed(5))[0]
+            gru = list(agent.trunks["state"].parameters())
+            rec = rollout(agent, Hidden(A, Bm), 10, torch.Generator().manual_seed(5))[0]
             stay = stay_logit(rec)
             gs = torch.autograd.grad(stay.mean(), gru, retain_graph=True)
             gc = torch.autograd.grad(rec["C"][:, 1:].mean(), gru)
@@ -41,7 +41,7 @@ if __name__ == "__main__":
             with torch.no_grad():
                 for p, g in zip(gru, gc):
                     p += 0.05 * g / norm(gc)
-                d = (stay_logit(rollout(agent, A, Bm, 10, torch.Generator().manual_seed(5))[0]) - stay)[:, 0]
+                d = (stay_logit(rollout(agent, Hidden(A, Bm), 10, torch.Generator().manual_seed(5))[0]) - stay)[:, 0]
             r0 = rec["r"][:, 0]
             say(f"{seed:4d}  {steps:4d}   {float(cos):+.3f}                        "
                 f"{float(d[r0 < 0].mean()):+.4f} / {float(d[r0 >= 0].mean()):+.4f}")

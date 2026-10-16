@@ -18,16 +18,17 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from repeated import FEEL, rollout, train  # noqa: E402
+from felt import ROUNDS  # noqa: E402
+from rounds import Hidden, rollout, train  # noqa: E402
 
 HERE = os.path.dirname(__file__)
 K = 10
-BRACED, ROSY = dict(FEEL, a=0.05), dict(FEEL, a=0.3)
+BRACED, ROSY = dict(ROUNDS, a=0.05), dict(ROUNDS, a=0.3)
 
 
 def offsets(bias):
     """Per-round TD offsets that hold the critic at a given bias profile (b_k = o_k + nu b_{k+1})."""
-    return [b - FEEL["nu"] * (bias[k + 1] if k + 1 < len(bias) else 0.0) for k, b in enumerate(bias)]
+    return [b - ROUNDS["nu"] * (bias[k + 1] if k + 1 < len(bias) else 0.0) for k, b in enumerate(bias)]
 
 
 ROSY_PROFILE = offsets([-0.09, 1.81, 2.19, 2.19, 2.09, 1.96, 1.74, 1.43, 1.08, 0.63])
@@ -59,11 +60,11 @@ def games(G, seed):
     return torch.rand(G, 2, 2, generator=gen) * 2 - 1, torch.rand(G, 2, 2, generator=gen) * 2 - 1
 
 
-def evaluate(agent, nu=FEEL["nu"]):
+def evaluate(agent, nu=ROUNDS["nu"]):
     G = 20000
     A, Bm = games(G, 4242)
     with torch.no_grad():
-        rec = rollout(agent, A, Bm, K, torch.Generator().manual_seed(1))
+        rec = rollout(agent, Hidden(A, Bm), K, torch.Generator().manual_seed(1))
     R = rec[0]
     r, C, pi = R["r"], R["C"] + getattr(agent, "level", 0.0), R["pi"]
     move = (R["logp"] - torch.log(pi.clamp_min(1e-12))).abs() > 1e-9                    # True: played move 1
@@ -88,7 +89,7 @@ def one(job):
 
     def monitor(it, agent):
         with torch.no_grad():
-            curve.append(float(rollout(agent, A, Bm, K, torch.Generator().manual_seed(1))[0]["r"][:, -3:].mean()))
+            curve.append(float(rollout(agent, Hidden(A, Bm), K, torch.Generator().manual_seed(1))[0]["r"][:, -3:].mean()))
 
     agent = train("payoff", seed=seed, monitor=monitor, **CRITICS[name][0])
     monitor(3000, agent)

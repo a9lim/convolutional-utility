@@ -2,14 +2,14 @@
 
 Agents whose reward is their own felt utility (`formalism/core.md`), computed from their own
 forecasts and realized against the world. The observer and the scheduling agent use the
-canonical model, and so do the game and partners agents, through `felt.py`'s closed form
-(checked against `observer.py`); the hidden-game and evolution agents use a direct first pass (echoes
-of base payoffs, news on the aggregate TD error); the iterated agent learns on payoffs
-alone, with no felt utility. Even the canonical critic kinks the aggregate TD error rather
-than each horizon's revision, which agree only at `λ = 1` or when the revisions share a
-sign. Expected return under the true environment is then the objective expectation of the
-felt life-sum: Brunnermeier & Parker's well-being, learned. Open items: `next-steps.md`,
-item 1.
+canonical model, and so do the game and partners agents, through the engine's closed form
+(`felt.Event`, checked against the observer's `felt.BeliefPath`); the hidden-game and evolution
+agents use a direct first pass (echoes of base payoffs, news on the aggregate TD error); the
+iterated agent learns on payoffs alone, with no felt utility. Even the canonical critic kinks the
+aggregate TD error rather than each horizon's revision, which agree only at `λ = 1` or when the
+revisions share a sign. Expected return under the true environment is then the objective
+expectation of the felt life-sum: Brunnermeier & Parker's well-being, learned. Open items:
+`next-steps.md`, item 1.
 
 ## Design and prior art
 
@@ -28,6 +28,32 @@ item 1.
   `J` graded inside a life-sum; belief and affect heads (D7's two filtrations); the
   LLM-welfare angle.
 
+## Code
+
+One engine, one games module and one agent class; each wing is an environment, an objective and a
+trainer on top of them, with a runner per experiment.
+
+- `felt.py`, the felt engine: kernels and resolvents; `news_root`, the exact felt news of a
+  revision; `Event`, one event with a held belief in closed form, batched (the game, partners,
+  dependence and trust agents); `BeliefPath`, the event under any belief path (the observer);
+  `rounds_direct` and `rounds_canonical`, felt utility per round from a critic (the rounds agents);
+  `kl`; the calibrations `LIFE`, `EVENT` and `ROUNDS`. `python felt.py` checks `Event` against
+  `BeliefPath` (1e-15), `news_root` against a damped iteration, and `rounds_canonical` against its
+  fixed point.
+- `games.py`: random bimatrix games and their analysis (equilibria, classes, risk dominance); the
+  one-shot agents' symmetric families (prisoner's dilemmas with `2R > T + S` and stag hunts with hare
+  risk-dominant, by rejection); the iterated agent's four families, assigned by rank alone, in each
+  player's own labels.
+- `agents.py`: `Agent`, named trunks (tanh MLPs or a GRU) read by named heads. A layout says which
+  trunk each head reads, so whether heads share a representation is configuration (D8): heads on one
+  trunk shape each other through it, a head on its own trunk cannot, and a detached head reads its
+  trunk without training it. `tie(x, w)` is the `J` dial.
+- Wings: `observer.py`, `scheduling.py` (tabular), `oneshot.py` (the game agent), `partners.py`,
+  `dependence.py`, `rounds.py` (the hidden-game and iterated agents: one environment, one trainer),
+  `adversary.py` (unknown adversaries, on `rounds.py`).
+
+Run from the repo root, e.g. `python experiments/learned_expectations/run_observer.py`.
+
 ## The observer
 
 An event is announced at 0 and resolves at `s`. At each `t < s` the self holds a subjective
@@ -38,21 +64,21 @@ later revisions: at each `t` it expects to keep `q_t` until `s`. The objective i
 objective expected life-sum minus a cost of self-deception, `Σ_t KL(q_t ‖ p) / τ`; without
 it, beliefs at the felt calibrations run to N3's corners.
 
-- `observer.py`: the model in closed form (core N3, canonical), differentiable in the belief
-  path, and a numerical reference optimizer (multistart Adam plus the best step path; no
-  certificate of global optimality). Checked against an independent Bayesian tree solver at
-  `q = p` (welfare to 1e-10) and against finite differences (gradient to 3e-10).
+- `felt.BeliefPath`: the model in closed form (core N3, canonical), differentiable in the belief
+  path. Checked against an independent Bayesian tree solver at `q = p` (welfare to 1e-10) and
+  against finite differences (gradient to 3e-10).
+- `observer.py`: a numerical reference optimizer (multistart Adam plus the best step path; no
+  certificate of global optimality), and the learned observer.
 - `run_observer.py`: reference-optimal belief paths at the life calibration for three kinds of
   event and four tethers; writes `observer_paths.png`.
 - `learn_observer.py`: one network that maps an event's features to a belief path, trained on
-  felt welfare across random events and compared with the reference optimum on held-out events.
+  felt welfare across random events and compared with the reference optimum on held-out events
+  (writes its weights to `observer_net.pt`, not versioned).
 
 The objective has a kink wherever two consecutive beliefs agree (a zero revision, priced at
 `λ` on one side), so optimal beliefs are sticky and smooth optimizers stall on them; the
 reference optimizer uses Adam with a decaying rate from several starts, including the best
 step-shaped path.
-
-Run from the repo root, e.g. `python experiments/learned_expectations/run_observer.py`.
 
 ## The scheduling agent (decision.md D3)
 
@@ -79,9 +105,10 @@ differences (1e-9) and the reduced form on deterministic plans (7e-12).
 Random 2×2 games, one network for both roles, simultaneous gradient self-play. Each game is
 the observer's event: moves at the announcement, revealed at `s`, my payoff set by the
 other's move; my belief about it is chosen under the KL tether. Felt welfare in closed form,
-batched (`felt.py`, checked against `observer.py` to 2e-15).
+batched (`felt.Event`, checked against `felt.BeliefPath` to 1e-15).
 
-- Variants (`games.py`): expected payoffs (the Nash baseline); felt with calibrated beliefs;
+- Variants (`oneshot.py`; the belief head reads the action's trunk, or its own with
+  `separate_belief`): expected payoffs (the Nash baseline); felt with calibrated beliefs;
   felt with free beliefs (D7's decoupled affect); felt with action coupled to belief (a soft
   best response to one's own belief).
 - `run_games.py`: equilibrium play by game class, equilibrium selection, motivated beliefs, and
@@ -104,9 +131,9 @@ they share.
   offset in the TD loss, expectile TD, a canonical critic that forecasts felt utility itself,
   rewards shifted for the learners only, a critic detached from the shared state, and the
   critic as the policy's baseline.
-- `repeated.py` (agent, felt utility, trainer); `run_repeated.py` (the variants over seeds;
-  `repeated_report.txt`, `repeated.png`); `run_braced.py` (what the critic's level does,
-  sixteen critics over seeds; `braced_report.txt`, `braced.png`); `run_alignment.py` (value
+- `rounds.py` (the `Hidden` source, `hidden_layout`, rollout and trainer); `run_repeated.py` (the
+  variants over seeds; `repeated_report.txt`, `repeated.png`); `run_braced.py` (what the critic's
+  level does, eighteen critics over seeds; `braced_report.txt`, `braced.png`); `run_alignment.py` (value
   and staying share a direction in the state; `alignment_report.txt`); `run_channels.py` (the
   critic's level through the state, through the policy's baseline, or both;
   `channels_report.txt`); `run_evolve.py` (heritable felt parameters under selection on
@@ -123,9 +150,26 @@ the network at the TD loss's mean target over all learners' episodes, D8). Self-
 shared weights, REINFORCE on rewards-to-go; objective selfish (my payoffs) or team (both
 players'). With mixed partners, half of each batch is played against scripted partners
 (always cooperate, always defect, tit for tat, coin flip).
-`iterated.py`; `run_iterated.py` (writes `iterated_report.txt`, `iterated.png`); `run_baselines.py` (the
+`rounds.py` (the `Iterated` source, `iterated_layout`, scripted partners); `run_iterated.py`
+(writes `iterated_report.txt`, `iterated.png`); `run_baselines.py` (the
 policy gradient's noise by baseline, batch mean against groups of episodes sharing their context;
 `baselines_report.txt`).
+
+## The unknown-adversary agent
+
+The iterated agent against a partner drawn per episode and never revealed: a copy (the same network,
+both seats learning), a past self (a frozen snapshot from earlier in training, a league), or one of
+eight scripts (always cooperate, always defect, tit for tat, coin flip, grim, win-stay lose-shift,
+suspicious and generous tit for tat); three more scripts are held out for evaluation (alternate,
+tit for two tats, an extortionate reactive strategy). Horizons fixed (10 rounds), geometric
+(continuation 0.9, capped at 30) or uniform (5–15), the clock running against the public cap.
+Objectives selfish, twin (plus the partner's payoff only when it is a true copy: dependence gated on
+an identity the agent does not see) or altruist (plus the partner's payoff always), weighted copies
+1/4, past selves 1/4, scripts 1/2. Dr. GRPO-style groups of 4 episodes share horizon, games, labels and
+partner, with leave-one-out baselines; the critic honest with its level outside, or motivated, rosy or
+braced, on the shared state. `adversary.py`; `run_adversary.py` (`adversary_report.txt`,
+`adversary.png`; per partner, a probe for its identity on the state, and cross-play among the final
+agents).
 
 ## The partners agent
 
@@ -145,7 +189,8 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   interpersonal `J`, analytic; `trust_report.txt`).
 - Inferred dependence: a twin told only a noisy similarity signal adds its dependence gradient, evaluated
   in the copy branch, at its estimate `d(s)` that the partner is a copy (a Bayesian posterior under an
-  assumed model, or a head fit to identities revealed after each match), against the identity oracle.
+  assumed model, or a head on its own trunk fit to identities revealed after each match), against the
+  identity oracle.
   Strangers and forgers (strangers with copy-like signals) are frozen causal networks from a shared bank.
   `dependence.py` (`python dependence.py` checks that the calibrated twin's expected gradient is the
   oracle's, payoff and felt); `run_dependence.py` (`dependence_report.txt`, `dependence.png`).
@@ -225,7 +270,7 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
 - **A high critic keeps the agent complacent.** The policy never reads the critic, yet the
   critic's level decides the escape, through the state they share. A free critic is rosy when
   anticipation outweighs chronic disappointment (`aν > nλ(1−ν)`) and braced otherwise: honest
-  critics escape in 7/8 seeds (steps 250–1500), braced ones in 8/8 (by step 750), rosy ones in
+  critics escape in 7/8 seeds (steps 250–1250), braced ones in 8/8 (by step 750), rosy ones in
   0/8 (`braced_report.txt`, `braced.png`).
   - It is the level, not the bias. An honest critic of rewards shifted by +0.5 (a shift the
     state does not see and the policy's baseline removes, so only the critic's numbers move)
@@ -245,9 +290,9 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
     the critic's push on the state also stops the honest critic from escaping (0/4), though
     its mean residual is small and fluctuates in sign.
   - The canonical critic, honest about felt utility, sits above payoffs at `λ = 1` (its target
-    includes echoes) and escapes in 1/4; at `λ = 2` in 3/8, late.
+    includes echoes) and escapes in 1/4; at `λ = 2` in 1/8, late.
 - **Through the decision rule instead.** With the critic as the policy's baseline and kept off
-  the state, its level makes no detectable difference (honest 3/6, rosy 2/6, braced 3/6;
+  the state, its level makes no detectable difference (honest 3/6, rosy 1/6, braced 2/6;
   `channels_report.txt`): a baseline's level leaves the expected gradient unchanged and acts
   only through sampling noise (Chung et al. 2021), which batches of 2048 games average away.
   With an undiscounted critic, whose honest values are higher, the shared-state channel keeps

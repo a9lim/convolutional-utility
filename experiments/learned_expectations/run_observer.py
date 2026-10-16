@@ -8,9 +8,9 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from observer import World, kl, optimal_beliefs  # noqa: E402
+from felt import LIFE, BeliefPath, kl  # noqa: E402
+from observer import optimal_beliefs  # noqa: E402
 
-LIFE = dict(a=0.0643, al=0.7, m=0.3967, mu=0.3, n=0.2, nu=0.7, lam=1.5)      # core.md calibration, weekly
 T, S = 40, 30
 EVENTS = {"risky event ±1, p = 0.5": (1.0, -1.0, 0.5),
           "likely good: +1 or 0, p = 0.8": (1.0, 0.0, 0.8),
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(1, len(EVENTS), figsize=(14, 4.2), sharey=False)
     t0 = time.time()
     for ax, (name, (zh, zl, p)) in zip(axes, EVENTS.items()):
-        w = World(T, S, LIFE["a"], LIFE["al"], LIFE["m"], LIFE["mu"], LIFE["n"], LIFE["nu"], LIFE["lam"])
+        w = BeliefPath(T, S, **LIFE)
         W0 = float(w.run(torch.full((S,), p), zh, zl, p)[0])
         lead = S - np.arange(S)
         for tau, col in zip(TAUS, ("#9ecae1", "#6baed6", "#3182bd", "#08519c")):

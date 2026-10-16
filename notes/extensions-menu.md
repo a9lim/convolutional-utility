@@ -230,7 +230,7 @@ open-source games, coupling thresholds for cooperation, close to the twin dial).
   - A partner that feeds early rewards to raise a learner's critic level, then exploits
     it ("a rosy critic makes a sucker", adversarially).
 - **F11. News from one's own mixed action.** *synthesis; a modelling fix*
-  - `games.py` evaluates action-conditioned felt values, so resolving one's own lottery is
+  - `oneshot.py` evaluates action-conditioned felt values, so resolving one's own lottery is
     never felt as news. Timing matters most in cyclic games, where the motivated beliefs
     are (Dato et al.).
 

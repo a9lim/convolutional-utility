@@ -18,8 +18,8 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from partners import slopes, train  # noqa: E402
-from run_twin import symmetric_family  # noqa: E402
+from games import symmetric_family  # noqa: E402
+from partners import policy, slopes, train  # noqa: E402
 
 HERE = os.path.dirname(__file__)
 VARIANTS = {
@@ -77,7 +77,7 @@ def one(job):
             if not signal and bit == 1.0:
                 continue
             with torch.no_grad():
-                pc = torch.stack([n(m, t, torch.full((len(A),), bit if signal else 0.0)) for n in nets])  # (K, G)
+                pc = torch.stack([policy(n, m, t, torch.full((len(A),), bit if signal else 0.0)) for n in nets])  # (K, G)
             ref = key if signal else "mixed"
             cl = classes({0: sl[D][ref], 1: sl[1 - D][ref]})
             res["copy" if bit == 1.0 and signal else ("other" if signal else "no signal")] = dict(

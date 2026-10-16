@@ -12,32 +12,16 @@ import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
 from games import classify, pure_nash  # noqa: E402
-from repeated import FEEL, rollout, train  # noqa: E402
+from agents import balanced_probe  # noqa: E402
+from felt import ROUNDS  # noqa: E402
+from rounds import Hidden, rollout, train  # noqa: E402
 
 HERE = os.path.dirname(__file__)
 K, SEEDS = 10, range(4)
-WEAK = dict(FEEL, a=0.05)
-VARIANTS = {"payoff": ("payoff", "honest", FEEL), "calibrated": ("felt", "honest", FEEL),
-            "motivated": ("felt", "motivated", FEEL), "calibrated, a = 0.05": ("felt", "honest", WEAK),
+WEAK = dict(ROUNDS, a=0.05)
+VARIANTS = {"payoff": ("payoff", "honest", ROUNDS), "calibrated": ("felt", "honest", ROUNDS),
+            "motivated": ("felt", "motivated", ROUNDS), "calibrated, a = 0.05": ("felt", "honest", WEAK),
             "motivated, a = 0.05": ("felt", "motivated", WEAK)}
-
-
-def balanced_probe(X, y, n_tr, steps=2000):
-    """Balanced accuracy of a linear probe for game class (class-weighted training)."""
-    mu, sd = X[:n_tr].mean(0), X[:n_tr].std(0) + 1e-9
-    X = (X - mu) / sd
-    w = torch.bincount(y[:n_tr], minlength=4).double()
-    w = (w.sum() / (4 * w.clamp_min(1)))
-    W, b = torch.zeros(X.shape[1], 4, requires_grad=True), torch.zeros(4, requires_grad=True)
-    opt = torch.optim.Adam([W, b], lr=0.05)
-    for _ in range(steps):
-        opt.zero_grad()
-        torch.nn.functional.cross_entropy(X[:n_tr] @ W + b, y[:n_tr], weight=w).backward()
-        opt.step()
-    with torch.no_grad():
-        pred = (X[n_tr:] @ W + b).argmax(1)
-        yt = y[n_tr:]
-        return float(np.mean([float((pred[yt == k] == k).float().mean()) for k in range(4)]))
 
 
 def one(job):
@@ -50,16 +34,16 @@ def one(job):
     A, Bm = torch.rand(G, 2, 2, generator=gen) * 2 - 1, torch.rand(G, 2, 2, generator=gen) * 2 - 1
     cls, ne = classify(A, Bm), pure_nash(A, Bm)
     with torch.no_grad():
-        rec = rollout(agent, A, Bm, K, torch.Generator().manual_seed(1))
+        rec = rollout(agent, Hidden(A, Bm), K, torch.Generator().manual_seed(1))
     R = rec[0]
     disc, acc = torch.zeros_like(R["r"]), torch.zeros(G)        # realized discounted payoff-to-go
     for k in reversed(range(K)):
-        acc = R["r"][:, k] + FEEL["nu"] * acc
+        acc = R["r"][:, k] + ROUNDS["nu"] * acc
         disc[:, k] = acc
     last = [(rec[i]["pi"][:, -1] < 0.5).long() for i in range(2)]
     hit = ne[torch.arange(G), last[0], last[1]]
     return v, dict(pay=R["r"].mean(0).numpy(), bias=(R["C"] - disc).mean(0).numpy(),
-                   probes=[balanced_probe(R["h"][:, k], cls, n_tr) for k in (0, 1, 2, 4, 9)],
+                   probes=[balanced_probe(R["h"][:, k], cls, n_tr, 4) for k in (0, 1, 2, 4, 9)],
                    eq=[float(hit[cls == c].float().mean()) for c in (1, 2, 3)], late=float(R["r"][:, -3:].mean()))
 
 

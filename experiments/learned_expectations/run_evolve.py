@@ -1,8 +1,8 @@
 """Which ways of feeling survive? Evolution of heritable felt parameters in learning agents. Run:
 python experiments/learned_expectations/run_evolve.py   (writes evolve_report.txt, evolve.png; runs in parallel)
 
-Each generation, a population of hidden-game agents (repeated.py) is born untrained, with heritable felt
-parameters (anticipation a, news n, loss aversion lam; echoes otherwise as FEEL), and learns for one lifetime
+Each generation, a population of hidden-game agents (rounds.py) is born untrained, with heritable felt
+parameters (anticipation a, news n, loss aversion lam; echoes otherwise as felt.ROUNDS), and learns for one lifetime
 of LIFE steps playing random 2x2 games against randomly paired members, each from its own seat. Fitness is
 lifetime payoff, which rewards learning fast. The top half each leave two offspring with log-normally
 mutated parameters (a, n and lam - 1); weights are not inherited. Variants:
@@ -21,7 +21,9 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from repeated import FEEL, Agent, felt, rollout, td_loss  # noqa: E402
+from agents import Agent  # noqa: E402
+from felt import ROUNDS, rounds_direct  # noqa: E402
+from rounds import Hidden, hidden_layout, rollout, td_loss  # noqa: E402
 
 P, G, K = 8, 2048, 10
 LIFE = int(os.environ.get("LIFE", "1500"))
@@ -35,26 +37,26 @@ def unpack(g):
 
 
 def loss_of(R, f, variant):
-    reward = felt(R, R["C"].detach(), f) if variant == "felt agents" else R["r"]
+    reward = rounds_direct(R["r"], R["C"].detach(), f) if variant == "felt agents" else R["r"]
     ret = torch.flip(torch.cumsum(torch.flip(reward.detach(), [1]), 1), [1])
     loss = -(R["logp"] * (ret - ret.mean(0, keepdim=True))).mean() + td_loss(R, f)
     if variant != "neutral":
-        loss = loss - felt(R, R["C"], f).sum(1).mean()
+        loss = loss - rounds_direct(R["r"], R["C"], f).sum(1).mean()
     return loss
 
 
 def lifetime(genomes, variant, rng, gen):
     """Train a fresh population for one lifetime; returns each member's mean payoff over it."""
-    agents = [Agent() for _ in genomes]
+    agents = [Agent(**hidden_layout()) for _ in genomes]
     opts = [torch.optim.Adam(ag.parameters(), lr=3e-3) for ag in agents]
-    feels = [dict(FEEL, **unpack(g)) for g in genomes]
+    feels = [dict(ROUNDS, **unpack(g)) for g in genomes]
     total, g = np.zeros(P), G // (P // 2)
     for _ in range(LIFE):
         A, Bm = torch.rand(G, 2, 2, generator=gen) * 2 - 1, torch.rand(G, 2, 2, generator=gen) * 2 - 1
         order, loss = rng.permutation(P), 0.0
         for p in range(P // 2):
             i, j = order[2 * p], order[2 * p + 1]
-            rec = rollout(agents[i], A[p * g:(p + 1) * g], Bm[p * g:(p + 1) * g], K, gen, other=agents[j])
+            rec = rollout(agents[i], Hidden(A[p * g:(p + 1) * g], Bm[p * g:(p + 1) * g]), K, gen, other=agents[j])
             for seat, k in ((0, i), (1, j)):
                 loss = loss + loss_of(rec[seat], feels[k], variant)
                 total[k] += float(rec[seat]["r"].mean())

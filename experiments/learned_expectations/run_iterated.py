@@ -14,20 +14,20 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from iterated import FAMILIES, PARTNERS, rollout, train  # noqa: E402
+from rounds import ITERATED, PARTNERS, Iterated, rollout, train  # noqa: E402
 
 HERE = os.path.dirname(__file__)
-VARIANTS = {"selfish, 10 rounds": (dict(objective="selfish"), 4), "selfish, one round": (dict(objective="selfish", K=1), 2),
-            "team, 10 rounds": (dict(objective="team"), 2),
-            "selfish, mixed partners": (dict(objective="selfish", mixed=True), 4),
-            "selfish, mixed partners, 9000 steps": (dict(objective="selfish", mixed=True, steps=9000), 4)}
+VARIANTS = {"selfish, 10 rounds": (dict(ITERATED), 4), "selfish, one round": (dict(ITERATED, K=1), 2),
+            "team, 10 rounds": (dict(ITERATED, reward="team"), 2),
+            "selfish, mixed partners": (dict(ITERATED, partners=PARTNERS), 4),
+            "selfish, mixed partners, 9000 steps": (dict(ITERATED, partners=PARTNERS, steps=9000), 4)}
 
 
 def evaluate(player, K):
     gen = torch.Generator().manual_seed(77)
     G = 16384
     with torch.no_grad():
-        R = rollout(player, G, gen, K=K)
+        R = rollout(player, Iterated(G), K, gen)
     coop, fam, r = R[0]["coop"], R[0]["fam"], R[0]["r"]
     other = R[1]["coop"]
     out = dict(coop={f: float(coop[fam == f].mean()) for f in range(4)},
@@ -46,7 +46,7 @@ def evaluate(player, K):
         out["partners"] = {}
         for name, partner in PARTNERS.items():
             with torch.no_grad():
-                Rp = rollout(player, G, torch.Generator().manual_seed(78), partner=partner, K=K)
+                Rp = rollout(player, Iterated(G), K, torch.Generator().manual_seed(78), other=partner)
             pd = Rp[0]["fam"] == 0
             out["partners"][name] = ({f: float(Rp[0]["coop"][Rp[0]["fam"] == f].mean()) for f in range(4)},
                                      float(Rp[0]["r"].mean()),
@@ -62,7 +62,7 @@ def one(job):
 
     def monitor(it, player):
         with torch.no_grad():
-            R = rollout(player, 4096, torch.Generator().manual_seed(5), K=kw.get("K", 10))
+            R = rollout(player, Iterated(4096), kw.get("K", 10), torch.Generator().manual_seed(5))
         curve.append([float(R[0]["coop"][R[0]["fam"] == f].mean()) for f in range(4)])
 
     player = train(seed=seed, monitor=monitor, **kw)

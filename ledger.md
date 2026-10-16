@@ -35,6 +35,9 @@ at `22c5c4f`).
   iterated agent's level followed self-play only, so with mixed partners the head carried a
   mean push of −0.29 on the shared state (−0.5 in rounds 1–2). Fixed, it is 0.00; prisoner's
   dilemma cooperation went from 0.35 to 0.29, with the qualitative results unchanged.
+- Refactoring learners: record bitwise fingerprints first (short runs, objectives, gradients,
+  rollouts) and keep the arithmetic in the same order, so reports are rerun only where the
+  numerics change on purpose.
 - Claims made in chat get checked before they reach the docs. Wrong first: dread pricing
   information in the direct model, CDT/FDT as the mortality/eternity split, "no adaptation
   at task scales", conservation taming copy-counted anthropics.
@@ -84,3 +87,11 @@ requests: `next-steps.md`, item 7.
   (model, objects, echoes, news, calibration, horizons), next-steps.md cut to open items,
   the Bates results and the learner design moved to `notes/bates.md` and the learner README,
   ledger compacted.
+- **2026-10-16.** Learner-arm walkthrough. Iterated's outside critic level fixed (lesson
+  above); Dr. GRPO-style group baselines measured. The learner arm consolidated into a
+  framework (one felt engine, one games module, agents of named trunks and heads with sharing as
+  configuration, the hidden-game and iterated agents merged into `rounds.py`): 73 of 79
+  fingerprints bitwise identical to the old code, the rest from two intended changes (the
+  hidden-game level follows both seats; the detached critic is computed per round), so braced
+  and channels were rerun. Codex reviewed it (`cu-framework`): latent issues fixed, design
+  notes for unknown adversaries in `next-steps.md`.

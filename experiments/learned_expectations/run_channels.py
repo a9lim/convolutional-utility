@@ -16,11 +16,12 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from repeated import FEEL, rollout, train  # noqa: E402
+from felt import ROUNDS  # noqa: E402
+from rounds import Hidden, rollout, train  # noqa: E402
 from run_braced import evaluate, games  # noqa: E402
 
 SEEDS = range(int(os.environ.get("SEEDS", "6")))
-UNDISCOUNTED = dict(FEEL, nu=1.0)
+UNDISCOUNTED = dict(ROUNDS, nu=1.0)
 LEVELS = {"honest": 0.0, "rosy (+1.5)": 1.5, "braced (-1.5)": -1.5}
 CHANNELS = {"shared state": dict(baseline="batch"), "decision rule": dict(baseline="critic", detach=True),
             "both": dict(baseline="critic")}
@@ -34,7 +35,7 @@ def one(job):
 
     def monitor(it, agent):
         with torch.no_grad():
-            curve.append(float(rollout(agent, A, Bm, 10, torch.Generator().manual_seed(1))[0]["r"][:, -3:].mean()))
+            curve.append(float(rollout(agent, Hidden(A, Bm), 10, torch.Generator().manual_seed(1))[0]["r"][:, -3:].mean()))
 
     off = [0.0] * 9 + [LEVELS[level]]                     # b_k = o_k + b_{k+1}: a constant bias at every round
     agent = train("payoff", "offset", seed=seed, feel=UNDISCOUNTED, offset=off, monitor=monitor, **CHANNELS[channel])

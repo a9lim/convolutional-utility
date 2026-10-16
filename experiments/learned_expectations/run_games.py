@@ -9,31 +9,11 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from games import CLASSES, classify, objectives, pure_nash, sample_games, train, views  # noqa: E402
+from games import CLASSES, classify, pure_nash, risk_dominant, sample_games, views  # noqa: E402
+from oneshot import objectives, play, train  # noqa: E402
 
 VARIANTS = ["payoff", "calibrated", "free", "coupled"]
 HERE = os.path.dirname(__file__)
-
-
-def risk_dominant(A, Bm, ne):
-    """For games with two pure equilibria on a diagonal or anti-diagonal: index (0/1) of the
-    risk-dominant one by the Harsanyi-Selten product of deviation losses, and of the payoff-dominant
-    one if one Pareto-dominates (else -1)."""
-    rd, pd = torch.full((A.shape[0],), -1), torch.full((A.shape[0],), -1)
-    for b in range(A.shape[0]):
-        eqs = [(i, j) for i in (0, 1) for j in (0, 1) if ne[b, i, j]]
-        if len(eqs) != 2 or eqs[0][0] == eqs[1][0] or eqs[0][1] == eqs[1][1]:
-            continue
-        loss = []
-        for (i, j) in eqs:
-            loss.append((A[b, i, j] - A[b, 1 - i, j]) * (Bm[b, i, j] - Bm[b, i, 1 - j]))
-        rd[b] = 0 if loss[0] > loss[1] else 1
-        (i0, j0), (i1, j1) = eqs
-        if A[b, i0, j0] > A[b, i1, j1] and Bm[b, i0, j0] > Bm[b, i1, j1]:
-            pd[b] = 0
-        elif A[b, i1, j1] > A[b, i0, j0] and Bm[b, i1, j1] > Bm[b, i0, j0]:
-            pd[b] = 1
-    return rd, pd
 
 
 def selection_seed(job):
@@ -89,7 +69,7 @@ if __name__ == "__main__":
         with torch.no_grad():
             (o1, o2), (pi1, q1, pi2, q2) = objectives(net, felt, A, Bm, v)
             (m1, t1), _ = views(A, Bm)
-            _, _, h = net(m1, t1)
+            _, _, h = play(net, m1, t1)
         res[v] = (net, felt, pi1, q1, pi2, q2, h)
         i1, i2 = (pi1 < 0.5).long(), (pi2 < 0.5).long()
         hit = ne[torch.arange(len(cls)), i1, i2]

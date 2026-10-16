@@ -1,6 +1,6 @@
 """Partners: twins, altruists and felt empathy, in a population with a similarity signal (notes/empathy.md).
 
-A population of independently initialized networks plays random symmetric 2x2 games, each one games.py's
+A population of independently initialized networks plays random symmetric 2x2 games, each one the game agent's (felt.Event)
 event: moves at the announcement, revealed at s. Each network's objective mixes matches against a copy of
 itself (weight sigma) and against another network (weight 1 - sigma); an input bit says which (flipped
 with probability eps, or absent). Beliefs are calibrated. Three dials:
@@ -11,25 +11,20 @@ with probability eps, or absent). Beliefs are calibrated. Three dials:
 """
 import torch
 
-from felt import Felt
-from games import FEEL, views
+from agents import Agent, tie
+from felt import EVENT, Event
+from games import views
 
 torch.set_default_dtype(torch.float64)
 
 
-class Net(torch.nn.Module):
-    def __init__(self, width=128):
-        super().__init__()
-        self.f = torch.nn.Sequential(torch.nn.Linear(9, width), torch.nn.Tanh(), torch.nn.Linear(width, width),
-                                     torch.nn.Tanh(), torch.nn.Linear(width, 1))
-
-    def forward(self, mine, theirs, signal):
-        """P(my move 0) from (my payoffs, their payoffs), both indexed [my move, their move], and the bit."""
-        return torch.sigmoid(self.f(torch.cat([mine.flatten(1), theirs.flatten(1), signal[:, None]], 1))[:, 0])
+LAYOUT = dict(trunks={"main": ("mlp", 9, (128, 128))}, heads={"act": dict(trunk="main")})
 
 
-def tie(x, w):
-    return x.detach() + w * (x - x.detach())
+def policy(agent, mine, theirs, signal):
+    """P(my move 0) from (my payoffs, their payoffs), both indexed [my move, their move], and the bit."""
+    x = torch.cat([mine.flatten(1), theirs.flatten(1), signal[:, None]], 1)
+    return torch.sigmoid(agent.heads_on(x, ("act",))[0]["act"][:, 0])
 
 
 def values(felt, q, p, X):
@@ -69,7 +64,7 @@ def match(n1, n2, A, copy, felt, signal, eps, gen, dials):
     """Both seats' objectives on symmetric games A (B, 2, 2), the column player's payoffs A^T."""
     (m1, t1), (m2, t2) = views(A, A.transpose(1, 2))
     s1, s2 = signals(copy, len(A), signal, eps, gen)
-    pi1, pi2 = n1(m1, t1, s1), n2(m2, t2, s2)
+    pi1, pi2 = policy(n1, m1, t1, s1), policy(n2, m2, t2, s2)
     return (objective(pi1, pi2, m1, t1, copy, felt, **dials).mean(),
             objective(pi2, pi1, m2, t2, copy, felt, **dials).mean())
 
@@ -81,8 +76,8 @@ def train(K=4, sigma=0.5, signal=True, eps=0.0, felt=False, strangers="others", 
     move with the network's parameters between steps)."""
     gen = torch.Generator().manual_seed(seed)
     torch.manual_seed(seed)
-    nets = [Net() for _ in range(K)]
-    F = Felt(**FEEL) if felt else None
+    nets = [Agent(**LAYOUT) for _ in range(K)]
+    F = Event(**EVENT) if felt else None
     opt = torch.optim.Adam([w for n in nets for w in n.parameters()], lr=lr)
     for it in range(steps):
         loss = 0.0
@@ -122,10 +117,10 @@ def slopes(A, F, sigma, dials, at):
 if __name__ == "__main__":
     # checks: python partners.py
     gen = torch.Generator().manual_seed(1)
-    F = Felt(**FEEL)
+    F = Event(**EVENT)
     A = torch.rand(2000, 2, 2, generator=gen) * 2 - 1
     # gradient ownership: in a match between different networks, each objective reaches only its own owner
-    a, b = Net(), Net()
+    a, b = Agent(**LAYOUT), Agent(**LAYOUT)
     for dials in (dict(wT=1.0, wE=0.5, J=1.0), dict(wE=0.5, J=0.0)):
         o1, o2 = match(a, b, A, False, F, True, 0.0, gen, dials)
         ga = torch.autograd.grad(o1, list(a.parameters()) + list(b.parameters()), allow_unused=True)

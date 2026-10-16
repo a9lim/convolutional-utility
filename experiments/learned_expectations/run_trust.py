@@ -3,7 +3,7 @@ python experiments/learned_expectations/run_trust.py   (writes trust_report.txt)
 
 Ann trusts at 0, or takes the outside option (payoff 0, no event). Trusting announces an event: Ann holds a
 belief q that Bob honors from 0 until he chooses at s, when his move is revealed: she gets H if he honors,
-L if he grabs (felt.py's event; her anticipation is already felt when he chooses, decision.md D1's timing).
+L if he grabs (felt.Event; her anticipation is already felt when he chooses, decision.md D1's timing).
 Bob gets h or g > h, felt as a sure payoff from 0 (he knows his own move). Bob maximizes his felt welfare
 plus w times Ann's. Finite deviations between pure policies:
 - J = 0, Ann's forecast fixed at q: honoring gains Ann W(q, 1) - W(q, 0); at q = 1 grabbing lets her down
@@ -17,8 +17,7 @@ import sys
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from felt import Felt  # noqa: E402
-from games import FEEL  # noqa: E402
+from felt import EVENT, Event  # noqa: E402
 
 torch.set_default_dtype(torch.float64)
 HERE = os.path.dirname(__file__)
@@ -35,15 +34,15 @@ def gains(F):
 
 
 def calibrations():
-    out = {"FEEL (a 0.15, n 0.3, lam 2, s 8)": FEEL,
-           "no news (n 0)": dict(FEEL, n=0.0),
-           "linear news (lam 1)": dict(FEEL, lam=1.0),
-           "no anticipation (a 0)": dict(FEEL, a=0.0)}
+    out = {"EVENT (a 0.15, n 0.3, lam 2, s 8)": EVENT,
+           "no news (n 0)": dict(EVENT, n=0.0),
+           "linear news (lam 1)": dict(EVENT, lam=1.0),
+           "no anticipation (a 0)": dict(EVENT, a=0.0)}
     for s in (2, 14):
-        out[f"anticipation horizon s {s}"] = dict(FEEL, s=s)
-    out["stronger anticipation a 0.2"] = dict(FEEL, a=0.2)
-    out["felt calibration (n 0.2, lam 1.5)"] = dict(FEEL, n=0.2, lam=1.5)
-    out["weak news (n 0.1)"] = dict(FEEL, n=0.1)
+        out[f"anticipation horizon s {s}"] = dict(EVENT, s=s)
+    out["stronger anticipation a 0.2"] = dict(EVENT, a=0.2)
+    out["felt calibration (n 0.2, lam 1.5)"] = dict(EVENT, n=0.2, lam=1.5)
+    out["weak news (n 0.1)"] = dict(EVENT, n=0.1)
     return out
 
 
@@ -52,12 +51,12 @@ if __name__ == "__main__":
     say = lambda s: (print(s, flush=True), lines.append(s))
     say(f"Ann: outside 0, honor {H}, grab {L}; Bob: honor {h}, grab {h} + t. Ann's felt welfare W(q, p): her belief q "
         "that Bob honors, his actual P(honor) p. Temptation Bob resists, per unit empathy w: t* / w = gain / own.")
-    say("Forward kernel mass a sum alpha^j is 0.58 at FEEL and 0.77 at a 0.2, inside the well-founded range.")
+    say("Forward kernel mass a sum alpha^j is 0.58 at EVENT and 0.77 at a 0.2, inside the well-founded range.")
     say(f"{'calibration':38s} {'W(1,1)':>7s} {'W(1,0)':>7s} {'W(0,0)':>7s} | {'own':>5s} | t*/w: "
         f"{'J0, q=1':>8s} {'J0, q=0':>8s} {'J1':>8s} | J1 vs J0 (q=1)")
     for name, kw in calibrations().items():
         try:
-            g = gains(Felt(**kw))
+            g = gains(Event(**kw))
         except ValueError as e:
             say(f"{name:38s} {e}")
             continue

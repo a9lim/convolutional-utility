@@ -18,47 +18,22 @@ The dial: forecasts use pi_f = pi.detach() + w (pi - pi.detach()).
 import numpy as np
 import torch
 
+from felt import kernel_parts, news_root, resolvents
+
 torch.set_default_dtype(torch.float64)
-
-
-def K_matrix(T, a, al, m, mu):
-    d = np.arange(T)[None, :] - np.arange(T)[:, None]
-    return np.where(d > 0, a * al ** np.clip(d, 0, None), 0.0) + np.where(d < 0, m * mu ** np.clip(-d, 0, None), 0.0)
 
 
 class Schedule:
     def __init__(self, T, a, al, m, mu, n, nu, v=1.0, lam=1.0):
         self.T, self.v, self.lam = T, v, lam
-        K = K_matrix(T, a, al, m, mu)
-        self.K = torch.tensor(K)
-        self.R = [torch.tensor(np.linalg.inv(np.eye(T - t) - K[t:, t:])) for t in range(T)]
+        Kf, Kb, Kn = kernel_parts(T, a, al, m, mu, n, nu)                       # [t, t']
+        self.K = torch.tensor(Kf + Kb)
+        self.R = [torch.tensor(R) for R in resolvents(Kf + Kb)]
         self.kn = torch.tensor(n * nu ** np.arange(T))
         self.kap = [float(self.kn[:T - t] @ self.R[t][:, 0]) for t in range(T)]
         if lam * max(self.kap) >= 1:
             raise ValueError("past the news threshold")
-        d = np.arange(T)[None, :] - np.arange(T)[:, None]                     # t' - t
-        self.Kf = torch.tensor(np.where(d > 0, a * al ** np.clip(d, 0, None), 0.0))
-        self.Kb = torch.tensor(np.where(d < 0, m * mu ** np.clip(-d, 0, None), 0.0))
-        self.Kn = torch.tensor(np.where(d >= 0, n * nu ** np.clip(d, 0, None), 0.0))
-
-    def news(self, d, g, kn):
-        """Felt news of a deterministic revision d, s = kn . phi_lam(d + s g). Linear at lam = 1; otherwise
-        the root's piece is found at every kink at once (h is increasing below the threshold) and its affine
-        solution carries the gradient."""
-        if self.lam == 1.0:
-            return (d @ kn) / (1 - kn @ g)
-        lam, n = self.lam, d.shape[1]
-        with torch.no_grad():
-            br = torch.sort(-d / g, dim=1).values
-            X = d[:, None, :] + br[:, :, None] * g[None, None, :]
-            h = br - (torch.where(X >= 0, X, lam * X) * kn).sum(-1)
-            k = (h < 0).sum(1)
-            rows = torch.arange(d.shape[0])
-            lo = torch.where(k > 0, br[rows, (k - 1).clamp_min(0)], br[:, 0] - 1)
-            hi = torch.where(k < n, br[rows, k.clamp_max(n - 1)], br[:, -1] + 1)
-            mid = (lo + hi) / 2
-        c = torch.where(d + mid[:, None] * g >= 0, 1.0, lam)
-        return ((c * d) @ kn) / (1 - (c * g) @ kn)
+        self.Kf, self.Kb, self.Kn = torch.tensor(Kf), torch.tensor(Kb), torch.tensor(Kn)
 
     def policy(self, theta):
         return torch.cat([torch.sigmoid(theta), torch.ones(1)])
@@ -143,11 +118,9 @@ def reference(sched, v=1.0):
     (backward induction over credible plans, chosen at the announcement), plus the credible set C_1."""
     T = sched.T
     R = [r.numpy() for r in sched.R]
-    kn = sched.kn.numpy()
 
     def news(d, t):
-        out = sched.news(torch.tensor(d)[None, :], sched.R[t][:, 0], sched.kn[:T - t])
-        return float(out[0])
+        return float(news_root(torch.tensor(d)[None, :], sched.R[t][:, 0], sched.kn[:T - t], sched.lam)[0])
 
     def delta(t, p, q):
         d = v * (R[t][:, q - t] - R[t][:, p - t])

@@ -17,8 +17,21 @@ in `formalism/` and the experiment READMEs; this file lists only what is open.
      policy gradient alone, plus the game-varying critic gradient, plus its per-round mean;
      round-2 stay logit on fixed first-round histories.
    - **Seeds.** The game agent's motivated-belief pattern is still one run.
-   - **Iterated games.** Partner populations of learners rather than scripts; felt-utility
-     variants (does a rosy critic make a sucker?).
+   - **Unknown adversaries** (next; on the framework, `rounds.py`). Iterated games with random
+     horizons (geometric or uniform: the hazard's shape as a dial for the end game) against a
+     partner drawn per episode and never revealed: scripts, copies, frozen past snapshots (a
+     league), a frozen independent bank, co-learners, held-out partners. Selfish, twin (gated on
+     true copies), altruist and felt objectives; Dr. GRPO-style group baselines (groups of about
+     4) and a separate-critic GAE arm. Predictions: twins invent a handshake (the copy bit, from
+     behavior); past snapshots act as forgers; a rosy critic makes a sucker. Design (Codex,
+     `cu-framework`): padded episodes with masks and per-episode terminal bootstraps; time not
+     normalized by the realized horizon (it would reveal it); a group shares horizon, games,
+     labels and partner; privileged per-episode metadata (partner, true copy, group) kept out of
+     the observation; the objective's weights over partner types made explicit; the felt
+     critic `C` (affect, discount `ν`) kept apart from the advantage baseline `V` (discount
+     `γ`); `rounds.train` split into rollout, rewards, advantages, critic targets and update.
+   - **The generalist.** Every head on one trunk across wings: does affect trained in one
+     context change action in another (D8 across tasks)? After the per-task baselines.
    - **Evolving felt parameters.** Is `λ`'s neutrality the consolation term undoing its
      bracing (evolve `λ` with `n` fixed, and with consolation removed)? Longer lifetimes,
      where escape speed matters less; welfare (felt) against fitness (payoff) of the evolved
@@ -37,7 +50,8 @@ in `formalism/` and the experiment READMEs; this file lists only what is open.
      (information avoidance, D5) and saturating news near the threshold; in the game
      distribution, whether the affect policy prefers not to tell games apart early (D7).
    - **Evidence gaps** (2026-10-15 audit): archive the twin-dial output and the
-     anticipated-news comparison (the "84% of directions" figure has no script); report the
+     anticipated-news comparison (the "84% of directions" figure has no script), and the
+     observer's tree-solver and finite-difference checks; report the
      consolation gap stratified by round (pooled 0.33 overstates it by a quarter or so); an
      initialization ablation for credible-plan selection (only 4 of 16 draws are
      informative); does the shared-state sign reverse on a task whose optimum is

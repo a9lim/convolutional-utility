@@ -9,21 +9,8 @@ import sys
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from games import objectives, train  # noqa: E402
-
-
-def symmetric_family(kind, B, gen):
-    """Symmetric 2x2 games A[i, j] (row payoff, move 0 = cooperate / stag), B = A^T.
-    PD: T > R > P > S and 2R > T + S. Stag hunt: R > T >= P > S, risk-dominant hare (R + S < T + P)."""
-    u = torch.rand(B, 4, generator=gen)
-    if kind == "PD":
-        S, P, R, T_ = (torch.sort(u * 2 - 1, 1).values).unbind(1)
-        ok = 2 * R > T_ + S
-    else:
-        S, P, T_, R = (torch.sort(u * 2 - 1, 1).values).unbind(1)
-        ok = R + S < T_ + P
-    A = torch.stack([torch.stack([R, S], 1), torch.stack([T_, P], 1)], 1)[ok]
-    return A, A.transpose(1, 2)
+from games import symmetric_family  # noqa: E402
+from oneshot import objectives, train  # noqa: E402
 
 
 if __name__ == "__main__":

@@ -37,7 +37,7 @@ Setting: my move changes partner `j`'s payoff by `Δ = H − L` (`H` if I cooper
     `(1 + B + n)Δ` when `j` expects a grab: finite deviations favour `J = 1` iff `A > nλ`. The gap is the
     predictability term, which a move between two pure policies does not cross.
 - **Timing.** D1's Newcomb structure needs the anticipation already felt when the choice is made: the
-  trust game below. In simultaneous games (`games.py`, `partners.py`) `J` is forecast dependence without
+  trust game below. In simultaneous games (`oneshot.py`, `partners.py`) `J` is forecast dependence without
   a felt past.
 - **The trust game** (`run_trust.py`, canonical model). Ann trusts at 0 and anticipates until Bob
   chooses at `s`: honor gives her 0.5, grab −0.5 (outside option 0, no event); Bob gets 0.3 or
@@ -63,7 +63,7 @@ Setting: my move changes partner `j`'s payoff by `Δ = H − L` (`H` if I cooper
     no news, or with stronger anticipation. "Parfit's hitchhiker between people" holds where the
     partner's anticipation outweighs her loss-weighted letdown; otherwise guilt, a `J = 0` motive, does
     more, and a `J = 1` empathizer can escape guilt by being expected to betray.
-- **Canonical marginal weights** (`felt.py`, `FEEL`, `H = 0.7, L = −0.5`; the announcement is felt
+- **Canonical marginal weights** (`felt.Event`, `EVENT`, `H = 0.7, L = −0.5`; the announcement is felt
   against a zero prior, so these depend on payoff levels, not only on `Δ`):
 
   | `p` (= `q`) | 0⁺ | 0.25 | 0.5 | 0.75 | 1⁻ |
@@ -160,7 +160,7 @@ copy or stranger. `run_partners.py`, `partners_report.txt`, `partners.png`; chec
   prisoner's dilemma where only all-defect is stable, against 8% at `J = 0`): the gradient learner follows
   local slopes, where `J = 1` carries the predictability term. The trust game's finite comparison can
   go the other way. At `w = 0.25` the gap (0.19 against 0.17; stag hunt 0.39 against 0.34) is within
-  run-to-run variation: rounding-level changes to `felt.py` moved felt rows by up to 0.04.
+  run-to-run variation: rounding-level changes to the felt closed form moved felt rows by up to 0.04.
 - A noisy bit (flipped with probability 0.2) gives graded conditioning (0.68 against 0.22); its gate
   uses true identity, so it is a selection experiment, not inferred dependence.
 

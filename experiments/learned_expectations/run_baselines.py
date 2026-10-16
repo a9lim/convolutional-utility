@@ -18,30 +18,17 @@ import sys
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-import iterated as it  # noqa: E402
+from rounds import ITERATED, PARTNERS, Iterated, rollout, train  # noqa: E402
 
 G, M = 2048, 24
 EST = [("batch", 1), ("rloo", 2), ("rloo", 4), ("rloo", 8), ("rloo", 16), ("rloo", 64), ("grpo-std", 16)]
-SAMPLE = it.sample_round
-
-
-def grouped(g):
-    def sample(n, gen, families=(0, 1, 2, 3)):
-        Mx, fam, flips = SAMPLE(n // g, gen, families)
-        rep = lambda x: x.repeat_interleave(g, 0)  # noqa: E731
-        return rep(Mx), rep(fam), [rep(x) for x in flips]
-    return sample
 
 
 def learners(player, gen, g):
-    it.sample_round = grouped(g) if g > 1 else SAMPLE
-    try:
-        rec = it.rollout(player, G // 2, gen)
-        out = [rec[0], rec[1]]
-        for p in it.PARTNERS.values():
-            out.append(it.rollout(player, G // (2 * len(it.PARTNERS)), gen, partner=p)[0])
-    finally:
-        it.sample_round = SAMPLE
+    rec = rollout(player, Iterated(G // 2, group=g), 10, gen)
+    out = [rec[0], rec[1]]
+    for p in PARTNERS.values():
+        out.append(rollout(player, Iterated(G // (2 * len(PARTNERS)), group=g), 10, gen, other=p)[0])
     return out
 
 
@@ -71,7 +58,7 @@ if __name__ == "__main__":
         if step in (0, 500, 1500):
             snaps[step] = copy.deepcopy(player.state_dict())
 
-    player = it.train(seed=0, mixed=True, monitor=monitor)
+    player = train(**ITERATED, partners=PARTNERS, seed=0, monitor=monitor)
     snaps[3000] = copy.deepcopy(player.state_dict())
     say(f"{G} episodes per estimate, {M} estimates per estimator. cos: mean cosine with the reference gradient; "
         "noise: spread about the estimator's mean over the reference's squared norm.")

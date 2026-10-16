@@ -20,11 +20,11 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from dependence import posterior, signal, slope, train  # noqa: E402
-from games import views  # noqa: E402
-from partners import Net  # noqa: E402
+from agents import Agent  # noqa: E402
+from dependence import dependence_logit, posterior, signal, slope, train  # noqa: E402
+from games import symmetric_family, views  # noqa: E402
+from partners import LAYOUT, policy  # noqa: E402
 from partners import train as train_partners  # noqa: E402
-from run_twin import symmetric_family  # noqa: E402
 
 HERE = os.path.dirname(__file__)
 ETA = 0.5
@@ -58,17 +58,17 @@ def bank_member(seed):
 def load_bank(states):
     bank = []
     for st in states:
-        n = Net()
+        n = Agent(**LAYOUT)
         n.load_state_dict(st)
         n.requires_grad_(False)
         bank.append(n)
     return bank
 
 
-def dhat(kw, dep, s):
+def dhat(kw, agent, s):
     if kw["mode"] == "learned":
         with torch.no_grad():
-            return float(torch.sigmoid(dep(torch.tensor([s]))))
+            return float(torch.sigmoid(dependence_logit(agent, torch.tensor([s]))))
     a_shares, a_eta = kw.get("assume") or (ENV[kw["env"]], ETA)
     return float(posterior(s, a_shares, a_eta))
 
@@ -83,20 +83,20 @@ def one(job):
     kw = VARIANTS[name]
     bank = load_bank(states)
     shares = ENV[kw["env"]]
-    net, dep, F = train(mode=kw["mode"], w=kw.get("w", 1.0), shares=shares, eta=ETA, assume=kw.get("assume"),
+    net, F = train(mode=kw["mode"], w=kw.get("w", 1.0), shares=shares, eta=ETA, assume=kw.get("assume"),
                         bank=bank, felt=kw.get("felt", False), seed=seed, steps=int(os.environ.get("STEPS", "4000")))
     gen = torch.Generator().manual_seed(99)
-    out = {"d": [dhat(kw, dep, s) for s in GRID], "fam": {}, "pay": {}}
+    out = {"d": [dhat(kw, net, s) for s in GRID], "fam": {}, "pay": {}}
     with torch.no_grad():
         for fam, A in {k: symmetric_family(k, 4000, torch.Generator().manual_seed(7))[0]
                        for k in ("PD", "stag hunt")}.items():
             (m, t), _ = views(A, A.transpose(1, 2))
-            frozen = [b(m, t, torch.zeros(len(A))) for b in bank]
+            frozen = [policy(b, m, t, torch.zeros(len(A))) for b in bank]
             rows = []
             for s in GRID:
-                coop = net(m, t, torch.full((len(A),), s))
+                coop = policy(net, m, t, torch.full((len(A),), s))
                 with torch.enable_grad():
-                    lo, hi = (slope(A, F, s, p, frozen, shares, ETA, kw["mode"], kw.get("w", 1.0), dhat(kw, dep, s))
+                    lo, hi = (slope(A, F, s, p, frozen, shares, ETA, kw["mode"], kw.get("w", 1.0), dhat(kw, net, s))
                               for p in (D, 1 - D))
                 c, dd = hi > 0, lo < 0
                 cls = {"C": c & ~dd, "D": dd & ~c, "both": c & dd, "neither": ~c & ~dd}
@@ -108,11 +108,11 @@ def one(job):
         (m1, t1), (m2, t2) = views(A, A.transpose(1, 2))
         for typ in ("copy", "stranger", "forger"):          # a mirror's payoff is a copy's
             s = signal(typ, len(A), ETA, gen)
-            pi = net(m1, t1, s)
+            pi = policy(net, m1, t1, s)
             if typ == "copy":
-                out["pay"][typ] = float(payoff(pi, net(m2, t2, s), m1).mean())
+                out["pay"][typ] = float(payoff(pi, policy(net, m2, t2, s), m1).mean())
             else:
-                out["pay"][typ] = float(np.mean([float(payoff(pi, b(m2, t2, torch.zeros(len(A))), m1).mean())
+                out["pay"][typ] = float(np.mean([float(payoff(pi, policy(b, m2, t2, torch.zeros(len(A))), m1).mean())
                                                  for b in bank]))
     return name, seed, out
 
@@ -128,7 +128,7 @@ if __name__ == "__main__":
         (m, t), _ = views(A, A.transpose(1, 2))
         with torch.no_grad():
             say("frozen bank (causal self-play), P(cooperate) in prisoner's dilemmas: "
-                + " ".join(f"{float(b(m, t, torch.zeros(len(A))).mean()):.3f}" for b in bank))
+                + " ".join(f"{float(policy(b, m, t, torch.zeros(len(A))).mean()):.3f}" for b in bank))
         jobs = [(n, s, states) for n in VARIANTS for s in range(SEEDS)]
         out = list(ex.map(one, jobs))
     say(f"Signal grid s = {GRID}. Means over {SEEDS} seeds. Cooperation (move 0) by signal; in brackets, under the "
