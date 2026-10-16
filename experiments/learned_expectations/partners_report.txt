@@ -1,0 +1,97 @@
+P(cooperate) by what the bit says, mean over 2 populations x 4 networks [per-population means]. Local stability classes from the objective's slope at all-cooperate / all-defect: share of games, learned P(cooperate) in them.
+[causal] {}
+    PD        copy     : cooperate 0.01 [0.01 0.01]   C only 0.00:nan  D only 1.00:0.01  both 0.00:nan  neither 0.00:nan
+    PD        other    : cooperate 0.01 [0.01 0.01]   C only 0.00:nan  D only 1.00:0.01  both 0.00:nan  neither 0.00:nan
+    stag hunt copy     : cooperate 0.03 [0.02 0.03]   C only 0.00:nan  D only 0.00:0.00  both 1.00:0.03  neither 0.00:nan
+    stag hunt other    : cooperate 0.02 [0.02 0.03]   C only 0.00:nan  D only 0.00:0.00  both 1.00:0.02  neither 0.00:nan
+[twin 1] {'wT': 1.0}
+    PD        copy     : cooperate 0.95 [0.95 0.96]   C only 0.66:0.99  D only 0.00:nan  both 0.34:0.89  neither 0.00:nan
+    PD        other    : cooperate 0.01 [0.01 0.00]   C only 0.00:nan  D only 1.00:0.01  both 0.00:nan  neither 0.00:nan
+    stag hunt copy     : cooperate 0.99 [0.99 0.99]   C only 0.35:1.00  D only 0.00:nan  both 0.65:0.99  neither 0.00:nan
+    stag hunt other    : cooperate 0.07 [0.08 0.07]   C only 0.00:nan  D only 0.00:0.00  both 1.00:0.07  neither 0.00:nan
+[twin 0.5] {'wT': 0.5}
+    PD        copy     : cooperate 0.52 [0.52 0.52]   C only 0.27:0.99  D only 0.12:0.07  both 0.46:0.33  neither 0.14:0.63
+    PD        other    : cooperate 0.01 [0.00 0.01]   C only 0.00:nan  D only 1.00:0.01  both 0.00:nan  neither 0.00:nan
+    stag hunt copy     : cooperate 0.82 [0.82 0.82]   C only 0.17:1.00  D only 0.00:nan  both 0.83:0.78  neither 0.00:nan
+    stag hunt other    : cooperate 0.08 [0.07 0.09]   C only 0.00:nan  D only 0.00:0.00  both 1.00:0.08  neither 0.00:nan
+[altruist 1] {'wE': 1.0}
+    PD        copy     : cooperate 0.95 [0.98 0.93]   C only 0.66:0.98  D only 0.00:nan  both 0.34:0.90  neither 0.00:nan
+    PD        other    : cooperate 0.98 [0.99 0.97]   C only 0.66:0.99  D only 0.00:nan  both 0.34:0.95  neither 0.00:nan
+    stag hunt copy     : cooperate 0.99 [1.00 0.99]   C only 0.35:1.00  D only 0.00:nan  both 0.65:0.99  neither 0.00:nan
+    stag hunt other    : cooperate 1.00 [1.00 1.00]   C only 0.35:1.00  D only 0.00:nan  both 0.65:1.00  neither 0.00:nan
+[altruist 0.5] {'wE': 0.5}
+    PD        copy     : cooperate 0.51 [0.50 0.52]   C only 0.27:0.97  D only 0.12:0.06  both 0.46:0.32  neither 0.14:0.60
+    PD        other    : cooperate 0.51 [0.50 0.52]   C only 0.27:0.99  D only 0.12:0.03  both 0.46:0.32  neither 0.14:0.61
+    stag hunt copy     : cooperate 0.82 [0.82 0.83]   C only 0.17:1.00  D only 0.00:nan  both 0.83:0.79  neither 0.00:nan
+    stag hunt other    : cooperate 0.83 [0.83 0.83]   C only 0.17:1.00  D only 0.00:nan  both 0.83:0.79  neither 0.00:nan
+[twin 1, no signal] {'wT': 1.0, 'signal': False}
+    PD        no signal: cooperate 0.52 [0.51 0.54]   C only 0.27:0.99  D only 0.12:0.05  both 0.46:0.34  neither 0.14:0.62
+    stag hunt no signal: cooperate 0.85 [0.83 0.86]   C only 0.17:1.00  D only 0.00:nan  both 0.83:0.81  neither 0.00:nan
+[altruist 0.5, no signal] {'wE': 0.5, 'signal': False}
+    PD        no signal: cooperate 0.51 [0.50 0.52]   C only 0.27:0.99  D only 0.12:0.05  both 0.46:0.32  neither 0.14:0.62
+    stag hunt no signal: cooperate 0.82 [0.80 0.84]   C only 0.17:1.00  D only 0.00:nan  both 0.83:0.78  neither 0.00:nan
+[twin 1, no signal, sigma 0.25] {'wT': 1.0, 'signal': False, 'sigma': 0.25}
+    PD        no signal: cooperate 0.21 [0.20 0.22]   C only 0.09:0.95  D only 0.38:0.02  both 0.38:0.13  neither 0.15:0.44
+    stag hunt no signal: cooperate 0.55 [0.53 0.57]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.52  neither 0.00:nan
+[altruist 0.25, no signal] {'wE': 0.25, 'signal': False}
+    PD        no signal: cooperate 0.21 [0.21 0.20]   C only 0.09:0.96  D only 0.38:0.01  both 0.38:0.12  neither 0.15:0.44
+    stag hunt no signal: cooperate 0.55 [0.54 0.55]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.51  neither 0.00:nan
+[twin 1, noisy bit (eps 0.2)] {'wT': 1.0, 'eps': 0.2}
+    PD        copy     : cooperate 0.68 [0.67 0.69]   C only 0.66:0.92  D only 0.00:nan  both 0.34:0.22  neither 0.00:nan
+    PD        other    : cooperate 0.22 [0.20 0.23]   C only 0.00:nan  D only 1.00:0.22  both 0.00:nan  neither 0.00:nan
+    stag hunt copy     : cooperate 0.85 [0.84 0.87]   C only 0.35:1.00  D only 0.00:nan  both 0.65:0.77  neither 0.00:nan
+    stag hunt other    : cooperate 0.77 [0.74 0.79]   C only 0.00:nan  D only 0.00:0.00  both 1.00:0.77  neither 0.00:nan
+[twin 1, snapshot strangers] {'wT': 1.0, 'strangers': 'self'}
+    PD        copy     : cooperate 0.95 [0.96 0.95]   C only 0.66:0.99  D only 0.00:nan  both 0.34:0.89  neither 0.00:nan
+    PD        other    : cooperate 0.01 [0.01 0.01]   C only 0.00:nan  D only 1.00:0.01  both 0.00:nan  neither 0.00:nan
+    stag hunt copy     : cooperate 0.99 [0.99 0.99]   C only 0.35:1.00  D only 0.00:nan  both 0.65:0.99  neither 0.00:nan
+    stag hunt other    : cooperate 0.06 [0.08 0.05]   C only 0.00:nan  D only 0.00:0.00  both 1.00:0.06  neither 0.00:nan
+[altruist 1, snapshot strangers] {'wE': 1.0, 'strangers': 'self'}
+    PD        copy     : cooperate 0.98 [0.98 0.98]   C only 0.66:0.99  D only 0.00:nan  both 0.34:0.96  neither 0.00:nan
+    PD        other    : cooperate 0.99 [0.98 0.99]   C only 0.66:0.99  D only 0.00:nan  both 0.34:0.97  neither 0.00:nan
+    stag hunt copy     : cooperate 1.00 [1.00 1.00]   C only 0.35:1.00  D only 0.00:nan  both 0.65:1.00  neither 0.00:nan
+    stag hunt other    : cooperate 1.00 [1.00 1.00]   C only 0.35:1.00  D only 0.00:nan  both 0.65:1.00  neither 0.00:nan
+[twin 1, no signal, snapshot strangers] {'wT': 1.0, 'signal': False, 'strangers': 'self'}
+    PD        no signal: cooperate 0.51 [0.50 0.53]   C only 0.27:0.98  D only 0.12:0.05  both 0.46:0.33  neither 0.14:0.61
+    stag hunt no signal: cooperate 0.83 [0.82 0.85]   C only 0.17:1.00  D only 0.00:nan  both 0.83:0.80  neither 0.00:nan
+[felt] {'felt': True}
+    PD        copy     : cooperate 0.01 [0.00 0.01]   C only 0.00:nan  D only 1.00:0.01  both 0.00:nan  neither 0.00:nan
+    PD        other    : cooperate 0.00 [0.00 0.00]   C only 0.00:nan  D only 1.00:0.00  both 0.00:nan  neither 0.00:nan
+    stag hunt copy     : cooperate 0.01 [0.00 0.01]   C only 0.00:nan  D only 0.01:0.00  both 0.99:0.01  neither 0.00:nan
+    stag hunt other    : cooperate 0.00 [0.00 0.00]   C only 0.00:nan  D only 0.01:0.00  both 0.99:0.00  neither 0.00:nan
+[felt twin 0.5] {'felt': True, 'wT': 0.5}
+    PD        copy     : cooperate 0.50 [0.51 0.49]   C only 0.24:0.98  D only 0.00:nan  both 0.76:0.34  neither 0.00:nan
+    PD        other    : cooperate 0.00 [0.00 0.00]   C only 0.00:nan  D only 1.00:0.00  both 0.00:nan  neither 0.00:nan
+    stag hunt copy     : cooperate 0.73 [0.74 0.72]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.71  neither 0.00:nan
+    stag hunt other    : cooperate 0.00 [0.00 0.00]   C only 0.00:nan  D only 0.01:0.00  both 0.99:0.00  neither 0.00:nan
+[felt empathy 0.5, J 0] {'felt': True, 'wE': 0.5, 'J': 0.0}
+    PD        copy     : cooperate 0.43 [0.45 0.42]   C only 0.23:0.97  D only 0.08:0.06  both 0.64:0.27  neither 0.05:0.69
+    PD        other    : cooperate 0.40 [0.42 0.39]   C only 0.23:0.93  D only 0.08:0.07  both 0.64:0.24  neither 0.05:0.59
+    stag hunt copy     : cooperate 0.70 [0.72 0.68]   C only 0.09:1.00  D only 0.00:nan  both 0.91:0.67  neither 0.00:nan
+    stag hunt other    : cooperate 0.69 [0.71 0.67]   C only 0.09:1.00  D only 0.00:nan  both 0.91:0.66  neither 0.00:nan
+[felt empathy 0.5, J 1] {'felt': True, 'wE': 0.5, 'J': 1.0}
+    PD        copy     : cooperate 0.50 [0.50 0.50]   C only 0.24:0.97  D only 0.00:nan  both 0.76:0.35  neither 0.00:nan
+    PD        other    : cooperate 0.46 [0.46 0.47]   C only 0.24:0.92  D only 0.00:nan  both 0.76:0.32  neither 0.00:nan
+    stag hunt copy     : cooperate 0.77 [0.78 0.77]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.76  neither 0.00:nan
+    stag hunt other    : cooperate 0.75 [0.76 0.75]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.73  neither 0.00:nan
+[felt empathy 0.25, J 0] {'felt': True, 'wE': 0.25, 'J': 0.0}
+    PD        copy     : cooperate 0.17 [0.18 0.16]   C only 0.08:0.93  D only 0.33:0.02  both 0.52:0.10  neither 0.07:0.47
+    PD        other    : cooperate 0.15 [0.15 0.15]   C only 0.08:0.88  D only 0.33:0.02  both 0.52:0.08  neither 0.07:0.38
+    stag hunt copy     : cooperate 0.34 [0.34 0.33]   C only 0.03:1.00  D only 0.00:nan  both 0.97:0.31  neither 0.00:nan
+    stag hunt other    : cooperate 0.34 [0.33 0.35]   C only 0.03:1.00  D only 0.00:nan  both 0.97:0.32  neither 0.00:nan
+[felt empathy 0.25, J 1] {'felt': True, 'wE': 0.25, 'J': 1.0}
+    PD        copy     : cooperate 0.19 [0.19 0.19]   C only 0.09:0.93  D only 0.21:0.02  both 0.65:0.13  neither 0.04:0.47
+    PD        other    : cooperate 0.17 [0.17 0.18]   C only 0.09:0.86  D only 0.21:0.03  both 0.65:0.11  neither 0.04:0.40
+    stag hunt copy     : cooperate 0.39 [0.38 0.39]   C only 0.02:1.00  D only 0.00:nan  both 0.98:0.37  neither 0.00:nan
+    stag hunt other    : cooperate 0.39 [0.37 0.40]   C only 0.02:1.00  D only 0.00:nan  both 0.98:0.37  neither 0.00:nan
+[felt twin 0.5, snapshot strangers] {'felt': True, 'wT': 0.5, 'strangers': 'self'}
+    PD        copy     : cooperate 0.53 [0.52 0.54]   C only 0.24:0.99  D only 0.00:nan  both 0.76:0.38  neither 0.00:nan
+    PD        other    : cooperate 0.01 [0.01 0.01]   C only 0.00:nan  D only 1.00:0.01  both 0.00:nan  neither 0.00:nan
+    stag hunt copy     : cooperate 0.75 [0.74 0.76]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.73  neither 0.00:nan
+    stag hunt other    : cooperate 0.02 [0.02 0.02]   C only 0.00:nan  D only 0.01:0.00  both 0.99:0.02  neither 0.00:nan
+[felt empathy 0.5, J 1, snapshot strangers] {'felt': True, 'wE': 0.5, 'J': 1.0, 'strangers': 'self'}
+    PD        copy     : cooperate 0.47 [0.47 0.46]   C only 0.24:0.99  D only 0.00:nan  both 0.76:0.30  neither 0.00:nan
+    PD        other    : cooperate 0.47 [0.47 0.47]   C only 0.24:0.98  D only 0.00:nan  both 0.76:0.31  neither 0.00:nan
+    stag hunt copy     : cooperate 0.74 [0.75 0.74]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.73  neither 0.00:nan
+    stag hunt other    : cooperate 0.75 [0.74 0.75]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.73  neither 0.00:nan
+done in 583s

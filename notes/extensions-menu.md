@@ -5,7 +5,7 @@
 top picks for interest × tractability.
 
 Taken up so far: B4 (`adaptation.md`, parked), C1 (absorbed into decision.md D7; its toy
-parked below), G (`displacement.md`, parked).
+parked below), G (`displacement.md`, parked), F6 and the twin half of F9 (`empathy.md`, in progress).
 
 ## A. The felt forecaster in a Bates world
 

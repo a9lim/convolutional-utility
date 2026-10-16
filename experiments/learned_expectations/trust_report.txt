@@ -1,0 +1,13 @@
+Ann: outside 0, honor 0.5, grab -0.5; Bob: honor 0.3, grab 0.3 + t. Ann's felt welfare W(q, p): her belief q that Bob honors, his actual P(honor) p. Temptation Bob resists, per unit empathy w: t* / w = gain / own.
+Forward kernel mass a sum alpha^j is 0.58 at FEEL and 0.77 at a 0.2, inside the well-founded range.
+calibration                             W(1,1)  W(1,0)  W(0,0) |   own | t*/w:  J0, q=1  J0, q=0       J1 | J1 vs J0 (q=1)
+FEEL (a 0.15, n 0.3, lam 2, s 8)         1.275  -2.413  -1.625 |  2.55 |    1.446    0.720    1.138 | J0 resists more
+no news (n 0)                            1.159  -0.064  -1.159 |  2.32 |    0.528    0.528    1.000 | J1 resists more
+linear news (lam 1)                      1.275  -0.562  -1.275 |  2.55 |    0.720    0.720    1.000 | J1 resists more
+no anticipation (a 0)                    0.600  -2.702  -0.645 |  1.20 |    2.753    1.438    1.038 | J0 resists more
+anticipation horizon s 2                 1.012  -2.758  -1.693 |  2.02 |    1.863    0.924    1.336 | J0 resists more
+anticipation horizon s 14                1.318  -1.565  -1.523 |  2.64 |    1.094    0.591    1.078 | J0 resists more
+stronger anticipation a 0.2              1.723  -2.151  -2.347 |  3.45 |    1.124    0.548    1.181 | J1 resists more
+felt calibration (n 0.2, lam 1.5)        1.225  -0.612  -1.275 |  2.45 |    0.750    0.642    1.020 | J1 resists more
+weak news (n 0.1)                        1.188  -0.386  -1.225 |  2.38 |    0.662    0.579    1.016 | J1 resists more
+Reading: at J = 0, for w t*(q=0)/w < t < w t*(q=1)/w Bob honors iff Ann expects him to (guilt makes trust self-fulfilling); J = 1 has one threshold.

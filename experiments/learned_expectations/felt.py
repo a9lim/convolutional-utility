@@ -42,16 +42,12 @@ class Felt:
         return torch.where(y >= 0, self.kt * y, self.lt * self.kt * y)
 
     def nbar(self, q, zA, zB):
-        """Expected news at s under q, per event (closed form over the four branch pairs)."""
-        Ez = q * zA + (1 - q) * zB
-        aA, aB = zA - Ez, zB - Ez
-        out = torch.full_like(q, float("nan"))
-        for cA in (1.0, self.lt):
-            for cB in (1.0, self.lt):
-                N = self.kt * (q * cA * aA + (1 - q) * cB * aB) / (1 + self.kt * (q * cA + (1 - q) * cB))
-                ok = ((aA - N >= 0) == (cA == 1.0)) & ((aB - N >= 0) == (cB == 1.0)) & torch.isnan(out)
-                out = torch.where(ok, N, out)
-        return out
+        """Expected news at s under q, per event. With r the probability of the higher outcome and D the gap,
+        gains are felt at slope kt and losses at lt kt, and the fixed point is
+        N = -kt (lt - 1) r (1 - r) D / (1 + kt (r + lt (1 - r))): always the mixed branch, smooth in q."""
+        r = torch.where(zA >= zB, q, 1 - q)
+        D = (zA - zB).abs()
+        return -self.kt * (self.lt - 1) * r * (1 - r) * D / (1 + self.kt * (r + self.lt * (1 - r)))
 
     def welfare(self, q, p, zA, zB):
         """Objective expected felt life-sum, batched over events."""

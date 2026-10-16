@@ -145,7 +145,15 @@ Shared representations and the critic's level (D8)
 - `jacot-2018-neural-tangent-kernel-convergence-and-generalization-in-neural-networks.txt`, `saxe-2014-exact-solutions-to-the-nonlinear-dynamics-of-learning-in-deep-linear-neural-networks.txt` — arXiv; no provenance header
 - `sun-2022-exploit-reward-shifting-in-value-based-deep-rl.txt`, `schaul-2019-ray-interference-a-source-of-plateaus-in-deep-reinforcement-learning.txt`, `cobbe-2021-phasic-policy-gradient.txt`, `hessel-2019-multi-task-deep-reinforcement-learning-with-popart.txt`, `van-hasselt-2016-learning-values-across-many-orders-of-magnitude.txt`, `naik-2024-reward-centering.txt` — arXiv
 - `rashid-2020-optimistic-exploration-even-with-a-pessimistic-initialisation.txt`, `du-2018-adapting-auxiliary-losses-using-gradient-similarity.txt`, `garcin-2025-studying-the-interplay-between-the-actor-and-critic-representations-in-reinforcement-learning.txt`, `wan-2025-an-empirical-study-of-deep-reinforcement-learning-in-continuing-tasks.txt`, `andrychowicz-2021-what-matters-in-on-policy-reinforcement-learning.txt` — arXiv
+- `fedus-2019-hyperbolic-discounting-and-learning-over-multiple-horizons.txt` — arXiv; value heads for many discount factors on one shared representation (Figure 9)
 - Screened, not cited: `raileanu-2021-*`, `ciosek-2019-*`, `mastikhina-2025-*`, `machado-2015-*`, `engstrom-2020-*`, `liu-2026-*`, `zhu-2025-*`
+
+Games: guilt, Kantian morality, similarity
+- `alger-2013-homo-moralis-preference-evolution-under-incomplete-information-and-assortative-matching.txt` — journal-paginated text of the published Econometrica article, third-party copy (gwern.net)
+- `bergstrom-1993-on-the-evolution-of-altruistic-ethical-rules-for-siblings-wp.txt` — WP (July 1993) of Bergstrom 1995, AER 85(1); math partly lost in the text layer
+- `battigalli-2007-guilt-in-games.txt` — AER Papers and Proceedings 97(2), Bocconi-hosted copy; font encoding garbles math (the 2009 JET paper is under Decision theory)
+- `khalmetski-2013-surprising-gifts-theory-and-laboratory-evidence-cologne-wp61.txt` — Cologne WP 61 of Khalmetski, Ockenfels & Werner 2015, JET 159; Greek and math missing from the text layer, key equations transcribed in the header
+- `oesterheld-2023-similarity-based-cooperative-equilibrium.txt` — arXiv v2 (NeurIPS 2023); v1 of the same ID was titled "Similarity-based cooperation"
 
 Anthropics and imperfect recall
 - `armstrong-2011-anthropic-decision-theory-arxiv-v1.txt`, `armstrong-2017-anthropic-decision-theory-arxiv-v3.txt`

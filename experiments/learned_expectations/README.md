@@ -2,8 +2,8 @@
 
 Agents whose reward is their own felt utility (`formalism/core.md`), computed from their own
 forecasts and realized against the world. The observer and the scheduling agent use the
-canonical model, and so does the game agent, through `felt.py`'s closed form (checked
-against `observer.py`); the hidden-game and evolution agents use a direct first pass (echoes
+canonical model, and so do the game and partners agents, through `felt.py`'s closed form
+(checked against `observer.py`); the hidden-game and evolution agents use a direct first pass (echoes
 of base payoffs, news on the aggregate TD error); the iterated agent learns on payoffs
 alone, with no felt utility. Even the canonical critic kinks the aggregate TD error rather
 than each horizon's revision, which agree only at `λ = 1` or when the revisions share a
@@ -124,6 +124,22 @@ selfish (my payoffs) or team (both players'). With mixed partners, half of each 
 played against scripted partners (always cooperate, always defect, tit for tat, coin flip).
 `iterated.py`; `run_iterated.py` (writes `iterated_report.txt`, `iterated.png`).
 
+## The partners agent
+
+Caring about a partner, and twins against altruists (`notes/empathy.md`). A population of independently
+initialized networks plays random symmetric 2×2 games, each the game agent's event; each network's
+objective mixes matches against a copy of itself (weight `σ`) and against strangers: other networks, or
+"snapshot strangers", a detached copy of itself that plays its policy exactly with no dependence. An
+input bit says copy or stranger (optionally noisy, or absent). Beliefs calibrated. Three dials: `w_T`,
+the gradient through a copy's policy (the twin); `w_E`, the weight on the partner's payoff (altruism) or
+felt welfare (empathy); `J`, the gradient through the partner's forecast of my policy.
+
+- `partners.py` (model, trainer, local-stability slopes; `python partners.py` checks that no gradient
+  leaks between networks, that a copy at `w_T = 0` trains like a snapshot stranger, and the
+  twin–empathizer identity); `run_partners.py` (the variants against the analytic stability classes;
+  `partners_report.txt`, `partners.png`); `run_trust.py` (a trust game with felt empathy and the
+  interpersonal `J`, analytic; `trust_report.txt`).
+
 ## Results so far
 
 - **Observer.** Optimal beliefs at the life calibration stay calibrated far from the event,
@@ -163,7 +179,25 @@ played against scripted partners (always cooperate, always defect, tit for tat, 
 - **The twin dial.** In symmetric games, `w = 0` defects in prisoner's dilemmas and hunts hare;
   `w = 1` cooperates and hunts stag. Graded `w` matches the analytic thresholds game by game:
   all-cooperate is stable iff `w ≥ (T−R)/(R−S)`, all-defect iff `w ≤ (P−S)/(T−P)` (known in
-  kind: stop-gradients and performative stability, Oesterheld et al. 2023).
+  kind: stop-gradients and performative stability, Oesterheld et al. 2023). These are also the
+  altruism thresholds: at symmetric profiles the twin's gradient is an altruist's at weight `w`
+  (Alger & Weibull 2013 §6.2), so symmetric self-play cannot tell twin reasoning from other-regard.
+- **Twins against altruists, told who is a copy.** With an input bit saying copy or stranger, twins
+  (`w_T = 1`) cooperate with copies in 0.95 of prisoner's dilemmas and with strangers in 0.01, even
+  with snapshot strangers that run their own weights; altruists (`w_E = 1`) cooperate with both (0.98,
+  0.99). Without the bit, a twin among a share `σ` of copies plays as an altruist at `σw`: 0.52 against
+  0.51 at `σ = 0.5`, 0.21 against 0.21 at 0.25, class by class. Learned play follows the analytic local
+  stability of all-cooperate and all-defect: 0.92–0.99 cooperation where only the first is stable,
+  0.01–0.07 where only the second (2 populations × 4 networks per variant; `partners_report.txt`).
+  Oesterheld et al. (2023) needed pretraining to get this split from naive learners; the twin's gate
+  on true identity supplies it.
+- **Felt empathy.** With felt utility, a twin is an empathizer whose partner's forecast tracks its
+  policy (`J = 1`), exactly at symmetric profiles; the felt twin and that empathizer play alike with
+  copies (0.50, 0.50) and differ with strangers (0.00 against 0.46). Felt news makes pure profiles
+  sticky between copies. In the trust game, the temptation an empathizer resists is about its empathy
+  weight at `J = 1` in every calibration; at `J = 0` it depends on what the partner expects (guilt makes
+  trust self-fulfilling), and exceeds `J = 1`'s under the game agent's strong loss-averse news (1.45
+  against 1.14 per unit of empathy), not at the felt calibration (0.75 against 1.02).
 - **Hidden games: two policies.** Training first reaches a complacent policy: after a loss in
   round 1 it switches only about 45% of the time, never after a gain (about 0.21 per round
   late). It then usually escapes to win-stay, lose-shift at zero (switch after 99% of losses,

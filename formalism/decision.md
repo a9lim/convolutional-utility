@@ -24,6 +24,11 @@ life-sum `W = Σ_t e(t)`. "Momentary hedonist" names the alternative objective `
   between; in symmetric games the same switch on the other player's policy separates causal
   from twin play. [checked in `experiments/learned_expectations/`; known in kind:
   Oesterheld, Treutlein, Cooper & Hudson 2023, stop-gradients and performative stability]
+  - To first order a twin is an altruist at the same weight: at symmetric profiles the
+    gradients agree [known: Alger & Weibull 2013 §6.2], and with felt utility a twin is an
+    empathizer whose partner's forecast tracks the policy. Symmetric self-play cannot tell
+    them apart; a signal of who is a copy can (twins condition on it, altruists do not).
+    [checked; `notes/empathy.md`]
 - **With news (the canonical model).** A choice the past forecast did not predict
   revises forecasts, so the deviating self feels it as news.
   - The `J` identity above then needs two more things: the derivative of expected news

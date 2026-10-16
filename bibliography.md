@@ -1532,6 +1532,64 @@ searchable.
   policy collects); Wan, Korenkevych & Zhu 2025 (a ±100 reward offset breaks most deep RL
   in continuing tasks, PPO included, §2.4); Andrychowicz et al. 2021 (value normalization
   and separate networks matter in on-policy RL, §3.2–3.3). Texts in `papers/`.
+- **Fedus, W., Gelada, C., Bengio, Y., Bellemare, M. G. & Larochelle, H. (2019).** Hyperbolic
+  discounting and learning over multiple horizons. arXiv:1902.06865. **ABS+** (abstract,
+  introduction, §9, Fig. 9) ·
+  `papers/fedus-2019-hyperbolic-discounting-and-learning-over-multiple-horizons.txt`
+  - Value heads for many discount factors at once, each an affine map of a shared
+    representation; as an auxiliary task it often improves Rainbow on Atari. The precedent for
+    a per-horizon critic (menu F2: news per horizon, not on the netted TD error).
+
+## Games: guilt, Kantian morality, similarity (`notes/empathy.md`)
+
+- **Battigalli, P. & Dufwenberg, M. (2007).** Guilt in games. *AER Papers & Proceedings*
+  97(2): 170–176. doi:10.1257/aer.97.2.170. **FT** (Bocconi-hosted copy; math garbled in the
+  text layer, glyph map in the header) · `papers/battigalli-2007-guilt-in-games.txt`
+  - Simple guilt (eq. 1): `m_i − Σ_j θ_ij G_ij`, with `G_ij` the part of `j`'s letdown
+    `max{0, E[m_j] − m_j}` due to `i`'s choice. Guilt from blame (eq. 3) weighs it by what `j`
+    infers `i` intended; in two-player simultaneous games without chance their pure sequential
+    equilibria coincide (Obs. 1).
+  - Empathy with a partner who feels loss-averse news is simple guilt with `θ = w·n·(λ−1)`
+    plus altruism (`notes/empathy.md`).
+- **Khalmetski, K., Ockenfels, A. & Werner, P. (2015).** Surprising gifts: theory and
+  laboratory evidence. *JET* 159(A): 163–208. doi:10.1016/j.jet.2015.05.008. **WP** (Cologne
+  WP 61, May 2013; the published version reports more experiments) ·
+  `papers/khalmetski-2013-surprising-gifts-theory-and-laboratory-evidence-cologne-wp61.txt`
+  - Utility `m_i(1 − t_i) + S_i`, with `S_i` linear in the recipient's surprise: weight `α` on
+    positive surprises, `β` (guilt) on negative, against the giver's belief about the
+    recipient's expectation (eqs. 2–3; linearity "for convenience", fn. 5). Prop. 1: giving at
+    or above the expected if `α ≥ β`, at or below if `α ≤ β`.
+  - Empathy with a loss-averse news-feeling partner gives `α = wn`, `β = wnλ`, so `β ≥ α`.
+- **Alger, I. & Weibull, J. W. (2013).** Homo moralis: preference evolution under incomplete
+  information and assortative matching. *Econometrica* 81(6): 2269–2302.
+  doi:10.3982/ECTA10637. **FT** (published text via a third-party copy, gwern.net) ·
+  `papers/alger-2013-homo-moralis-preference-evolution-under-incomplete-information-and-assortative-matching.txt`
+  - Homo moralis (Def. 4): `(1−κ)π(x,y) + κπ(x,x)`. Theorem 1: with assortativity `σ`
+    (eq. 4), homo hamiltonensis (`κ = σ`) is evolutionarily stable against types that are not
+    its behavioural clones, if its best replies are unique; under richness conditions types
+    that behave differently are unstable.
+  - §6.2: altruism `π(x,y) + απ(y,x)` has the same first-order conditions at interior
+    symmetric equilibria for `α = κ` and different second-order ones. Prop. 2: in 2 × 2 games
+    homo moralis is convex in own play iff `a₁₁ + a₂₂ > a₁₂ + a₂₁`. Prior art for "a twin is an
+    altruist to first order".
+  - Follow-up: Alger & Weibull (2016), Evolution and Kantian morality, *GEB* 98: 56–67
+    (`n`-player groups; **ABS**), corrected in *GEB* 140 (2023): 585–587 (unread).
+- **Bergstrom, T. C. (1995).** On the evolution of altruistic ethical rules for siblings.
+  *AER* 85(1): 58–81. **WP** (July 1993) ·
+  `papers/bergstrom-1993-on-the-evolution-of-altruistic-ethical-rules-for-siblings-wp.txt`
+  - The semi-Kantian rule `½Π(x,x) + ½Π(x,x̄)` (homo moralis at `κ = ½`), from selection on
+    actions against dominant mutants, against Hamilton's altruism at `r = ½`. Prop. 2: with
+    strategic complementarity every symmetric equilibrium of the semi-Kantian rule is one of
+    Hamilton's; with substitutability the reverse.
+- **Oesterheld, C., Treutlein, J., Grosse, R., Conitzer, V. & Foerster, J. (2023).**
+  Similarity-based cooperative equilibrium. *NeurIPS* 36. arXiv:2211.14468 (v1, 2022:
+  "Similarity-based cooperation"). **FT** (arXiv v2) ·
+  `papers/oesterheld-2023-similarity-based-cooperative-equilibrium.txt`
+  - Policies map a perceived "diff" to play in a one-shot game; a folk theorem (Thm. 3).
+    In a high-dimensional prisoner's dilemma, alternating best response from random
+    initialization reached mutual defection in 26 of 26 runs; pretraining to cooperate against
+    copies and defect against random (CCDR) gave partial cooperation in 26 of 28.
+  - The twin dial with a copy signal learns CCDR by itself, through a gate on true identity.
 
 ## Anthropics and imperfect recall
 

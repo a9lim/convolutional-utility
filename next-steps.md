@@ -26,6 +26,11 @@ in `formalism/` and the experiment READMEs; this file lists only what is open.
    - **Well-foundedness as a learning failure.** The canonical critic at `a = 0.3, ν = 0.8`
      (anticipation mass 1.2) diverged; map where TD on felt utility diverges against
      `M + λN < 1`.
+   - **Partners** (`notes/empathy.md`, in progress). A learner that infers dependence from a
+     similarity signal rather than a gate on true identity; heterogeneous strangers to break the
+     `σw` equivalence; the trust game as learners (expectation-dependent honesty at `J = 0`,
+     promises); donation games and the sign of `R + P − S − T`; guilt toward a partner's felt
+     history in iterated play (F7).
    - **Agents not yet built.** The twin dial in hidden repeated games (cooperation in hidden
      prisoner's dilemmas); reliability (D6) and the self-Newcomb as environments; the
      observer with attention as a choice (batching, N2, D7), dread or rumination asymmetry
