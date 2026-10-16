@@ -108,7 +108,7 @@ if __name__ == "__main__":
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    out = sys.argv[1] if len(sys.argv) > 1 else "notes/full-model-over-time.png"
+    out = sys.argv[1] if len(sys.argv) > 1 else "formalism/full-model-over-time.png"
     fig, axes = plt.subplots(2, 1, figsize=(11, 8), sharex=True)
     colors = {"base": "#7f7f7f", "anticipation": "#2a7ab9", "memory": "#d08a1e", "news": "#c0392b"}
     for ax, over, title in [(axes[0], "u", "News over base utility"), (axes[1], "e", "News over experienced utility")]:

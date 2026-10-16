@@ -1,15 +1,17 @@
 # Extensions menu
 
-A menu for discussion from the 2026-10-15 review, not a plan. Sources: Claude, and Codex
+**Status: open for discussion.** A menu from the 2026-10-15 review, not a plan. Sources: Claude, and Codex
 (thread `cu-round2-ext`). Tags: *standard* · *synthesis* · *speculation*. ★ marks Claude's
 top picks for interest × tractability.
 
+Taken up so far: B4 (`adaptation.md`, parked), C1 (absorbed into decision.md D7; its toy
+parked below), G (`displacement.md`, parked).
+
 ## A. The felt forecaster in a Bates world
 
-Builds on next-steps.md's parked results: loss-averse news is a total-variation penalty, so a
-tethered felt display of a martingale forecast is a reflected martingale, half-width
-`b* = (3cσ²/(2η))^{1/3}` (checked by hand: uniform stationary law on the band, push rate
-`σ²/(2b)`).
+Builds on the parked results in `bates.md`: loss-averse news is a total-variation penalty,
+so a tethered felt display of a martingale forecast is a reflected martingale, half-width
+`b* = (3cσ²/(2η))^{1/3}`.
 
 - **A1. Volatility clustering, slow against fast.** *synthesis*
   - Heston variance makes the band `b(V) ∝ V^{1/3}`. Slow volatility averages `V^{2/3}`;
@@ -78,22 +80,11 @@ tethered felt display of a martingale forecast is a reflected martingale, half-w
     life and not just at the ends (Codex's alternating-beats-clustered example). Second
     response: `D²e[h₁, h₂] = RK[f″(e₀)(Rh₁)(Rh₂)]`; `M sup|f′| < 1` suffices for uniqueness.
   - Also where the peak in peak-end lives (salience).
-- **B4. Adaptation is not an echo.** *synthesis* Worked further in `notes/adaptation.md`.
-  - Full hedonic adaptation is direct mass −1, and that has no recursive twin: the twin's
-    symbol `1 − 1/(1 + K̂_D)` has a pole at `z = 1`, so its mass is −∞. In the recursive
-    model the treadmill is the limit `M → −∞` of contrast memory. So adaptation forces a
-    reference-point process alongside echo (`τṙ = u − r`), and the question is whether
-    improvement's felt value survives it.
-  - Prior art: habit formation and opponent processes; Kimball & Willis separate happiness
-    adaptation from habit formation.
-  - Refinement (2026-10-15, checked numerically): the recursive twin of exponential full
-    adaptation exists, as a memory that never fades, `e_t = u_t − (1−γ) Σ_{s<t} e_s`: the
-    reference is a fixed share of everything felt so far. Infinite negative mass, so it needs
-    a stability criterion for signed kernels (the symbol, not the mass). And the life-sum
-    telescopes: with `r_{t+1} = γr_t + (1−γ)u_t`, `Σ_t e_t = (r_T − r_0)/(1 − γ)`. Under full
-    adaptation a life's welfare is how far its reference rose, so any decline before death
-    costs: "quit while ahead" with felt-negative declines, where P6's level term vanishes
-    and only the edge term is left.
+- **B4. Adaptation is not an echo.** Worked in `adaptation.md`, parked: full adaptation's
+  recursive twin is a memory that never fades, welfare telescopes to the reference's net
+  rise ("quit while ahead"), and biphasic memory `c γ^j` is the chosen form. Prior art: habit
+  formation and opponent processes; Kimball & Willis separate happiness adaptation from habit
+  formation.
 - **B5. Fading affect bias.** *synthesis*
   - Separate positive and negative memory kernels, negative faster. Strong dread with a
     later benefit from remembering. Does it reverse N3's bracing optimum? What survives of
@@ -113,13 +104,28 @@ tethered felt display of a martingale forecast is a reflected martingale, half-w
 
 ## C. Decision theory
 
-- ★ **C1. Actions leak information into affect.** *synthesis*
-  - Delegation protects affect only if the agent cannot read the hidden news off its own
-    observed actions: `σ(a) ⊆ 𝒢`. Where the optimal action identifies the state, strict
-    updateless affect is impossible; the trade-off is instrumental regret against leakage.
-    The implementation limit on "act on the forecast, feel it in batches". Clear LessWrong
-    payoff.
-  - Prior art: Andries & Haddad (consumption reveals wealth).
+- **C1. Actions leak information into affect.** Absorbed into decision.md D7 ("Actions leak
+  into affect": the observation closure, protection as conditional independence of the whole
+  observable history, what a leak costs, a binary example). Left, parked by a9 while the
+  machine is busy:
+  - The toy, from D7's binary example (in `checks.py`). There, without residual noise,
+    `E[W]` is convex quadratic in the garbling probability (not linear, as first claimed), a
+    full leak is free and acting always wins; with residual noise the leak is partial,
+    ignoring beats acting, and an unobserved delegate beats both. Next: R with dread (where
+    leaks should clearly cost), unequal timing weights, the stake `r*` below which ignoring
+    is hedonically optimal, and three states for the pooling partition (act only on the
+    extremes?).
+  - Batched decisions (*conjecture*): felt news arriving at decision dates would make
+    batched affect want batched decisions and wider action bands. Codex's objection: under a
+    known threshold rule, inaction is informative too, so news arrives between decisions.
+  - Prior art to read (Codex, thread `cu-c1-leakage`): Duraj & He 2024 (dynamic news
+    design) and Ely, Frankel & Kamenica 2015 (suspense and surprise).
+  - The tickle defense, inverted. *analogy* Splitting affect from action hides the doer's
+    reasons from the feeler, so its own action becomes evidence, smoking-lesion style: correct
+    learning, not an EDT mistake.
+  - With F3. Coarse `G` cannot firewall one's own observed deviations, but it cannot tell a
+    deviation from on-plan action in another state either, so deviations partly pass as
+    state news. Does that weaken F3's conjecture?
 - **C2. Accuracy is not `J`.** *synthesis*
   - Predictors with equal accuracy can carry different counterfactual dependence (the new
     D2 bullet). First: a binary policy, a noisy predictor, three operations (intervene on

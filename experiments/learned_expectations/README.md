@@ -2,14 +2,31 @@
 
 Agents whose reward is their own felt utility (`formalism/core.md`), computed from their own
 forecasts and realized against the world. The observer and the scheduling agent use the
-canonical model, and so does the game agent, through `felt.py`'s closed form (checked against
-`observer.py`); the hidden-game and evolution agents use a direct first pass (echoes of base
-payoffs, news on the aggregate TD error); the iterated agent learns on payoffs alone, with no
-felt utility. Even the canonical critic kinks
-the aggregate TD error rather than each horizon's revision, which agree only at `λ = 1` or when
-the revisions share a sign. Expected return under
-the true environment is then the objective expectation of the felt life-sum: Brunnermeier &
-Parker's well-being, learned. Plan and prior art: `next-steps.md`, "Extension (a9)".
+canonical model, and so does the game agent, through `felt.py`'s closed form (checked
+against `observer.py`); the hidden-game and evolution agents use a direct first pass (echoes
+of base payoffs, news on the aggregate TD error); the iterated agent learns on payoffs
+alone, with no felt utility. Even the canonical critic kinks the aggregate TD error rather
+than each horizon's revision, which agree only at `λ = 1` or when the revisions share a
+sign. Expected return under the true environment is then the objective expectation of the
+felt life-sum: Brunnermeier & Parker's well-being, learned. Open items: `next-steps.md`,
+item 1.
+
+## Design and prior art
+
+- Two switches, after Oesterheld (2019): what the reward credits (felt anticipation is the
+  "overseer", conditional on the forecast or not) and what the learner credits (whether
+  gradients flow from anticipation rewards into the policy through its self-prediction).
+- The learner's switch is known in binary form: stop-gradient gives performatively stable,
+  ratifiable, CDT-like fixed points; full flow gives the optimum, EDT-like or Stackelberg
+  (Oesterheld, Treutlein, Cooper & Hudson 2023; Perdomo et al. 2020; Bell et al. 2021;
+  Demski's partial agency).
+- A lagged self-predictor is not the graded case: it still blocks the gradient, so the
+  learner's recognized `J` is 0; the lag changes only how accurate past forecasts are, the
+  actual `J`. Graded `J` needs another knob: a partial gradient weight (used here), an outer
+  loop's horizon (Krueger, Maharaj & Leike 2020), or forecast accuracy.
+- New relative to that literature: a temporal stream of felt anticipation, memory and news;
+  `J` graded inside a life-sum; belief and affect heads (D7's two filtrations); the
+  LLM-welfare angle.
 
 ## The observer
 
@@ -17,8 +34,9 @@ An event is announced at 0 and resolves at `s`. At each `t < s` the self holds a
 probability `q_t` of the high outcome and forecasts its felt life rationally given `q_t`.
 Changing a belief revises forecasts, so it is felt as news. Realization is news against the
 last belief. Forecasts are rational given the current belief and naive about the self's own
-later revisions: at each `t` it expects to keep `q_t` until `s`. The objective is the objective expected life-sum minus a cost of self-deception,
-`Σ_t KL(q_t ‖ p) / τ`; without it, beliefs at the felt calibrations run to N3's corners.
+later revisions: at each `t` it expects to keep `q_t` until `s`. The objective is the
+objective expected life-sum minus a cost of self-deception, `Σ_t KL(q_t ‖ p) / τ`; without
+it, beliefs at the felt calibrations run to N3's corners.
 
 - `observer.py`: the model in closed form (core N3, canonical), differentiable in the belief
   path, and a numerical reference optimizer (multistart Adam plus the best step path; no
@@ -221,6 +239,9 @@ played against scripted partners (always cooperate, always defect, tit for tat, 
   - an end game: prisoner's dilemma cooperation 38% in rounds 1–9, 9% in round 10;
   - reciprocity carries back into self-play (prisoner's dilemma 35%, stag hunt 78%, from 1% and
     50%), and appears late in training, after about 1,500 steps of near-total defection.
+  - Three times longer training (4 seeds; output not archived) does not raise self-play
+    cooperation (prisoner's dilemma 0.22–0.38) but sharpens the end game: against tit for
+    tat, about 0.7 through round 9, then 0.06–0.12 in round 10.
 - **Consolation.** At `λ = 2` the motivated critic braces before outcomes and consoles itself
   after bad ones: just after a negative TD error it sits 0.18 below realized payoffs, after a
   positive one 0.51 below. At `λ = 1` the gap vanishes (0.33 against 0.29), as the critic's

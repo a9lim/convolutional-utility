@@ -7,14 +7,13 @@ Working abstract:
   change. The one-layer direct model is its reduced form for foreseen lives; surprises are
   information boundaries where the two part.
 - With nonnegative kernels, recursive echo is bounded at every lifespan iff the echo share
-  `M` is below one. A finite
-  life can stay monotone above that, but its echo grows without bound with lifespan. Felt
-  news about experienced utility adds a local threshold, `λκ < 1`, for a unique, stable felt
-  state against given forecasts; without memory the loop gain is just `n`, and memory adds
-  the feedback, scaled by anticipation through the resolvent. Past it, with linear gain-loss,
-  bad news runs away (a bounded gain-loss function always has a solution, possibly a low
-  stable one).
-  (With expected news inside Bayesian forecasts, only a sufficient joint condition is known.)
+  `M` is below one. A finite life can stay monotone above that, but its echo grows without
+  bound with lifespan. Felt news about experienced utility adds a local threshold, `λκ < 1`,
+  for a unique, stable felt state against given forecasts; without memory the loop gain is
+  just `n`, and memory adds the feedback, scaled by anticipation through the resolvent. Past
+  it, with linear gain-loss, bad news runs away (a bounded gain-loss function always has a
+  solution, possibly a low stable one). With expected news inside Bayesian forecasts, only a
+  sufficient joint condition is known.
 - On illustrative short-reach parameters for a waking day and a life, echo is about 30% of
   steady-state experience, and the momentary self's felt row is strongly present-weighted
   (`β ≈ 0.05`–`0.08`). Robustly: unless felt anticipation outweighs the present several times
@@ -33,13 +32,20 @@ Working abstract:
   bias (one-sided: known, Sáez-Martí & Weibull; two-sided closed form: not found); memory
   weakens it. It is choice behaviour only for an agent that maximizes current experience.
 - Beliefs are welfare: felt anticipation is a forecast, so learning is not hedonically
-  neutral. With linear echoes and news and a calibrated prior, the truth is free in
-  expectation but not pathwise; loss-averse news prices it. Dread outweighing savoring, as
+  neutral. With linear echoes and news, a calibrated prior and a lifespan the information
+  does not move, the truth is free in expectation but not pathwise; loss-averse news prices
+  it. Dread outweighing savoring, as
   a kernel on outcomes, prices information only in the recursive model, where you anticipate
   your own future dread, and only when some felt state can land on either side of zero; the
   exact cost is the change in life-weighted expected negative parts. Under recursive news a
   calibrated Bayesian is already braced. Unaware optimism buys experienced utility at the
   cost of decisions.
+- A hedonic agent chooses an action policy and an affect policy, the information it feels
+  by. Good's theorem and updatelessness govern only the first. Under loss-averse news,
+  feeling in batches pays, but a self that knows its own policy reads hidden news off its
+  own actions and their results, so batched feeling needs an observable history that stays
+  uninformative until the batch (delegation that hides the act and its results, or
+  pooling).
 - Felt anticipation that tracks a prediction of your later choice makes that choice
   Newcomb-like. Decision rules differ in how much of the already-felt past they count as
   depending on the present choice.
@@ -77,4 +83,5 @@ Working abstract:
   unified welfare treatment, and nothing on news utility. The post's value is the
   reframing, plus the specific results in `formalism/`.
 
-Target: a LessWrong post.
+Target: a LessWrong post. The authoritative writeup is `outline.md`; the repository map is
+in `AGENTS.md`.

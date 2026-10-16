@@ -104,6 +104,10 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
     - In expectation the truth is free (tower property; a textbook benchmark), given
       linear echoes and news, a calibrated prior, and actions held fixed. Pathwise it is
       not: bad news hurts now.
+      - It also needs a lifespan the information does not move. Under death risk the
+        remembered-anticipation loop runs only in surviving branches, so mortality
+        information is priced even in the linear recursive model, with the sign of the
+        anticipated future's felt value. *checked*
     - What prices information is nonlinearity in beliefs. Dread outweighing savoring, as a
       kernel on outcomes, does it only in the recursive model, where you anticipate your
       own future dread. (Concavity in the posterior itself prices information in any
@@ -170,9 +174,14 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
       - Strict updateless affect (feel by the prior) is best against dread-of-dread in every
         case checked (no theorem yet); against loss-averse news the optimum is a weighted
         schedule, batching where weights are equal.
-      - Updateless action is what makes it feasible: once a policy acts for you, you can
-        stop watching.
-      - P(doom): act on the forecast, feel it in batches. *speculation as psychology*
+      - Actions leak: a self that knows its own policy reads hidden news off its own
+        actions, their results and even its inaction, so commitment alone does not make
+        batched affect feasible. The observable history must stay uninformative until the
+        batch: delegation that hides the act and its results, or pooling. *synthesis;
+        known in kind: Andries & Haddad; checked on a binary example*
+      - P(doom): act on the forecast, feel it in batches; conditioning each action on the
+        forecast trades its instrumental value against the news it leaks.
+        *speculation as psychology*
       - Credit Pagel (the formal case: ignore the portfolio, delegate, commit to
         inattention), Andries & Haddad (alerts and delegation) and Soares ("Detach the
         grim-o-meter"; "Simply locate yourself", the updateless structure, which ties back
@@ -248,6 +257,10 @@ value of information (Act II) and the logic of choice (Act III); a coda takes it
   - Power-law forgetting threatens `M` and `M₁`.
   - The evidence for a past–future asymmetry is thin.
   - Identification (P10).
+  - Open, parked: whether echo adds to the present or displaces it (only additive and Z
+    survive the epilogue test; `notes/displacement.md`), and hedonic adaptation, a reference
+    process alongside echo that the data rule out only at fast scales
+    (`notes/adaptation.md`).
 - **Technical companion.** The canonical model and its well-foundedness proofs; P4's
   closed form and P5–P6's life weights and ramp; N3 in the canonical model; the
   threshold's closed form and regimes; D5's identity; D3's stopping conditions; the checks

@@ -1,83 +1,58 @@
 # Next steps
 
 Plan (a9): one flagship post covering the model and the whole framework (a life, beliefs,
-choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
+choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency. Results live
+in `formalism/` and the experiment READMEs; this file lists only what is open.
 
 ## The post
 
-1. **Learned expectations** (`experiments/learned_expectations/`): built the observer, the
-   scheduling agent (the `J` dial reproduces fixed-past and commitment play; exact rational
-   forecasts with anticipated news), the game agent (random 2×2 games; the twin dial
-   reproduces causal against evidential play) and the hidden-game agent (a felt critic: a rosy
-   critic keeps it complacent through the shared state). Next:
-   - **Two channels for optimism.** Built (`run_channels.py`): with the critic as the policy's
-     baseline its level does nothing detectable at batch 2048, as Chung et al.'s theory
-     predicts. Next: the same at small batches, where a baseline's level should matter
-     (optimistic non-committal, pessimistic committal), and a decision rule that reads values
-     directly (softmax over learned move values), the classic optimism-explores case, against
-     the shared state, where a high level reads as "stay".
-   - **The mechanism, finished.** D8 states it (the cross tangent kernel; a linear-model
-     proposition, checked, Codex-reviewed) and its prediction held: with the critic's level
-     outside the network a reward shift stops mattering. Left: why removing the critic's mean
-     push on the state traps the honest critic (Codex's three-branch one-step diagnostic:
-     clone weights and Adam state; policy gradient alone, plus the game-varying critic
-     gradient, plus its per-round mean; round-2 stay logit on fixed first-round histories).
-   - **Seeds for the game agent.** Equilibrium selection toward risk dominance holds over five
-     seeds (97.4% against 93.4%, every seed); the motivated-belief pattern is still one run.
-   - **Iterated randomized games** (`run_iterated.py`): reciprocity across games emerges only
-     with mixed partners. Three times longer training (scratch, 4 seeds, output not archived; `iterated_report.txt`
-     is the shorter run) does not raise
-     self-play cooperation (prisoner's dilemma 0.22–0.38) but sharpens the end game: against
-     tit for tat, about 0.7 through round 9, then 0.06–0.12 in round 10. Next: partner
-     populations of learners rather than scripts; felt-utility variants (does a rosy critic
-     make a sucker?).
-   - **Evolving felt parameters.** Built (`run_evolve.py`): selection on lifetime payoff runs
-     against anticipation and for felt news, with no detectable selection on loss aversion
-     (pooled s.e.; run-level uncertainty still to do). Next: is `λ`'s neutrality the
-     consolation term undoing its bracing (evolve `λ` with `n` fixed, and with consolation
-     removed); longer lifetimes, where escape speed matters less; welfare
-     (felt) against fitness (payoff) of the evolved populations.
+1. **Learned expectations** (`experiments/learned_expectations/`).
+   - **Two channels for optimism.** Through the policy's baseline the critic's level does
+     nothing detectable at batch 2048. Next: small batches, where a baseline's level should
+     matter (optimistic non-committal, pessimistic committal); and a decision rule that reads
+     values directly (softmax over learned move values), the classic optimism-explores case,
+     against the shared state, where a high level reads as "stay".
+   - **The mechanism (D8).** Left: why removing the critic's mean push on the state traps the
+     honest critic. Codex's three-branch one-step diagnostic: clone weights and Adam state;
+     policy gradient alone, plus the game-varying critic gradient, plus its per-round mean;
+     round-2 stay logit on fixed first-round histories.
+   - **Seeds.** The game agent's motivated-belief pattern is still one run.
+   - **Iterated games.** Partner populations of learners rather than scripts; felt-utility
+     variants (does a rosy critic make a sucker?).
+   - **Evolving felt parameters.** Is `λ`'s neutrality the consolation term undoing its
+     bracing (evolve `λ` with `n` fixed, and with consolation removed)? Longer lifetimes,
+     where escape speed matters less; welfare (felt) against fitness (payoff) of the evolved
+     populations; run-level uncertainty.
    - **Well-foundedness as a learning failure.** The canonical critic at `a = 0.3, ν = 0.8`
      (anticipation mass 1.2) diverged; map where TD on felt utility diverges against
      `M + λN < 1`.
-   - The twin dial in hidden repeated games (cooperation in hidden prisoner's dilemmas);
-     reliability (D6) as an agent.
-   - Evidence gaps from the 2026-10-15 audit: archive the twin-dial output and the
+   - **Agents not yet built.** The twin dial in hidden repeated games (cooperation in hidden
+     prisoner's dilemmas); reliability (D6) and the self-Newcomb as environments; the
+     observer with attention as a choice (batching, N2, D7), dread or rumination asymmetry
+     (information avoidance, D5) and saturating news near the threshold; in the game
+     distribution, whether the affect policy prefers not to tell games apart early (D7).
+   - **Evidence gaps** (2026-10-15 audit): archive the twin-dial output and the
      anticipated-news comparison (the "84% of directions" figure has no script); report the
      consolation gap stratified by round (pooled 0.33 overstates it by a quarter or so); an
      initialization ablation for credible-plan selection (only 4 of 16 draws are
      informative); does the shared-state sign reverse on a task whose optimum is
      stay-heavy?
-2. **Fit to momentary-happiness data** (`experiments/happiness/`). The 2026-10-14 audit
-   (`audit/`) recast the results: front-loaded echoes, closer to a power law than to either
-   the jump kernel or Rutledge's geometric; recursion and direct echo indistinguishable
-   there; news not echoing like outcomes once base utility is separated; `λ` not identified
-   in 50/50 gambles (a cost of having gambled takes it to 1.04). Left:
-   - a test that separates recursion from its rivals: forward echoes (does a rating
-     anticipate the trials left?), or the interaction of two outcomes (linear echo predicts
-     none, saturating echo some);
-   - the direct felt-clock test (`audit/felt_clock.py` left it open): a fast transient plus a
+2. **Fit to momentary-happiness data** (`experiments/happiness/`).
+   - A test that separates recursion from its rivals: forward echoes (does a rating
+     anticipate the trials left, or the play's end?), or the interaction of two outcomes
+     (linear echo predicts none, saturating echo some).
+   - The direct felt-clock test (`audit/felt_clock.py` left it open): a fast transient plus a
      slow mood in elapsed seconds, the current trial's rating delay included, with rate
      `∝ age^−q`, against an age-specific kernel shape; calibrated on simulations with
      z-scoring, heterogeneous people and repeated draws. It separates a slower felt clock
-     (Janet `q = 1`, Lemlich `q = ½`) from reactivity and persistence changing with age;
-   - a multi-scale reading of the heavy tail against `M < 1`;
-   - whether `a < 0` is dread, the certainty effect, or curvature (it halves under power
-     utility);
-   - slow adaptation needs step data: candidates in `notes/adaptation.md`. Parked mid-way
-     (a9, 2026-10-15, memory pressure from other jobs): download approved for the Dartmouth
-     College Experience Study, Zenodo record 22953080 (v2.0.0 of concept 17348144). Only
-     `0040_nepal_codebook_2.csv` is in `data/dartmouth/` (md5 checked). Still to fetch and
-     md5-check: `0040_nepal_ts.tsv` (25,205,478 bytes, `3edfef152aa9f0af348f8466ef9ef6e2`)
-     and `0040_nepal_codebook.csv` (`c739cf843dc0eb4975fc63e59c3b8c72`), from
-     `https://zenodo.org/api/records/22953080/files/<name>/content`. Then the step test:
-     weekly valence around the spring 2020 onset, person-demeaned, against
-     same-week-of-term baselines from 2017–2019; fit a drop and a recovery share `h` with
-     time constant `τ` (bootstrap over people), on a balanced panel, with the reopening
-     dates as the end of the step.
+     (Janet `q = 1`, Lemlich `q = ½`) from reactivity and persistence changing with age.
+   - A multi-scale reading of the heavy tail against `M < 1`.
+   - Whether `a < 0` is dread, the certainty effect, or curvature (it halves under power
+     utility).
+   - Slow adaptation needs step data: parked with B4 (below).
 3. **Structure** `outline.md` around the spine (experience echoes; acts: a life, beliefs,
-   choices; coda: selves), and the technical companion. Parked by a9 (2026-10-15) until the
-   contents settle; two inputs from the second review:
+   choices; coda: selves), and the technical companion. Parked by a9 until the contents
+   settle. Inputs from the second review:
    - **Hook and order.** Two reviewers independently found "experience echoes" the
      economist's way in. Candidate lead: beliefs are welfare and affect policies (the
      P(doom) example), then the past self as predictor; Act I shrinks. The answer to "why
@@ -99,7 +74,9 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
    - `J` for imperfect foresight: past forecasts as noisy predictions of the policy, and
      FDT's `J` as a function of predictability;
    - D7: a comparison theorem for coarser affect filtrations under dread or rumination;
-     whether fixed-past selves over-check; jointly implementable action and affect policies;
+     whether fixed-past selves over-check; jointly implementable action and affect policies,
+     under both constraints (credibility under a changed `G`, and leakage, whose toy is
+     parked below);
    - D2 with news: the `J` identity extended by the news-forcing derivative and a stated
      reference counterfactual;
    - D5: the delusional optimist under felt news (unaware against sophisticated);
@@ -126,64 +103,52 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
    - Nice to have: Cojuharenco & Ryvkin 2008 (*J. Math. Psych.* 52(5)); Schreiber &
      Kahneman 2000 (*JEP: General*); Stone, Schneider & Harter 2012 (*J. Positive Psych.*);
      Miller 2026 (*Synthese*).
+8. **Citation gaps** (bibliography audit, 2026-10-15). Cited in core or decision docs with
+   no entry: Bellman and Jevons/Bentham (only inside other entries), Janet and Lemlich 1975
+   (the felt clock). Cited in notes, to verify when distilled: adaptation's Helson,
+   Wathieu, Parducci, Solomon & Corbit, Brickman & Campbell, Headey & Wearing, Lucas,
+   Lundstrom, Diener–Lucas–Scollon (several "from memory"), Gohberg–Krein, Coburn; the
+   menu's prior art (Dato et al.; Duraj & He; Ely, Frankel & Kamenica; Todorov et al.;
+   Frank; Dekel, Ely & Yilankaya; Kallsen & Muhle-Karbe; Baurdoux & Yamazaki; Jaisson &
+   Rosenbaum; Charness & Dufwenberg; Lipnowski & Mathevet; Gigerenzer & Garcia-Retamero;
+   Ersner-Hershfield). Load-bearing claims on abstract-only or second-hand entries:
+   Kimball 1987 (P2's `β_L = 1`), Hori & Kanaya (P9), Wixted & Ebbesen (power-law
+   forgetting), Bell, Loomes & Sugden and Gul (disappointment), Tversky & Griffin,
+   the memory-asymmetry cluster (recollection sketch), Fredrickson & Kahneman,
+   Geanakoplos–Pearce–Stacchetti, O'Donoghue & Rabin, Hardisty & Weber.
 
-## Extension (a9): learned expectations
+## Formal loose ends
 
-- Train an agent whose reward is its own felt utility, computed from its own forecasts and
-  realized against the world: Brunnermeier & Parker's well-being, learned. Expected return
-  under the true environment is exactly the objective expectation of the felt life-sum.
-- **Observer** (built): random events, the agent chooses only its beliefs, tethered by
-  `KL(q ‖ p)/τ`. Still to add: attention as a choice (batching, N2, D7); dread or rumination
-  asymmetry (information avoidance, D5); saturating news near the threshold.
-- **Agent:** actor-critic whose critics are its felt anticipation and news (core, the RL
-  reading). Environments in order: scheduling, reliability, self-Newcomb, then a
-  distribution of two-player games (a9: does it learn to tell them apart?), with the payoff
-  matrix given or to be inferred; the affect policy may prefer not to tell them apart early
-  (D7).
-  - Two switches, after Oesterheld (2019): what the reward credits (felt anticipation is
-    the "overseer", conditional on the forecast or not) and what the learner credits
-    (whether gradients flow from anticipation rewards into the policy through its
-    self-prediction).
-  - The learner's switch is known in binary form: stop-gradient gives performatively
-    stable, ratifiable, CDT-like fixed points; full flow gives the optimum, EDT-like or
-    Stackelberg (Oesterheld, Treutlein, Cooper & Hudson 2023; Perdomo et al. 2020; Bell et
-    al. 2021; Demski's partial agency).
-  - A lagged self-predictor is not the graded case: it still blocks the gradient, so the
-    learner's recognized `J` is 0; the lag changes only how accurate past forecasts are,
-    the actual `J`. Graded `J` needs another knob: a partial gradient weight, an outer
-    loop's horizon (Krueger, Maharaj & Leike 2020), or forecast accuracy.
-  - New relative to that literature: a temporal stream of felt anticipation, memory and
-    news; `J` graded inside a life-sum; belief and affect heads (D7's two filtrations); the
-    LLM-welfare angle.
+- Write out what the docs only assert: P4's matching step for `r(0)`, the half-line `g_j`
+  behind N4's `κ`, and N3-canonical's `Θ, λ̃, b*`.
+- Archive the D3 news table's script (80 draws; currently a session script).
+- Check the stock-form ODE numerically.
+- Sign-asymmetric kernels: what survives of P6 and D3?
+- The soft 2×2: reflexivity dials between direct and recursive echoes and news.
+- Power-law kernels beyond P1(d).
 
-## Parked (a9): separate projects
+## In discussion
 
-- **A felt learner in a Bates world** (geometric Brownian motion, Heston stochastic
-  volatility, Merton jumps). Of interest for its own sake, not the post. How its prediction
-  moves as it tries to match the near-martingale, and how its felt utility moves with it.
-  Sharp points to check: loss-averse news on a diffusion whose felt forecast tracks it
-  exactly costs without bound (infinite total variation); lumpy jump news against diffusive news of the same
-  variance; built-in bracing tracking volatility (the ostrich effect: Karlsson, Loewenstein &
-  Seppi 2009; Sicherman et al. 2016; known in kind via Andries & Haddad, Pagel).
-  - First results (2026-10-14 review; a DP in the session scratchpad, Codex thread
-    `cu-extensions`, agreeing independently). `φ_λ(x) = ((1+λ)/2)x − ((λ−1)/2)|x|`, so
-    equal-weight loss-averse news is a telescoping term minus `c = n(λ−1)/2` times the
-    belief path's total variation. A felt display tethered by `(η/2)(q − M)²` to the
-    martingale forecast `M` is then a reflected martingale: unchanged inside a band, pushed
-    at its edges, half-width `b* = (3cσ²/(2η))^{1/3}` (singular control, Harrison–Taksar;
-    the cube-root law of transaction costs), centered by anticipation, not by `λ`. The DP
-    matches with the discrete-monitoring correction `b − 0.583σ√dt`. Watching continuously
-    then costs finitely, `∝ σ^{4/3}` (DP slope 1.32). The kink alone gives no asymmetric
-    updating; that needs unequal weights, memory asymmetry or state dependence.
-  - Cost concave in variance: clustered volatility at equal mean variance is cheaper (two
-    regimes against constant, −16% in one example); rarer, larger jumps are cheaper per unit
-    variance (`∝ σ√ι`).
-  - Attention against volatility has no fixed sign: with a fixed staleness cost, `h* ∝ σ^{2/3}`
-    (look less in high volatility, the ostrich direction); with quadratic tracking loss,
-    `h* ∝ σ^{−2/3}` (look more). Volatility-scaled bracing unwinds as volatility mean-reverts,
-    so no supermartingale in general; with the leverage effect, falls deepen bracing.
-  - Pitfall: a KL tether does not bound optimism for lognormal prices
-    (`sup_Q a E_Q[X] − KL(Q‖P)/τ = ∞`); use log or bounded utility.
+- The extensions menu, `notes/extensions-menu.md`.
+
+## Parked (a9)
+
+- **Additive or displacement echo** (`notes/displacement.md`). A positive continuation must
+  not lower welfare, which leaves additive and Z. a9 wants to explore the model further
+  first, especially uncertain death and other counterfactuals. Discriminating extensions:
+  the menu, section G.
+- **Hedonic adaptation, B4** (`notes/adaptation.md`). Left: the Dartmouth step test and a
+  frequency-principle test in the Great Brain Experiment (does a rating track the current
+  payoff's rank among recent payoffs beyond its value?).
+  - Dartmouth download, parked mid-way for memory pressure: approved for the Dartmouth
+    College Experience Study, Zenodo record 22953080 (v2.0.0 of concept 17348144). Only
+    `0040_nepal_codebook_2.csv` is in `data/dartmouth/` (md5 checked). Still to fetch and
+    md5-check: `0040_nepal_ts.tsv` (25,205,478 bytes, `3edfef152aa9f0af348f8466ef9ef6e2`)
+    and `0040_nepal_codebook.csv` (`c739cf843dc0eb4975fc63e59c3b8c72`), from
+    `https://zenodo.org/api/records/22953080/files/<name>/content`. The test's design is in
+    the note.
+- **The C1 toy** (actions leaking into affect): the menu, C1.
+- **A felt forecaster in a Bates world**, a separate project: `notes/bates.md`.
 
 ## Follow-up: LLMs
 
@@ -191,37 +156,3 @@ choices, selves); the LLM peak-end study is a follow-up. Ordered by dependency.
 - The peak-end design: positional weights of an end-of-episode rating identify the
   effective memory kernel; recency and duration neglect from linear memory, peak from
   salience. Integrate with the peak-end study in LLMs.
-
-## Parked (a9, 2026-10-15): additive or displacement echo
-
-- Whether echo adds to the present or takes attention from it. Narrowed (a9): a positive
-  continuation must not lower welfare, which leaves additive and Z (death a zero-valued
-  attention target) and rules out Tr, Rn, Pr and the normalized total. a9 wants
-  to explore the model further first, especially uncertain death and other
-  counterfactuals. State of play: `notes/displacement.md`; discriminating extensions:
-  `notes/extensions-menu.md`, section G.
-
-## Parked (a9, 2026-10-15): hedonic adaptation (B4)
-
-- State of play in `notes/adaptation.md`: candidate models, the telescoping identities,
-  biphasic memory (`c γ^j`) with its signed-kernel well-foundedness, and the data tests (no
-  fast level adaptation; impulse tests are blind to slow adaptation; partial range
-  adaptation of sensitivity, about a tenth of full normalization). Left: the Dartmouth step
-  test (parked mid-download, item 2 above) and a frequency-principle test in the Great
-  Brain Experiment (does a rating track the current payoff's rank among recent payoffs
-  beyond its value?).
-- a9 does not buy range-frequency's reductio (scheduling awful days to raise welfare), nor
-  full adaptation's "quit while ahead".
-- Next in discussion: C1, actions leak information into affect (`notes/extensions-menu.md`,
-  section C; decision.md D7).
-
-## Formal loose ends
-
-- Write out what the docs only assert: P4's matching step for `r(0)`, the half-line `g_j`
-  behind N4's `κ`, and N3-canonical's `Θ, λ̃, b*`.
-- Archive the D3 news table's script (80 draws; currently a session script).
-
-- Check the stock-form ODE numerically.
-- Sign-asymmetric kernels: what survives of P6 and D3?
-- The soft 2×2: reflexivity dials between direct and recursive echoes and news.
-- Power-law kernels beyond P1(d).

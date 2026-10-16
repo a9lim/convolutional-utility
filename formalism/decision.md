@@ -298,7 +298,7 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     (Bénabou 2015 p. 677; Bénabou & Tirole 2002 §IV). This is Yudkowsky's "Doublethink"
     as a theorem. Delusion pays only for unaware agents, under nonlinear anticipation, or
     for instrumental reasons.
-  - Not in Brunnermeier & Parker: a felt disappointment term. The felt-news extension
+  - Not in Brunnermeier & Parker: a felt disappointment term. Felt news
     (core N2–N3) supplies both the price of optimism (the news at realization) and a price
     on information. Disappointment is first-order, so the sign of the hedonically optimal
     bias depends on anticipation mass against remembered, loss-weighted disappointment:
@@ -389,10 +389,6 @@ marked]
   `G_t` is the prior until realization.
 - **Free in linear models.** Without felt news or nonlinearity, expected welfare does not
   depend on `G` (tower property). [standard]
-- These comparisons hold the outcome process fixed. With endogenous actions, changing `G`
-  changes deviation payoffs and so which plans are credible; affect and action policies
-  must then be chosen jointly among implementable pairs, or delegation assumed binding.
-  [Codex]
 - **Which `G` is best depends on the nonlinearity.** [checked on examples]
   - R with dread or rumination asymmetry (D5): coarser `G` keeps felt states from spreading
     into negative parts, which is what D5's identity charges. Strict updateless affect is best in
@@ -406,14 +402,53 @@ marked]
   action policy, where information is ignorable. The affect policy is where information
   costs (KSS's cost-free half). A hedonic agent chooses both, and Good's theorem says
   nothing about the second.
-- **Updateless action makes batched affect feasible.** `G ⊊ F` means acting on information
-  one does not attend to: delegation, rules executed without fresh deliberation, long
-  evaluation periods. Once a policy is acting for you, you can stop watching. Pagel's
-  news-utility investor is the formal case: he prefers to ignore his portfolio, pays a
-  manager to rebalance for him, and would like to commit to inattention. Andries & Haddad
-  (2020) find the same under recursive disappointment aversion: state-dependent alerts
-  after sharp drops raise welfare, and delegation cannot always shield the agent, because
-  observed consumption reveals wealth (NBER WP, Prop. 5, pp. 23–24).
+- **Implementable pairs.** The comparisons above hold the outcome process fixed. With
+  endogenous actions, affect and action policies must be chosen jointly, under two
+  constraints.
+  - Incentives: changing `G` changes deviation payoffs and so which plans are credible.
+    [Codex]
+  - Information: actions leak into affect (next bullet).
+- **Actions leak into affect.** `G ⊊ F` means acting on information one does not attend to,
+  but the feeler observes its own actions and their results, so felt states are computed on
+  at least `G_t ∨ σ(a_{≤t}, u_{≤t})`. That join is the minimal observation closure, a lower
+  bound on what is felt, not a characterization of implementable pairs. A feeler that knows
+  its policy learns the partition the policy's output induces, not all of `F`
+  (`a = 1[Z > 0]` hides `Z`'s size); one uncertain about its own policy learns less.
+  Commitment alone does not stop the leak: a fixed policy reveals whatever its output
+  depends on. Off-path actions have no Bayesian posterior, so evaluating a deliberate
+  deviation needs a belief rule (trembles, an equilibrium refinement). [synthesis; Codex;
+  known in kind: Andries & Haddad, below]
+  - Protecting information until a batch date needs the whole observable history (actions,
+    their consequences, and inaction under a known rule) to be conditionally independent of
+    it, given the scheduled disclosures; sometimes only payoff-relevant forecasts need
+    protecting. The routes combine rather than each sufficing: delegation hides the act,
+    late consequences hide its results, pooling or garbling makes the act uninformative.
+    [Codex]
+  - Prior art. Pagel's news-utility investor prefers to ignore his portfolio, pays a manager
+    to rebalance for him, and would like to commit to inattention, but must sometimes look
+    in order to rebalance himself. Andries & Haddad (2020), under recursive disappointment
+    aversion: state-dependent alerts after sharp drops raise welfare (Prop. 5), and
+    delegation cannot always shield the agent, because observed consumption reveals wealth;
+    it works best for decisions with long-term implications, where hidden trading meets
+    consumption observed late (NBER WP, pp. 23–25).
+  - What a leak costs depends on the nonlinearity. Loss-averse news at equal effective
+    weights `c = w(r) k_n(s−r)`: splitting a revision into increments `x, y` adds
+    `c(λ−1)[x⁻ + y⁻ − (x+y)⁻]`, positive exactly when they have opposite signs. Moving an
+    intact revision earlier is neutral; a leak that pulls part of a batch forward destroys
+    cancellation (`+1, −1` batched costs nothing, felt separately `λ − 1`); unequal timing
+    weights change both (core N2). R with dread or rumination: coarser `G` was better in
+    every example checked, so forced revelation is expected to cost; no theorem. [Codex]
+  - Binary example. State `Z = ±1` seen by the doer, action `a = Z` with probability `q`,
+    `u = sZ + r·1[a = Z] + εη` realized at `T`, with `η = ±1` revealed only at `T`, the
+    action observed, unit news weights. With `ε = 0`,
+    `E[W] = rq − (λ−1)[s(q − ½) + q(1−q) max(r, 2s)]`: convex in `q`, so a corner wins, and
+    acting fully always beats ignoring, since a full leak is free. With `ε > 0` the leak is
+    partial and can cost: `s = 1, r = 0.3, ε = 1, λ = 2` gives −0.70 acting and observing,
+    −0.39 ignoring, −0.20 acting through an unobserved delegate. [Codex's closed form;
+    checked]
+  - A rule that ignores the news leaks nothing through the act, but its consequences can:
+    D6's reliable self pools the act, yet feels which cost it paid. Bénabou & Tirole's
+    personal rules run on the opposite channel, self-inference from lapses. [Codex]
 - **Not belief choice.** Beliefs stay accurate, so this is not Brunnermeier & Parker, and
   Bénabou's self-doubt cancellation does not bite. Whether affect can come apart from
   belief within one mind is open; attention and delegation are the known routes. Not
@@ -422,7 +457,10 @@ marked]
 - **Example: P(doom).** A high forecast lowers felt anticipation, but that level effect is
   neutral ex ante in the linear model. Following every update piecemeal costs more than
   batching at equal weights when `λ > 1`. The hedonic prescription: settle a policy, act on
-  it, and feel the forecast in batches. [speculation as psychology]
+  it, and feel the forecast in batches. Leakage makes conditioning each action on the
+  forecast a trade-off: its instrumental value against the news its observation,
+  consequences and inaction carry. Size and frequency alone decide nothing (a tiny action
+  `εZ` reveals `Z`). [speculation as psychology]
 - **Informal precedents on LessWrong.** None batches or feels by a prior, but each splits
   affect from action.
   - Soares, "Detach the grim-o-meter" (2015): stop calibrating the grim-o-meter against

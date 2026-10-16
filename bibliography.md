@@ -1,9 +1,10 @@
 # Bibliography
 
 Status: **FT** full text read · **WP** full text of a working/author version (published
-text may differ) · **ABS** abstract or publisher record only · **2ND** primary unread,
-described via the secondary named. Files are in `references/`. First verification pass
-2026-10-12 (two literature agents plus Codex; spot-read by Claude where marked).
+text may differ) · **ABS** abstract or publisher record only · **ABS+** abstract plus part
+of the text (a scan or excerpt) · **2ND** primary unread, described via the secondary
+named. Files are in `references/`. First verification pass 2026-10-12 (two literature
+agents plus Codex; spot-read by Claude where marked).
 
 ## Direct precursors of the premise
 
@@ -379,7 +380,7 @@ described via the secondary named. Files are in `references/`. First verificatio
 - **Luper, S. (2026).** Death. *Stanford Encyclopedia of Philosophy*, §5.2 (Lucretius'
   symmetry argument). **FT** · `web/luper-2026-sep-death.md`
 
-## Personal identity and connectedness (core, natural horizons)
+## Personal identity and connectedness (core, Horizons)
 
 - **Parfit, D. (1984).** *Reasons and Persons*, chs. 10–15. OUP. **2ND** (Bartels & Rips
   2010; Lay 2019; Dufner 2025)
@@ -425,14 +426,12 @@ described via the secondary named. Files are in `references/`. First verificatio
 
 ## Psychology
 
-- **Caruso, E., Gilbert, D. & Wilson, T. (2008).** A wrinkle in time: asymmetric
-  valuation of past and future events. *Psychological Science* 19(8): 796–801.
-  doi:10.1111/j.1467-9280.2008.02159.x. **ABS**
-  - Future events are valued more than equivalent past ones, between subjects only. See
-    Caruso et al. 2025 for the replication problem.
+- Caruso, Gilbert & Wilson (2008), future events valued more than equivalent past ones:
+  full entry under Calibration anchors.
 - **Van Boven, L. & Ashworth, L. (2007).** Looking forward, looking back: anticipation is
   more evocative than retrospection. *JEP: General* 136(2): 289–300.
-  doi:10.1037/0096-3445.136.2.289. **ABS**
+  doi:10.1037/0096-3445.136.2.289. **ABS** ·
+  `papers/van-boven-2007-looking-forward-looking-back-anticipation-is-more-evocative-than-retrospection-abs.txt`
   - Five experiments. Anticipation is more emotionally intense, mediated by mental
     simulation. The expected-versus-remembered gap is slight.
 - **Tversky, A. & Griffin, D. (1991).** Endowment and contrast in judgments of
@@ -621,10 +620,12 @@ described via the secondary named. Files are in `references/`. First verificatio
   Science* 50(1): e70160. **FT** · `papers/dawson-2026-asymmetric-anticipatory-emotions.txt`
   - Dread outweighs savoring in survey estimates.
 
-## Value of information: beliefs as welfare (D5)
+## Value of information and beliefs as welfare (D5, D7; core N1–N3)
 
-Economics (Brunnermeier & Parker 2005 and Caplin & Leahy 2001 are under anticipatory
-utility above):
+### Economics
+
+Brunnermeier & Parker 2005 and Caplin & Leahy 2001 are under anticipatory utility above.
+
 - **Epstein, L. (2008).** Living with risk. *RES* 75(4): 1121–1141.
   doi:10.1111/j.1467-937X.2008.00504.x. **FT** (abstract and intro) ·
   `papers/epstein-2008-living-with-risk.txt`
@@ -745,7 +746,8 @@ utility above):
   - Asymmetric updating and information avoidance as predictions (pp. 674–75), citing
     Möbius et al., Eil & Rao, Oster et al., Karlsson et al.
 
-Field and lab evidence:
+### Field and lab evidence
+
 - **Oster, E., Shoulson, I. & Dorsey, E. R. (2013).** Optimal expectations and limited
   medical testing: evidence from Huntington disease. *AER* 103(2): 804–830.
   doi:10.1257/aer.103.2.804. **WP** (NBER w17629, 2011; intro, §§4–6) ·
@@ -791,7 +793,8 @@ Field and lab evidence:
     asymmetry plus conservatism; Coutts 2019 and Barron 2021 (*Exp. Econ.*) find no
     valence asymmetry beyond conservatism.
 
-Disappointment, bracing and evaluation periods (core N1–N3):
+### Disappointment, bracing and evaluation periods (core N1–N3)
+
 - **Bell, D. (1985).** Disappointment in decision making under uncertainty. *Operations
   Research* 33(1): 1–27. doi:10.1287/opre.33.1.1. **ABS** (form via Abdellaoui &
   Bleichrodt 2007; Mellers et al. 1997) ·
@@ -870,7 +873,8 @@ Disappointment, bracing and evaluation periods (core N1–N3):
   - Less frequent feedback raises betting (67% vs 51%), already in round 1, before any loss
     is experienced (p. 639); the low-frequency arm also changes information.
 
-LessWrong on feeling versus acting (D7; all `web/`, **FT**):
+### LessWrong on feeling versus acting (D7; all `web/`, **FT**)
+
 - **Soares, N. (2015).** Detach the grim-o-meter. *Minding Our Way* / LessWrong.
   - Stop calibrating the grim-o-meter against the state of the world; it is built for
     local occasions. Resolve stays.
@@ -887,7 +891,8 @@ LessWrong on feeling versus acting (D7; all `web/`, **FT**):
   touch with reality); Yudkowsky, "MIRI announces new Death With Dignity strategy" (2022);
   Soares, "Dark, not colorless".
 
-Philosophy and decision theory:
+### Philosophy and decision theory
+
 - **Good, I. J. (1967).** On the principle of total evidence. *BJPS* 17(4): 319–321.
   **2ND** (Skyrms 1990; Ahmed & Salow 2019; closed)
   - Free evidence has nonnegative expected value for a Bayesian expected-utility maximizer.
@@ -921,7 +926,8 @@ Philosophy and decision theory:
     disappointment (p. 19). *Belief-constituted value hazard*: a component of well-being
     depends constitutively on epistemic states (pp. 19–21).
 
-LessWrong and the Alignment Forum, updatelessness and information (all `web/`, **FT**):
+### LessWrong and the Alignment Forum, updatelessness and information (all `web/`, **FT**)
+
 - **Diffractor (2018).** VOI is only nonnegative when information is uncorrelated with
   future action.
   - The ignore-the-observation proof fails when the probability of an observation depends
@@ -941,7 +947,8 @@ LessWrong and the Alignment Forum, updatelessness and information (all `web/`, *
 - **Garrabrant, S. (2016).** Updatelessness and son of X. Logical updatelessness.
 - All hazards here run through action or bargaining position. None is felt.
 
-LessWrong on truth, comfort and anticipation (all `web/`, **FT**):
+### LessWrong on truth, comfort and anticipation (all `web/`, **FT**)
+
 - **LessWrong wiki.** Litany of Gendlin; Litany of Tarski. Gendlin's is credited to Eugene
   Gendlin (book and page unverified); Tarski's is Yudkowsky's naming (2007).
 - **Raemon (2011).** Issues with the Litany of Gendlin.
@@ -973,11 +980,14 @@ LessWrong on truth, comfort and anticipation (all `web/`, **FT**):
   memory as utility in one. The literature agent's search relied on web search, so
   coverage is not exhaustive.
 
-LessWrong, EA Forum and blogs: the second scan (2026-10-14; GreaterWrong and site searches;
-pages fetched as model summaries and not saved, so read before quoting). Verdict: scattered
-informal precedents, no unified welfare treatment. No post found mentioning Kőszegi–Rabin,
-Caplin–Leahy, Loewenstein's anticipation work or psychological games; ACX and Overcoming
-Bias archives were not searchable.
+### LessWrong, EA Forum and blogs: the second scan
+
+Searched 2026-10-14 (GreaterWrong and site searches); pages fetched as model summaries and
+not saved, so read before quoting. Verdict: scattered informal precedents, no unified
+welfare treatment. No post found mentioning Kőszegi–Rabin, Caplin–Leahy, Loewenstein's
+anticipation work or psychological games; ACX and Overcoming Bias archives were not
+searchable.
+
 - **Yudkowsky, E. (2007).** Lotteries: a waste of hope. Hope as misallocated emotional
   energy; commenters, Hanson among them, defend its value. The best-known LessWrong
   treatment of anticipation as a good, and the natural foil.
@@ -1015,7 +1025,8 @@ Bias archives were not searchable.
 
 ## Recollection, recursive news and rumination (core N4 and the recollection sketch)
 
-Recursive gain-loss:
+### Recursive gain-loss
+
 - **Skiadas, C. (1998).** Recursive utility and preferences for information. *Economic
   Theory* 12(2): 293–312. doi:10.1007/s001990050222. **FT** ·
   `papers/skiadas-1998-recursive-utility-and-preferences-for-information.txt`
@@ -1032,7 +1043,8 @@ Recursive gain-loss:
   - Gul applied at every node: splitting resolution into stages lowers value ("I prefer to
     wait and hear only the final result").
 
-Recollection and motivated memory:
+### Recollection and motivated memory
+
 - **Mitchell, T., Thompson, L., Peterson, E. & Cronk, R. (1997).** Temporal adjustments in
   the evaluation of events: the "rosy view". *J. Experimental Social Psychology* 33(4):
   421–448. doi:10.1006/jesp.1997.1333. **ABS** ·
@@ -1120,7 +1132,8 @@ Recollection and motivated memory:
   motivated reasoning. Also saved: Eyster, Li & Ridout, ex post rationalization (arXiv
   2107.07491, **WP**); Thomas & König (2018), *Frontiers* 9: 760 (**FT**).
 
-Meta-emotion, rumination and bistability:
+### Meta-emotion, rumination and bistability
+
 - Abstract level: Mayer & Gaschke (1988), *JPSP* 55(1), meta-experience of mood; Gottman,
   Katz & Hooven (1996), *J. Family Psychology* 10(3), meta-emotion; Nolen-Hoeksema (1991),
   *J. Abnormal Psychology* 100(4), response styles.
@@ -1150,9 +1163,10 @@ Meta-emotion, rumination and bistability:
   and stressors in adolescents. *PLoS ONE* 13(9): e0204389. **FT** ·
   `papers/hosseinichimeh-2018-feedback-mechanisms-among-depression-rumination-and-stressors-in-adolescents.txt`
 
-## Calibration anchors (core, the canonical model)
+## Calibration anchors (core, Calibration)
 
-Loss aversion:
+### Loss aversion
+
 - **Brown, A., Imai, T., Vieider, F. & Camerer, C. (2024).** Meta-analysis of empirical
   estimates of loss aversion. *JEL* 62(2): 485–516. doi:10.1257/jel.20221698. **WP** (2022) ·
   `papers/brown-2024-meta-analysis-of-empirical-estimates-of-loss-aversion-wp.txt`
@@ -1185,7 +1199,8 @@ Loss aversion:
   judged-feelings loss aversion only under direct comparison; Harinck et al. (2007),
   *Psych. Sci.* 18(12), gains loom larger for small amounts.
 
-Present bias and patience:
+### Present bias and patience
+
 - **Imai, T., Rutter, T. & Camerer, C. (2021).** Meta-analysis of present-bias estimation
   using convex time budgets. *Economic Journal* 131(636): 1788–1814. doi:10.1093/ej/ueaa115.
   **FT** (with online appendix) ·
@@ -1210,7 +1225,8 @@ Present bias and patience:
 - Abstract level: Matoušek, Havránek & Iršová (2022), *Exp. Econ.* 25(1), mean experimental
   annual discount rate 0.33 after correcting for publication bias.
 
-Anticipation, memory and the content of thought:
+### Anticipation, memory and the content of thought
+
 - **Killingsworth, M. & Gilbert, D. (2010).** A wandering mind is an unhappy mind. *Science*
   330: 932. doi:10.1126/science.1192439. **FT** (with supplement) ·
   `papers/killingsworth-2010-a-wandering-mind-is-an-unhappy-mind.txt`
@@ -1282,7 +1298,8 @@ Anticipation, memory and the content of thought:
   retrospection; Finnbogadóttir & Berntsen (2013), *Consciousness & Cognition* 22(1),
   involuntary future projections as frequent as memories and more positive.
 
-Surprise and momentary happiness:
+### Surprise and momentary happiness
+
 - **Rutledge, R., Skandali, N., Dayan, P. & Dolan, R. (2014).** A computational and neural
   model of momentary subjective well-being. *PNAS* 111(33): 12252–12257.
   doi:10.1073/pnas.1407535111. **FT** (author-hosted PDF, main text) ·
@@ -1316,7 +1333,8 @@ Surprise and momentary happiness:
 - Abstract level: Rutledge et al. (2015), *J. Neuroscience* 35(27), dopamine and momentary
   well-being.
 
-Emotional inertia (ceilings on felt memory):
+### Emotional inertia (ceilings on felt memory)
+
 - **Kuppens, Allen & Sheeber (2010)**, above (rumination and bistability): Table 1, affect autocorrelation
   between beeps (10 a day, about 1.6 h apart, n = 79): happy .30, excited .33, relaxed
   .27, satisfied .29, angry .20, anxious .22, depressed .22, sad .27.
@@ -1338,7 +1356,8 @@ Emotional inertia (ceilings on felt memory):
   from above. Houben, Van Den Noortgate & Kuppens (2015, *Psych. Bull.*), the meta-analysis,
   closed.
 
-The week as a natural experiment:
+### The week as a natural experiment
+
 - **Helliwell, J. & Wang, S. (2014).** Weekends and subjective well-being. *Social Indicators
   Research* 116(2): 389–407. **WP** (NBER w17180, 2011) ·
   `papers/helliwell-2011-weekends-and-subjective-well-being-nber-w17180.txt`
@@ -1356,7 +1375,8 @@ The week as a natural experiment:
   Monday no worse than Tuesday to Thursday; Ryan, Bernstein & Brown (2010, *JSCP*), better
   mood from Friday evening to Sunday afternoon.
 
-LLM context windows (core, natural horizons):
+### LLM context windows (core, Horizons)
+
 - **Liu, N. et al. (2024).** Lost in the middle: how language models use long contexts.
   *TACL* 12: 157–173. arXiv:2307.03172. **FT** ·
   `papers/liu-2023-lost-in-the-middle-how-language-models-use-long-contexts.txt`
@@ -1376,7 +1396,7 @@ LLM context windows (core, natural horizons):
   `papers/wu-2025-on-the-emergence-of-position-bias-in-transformers.txt`
   - Causal masking favours early tokens and relative positional decay favours recent ones.
 
-## Decision theory by learning (the learned-expectations extension)
+## Decision theory by learning (`experiments/learned_expectations/`; D2, D7)
 
 - **Oesterheld, C., Treutlein, J., Cooper, E. & Hudson, R. (2023).** Incentivizing honest
   performative predictions with proper scoring rules. *UAI 2023*. arXiv:2305.17601. **WP**
@@ -1464,6 +1484,17 @@ LLM context windows (core, natural horizons):
 
 ## Shared representations and the critic's level (D8)
 
+- **Jacot, A., Gabriel, F. & Hongler, C. (2018).** Neural tangent kernel: convergence and
+  generalization in neural networks. *NeurIPS* 31. arXiv:1806.07572. **FT** ·
+  `papers/jacot-2018-neural-tangent-kernel-convergence-and-generalization-in-neural-networks.txt`
+  - Under gradient descent the network function follows the kernel gradient of the
+    functional cost, with the tangent kernel `∇_θ f · ∇_θ f`. D8's cross tangent kernel is
+    the two-head version.
+- **Saxe, A. M., McClelland, J. L. & Ganguli, S. (2014).** Exact solutions to the nonlinear
+  dynamics of learning in deep linear neural networks. *ICLR*. arXiv:1312.6120. **FT** ·
+  `papers/saxe-2014-exact-solutions-to-the-nonlinear-dynamics-of-learning-in-deep-linear-neural-networks.txt`
+  - Deep linear networks learn input–output modes one by one from small initialization,
+    toward balanced factorizations: D8(c)'s rank-one surrogate.
 - **Sun, H., Han, L., Yang, R., Ma, X., Guo, J. & Zhou, B. (2022).** Exploit reward shifting
   in value-based deep-RL: optimistic curiosity-based exploration and conservative
   exploitation via linear reward shaping. *NeurIPS*. arXiv:2209.07288 (as "Optimistic

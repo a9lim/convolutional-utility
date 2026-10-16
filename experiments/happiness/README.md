@@ -155,7 +155,7 @@ Forbes & Bennett 2024 (`forbes_report.txt`, `audit/`):
   [−0.069, 0.013]). In experiment 1 RPE registers on free choices and not on forced ones. A
   better unchosen outcome lowers affect slightly (regret), a worse one raises it (relief).
 
-## Audit (2026-10-14)
+## Audit
 
 `audit/`: a fresh-eyes review of the claims above (a subagent, rerun by Claude; data under
 `data/`, paths relative). Run each from anywhere, e.g. `python
@@ -177,13 +177,13 @@ experiments/happiness/audit/kernel_shapes.py`; `confounds.py` needs `extract_tim
   all on 12 cores).
 - `forbes_shapes_risk.py`, `forbes_pooling_null.py`: kernel shapes, the lottery-SD
   separation, and the pooling null on Forbes & Bennett.
-- `biphasic.py` (2026-10-15): afterglow-minus-adaptation kernels within a play (the audit
+- `biphasic.py`: afterglow-minus-adaptation kernels within a play (the audit
   split) and within a Forbes & Bennett block (5-fold CV), against the jump kernel and the
   hyperbola.
-- `impulse_detectability.py` (2026-10-15): the largest adaptation lobe a play-length pulse can
+- `impulse_detectability.py`: the largest adaptation lobe a play-length pulse can
   leave at each gap, over all time constants; why `carryover.py` cannot see slow adaptation.
-- `divisive.py` (2026-10-15): sensitivity to outcomes against recent offered stakes (range
+- `divisive.py`: sensitivity to outcomes against recent offered stakes (range
   adaptation), with a level term, in both datasets.
-- `carryover.py` (2026-10-15): a play's luck against the change in the next play's pre-trial
+- `carryover.py`: a play's luck against the change in the next play's pre-trial
   rating, by the gap between plays (day number and time of day from the archive), and the
   same between Forbes & Bennett blocks.

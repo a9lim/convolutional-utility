@@ -920,6 +920,34 @@ knp = (kn @ Rp) / (1 - kn @ Rp[:, 0])
 print("D4  rising local news kernel kn'(0..4): " + ", ".join(f"{x:.4f}" for x in knp[:5]))
 report("D4 kn' can rise with distance", float(not np.all(np.diff(knp[:5]) > 0)))
 
+# D7: actions leak into affect. Z = +-1 seen by the doer, a = Z w.p. q, u = sZ + r 1[a = Z] + eps eta at T
+# (eta = +-1 revealed only at T); the feeler knows the policy and sees a at 1 (or not: an unobserved delegate);
+# loss-averse news over u at unit weights.
+def leak_welfare(q, s, r, eps, lam, observe=True):
+    Eu, W = r * q, 0.0
+    for Z in (1, -1):
+        for act, pa in ((Z, q), (-Z, 1 - q)):
+            for eta in (1, -1):
+                u = s * Z + r * (act == Z) + eps * eta
+                mid = s * (2 * q - 1) * act + r * q
+                revs = [mid - Eu, u - mid] if observe else [u - Eu]
+                W += 0.25 * pa * (u + (lam - 1) * sum(min(x, 0.0) for x in revs))
+    return W
+
+
+errs = []
+for s_, r_, lam_ in [(2, 0.5, 2), (1, 1, 1.5), (3, 0.2, 2.5), (0.5, 2, 3)]:
+    for q in np.linspace(0.5, 1, 11):
+        closed = r_ * q - (lam_ - 1) * (s_ * (q - 0.5) + q * (1 - q) * max(r_, 2 * s_))
+        errs.append(abs(leak_welfare(q, s_, r_, 0, lam_) - closed))
+    errs.append(abs(leak_welfare(1, s_, r_, 0, lam_) - leak_welfare(1, s_, r_, 0, lam_, observe=False)))
+report("D7 leakage, eps = 0: E[W] = rq - (lam-1)[s(q - 1/2) + q(1-q) max(r, 2s)]; a full leak is free", max(errs))
+act, ign, dlg = (leak_welfare(1, 1, 0.3, 1, 2), leak_welfare(0.5, 1, 0.3, 1, 2),
+                 leak_welfare(1, 1, 0.3, 1, 2, observe=False))
+print(f"{'PASS' if dlg > ign > act else 'FAIL'}  D7 partial leak (s = 1, r = 0.3, eps = 1, lam = 2): act and observe "
+      f"{act:.2f}, ignore {ign:.2f}, unobserved delegate {dlg:.2f}")
+
+
 # D8: a shared state carries the critic's level. Two-layer linear model, heads frozen, critic fitted alone
 # (W and its bias at equal rates): shifting fitted targets by f = mu + w.xi moves the stay logit by
 # (s.v) [mu/(1 + |v|^2) + w.xi/|v|^2], the bias taking mu/(1 + |v|^2).

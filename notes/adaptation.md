@@ -1,7 +1,12 @@
 # Hedonic adaptation (B4)
 
-Drafting sketch, 2026-10-15. Identities checked numerically in the session scratchpad
-(`adapt.py`, `b4.py`). Tags as in core.
+**Status: parked by a9.** Chosen form: biphasic memory, `c γ^j`. a9 does not buy
+range-frequency's reductio (scheduling awful days to raise welfare), nor full adaptation's
+"quit while ahead". The data rule out only fast adaptation; slow adaptation waits on the
+step test below (download status in `next-steps.md`, Parked).
+
+Drafting sketch. Identities checked numerically in a session scratchpad (`adapt.py`,
+`b4.py`, not archived). Tags as in core.
 
 ## Candidate models
 
@@ -18,7 +23,10 @@ Drafting sketch, 2026-10-15. Identities checked numerically in the session scrat
     time and weekly periods, the two terms weigh equally only at `h ≈ 0.99`.
 - **EMA reference on felt states (recursive adaptation).** `r` tracks `e`, not `u`: the
   steady state is `u/(1 + h)`, never full; full adaptation needs the non-fading memory
-  `e_t = u_t − (1−γ) Σ_{s<t} e_s` (the recursive twin of full EMA adaptation on `u`).
+  `e_t = u_t − (1−γ) Σ_{s<t} e_s` (the recursive twin of full EMA adaptation on `u`). Why
+  it never fades: full adaptation is direct mass −1, and the twin's symbol
+  `1 − 1/(1 + K̂_D)` has a pole at `z = 1`, so the twin's mass is −∞; the treadmill is the
+  `M → −∞` limit of contrast memory.
   Adapting to felt states adapts to anticipation and memory too; Baucells & Bellezza let
   anticipation move the reference ("conceptual consumption"). The direct/recursive axis
   again, now deciding completeness. [checked] *synthesis*
@@ -173,7 +181,7 @@ core; one of those should be renamed when this reaches core.
   be the felt trace of what a learner needs to learn well. *synthesis; the evolutionary
   reading speculative*
 
-## Tested on the happiness data (2026-10-15)
+## Tested on the happiness data
 
 - Within a play (Great Brain Experiment) and within a block (Forbes & Bennett), kernels
   allowed a slow negative tail stay positive: the biphasic fit collapses to the jump
@@ -201,7 +209,12 @@ core; one of those should be renamed when this reaches core.
   biphasic memory with a slow adaptation lobe is untouched by these data. Scripts: `experiments/happiness/audit/`
   (`biphasic.py`, `carryover.py`).
 
-## Step data for slow adaptation (search, 2026-10-15; nothing downloaded)
+## Step data for slow adaptation
+
+- **The step test** (Dartmouth): weekly valence around the spring 2020 onset,
+  person-demeaned, against same-week-of-term baselines from 2017–2019; fit a drop and a
+  recovery share `h` with time constant `τ` (bootstrap over people), on a balanced panel,
+  with the reopening dates as the end of the step.
 
 - None of the open pool has frequent affect around a life event (bereavement, childbirth,
   job loss). Best open candidates:

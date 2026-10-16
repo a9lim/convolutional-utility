@@ -1,13 +1,14 @@
 # Echo as addition or displacement
 
-**Status (a9, 2026-10-15): only additive and Z survive.** A positive continuation must not
+**Status: parked by a9; only additive and Z survive.** A positive continuation must not
 lower welfare (the epilogue reductio below), which rules out Tr, Rn, Pr and the normalized
 total; under Z, death is a zero-valued attention target, so it never frees attention. The
 open choice is additive against Z, that is, whether echo inflates (additive) or is rescaled
-by `1 − M` (Z), which matters only across kernels.
+by `1 − M` (Z), which matters only across kernels. a9 wants to explore the model further
+first, especially uncertain death and other counterfactuals.
 
-Drafting sketch (2026-10-15), for a9's decision. Script:
-the session scratchpad's `disp.py`; Codex review in thread `cu-displacement`.
+Drafting sketch. Script: a session scratchpad's `disp.py` (not archived); Codex review in
+thread `cu-displacement`.
 
 - **The dial.** `e = (I − dD)u + Ke`, `d ∈ [0, 1]`: `d = 0` adds echo to the present
   (canonical now), `d = 1` takes the attention from it. `D` is the share taken at each `t`.

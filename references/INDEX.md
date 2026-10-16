@@ -142,6 +142,7 @@ Decision theory by learning
 - `iigaya-2020-the-value-of-whats-to-come-neural-mechanisms-coupling-prediction-error-and-the-utility-of-anticipation.txt` — CC BY, Europe PMC
 
 Shared representations and the critic's level (D8)
+- `jacot-2018-neural-tangent-kernel-convergence-and-generalization-in-neural-networks.txt`, `saxe-2014-exact-solutions-to-the-nonlinear-dynamics-of-learning-in-deep-linear-neural-networks.txt` — arXiv; no provenance header
 - `sun-2022-exploit-reward-shifting-in-value-based-deep-rl.txt`, `schaul-2019-ray-interference-a-source-of-plateaus-in-deep-reinforcement-learning.txt`, `cobbe-2021-phasic-policy-gradient.txt`, `hessel-2019-multi-task-deep-reinforcement-learning-with-popart.txt`, `van-hasselt-2016-learning-values-across-many-orders-of-magnitude.txt`, `naik-2024-reward-centering.txt` — arXiv
 - `rashid-2020-optimistic-exploration-even-with-a-pessimistic-initialisation.txt`, `du-2018-adapting-auxiliary-losses-using-gradient-similarity.txt`, `garcin-2025-studying-the-interplay-between-the-actor-and-critic-representations-in-reinforcement-learning.txt`, `wan-2025-an-empirical-study-of-deep-reinforcement-learning-in-continuing-tasks.txt`, `andrychowicz-2021-what-matters-in-on-policy-reinforcement-learning.txt` — arXiv
 - Screened, not cited: `raileanu-2021-*`, `ciosek-2019-*`, `mastikhina-2025-*`, `machado-2015-*`, `engstrom-2020-*`, `liu-2026-*`, `zhu-2025-*`
