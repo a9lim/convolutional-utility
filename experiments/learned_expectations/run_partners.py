@@ -3,8 +3,8 @@ python experiments/learned_expectations/run_partners.py   (writes partners_repor
 
 Each variant trains a population of 4 networks (2 populations per variant) on random symmetric games, half
 the objective against copies and half against other networks (sigma = 0.5 unless stated), or against
-"snapshot strangers": a detached copy of the network itself, which plays its policy exactly but carries no
-dependence, so the bit carries no information about how the partner plays. The noisy bit gates the gradient
+mirrors: the network's own current policy under a stop-gradient, lookalikes whose play the learner treats as
+fixed, so the bit carries no information about how the partner plays. The noisy bit gates the gradient
 on true identity, a selection experiment rather than inferred dependence. Evaluated on
 prisoner's dilemmas and stag hunts (run_twin.py's families): cooperation (move 0) when the bit says copy and
 when it says other, against the local stability of all-cooperate and all-defect computed from the same
@@ -33,17 +33,17 @@ VARIANTS = {
     "twin 1, no signal, sigma 0.25": dict(wT=1.0, signal=False, sigma=0.25),
     "altruist 0.25, no signal": dict(wE=0.25, signal=False),
     "twin 1, noisy bit (eps 0.2)": dict(wT=1.0, eps=0.2),
-    "twin 1, snapshot strangers": dict(wT=1.0, strangers="self"),
-    "altruist 1, snapshot strangers": dict(wE=1.0, strangers="self"),
-    "twin 1, no signal, snapshot strangers": dict(wT=1.0, signal=False, strangers="self"),
+    "twin 1, mirrors": dict(wT=1.0, strangers="self"),
+    "altruist 1, mirrors": dict(wE=1.0, strangers="self"),
+    "twin 1, no signal, mirrors": dict(wT=1.0, signal=False, strangers="self"),
     "felt": dict(felt=True),
     "felt twin 0.5": dict(felt=True, wT=0.5),
     "felt empathy 0.5, J 0": dict(felt=True, wE=0.5, J=0.0),
     "felt empathy 0.5, J 1": dict(felt=True, wE=0.5, J=1.0),
     "felt empathy 0.25, J 0": dict(felt=True, wE=0.25, J=0.0),
     "felt empathy 0.25, J 1": dict(felt=True, wE=0.25, J=1.0),
-    "felt twin 0.5, snapshot strangers": dict(felt=True, wT=0.5, strangers="self"),
-    "felt empathy 0.5, J 1, snapshot strangers": dict(felt=True, wE=0.5, J=1.0, strangers="self"),
+    "felt twin 0.5, mirrors": dict(felt=True, wT=0.5, strangers="self"),
+    "felt empathy 0.5, J 1, mirrors": dict(felt=True, wE=0.5, J=1.0, strangers="self"),
 }
 SEEDS = 2
 DIALS = ("wT", "wE", "J")

@@ -1,8 +1,9 @@
 # Caring about a partner: felt empathy, twins, similarity
 
-**Status: in progress (2026-10-16).** Menu items F6 and F9 and the twin dial's caveat. Reviewed by Codex
-(thread `cu-empathy`); prior art read and filed (`references/INDEX.md`, "Games: guilt, Kantian morality,
-similarity"). Code: `experiments/learned_expectations/partners.py`, `run_partners.py`, `run_trust.py`.
+**Status: in progress (2026-10-16).** Menu items F6 and F9, the twin dial's caveat, and inferred
+dependence. Reviewed by Codex (thread `cu-empathy`); prior art read and filed (`references/INDEX.md`,
+"Games: guilt, Kantian morality, similarity"). Code in `experiments/learned_expectations/`:
+`partners.py`, `run_partners.py`, `run_trust.py`, `dependence.py`, `run_dependence.py`.
 
 ## Empathy with a partner who feels news
 
@@ -124,19 +125,19 @@ Setting: my move changes partner `j`'s payoff by `Δ = H − L` (`H` if I cooper
 ## Experiments
 
 Four networks per population, two populations per variant, random symmetric games; half the
-objective against copies (`σ = 0.5`), half against strangers: other networks, or snapshot strangers
-(a detached copy of oneself, playing one's own policy exactly, with no dependence). An input bit says
+objective against copies (`σ = 0.5`), half against strangers: other networks, or mirrors (the
+network's own current policy under a stop-gradient: lookalikes whose play the learner treats as fixed,
+though, recomputed every step, they move with its parameters). An input bit says
 copy or stranger. `run_partners.py`, `partners_report.txt`, `partners.png`; checks in
-`python partners.py` (no gradient leaks between networks; a copy at `w_T = 0` trains like a snapshot
-stranger; the twin–empathizer identity).
+`python partners.py` (no gradient leaks between networks; a copy at `w_T = 0` trains like a mirror; the twin–empathizer identity).
 
 | variant | PD, copy | PD, stranger | stag hunt, copy | stag hunt, stranger |
 |---|---|---|---|---|
 | causal | 0.01 | 0.01 | 0.03 | 0.02 |
 | twin 1 | 0.95 | 0.01 | 0.99 | 0.07 |
-| twin 1, snapshot strangers | 0.95 | 0.01 | 0.99 | 0.06 |
+| twin 1, mirrors | 0.95 | 0.01 | 0.99 | 0.06 |
 | altruist 1 | 0.95 | 0.98 | 0.99 | 1.00 |
-| altruist 1, snapshot strangers | 0.98 | 0.99 | 1.00 | 1.00 |
+| altruist 1, mirrors | 0.98 | 0.99 | 1.00 | 1.00 |
 | twin 0.5 | 0.52 | 0.01 | 0.82 | 0.08 |
 | altruist 0.5 | 0.51 | 0.51 | 0.82 | 0.83 |
 | felt twin 0.5 | 0.50 | 0.00 | 0.73 | 0.00 |
@@ -144,10 +145,10 @@ stranger; the twin–empathizer identity).
 | felt empathy 0.5, `J = 0` | 0.43 | 0.40 | 0.70 | 0.69 |
 
 - **The bit separates twins from altruists.** Twins cooperate with copies and defect against strangers,
-  including snapshot strangers that run their own weights: the dependence gate alone drives it.
+  including mirrors that run their own weights: the learner's gradient gate alone drives it.
   Altruists ignore the bit. In both populations of every variant.
 - **Without the bit, a twin is an altruist at `σw`.** Twin 1 at `σ = 0.5` cooperates in 0.52 of
-  prisoner's dilemmas (snapshot strangers 0.51), altruist 0.5 in 0.51; at `σ = 0.25`, 0.21 against an
+  prisoner's dilemmas (mirrors 0.51), altruist 0.5 in 0.51; at `σ = 0.25`, 0.21 against an
   altruist 0.25's 0.21; stag hunts and every stability class agree within 0.04. Independently trained
   networks matched too, because they converge to similar policies.
 - **Learned play follows local stability.** Where only all-cooperate is locally stable, learned
@@ -163,10 +164,66 @@ stranger; the twin–empathizer identity).
 - A noisy bit (flipped with probability 0.2) gives graded conditioning (0.68 against 0.22); its gate
   uses true identity, so it is a selection experiment, not inferred dependence.
 
+## Inferred dependence
+
+`dependence.py`, `run_dependence.py`, `dependence_report.txt`, `dependence.png`; checks in
+`python dependence.py`. Reviewed by Codex (thread `cu-empathy`).
+
+- **The twin, uninformed.** Each match shows both seats a similarity signal `s`, `N(1, 0.5²)` from copies
+  and forgers, `N(0, 0.5²)` from others. The twin's gradient is its direct gradient against the partner's
+  actual play plus `w·d(s)` times the dependence gradient evaluated in the copy branch (partner = its own
+  policy), `d(s)` its estimate that the partner is a copy: a Bayesian posterior under an assumed model, or
+  a small head fit to identities revealed after each match. The oracle routes the dependence gradient
+  through true copies only.
+- **Calibrated inference is the oracle in expectation.** With `d(s) = P(copy | s)`, the expected gradients
+  agree, payoff or felt. [Codex; checked: ≤ 5e-15 in three populations] The oracle's identity labels buy
+  nothing in expectation. Weighting the posterior-averaged dependence gradient by `d(s)` instead agrees
+  only in payoff games, where `∂₂π` does not depend on the partner's play (felt gaps up to 1.2): the
+  dependence term has to be conditioned on the copy branch, not averaged over partners.
+- **Populations.** Copies; mirrors (the network's current policy under a stop-gradient); frozen strangers
+  and forgers (four causal networks trained in self-play and frozen, which defect in 99.5% of prisoner's
+  dilemmas; forgers emit copy-like signals). "Mirrors": copies and mirrors half and half. "Strangers":
+  copies and frozen strangers. "Forgers": copies 0.5, strangers 0.25, forgers 0.25. Every twin at
+  `w = 1`; four seeds each; seed spread about ±0.0005 in payoff.
+
+  | payoff in its population | causal | oracle | Bayes | learned | credulous | universal | naive |
+  |---|---|---|---|---|---|---|---|
+  | mirrors | 0.290 | 0.375 | 0.375 | 0.375 | 0.381 | 0.384 | |
+  | strangers | 0.288 | 0.323 | 0.323 | 0.323 | 0.319 | 0.307 | |
+  | forgers | 0.287 | 0.315 | 0.315 | 0.315 | 0.310 | 0.303 | 0.312 |
+
+  Credulous: assumes 90% of partners are copies; universal: treats every partner as a copy; naive: counts
+  forgers as copies.
+- **Inferring dependence is as good as knowing it,** when calibrated: Bayesian and learned twins match the
+  oracle in cooperation at every signal (within 0.05) and in payoff (within 0.0005), and the learned head
+  recovers the posterior (0.02, 0.11, 0.50, 0.89, 0.98 against 0.02, 0.12, 0.50, 0.88, 0.98 at
+  `s = −0.5 … 1.5`). The felt oracle and the felt Bayesian twin agree too (0.3073, 0.3075 at `w = 0.5`).
+- **What pays is the real dependence.** At `w = 1` a twin with the right dependence ascends its actual
+  payoff: a copy's play is computed from the same parameters. Mirrors are recomputed from those parameters
+  as well, so they move with the twin under any parameter change; there the label "stranger" undercounts
+  real dependence, and payoff rises with attributed dependence (oracle 0.375, credulous 0.381, universal
+  0.384). Frozen strangers and forgers do not move with it; there payoff falls with attributed dependence,
+  and credulous, naive and universal twins are exploited by forgers (payoff against them 0.229, 0.234,
+  0.225 against the oracle's 0.258; prisoner's-dilemma cooperation at `s = 1.5`: 0.92, 0.91, 0.91 against
+  0.68).
+- So an identity label is not privileged information: it is a convention about dependence, and where it
+  disagrees with the dependence that is there (mirrors), over-attribution beats it. Superrational trust
+  pays among agents that move with you and is exploited by lookalikes that do not, the twin's version of
+  the mimicry problem (Frank 1988, to verify; menu F4).
+- **Stipulated, not tested.** The dependence gradient's Jacobian: in symmetric games with a shared signal,
+  "my policy in the partner's seat" is my own policy, so no perspective-taking is tested; private signals
+  would need the partner's input inferred. Calibrated felt forecasts: the simulator gives the partner's
+  actual policy as my belief, and a twin with that access could read disagreement with its own policy as
+  evidence against copying. Equal expected gradients need not give equal Adam trajectories.
+
 ## Open
 
-- A learner that infers dependence: the gradient through a stranger tied to its own policy at an
-  estimated similarity, against the identity oracle.
+- Dependence without identity labels (Codex's design): randomized `±ε` probes to the twin's own
+  mechanism with games, signals and seeds held fixed, `d̂(s) = Σ K_s δr δy / Σ K_s δr²`. Confound test:
+  independently parameterized learners sharing an external update shock co-move passively, so passive
+  regression reports dependence, while private probes report about 0 for them and 1 for copies. Mirrors
+  would answer probes (they share parameters). Interventions identify dependence under the declared
+  intervention, not an FDT logical counterfactual.
 - Heterogeneous strangers (causal learners, scripted defectors) to show the `σw` equivalence failing.
 - The trust game as learners: does a `J = 0` population show expectation-dependent honesty, and do
   promises (raising Ann's `q`) move it?

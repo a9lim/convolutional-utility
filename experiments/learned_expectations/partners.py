@@ -42,7 +42,12 @@ def values(felt, q, p, X):
 
 def objective(pi, pj, mine, theirs, copy, felt, wT=0.0, wE=0.0, J=0.0, ent=0.02):
     """Player i's objective in one match; pi, pj are P(move 0) of i and j, each on its own view."""
-    p = tie(pj, wT) if copy else pj.detach()
+    return value(pi, tie(pj, wT) if copy else pj.detach(), mine, theirs, felt, wE, J, ent)
+
+
+def value(pi, p, mine, theirs, felt, wE=0.0, J=0.0, ent=0.02):
+    """Player i's objective given the partner's P(move 0) p, carrying whatever dependence on i's parameters
+    the caller has routed through it."""
     V = values(felt, p, p, mine)
     obj = pi * V[:, 0] + (1 - pi) * V[:, 1]
     if wE:
@@ -71,8 +76,9 @@ def match(n1, n2, A, copy, felt, signal, eps, gen, dials):
 
 def train(K=4, sigma=0.5, signal=True, eps=0.0, felt=False, strangers="others", steps=4000, batch=1024, seed=0,
           lr=1e-3, **dials):
-    """strangers: "others" pairs each network with another one; "self" with a detached copy of itself, a
-    stranger that plays exactly its policy (for the bit it sees) but carries no dependence."""
+    """strangers: "others" pairs each network with another one; "self" with a mirror: its own current policy
+    under a stop-gradient, a lookalike whose play the learner treats as fixed (recomputed every step, it does
+    move with the network's parameters between steps)."""
     gen = torch.Generator().manual_seed(seed)
     torch.manual_seed(seed)
     nets = [Net() for _ in range(K)]
@@ -127,11 +133,11 @@ if __name__ == "__main__":
         leak = max((float(g.abs().max()) for g in ga[len(ga) // 2:] + gb[:len(gb) // 2] if g is not None), default=0.0)
         own = min(float(g.abs().max()) for g in ga[:len(ga) // 2] + gb[len(gb) // 2:])
         print(f"{dials}: largest gradient leaking to the other network {leak:.1e} (own gradients nonzero: {own > 0})")
-    # a copy match at wT = 0 trains like a match against a stranger that plays the same policy
+    # a copy match at wT = 0 trains like a match against a mirror
     for felt in (None, F):
         g = [torch.autograd.grad(sum(match(a, a, A, copy, felt, False, 0.0, torch.Generator().manual_seed(2),
                                            dict(wE=0.5, J=1.0))), list(a.parameters())) for copy in (True, False)]
-        print(f"{'felt' if felt else 'payoff'}: copy at wT = 0 against detached stranger, max gradient difference "
+        print(f"{'felt' if felt else 'payoff'}: copy at wT = 0 against a mirror, max gradient difference "
               f"{max(float((x - y).abs().max()) for x, y in zip(*g)):.1e}")
     # first order, a twin is an altruist (payoffs) and an empathizer at J = 1 (felt), at symmetric profiles
     for felt in (None, F):

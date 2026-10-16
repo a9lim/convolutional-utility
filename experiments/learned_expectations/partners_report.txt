@@ -41,17 +41,17 @@ P(cooperate) by what the bit says, mean over 2 populations x 4 networks [per-pop
     PD        other    : cooperate 0.22 [0.20 0.23]   C only 0.00:nan  D only 1.00:0.22  both 0.00:nan  neither 0.00:nan
     stag hunt copy     : cooperate 0.85 [0.84 0.87]   C only 0.35:1.00  D only 0.00:nan  both 0.65:0.77  neither 0.00:nan
     stag hunt other    : cooperate 0.77 [0.74 0.79]   C only 0.00:nan  D only 0.00:0.00  both 1.00:0.77  neither 0.00:nan
-[twin 1, snapshot strangers] {'wT': 1.0, 'strangers': 'self'}
+[twin 1, mirrors] {'wT': 1.0, 'strangers': 'self'}
     PD        copy     : cooperate 0.95 [0.96 0.95]   C only 0.66:0.99  D only 0.00:nan  both 0.34:0.89  neither 0.00:nan
     PD        other    : cooperate 0.01 [0.01 0.01]   C only 0.00:nan  D only 1.00:0.01  both 0.00:nan  neither 0.00:nan
     stag hunt copy     : cooperate 0.99 [0.99 0.99]   C only 0.35:1.00  D only 0.00:nan  both 0.65:0.99  neither 0.00:nan
     stag hunt other    : cooperate 0.06 [0.08 0.05]   C only 0.00:nan  D only 0.00:0.00  both 1.00:0.06  neither 0.00:nan
-[altruist 1, snapshot strangers] {'wE': 1.0, 'strangers': 'self'}
+[altruist 1, mirrors] {'wE': 1.0, 'strangers': 'self'}
     PD        copy     : cooperate 0.98 [0.98 0.98]   C only 0.66:0.99  D only 0.00:nan  both 0.34:0.96  neither 0.00:nan
     PD        other    : cooperate 0.99 [0.98 0.99]   C only 0.66:0.99  D only 0.00:nan  both 0.34:0.97  neither 0.00:nan
     stag hunt copy     : cooperate 1.00 [1.00 1.00]   C only 0.35:1.00  D only 0.00:nan  both 0.65:1.00  neither 0.00:nan
     stag hunt other    : cooperate 1.00 [1.00 1.00]   C only 0.35:1.00  D only 0.00:nan  both 0.65:1.00  neither 0.00:nan
-[twin 1, no signal, snapshot strangers] {'wT': 1.0, 'signal': False, 'strangers': 'self'}
+[twin 1, no signal, mirrors] {'wT': 1.0, 'signal': False, 'strangers': 'self'}
     PD        no signal: cooperate 0.51 [0.50 0.53]   C only 0.27:0.98  D only 0.12:0.05  both 0.46:0.33  neither 0.14:0.61
     stag hunt no signal: cooperate 0.83 [0.82 0.85]   C only 0.17:1.00  D only 0.00:nan  both 0.83:0.80  neither 0.00:nan
 [felt] {'felt': True}
@@ -84,14 +84,14 @@ P(cooperate) by what the bit says, mean over 2 populations x 4 networks [per-pop
     PD        other    : cooperate 0.17 [0.17 0.18]   C only 0.09:0.86  D only 0.21:0.03  both 0.65:0.11  neither 0.04:0.40
     stag hunt copy     : cooperate 0.39 [0.38 0.39]   C only 0.02:1.00  D only 0.00:nan  both 0.98:0.37  neither 0.00:nan
     stag hunt other    : cooperate 0.39 [0.37 0.40]   C only 0.02:1.00  D only 0.00:nan  both 0.98:0.37  neither 0.00:nan
-[felt twin 0.5, snapshot strangers] {'felt': True, 'wT': 0.5, 'strangers': 'self'}
+[felt twin 0.5, mirrors] {'felt': True, 'wT': 0.5, 'strangers': 'self'}
     PD        copy     : cooperate 0.53 [0.52 0.54]   C only 0.24:0.99  D only 0.00:nan  both 0.76:0.38  neither 0.00:nan
     PD        other    : cooperate 0.01 [0.01 0.01]   C only 0.00:nan  D only 1.00:0.01  both 0.00:nan  neither 0.00:nan
     stag hunt copy     : cooperate 0.75 [0.74 0.76]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.73  neither 0.00:nan
     stag hunt other    : cooperate 0.02 [0.02 0.02]   C only 0.00:nan  D only 0.01:0.00  both 0.99:0.02  neither 0.00:nan
-[felt empathy 0.5, J 1, snapshot strangers] {'felt': True, 'wE': 0.5, 'J': 1.0, 'strangers': 'self'}
+[felt empathy 0.5, J 1, mirrors] {'felt': True, 'wE': 0.5, 'J': 1.0, 'strangers': 'self'}
     PD        copy     : cooperate 0.47 [0.47 0.46]   C only 0.24:0.99  D only 0.00:nan  both 0.76:0.30  neither 0.00:nan
     PD        other    : cooperate 0.47 [0.47 0.47]   C only 0.24:0.98  D only 0.00:nan  both 0.76:0.31  neither 0.00:nan
     stag hunt copy     : cooperate 0.74 [0.75 0.74]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.73  neither 0.00:nan
     stag hunt other    : cooperate 0.75 [0.74 0.75]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.73  neither 0.00:nan
-done in 583s
+done in 567s

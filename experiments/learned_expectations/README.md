@@ -129,16 +129,23 @@ played against scripted partners (always cooperate, always defect, tit for tat, 
 Caring about a partner, and twins against altruists (`notes/empathy.md`). A population of independently
 initialized networks plays random symmetric 2×2 games, each the game agent's event; each network's
 objective mixes matches against a copy of itself (weight `σ`) and against strangers: other networks, or
-"snapshot strangers", a detached copy of itself that plays its policy exactly with no dependence. An
+mirrors, its own current policy under a stop-gradient (lookalikes whose play the learner treats as
+fixed). An
 input bit says copy or stranger (optionally noisy, or absent). Beliefs calibrated. Three dials: `w_T`,
 the gradient through a copy's policy (the twin); `w_E`, the weight on the partner's payoff (altruism) or
 felt welfare (empathy); `J`, the gradient through the partner's forecast of my policy.
 
 - `partners.py` (model, trainer, local-stability slopes; `python partners.py` checks that no gradient
-  leaks between networks, that a copy at `w_T = 0` trains like a snapshot stranger, and the
+  leaks between networks, that a copy at `w_T = 0` trains like a mirror, and the
   twin–empathizer identity); `run_partners.py` (the variants against the analytic stability classes;
   `partners_report.txt`, `partners.png`); `run_trust.py` (a trust game with felt empathy and the
   interpersonal `J`, analytic; `trust_report.txt`).
+- Inferred dependence: a twin told only a noisy similarity signal adds its dependence gradient, evaluated
+  in the copy branch, at its estimate `d(s)` that the partner is a copy (a Bayesian posterior under an
+  assumed model, or a head fit to identities revealed after each match), against the identity oracle.
+  Strangers and forgers (strangers with copy-like signals) are frozen causal networks from a shared bank.
+  `dependence.py` (`python dependence.py` checks that the calibrated twin's expected gradient is the
+  oracle's, payoff and felt); `run_dependence.py` (`dependence_report.txt`, `dependence.png`).
 
 ## Results so far
 
@@ -184,7 +191,7 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   (Alger & Weibull 2013 §6.2), so symmetric self-play cannot tell twin reasoning from other-regard.
 - **Twins against altruists, told who is a copy.** With an input bit saying copy or stranger, twins
   (`w_T = 1`) cooperate with copies in 0.95 of prisoner's dilemmas and with strangers in 0.01, even
-  with snapshot strangers that run their own weights; altruists (`w_E = 1`) cooperate with both (0.98,
+  with mirrors that run their own weights; altruists (`w_E = 1`) cooperate with both (0.98,
   0.99). Without the bit, a twin among a share `σ` of copies plays as an altruist at `σw`: 0.52 against
   0.51 at `σ = 0.5`, 0.21 against 0.21 at 0.25, class by class. Learned play follows the analytic local
   stability of all-cooperate and all-defect: 0.92–0.99 cooperation where only the first is stable,
@@ -198,6 +205,15 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   weight at `J = 1` in every calibration; at `J = 0` it depends on what the partner expects (guilt makes
   trust self-fulfilling), and exceeds `J = 1`'s under the game agent's strong loss-averse news (1.45
   against 1.14 per unit of empathy), not at the felt calibration (0.75 against 1.02).
+- **Inferred dependence is as good as knowing it, when calibrated.** Told only a noisy similarity signal,
+  Bayesian and learned twins match the identity oracle in cooperation at every signal and in payoff (within
+  0.0005, 4 seeds), as their equal expected gradients predict; the learned head recovers the posterior.
+  Miscalibration is what matters, and its sign depends on the real dependence: among mirrors, which move
+  with the twin's parameters, payoff rises with attributed dependence (0.375 calibrated, 0.381 credulous,
+  0.384 treating everyone as a copy); among frozen strangers and forgers it falls (forgers: 0.315, 0.310,
+  0.303), and over-attributing twins are exploited by forgers (0.225–0.234 against them, the oracle 0.258).
+  An identity label is a convention about dependence, and it loses where it disagrees with the dependence
+  that is there.
 - **Hidden games: two policies.** Training first reaches a complacent policy: after a loss in
   round 1 it switches only about 45% of the time, never after a gain (about 0.21 per round
   late). It then usually escapes to win-stay, lose-shift at zero (switch after 99% of losses,
