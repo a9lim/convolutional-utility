@@ -12,9 +12,15 @@ at `22c5c4f`).
   strength times Greek reach (`a α^j`, `m μ^j`, `n ν^j`, adaptation `c γ^j`); first moment
   `M₁`, gain-loss `φ_λ`, felt news `N_t`, the jump kernel's lag-1 weight `k₁`, P4's rates
   `p̄, q̄`.
-- **Post** (a9): one flagship post (model, a life, beliefs, choices, selves) with the
-  formalism as technical companion; spine "experience echoes". Its value is the reframing
-  for LessWrong, not novelty to economics. The LLM peak-end study is a follow-up.
+- **Post** (a9; restructured 2026-10-16 at a9's request): one flagship post, working title
+  *Experience Echoes*, ten sections around a running holiday example (`outline.md`), with
+  the formalism as technical companion. Mostly a bridge: imported ideas credited inside the
+  claim, a few candidate contributions tagged *not found*, never "ours" by default. The
+  learner wing outside three illustrations, the LLM peak-end study and the Bates world are
+  follow-ups.
+- **Tags**: provenance (standard, known, known in kind, synthesis, not found, speculation) and
+  support (proved, checked, numerical) are independent; the outline carries provenance only,
+  `formalism/INDEX.md` maps each claim to its support.
 - **Decision theory**: `J` is one channel (fixed-past choice against advance commitment),
   not a classification of decision theories (Codex, 2026-10-13). The choice side adopts
   Kőszegi & Rabin's preferred credible plan, credited.
@@ -23,8 +29,7 @@ at `22c5c4f`).
 - **Learners** (a9): the observer's beliefs are tethered by a KL cost of self-deception.
 - **Horizons** (a9): a waking day, a life, an LLM context window and session (a9's wife
   studies the peak-end effect in LLMs).
-- **Parked by a9**: the outline's restructure, until the contents settle; the Bates world, as
-  its own project; additive against displacement echo (only additive and Z survive);
+- **Parked by a9**: the Bates world, as its own project; additive against displacement echo (only additive and Z survive);
   hedonic adaptation (biphasic memory chosen); the C1 toy.
 
 ## Lessons
@@ -55,7 +60,8 @@ at `22c5c4f`).
 `conv-utility-premise` (premise, first decision draft, round 3), `braced-critic` (D8),
 `cu-fresh-review`, `cu-extensions` (Bates), `cu-round2-core`, `cu-round2-ext` (the menu),
 `cu-displacement`, `cu-disc-ext` (menu G), `cu-games-ext` (menu F), `cu-c1-leakage` (D7's
-leakage bullets). Job replies under `~/.gaslamp/jobs/`; the premise reply, source of P4–P6's
+leakage bullets), `cu-framework`, `cu-empathy`, `cu-restructure` (the post's architecture and
+triage), `cu-novelty-audit` (attribution, row by row). Job replies under `~/.gaslamp/jobs/`; the premise reply, source of P4–P6's
 closed forms, is `cx-20261012-230641-77eb/reply.md`.
 
 ## Blocked sources, not circumvented
@@ -63,7 +69,7 @@ closed forms, is `cx-20261012-230641-77eb/reply.md`.
 Dorsey 2015 (KU 403); SSRN and Chicago journals (Cloudflare); JET, JPET and JME closed
 copies; Slote (lending only); AEA PDFs; Eil & Rao; Bénabou & Tirole 2016; Good 1967; Buchak
 2010; philsci-archive; Philosophers' Imprint; the old LessWrong wiki. Academic-access
-requests: `next-steps.md`, item 7.
+requests: `next-steps.md`, the post's citations and the companion's prior art.
 
 ## Log
 
@@ -97,3 +103,25 @@ requests: `next-steps.md`, item 7.
   notes for unknown adversaries in `next-steps.md`. Unknown adversaries, first run: the hazard
   sets the end game; twins found no handshake and spent their dependence on lookalikes; a rosy
   critic made a defector, not a sucker.
+- **2026-10-16 (evening).** Audit and rework for the post, at a9's request (which supersedes
+  the parked restructure). Codex read the repo independently twice: structure and audience
+  (`cu-restructure`) and attribution row by row (`cu-novelty-audit`); both agreed with my own
+  read. Findings: the outline sold machinery before a problem and front-loaded the canonical
+  model; the import was implicit, so imported results (Bergstrom Prop. 5, Kőszegi's trap,
+  Bénabou's cancellation, Kőszegi–Rabin's credible plans) read as ours in places; headlines
+  dropped their qualifiers ("memory feeds the loop and anticipation does not", the ramp's
+  "iff", "Doublethink as a theorem", "the `J` dial reproduces the decision theories", "luck's
+  afterglow lasts days", "`k₁ > γ` at any noise level"); the plan put an open-ended learner
+  program ahead of the post. Done: `outline.md` rewritten (thesis, import table with source
+  status, candidate contributions, ten sections each with question, example, credit,
+  LessWrong anchor, objection, figure); `README.md` a landing page; the companion split
+  (`calibration.md`, `selves.md`, `learning.md` out of core and decision, peak-end beside P7)
+  with tags fixed and a claim map in `formalism/INDEX.md`; `next-steps.md` reordered (the post,
+  the companion, the data, follow-up lines, parked); the learner README split into what the
+  post uses and the follow-ups; the §1 figure regenerated (it showed the old notation).
+  Codex then verified the rework (`cu-restructure`, third round) and caught my own slips: I
+  had credited present bias to caring about the next self (one-step caring is exponential,
+  P2), set a life-weight example at a holiday's end (memory runs on; the boundary is the
+  life's), and dropped conditions from the bracing (symmetric errors), threshold
+  (`1/λ < κ < 1`), shape (the linear stationary class), risk (confounded, not decided) and
+  carryover (intervals include zero from hours on) claims. All fixed; checks pass (45).

@@ -97,7 +97,7 @@ agents plus Codex; spot-read by Claude where marked).
   - §4.4: quasi-hyperbolic `βδ^t` ↔ exponential altruism weights, which is core P3.
     Exponential discounting ↔ one-period altruism.
   - Eqs. 15–17: `f(t) = βδ^t` gives `f*(t) = β(1−β)^{t−1}δ^t`, so `β* = β/(1−β)`,
-    `δ* = (1−β)δ`: core's calibration inversion, exactly. Their example (Angeletos et al.'s
+    `δ* = (1−β)δ`: `calibration.md`'s inversion, exactly. Their example (Angeletos et al.'s
     `β = 0.55, δ = 0.96`) gives `β* = 1.22, δ* = 0.43`. One-sided only.
   - A nonnegative `f` need not give a nonnegative `f*`; the negative case is called
     "spite". The working paper states no convergence condition.
@@ -380,7 +380,7 @@ agents plus Codex; spot-read by Claude where marked).
 - **Luper, S. (2026).** Death. *Stanford Encyclopedia of Philosophy*, §5.2 (Lucretius'
   symmetry argument). **FT** · `web/luper-2026-sep-death.md`
 
-## Personal identity and connectedness (core, Horizons)
+## Personal identity and connectedness (`selves.md`, Identity)
 
 - **Parfit, D. (1984).** *Reasons and Persons*, chs. 10–15. OUP. **2ND** (Bartels & Rips
   2010; Lay 2019; Dufner 2025)
@@ -1163,7 +1163,7 @@ searchable.
   and stressors in adolescents. *PLoS ONE* 13(9): e0204389. **FT** ·
   `papers/hosseinichimeh-2018-feedback-mechanisms-among-depression-rumination-and-stressors-in-adolescents.txt`
 
-## Calibration anchors (core, Calibration)
+## Calibration anchors (`calibration.md`)
 
 ### Loss aversion
 
@@ -1375,7 +1375,7 @@ searchable.
   Monday no worse than Tuesday to Thursday; Ryan, Bernstein & Brown (2010, *JSCP*), better
   mood from Friday evening to Sunday afternoon.
 
-### LLM context windows (core, Horizons)
+### LLM context windows (`selves.md`, Horizons)
 
 - **Liu, N. et al. (2024).** Lost in the middle: how language models use long contexts.
   *TACL* 12: 157–173. arXiv:2307.03172. **FT** ·

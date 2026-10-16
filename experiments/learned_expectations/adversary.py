@@ -16,7 +16,7 @@ and the history.
 - Critic (the iterated layout: one head reads the policy's state): "honest", TD toward my payoffs with its level
   outside the network; or motivated, also ascending felt utility (felt.rounds_direct) on the shared state,
   "rosy" (a = 0.3) or "braced" (a = 0.02), the policy ascending payoffs: does a rosy critic make a sucker
-  (decision.md D8)?
+  (formalism/learning.md D8)?
 """
 import copy
 import math

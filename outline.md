@@ -1,267 +1,529 @@
-# Convolutional Utility
+# Experience Echoes
 
-Scaffold, not prose. Tags: *standard* (textbook or cited result) · *synthesis* (known
-pieces, new assembly) · *speculation*. Math is in `formalism/core.md` and
-`formalism/decision.md`; sources are in `bibliography.md`.
+The scaffold for the flagship post: bullets for a9 to write from, not prose. Math lives in
+`formalism/` (`formalism/INDEX.md` maps every claim below to its proposition, support and
+artifact); sources in `bibliography.md`.
 
-Reading: **hedonic**. Anticipation and memory are felt, and welfare is the life-sum of
-experienced utility.
+## The post
 
-Audience: LessWrong. The premise is old in economics; LessWrong has scattered informal
-precedents (`bibliography.md`, the second LessWrong scan) but no unified treatment; the post's
-value is the reframing, bringing anticipation, memory and belief-dependent welfare into the
-familiar decision-theory vocabulary. Economists' results are support to cite, not a
-deflation.
+- **Thesis.** Looking forward, looking back and the jolt of news are experiences too. Count
+  them as welfare and three things follow: a moment matters by its place in a web of echoes;
+  learning changes how a life feels even when it changes no decision, so a hedonic agent
+  chooses what it feels by as well as what it does; and the self that looked forward to a
+  choice becomes a predictor of it.
+- **What it is.** Mostly a bridge. Economics and psychology have a worked-out theory of
+  anticipatory, remembered and news utility, from Jevons (1871) to Kőszegi & Rabin (2009).
+  LessWrong meets the same questions in its own terms (the litanies, value of information,
+  picoeconomics) and, in the posts our scans found, without these sources. The post assembles
+  the theory into one model, points it at LessWrong's questions, and adds a few results, each
+  flagged.
+- **Reading.** Hedonic: anticipation, memory and news are felt, and welfare is the life-sum of
+  experienced utility. For the reader: whatever else you value, if experience counts, these
+  experiences count. Nothing needs hedonism about all value, so "Not for the Sake of Happiness
+  (Alone)" can stand.
+- **Form.** One post of about 9.5k words, one figure per section. The technical companion
+  (`formalism/`, polished) carries proofs, closed forms and checks. Follow-ups, not this post:
+  decision theory by learning, shared-state critics, the LLM peak-end study (end of file).
+- **Title.** Working: *Experience Echoes*; "convolutional utility" names the framework.
+  Alternatives: *Convolutional Utility: Counting Anticipation and Memory*; *What Your Past
+  Self Predicted*.
+- **Running example.** One holiday: announced early or late, enjoyed, remembered, cancelled.
+  Sections borrow other openers where they land better: the Huntington's test, P(doom), the
+  bottle saved for a special occasion.
+- **Tags** give provenance only; support (proved, checked, data) is in `formalism/INDEX.md`.
+  *imported* (a named published result) · *standard* (textbook) · *synthesis* (known pieces,
+  new assembly) · *not found* (not located in the literature passes: a candidate
+  contribution, not a priority claim) · *speculation*.
+- **Drafting rules.**
+  - Open each section with the reader's question and the example; then the imported idea,
+    credited inside the claim; then what the frame adds.
+  - Put the qualifier in the headline: "learning can change welfare without changing a
+    decision", not "beliefs are welfare" bare.
+  - Define on first use the words LessWrong uses otherwise: *anticipation* is felt, not the
+    "anticipated experiences" of "Making Beliefs Pay Rent"; *news* is a felt revision, not
+    information; *valence* is not Byrnes's.
+  - Say what the post brings, never that LessWrong lacks it: the scans were not exhaustive.
+  - Keep agent provenance (who argued what) out of the post; it lives in the companion and
+    the ledger.
 
-Form: one flagship post, about 8–10k words, each result in a few paragraphs with one
-figure. Proofs and checks live in a technical companion (the `formalism/` docs, polished
-into an appendix). The LLM peak-end study is a follow-up.
+## What the post imports
 
-Spine: **experience echoes.** What you feel now contains what you expect and remember, and
-what you feel is what counts. So one equation reprices the shape of a life (Act I), the
-value of information (Act II) and the logic of choice (Act III); a coda takes it to selves.
+Status in `bibliography.md`: **FT** full text read · **WP** working version · **ABS**
+abstract only · **2ND** second-hand · **scan** a LessWrong search summary, read before quoting.
+
+| idea | source | where LessWrong meets it | § |
+|---|---|---|---|
+| savoring and dread change what people choose | Loewenstein 1987 (FT); Berns et al. 2006 (FT) | "Lotteries: a waste of hope" (scan); "Justified expectation of pleasant surprises" (FT) | 1 |
+| anticipation and memory as felt utility, counted where felt | Jevons 1871 (no entry); Caplin & Leahy 2001 (FT), 2004 (WP); Kahneman, Wakker & Sarin 1997 (FT); Hersch & Weltman 2022 (FT) | experiencing against remembering self (lukeprog 2011, Metus 2012; scan) | 2 |
+| recursive, two-sided interdependence and its stability | Bergstrom 1999 (FT) | | 2, 5 |
+| discounting backward as well as forward | Ray, Vellodi & Wang 2024 (FT) | | 2 |
+| momentary happiness as expectations plus prediction errors | Rutledge et al. 2014 (FT) | Byrnes, valence series (scan) | 2, 9 |
+| planner weights over a life; no pure time preference | Caplin & Leahy 2004 (WP); Ramsey 1928 (FT) | "Against discount rates" (scan) | 3 |
+| preferences over the shape of a life | Loewenstein & Prelec 1993 (FT); Velleman 1991 (FT); Brown 2019 (FT); Cosaert & Potoms 2024 (FT) | McAuliffe & Shriver 2022, EA Forum (scan) | 3 |
+| peak-end and duration neglect | Fredrickson & Kahneman 1993 (ABS); Lim et al. 2020 (FT) | lukeprog 2011 (scan) | 3 |
+| welfare scored by objective expectation of felt life; optimal expectations | Brunnermeier & Parker 2005 (FT) | Litany of Gendlin (FT); Raemon 2011 (FT) | 4 |
+| truth is free in expectation when anticipation is linear | Epstein 2008 (FT); Eliaz & Spiegler 2006 (FT) | Litany of Gendlin | 4 |
+| ignorable is not cost-free | Kadane, Schervish & Seidenfeld 2008 (FT); Skyrms 1990 (FT) | VOI and updatelessness (Diffractor 2018; Soto 2024; FT) | 4 |
+| nonlinearity in beliefs prices information; late resolution | Kreps & Porteus 1978 (2ND) via Skiadas 1998 (FT); Eliaz & Spiegler 2006 | jimrandomh's `√p` utility of belief (FT) | 4, 5 |
+| news utility, loss-averse; clumping and inattention | Kőszegi & Rabin 2009 (FT); Pagel 2018 (WP) | | 4, 6 |
+| optimism against disappointment; bracing | Gollier & Muermann 2010 (WP); van Dijk et al. 2003 (FT); Golub et al. 2009 (FT) | | 4 |
+| sophisticated self-deception cancels | Bénabou 2015 (FT); Bénabou & Tirole 2002 (WP) | "Doublethink" (FT) | 4 |
+| information avoidance in the field | Oster, Shoulson & Dorsey 2013 (WP); Golman et al. 2017 (FT); Karlsson et al. 2009 (FT) | ugh fields (FT); Bostrom's reaction hazards (FT) | 4 |
+| recursive present bias from exponential primitives | Sáez-Martí & Weibull 2005 (WP); Galperti & Strulovici 2017 (WP) | hyperbolic discounting from structure (twanvl 2011; scan) | 5 |
+| self-referential news about utility | Kimball & Willis 2006 (WP) | | 5 |
+| delegation, alerts and what consumption reveals | Andries & Haddad 2020 (WP); Pagel 2018 (WP) | "Detach the grim-o-meter" (FT); doom-coping posts (FT) | 6 |
+| Newcomb as a psychological game; self-inference | Geanakoplos 1996 (FT); Bernheim & Thomadsen 2005 (WP) | Newcomb, FDT (Yudkowsky & Soares 2017; FT) | 7 |
+| the savoring trap between selves | Kőszegi 2010 (FT); Caplin & Leahy 2001 | picoeconomics, successive selves (scan) | 7 |
+| plans as their own commitment device | Kőszegi & Rabin 2009 (FT) | | 7 |
+| stop-gradients and performative stability | Oesterheld, Treutlein, Cooper & Hudson 2023 (WP) | Treutlein 2023 (FT) | 7 |
+| personal rules and self-reputation | Bénabou & Tirole 2004 (WP); Bodner & Prelec 2003 (FT) | Parfit's hitchhiker | 7 |
+| caring measure; conserved measure | Greaves 2004 (2ND) | the Anthropic Trilemma (FT) | 8 |
+| connectedness and continuity | Parfit 1984 (2ND); Bartels & Rips 2010 (FT) | | 8 |
+
+## What is new
+
+Candidates, conditional on the literature passes. None is the premise, which is old.
+
+1. **Shape is a boundary effect** (P6). For foreseen lives under linear, stationary,
+   summable echo, the shape of a life matters only through its ends. For long linear ramps
+   the sign is asymptotically the kernel's first moment's, and the size its reach over the
+   lifespan.
+2. **Recursion's price on information** (D5). Dread outweighing savoring prices information
+   only when you anticipate your own future felt states. An exact identity gives the dread
+   penalty against a symmetric baseline; what a schedule of information costs is how it moves
+   that penalty. Mortality information is priced even in the linear recursive model.
+3. **The calibrated Bayesian is already braced** (N3, canonical). A correct forecast of how an
+   event will feel includes the disappointment you expect; with symmetric forecast errors,
+   that lowered reference makes relief more frequent than disappointment.
+4. **The news loop's threshold** (N4). Given the forecasts it is measured against, felt news
+   about felt experience has a unique, stable felt state for every revision iff `λκ < 1`.
+   Without memory the loop's gain is the news strength alone; memory adds a feedback route,
+   and anticipation amplifies it.
+5. **Affect policies** (D7, synthesis with close prior art). A hedonic agent picks an action
+   policy and an affect policy; Good's theorem and updatelessness govern only the first, and
+   the agent's own actions leak into the second.
+6. **The past self as predictor** (D1, D2, D6, synthesis). How much already-felt anticipation
+   a rule counts as depending on the present choice is one dial; reliability is worth the
+   anticipation it earns. Exact savoring-trap stopping conditions (D3) are in the companion.
+7. **The data** (§9). A new analysis of public momentary-happiness data: the echo of a task
+   outcome is front-loaded and heavy-tailed, and an apparent loss-averse news asymmetry is
+   confounded with chosen risk.
 
 ## Sections
 
-- **Hook.** Discounting looks forward. Run the same kernel backward for memory, let
-  echoes echo, and treat a life as a signal convolved with a kernel.
-- **Act 0: the model.**
-  - **The equation.** Experienced utility is base utility plus anticipation and memory of
-    experienced utility, plus felt news about it (core, the canonical model). *synthesis*
-    - Present it in full, with the coefficient table: what `a, α, m, μ, n, ν, λ` each
-      do, and the two conditions (`M < 1`; `λκ < 1`, closed form
-      `κ = (n/H)(1−νμ)/(1−νq)`). Forecasts are rational, expected news included.
-    - The direct form is its reduced form for foreseen lives, an equivalent model under
-      reparametrization (P2); recursion stretches anticipation's reach and makes news about
-      further-off events felt more. A surprise is an information boundary: it misses the
-      anticipation paths, so recursion has content even on an infinite line.
-    - Illustrative parameters per horizon (a waking day, a life): echo about 30% of
-      steady-state experience, recursion stretching reach by 21–28%, and a strongly
-      present-weighted felt row (`β ≈ 0.05`–`0.08`). Scenarios, not estimates. The robust part is
-      the inversion: explaining measured patience by the momentary felt row needs an echo
-      share near one, so patience, if hedonic, belongs to the life-sum. *synthesis*
-    - An agent that cares only about the next and previous moments already acts on its whole
-      life, exponentially (P2).
-    - Well-foundedness favours light-tailed primitives, and recursion still delivers
-      quasi-hyperbolic present bias (P1d, P3, P4).
-    - Present bias is the signature of caring directly about more than the next moment
-      (P2, P3).
-    - The kernel family is free (exponential, hyperbolic): the model is a frame for
-      interpreting utility, not a fit (P10).
-  - **Well-foundedness.** *synthesis*
-    - Echo share `M` (P1b): the echo must be less than the whole.
-    - Bounded at every lifespan (`M < 1`) differs from monotone on this life
-      (`ρ(K_T) < 1`) (P1c). Footnote.
-    - Why hedonic. Echoes are real experiences, so `Σ_t e(t)` counts them honestly. This
-      is Caplin & Leahy's Jevonian defence and Kahneman et al.'s instant-utility axiom.
-    - It answers double counting, not echo maximization: the model endorses amplifying
-      echoes of good felt states and damping echoes of bad ones (`∂W/∂K_ij = w_i e_j`).
-      Accept it: savoring is welfare. The linear model has no optimum over kernels
-      (welfare grows without bound as `M → 1`), so attention and saturation are the
-      missing costs, and more pleasure is not larger numbers (P10). [Codex]
-  - **Lineage.** Credit the premise, claim the synthesis and the results. *standard*
-    - Jevons and Bentham
-    - Bergstrom's one-paragraph sketch
-    - Caplin & Leahy's multiple counting
-    - Ray, Vellodi & Wang's backward discounting
-    - Hersch & Weltman's atomism
-- **Act I: a life.**
-  - **What the life-sum says: moments as centrality.** *synthesis*
-    - Moments matter in proportion to their echo.
-    - The interior is flat: given time-neutral aggregation of experience (assumed in `W`),
-      echoes add no pure time preference over base utility (Ramsey). Derived for `u`, not
-      for `e`.
-    - Deficits at birth and death. A kernel with no forward or backward bias favours a good
-      midlife.
-    - No moment *feels* these weights: each felt state weighs the life through its own
-      anticipation and memory. A self can still choose by the life-sum (D3's selves do).
-    - Shape: the ramp theorem (P6) — for linear ramps, anticipation's lever arm against
-      memory's (the first moment `M₁`). Ramps only: an end pulse against a start pulse
-      compares echo masses, so `M₁ < 0` can still favour the improving pulse.
-      - In a linear echo model shape is a boundary effect, not a slope effect.
-      - Its size is about reach over lifespan (`4M₁/T`): sizeable for whole lives only if
-        anticipation and memory reach across decades; strongest for short sequences.
-    - Directionality, for ramps: the rising ramp wins iff `M₁ > 0` (at equal amplitudes,
-      iff anticipation reaches further), *or* memory works by contrast.
-    - Each self is a lens (P7): judging a life from its end inherits recency. Two lines.
-    - The James Dean effect from contrast memory (P8). *speculation*; evidence is
-      evaluative. Cut candidate.
-  - **What the momentary self feels.** *synthesis* Its choice weights only if it maximizes
-    current experience; a life-sum chooser is the other case.
-    - Discounting is the forward resolvent.
-    - Recursion makes exponential primitives present-biased: one-sided case *standard*;
-      two-sided P4 *not found*.
-    - Anticipated remembering weakens the bias. The size depends on the boundary (D4,
-      footnote).
-  - **The shape-of-a-life debate.**
-    - Take Brown's explaining-away horn openly.
-    - Velleman's narrative view is the foil.
-    - Hersch & Weltman's "begs the question" is the objection to answer.
-- **Act II: beliefs.**
-  - **Beliefs are welfare.** (D5) *synthesis / speculation*
-    - Felt anticipation is a forecast, so learning changes how your life feels now.
-      Welfare is scored by the objective expectation of the felt life.
-    - In expectation the truth is free (tower property; a textbook benchmark), given
-      linear echoes and news, a calibrated prior, and actions held fixed. Pathwise it is
-      not: bad news hurts now.
-      - It also needs a lifespan the information does not move. Under death risk the
-        remembered-anticipation loop runs only in surviving branches, so mortality
-        information is priced even in the linear recursive model, with the sign of the
-        anticipated future's felt value. *checked*
-    - What prices information is nonlinearity in beliefs. Dread outweighing savoring, as a
-      kernel on outcomes, does it only in the recursive model, where you anticipate your
-      own future dread. (Concavity in the posterior itself prices information in any
-      model; that is the known case.)
-      - Exact identity: the cost is the dread excess times the life-weighted expected
-        negative part of anticipated felt states (felt news aside). It bites only when
-        some felt state can land on either side of zero; heavier memory of bad states
-        (rumination) prices information the same way. *proved; direction checked on
-        examples*
-      - Credit the structure to Kreps–Porteus (a concave aggregator prefers late
-        resolution); the felt-flow form and the direct/recursive contrast are ours.
-    - The delusional optimist feels better than the realist on the same base utility, if
-      unaware. Prior art: Brunnermeier & Parker's optimal expectations.
-    - A sophisticated near-Bayesian gains nothing from self-deception: doubt spoils the
-      good news (Bénabou). "Doublethink" as a theorem.
-    - Felt news (core N1–N3, Kőszegi–Rabin in kernel form): elation and disappointment
-      when forecasts change, realization included. One term prices optimism and
-      information.
-      - News is a schedulable pain: its cost is its size times the life weight `w(r)`.
-        Clumping helps at equal weights, early helps when news about the far future is felt
-        less; the schedule trades them off. Credit Andries & Haddad (recursive
-        disappointment aversion prefers single-date revelation) and Kőszegi–Rabin.
-      - Optimism pays iff anticipation mass beats remembered, loss-weighted
-        disappointment: optimism for long-awaited events, bracing for short-notice ones.
-        Credit Gollier & Muermann (the model) and van Dijk et al. (the timing claim);
-        bracing is documented, its hedonic payoff is not (Golub, Gilbert & Wilson).
-      - In the canonical model a calibrated Bayesian is already braced: the forecast of how
-        the event will feel contains the expected disappointment, so realized news is more
-        often relief. The news loop amplifies loss aversion; near the threshold the felt
-        reference sinks while the optimal belief bias stays bounded. *not found; checked*
-        - Figure: the optimal felt belief path under a cost of self-deception. Calibrated
-          far from the event, braced as it nears, frozen over the last few periods because
-          each further revision is itself felt as news. At the life calibration optimism
-          never pays. A network trained on felt welfare captures a median 71% of the
-          reference optimizer's gain on ten held-out events (one run;
-          `experiments/learned_expectations/`). *checked*
-      - News over experienced utility (N4): good news about far events is felt now,
-        because tomorrow you'll be looking forward; cancelling a plan costs the
-        anticipation too. Needs `λκ < 1`. Memory feeds the loop and anticipation does not.
-        Just past it, bad news has no felt state (the loop runs away) and good news has a
-        tipping point; bounded gain-loss can give a stable low state over a range of shocks,
-        bistability. *proved; reading speculative.* Credit Kimball & Willis (elation over
-        lifetime-utility news, solved simultaneously, a sufficient version of the threshold)
-        and the bistability models of depression and panic.
-      - The 2×2, echoes × news: the echo axis carries remembered excitement, present bias and
-        dread-of-dread; the news axis carries the jolt, the cost of cancellation and the
-        despair threshold. Linear, all four are one model; the canonical model is the
-        recursive/recursive corner.
-      - Recursion has content at the boundaries of a life and of information, and under
-        nonlinearity. *synthesis*
-    - Recollection news, the mirror of news: felt changes in how the past is remembered.
-      Forecasts meet their realization, recollections only meet reminders, so rosy bias is
-      cheaper backward. Rationalization may live mostly on the memory side.
-      *speculation*
-    - Rationalization as hedonic arbitrage: updating less on bad news keeps anticipation
-      high now. *speculation*; asymmetric updating is empirically contested.
-    - Instrumental value of information (Good's theorem, FDT) versus intrinsic hedonic
-      value: information can be ignorable without being cost-free (Kadane, Schervish &
-      Seidenfeld). LessWrong's updatelessness discussion covers only the ignorable half.
-    - Affect policies (D7): act on everything you know, feel by a coarser or batched
-      information flow.
-      - A hedonic agent picks an action policy and an affect policy. Good's theorem and
-        updatelessness govern the first only.
-      - Strict updateless affect (feel by the prior) is best against dread-of-dread in every
-        case checked (no theorem yet); against loss-averse news the optimum is a weighted
-        schedule, batching where weights are equal.
-      - Actions leak: a self that knows its own policy reads hidden news off its own
-        actions, their results and even its inaction, so commitment alone does not make
-        batched affect feasible. The observable history must stay uninformative until the
-        batch: delegation that hides the act and its results, or pooling. *synthesis;
-        known in kind: Andries & Haddad; checked on a binary example*
-      - P(doom): act on the forecast, feel it in batches; conditioning each action on the
-        forecast trades its instrumental value against the news it leaks.
-        *speculation as psychology*
-      - Credit Pagel (the formal case: ignore the portfolio, delegate, commit to
-        inattention), Andries & Haddad (alerts and delegation) and Soares ("Detach the
-        grim-o-meter"; "Simply locate yourself", the updateless structure, which ties back
-        to measure-weighting in the coda).
-    - LessWrong precedents to credit: Raemon on the Litany of Gendlin; jimrandomh's
-      utility-of-belief example; Yudkowsky on pleasant surprises; Bostrom's psychological
-      reaction hazards.
-    - Objection to answer: "Not for the Sake of Happiness (Alone)" (value is not only
-      hedonic). "Doublethink" is an ally: Bénabou's cancellation formalizes it.
-- **Act III: choices.**
-  - **Decision theory: your past self as predictor.** (`decision.md`)
-    - A choice is Newcomb-like when already-felt anticipation depends on an accurate
-      prediction of it (D1). *synthesis*
-    - One dial, `J` = how much of the felt past a decision rule counts as depending on the
-      present choice (D2). Nothing is moved: for FDT the past forecast is an output of the
-      function now being chosen. *synthesis*
-      - `J = 0` is fixed-past sequential choice (CDT).
-      - `J = J_pf` is advance commitment, i.e. the planner.
-      - FDT reaches the planner when past forecasts were accurate evaluations of the
-        decision function on the realized input (the transparent-Newcomb condition); EDT
-        need not. Otherwise each picks `J` by its own dependence theory.
-    - With felt news, deviating from the plan your past selves predicted is itself felt
-      as news, so plans become reference points. Choice needs a credible-plan concept;
-      adopt Kőszegi–Rabin's preferred credible plan, credited, for a means-based model
-      with recursive news. *known in kind*
-    - The savoring trap (D3). Without news, selves sharing the life-sum objective with the
-      past held fixed push pleasures toward the unremembered end and hurry pains.
-      Mechanism *standard* (Kőszegi 2010; Caplin & Leahy 2001); exact stopping conditions
-      *not found*; the exceptions are sophisticated preemption.
-      - With felt news it is fragile: the commitment plan is credible in 1% of draws
-        without news, 66% at felt calibration, 98% with strong loss aversion.
-        Expectations can do a commitment device's work, but weak news keeps the trap.
-        *checked*
-    - Its sign is opposite to present bias's preproperation. Savoring delay and
-      procrastinated pleasures have rival explanations. *speculation*
-    - Reliability (D6). Anticipation scales with forecast follow-through, so flakiness
-      discounts every plan. But in the model the echoes alone make selves over-reliable
-      about delayed rewards; felt news is what can make them flaky against their own
-      interest. *checked on examples*
-- **Coda: selves.**
-  - **Anthropics.** (`decision.md` A1–A2) *synthesis*
-    - Anticipation as a forecast of one continuing path is measure-weighted. That is an
-      assumption: a forecast of total successor experience is also an expectation. Doom
-      branches count as zero (hedonic neutral), so a likely early end discounts the
-      future. This is the unnormalized choice; anticipation renormalized on survival
-      (quantum immortality) would not discount.
-    - It takes the conserved-measure horn of Yudkowsky's Anthropic Trilemma: copying
-      yourself on a lottery win changes how many experience winning, not what you should
-      anticipate.
-    - Copy-counting would let a branching future outweigh a single past without bound.
-    - Under measure-weighted anticipation *and* aggregation, branching is
-      welfare-invisible: it adds up to normality. The second weighting is an axiom (total
-      utilitarianism with measure as the population weight; right for Everett branches);
-      real copies are extra welfare subjects, and there `bμ < 1` (`bq < 1` in R) is what
-      keeps the copy-counted aggregate finite. The trilemma's trillion copies land here.
-    - Aggregation weights are normative; they are not SSA/SIA credences.
-    - A context window as a life: hard boundaries both ends, retrieval-style memory that need
-      not fade (U-shaped use of context; echo compounds unless per-step echo is weak), and
-      instances as A1's tree. *speculation*
-  - **Identity.** The model needs none: kernel weight links moments, whatever agent they
-    belong to. Parfit's connectedness is the direct kernel, continuity the resolvent, as an
-    analogy: Parfit's continuity is all-or-nothing over thresholded links, and the resolvent
-    grades it. Parfit proposed discounting by connectedness (Bartels & Rips find rated
-    connectedness predicts patience). Compaction and sleep are soft boundaries crossed by
-    memory and anticipation. *synthesis*
-  - **Utilitarian corollaries.** *synthesis / speculation*
-    - Forgotten pain counts less, but not zero (Parfit's amnesia case; Lee 2022; Shardlow
-      2025).
-    - Interpersonal kernels are Bergstrom systems, with the double-counting debate
-      attached. Total-empathy mass must be < 1.
-- **Limits.**
-  - Real kernels are sign-asymmetric and nonlinear (dread > savouring).
-  - Power-law forgetting threatens `M` and `M₁`.
-  - The evidence for a past–future asymmetry is thin.
-  - Identification (P10).
-  - Open, parked: whether echo adds to the present or displaces it (only additive and Z
-    survive the epilogue test; `notes/displacement.md`), and hedonic adaptation, a reference
-    process alongside echo that the data rule out only at fast scales
-    (`notes/adaptation.md`).
-- **Technical companion.** The canonical model and its well-foundedness proofs; P4's
-  closed form and P5–P6's life weights and ramp; N3 in the canonical model; the
-  threshold's closed form and regimes; D5's identity; D3's stopping conditions; the checks
-  and the playground.
+Word budget: 9.4k.
+
+### 1. A holiday before it happens (~600)
+
+- **Question.** What does a holiday do for you, and when?
+- **Example.** Weeks of looking forward, a week away, an afterglow, years of remembering. Then
+  the same trip cancelled the night before: the anticipation was felt, the cancellation
+  hurts, some remembered excitement survives. Which of these belong in the welfare ledger?
+- **Two anomalies** *imported*. Loewenstein (1987): people would pay most to delay a kiss from
+  the movie star of their choice by three days, and more to avoid a shock delayed by years
+  than one now. Berns et al. (2006): 9 of 32 people took a stronger shock sooner rather than
+  wait. Exponential discounting gets both backwards; felt savoring and dread get both right.
+- **The stakes**, previewed in LessWrong's terms.
+  - If the cancellation notice is itself a harm, information has a felt price, which is a
+    question for the Litany of Gendlin (§4–§6).
+  - The self who looked forward to the trip predicted the self who decides whether to go:
+    Newcomb inside one life (§7).
+- **LessWrong anchors.** "Lotteries: a waste of hope" (Yudkowsky 2007) is the natural foil:
+  its objection is where emotional investment goes, an opportunity cost the additive model
+  leaves open (attention and displacement, §2); read it before quoting. "Justified expectation of pleasant surprises" (2009) is the friendliest precedent.
+- **Roadmap.** The two lists above: what is imported, what is new.
+- **Figure.** The holiday decomposed over time: base utility, anticipation, memory, news and
+  their sum, for a trip taken and a trip cancelled (`formalism/pathwise.py`, redrawn on the
+  post's example).
+
+### 2. Count experiences (~900)
+
+- **Question.** What exactly gets counted, and is it double counting?
+- **Four things to keep apart:** an event's base utility; the experienced utility of a
+  moment; the welfare of a life; the objective a self chooses by. Most confusion in this
+  literature is a slide between two of them.
+- **The equation.** Experienced utility now is base utility now, plus felt anticipation of
+  later experience, plus felt memory of earlier experience, plus felt news (the jolt when
+  forecasts change):
+  `e_t = u_t + Σ_{j≥1} a α^j Ê_t[e_{t+j}] + Σ_{j≥1} m μ^j e_{t−j} + news`, sums within the
+  life. A temporal kernel model; in its linear, foreseen case it is base utility convolved
+  with an effective two-sided kernel, hence the name. *synthesis* of imported pieces: anticipation and memory (Jevons;
+  Loewenstein 1987; Caplin & Leahy 2001), two-sided recursion (Bergstrom 1999's benevolent
+  utility read within one life; Ray, Vellodi & Wang 2024's backward discounting), news
+  (Kőszegi & Rabin 2009; Pagel 2018's kernel; Kimball & Willis 2006 for news about utility
+  itself).
+- **Echoes of echoes.** You remember looking forward to the trip and look forward to
+  remembering it. Caplin & Leahy (2001, p. 75) set the regress aside as having no complete
+  model; it has a fixed point, bounded over all lifespans iff the echo share `M < 1`: the
+  echo must be less than the whole. *standard* (Bergstrom 1999; a Neumann series), the
+  echo-share reading *synthesis*. The news loop has its own local condition (§5); the joint
+  condition with rational forecasts is open (companion).
+- **Welfare is the life-sum** `W = Σ_t e_t`, scored by the objective expectation. *imported*:
+  instant utility (Kahneman, Wakker & Sarin 1997), Caplin & Leahy's (2004) defence of
+  multiple counting, Hersch & Weltman's (2022) atomism. Each echo is a real experience,
+  counted once, when it is felt.
+- **Additive echo is an assumption; say so here.** Echo adds to the present rather than
+  displacing it. So the model endorses amplifying echoes of good states and damping bad ones
+  (`∂W/∂K_ij = w_i e_j`, elementary) and has no optimum over kernels (welfare grows without
+  bound as `M → 1`). Attention, saturation and displacement are the missing costs
+  (`notes/displacement.md`, parked). Savoring is welfare, not a free amplifier.
+- **The reinforcement-learning reading** *known in kind* (Rutledge et al. 2014; Gershman
+  2026), the identification *synthesis*: felt anticipation is a critic's value over
+  experienced utility, felt news its TD error (exactly for linear news; with loss aversion,
+  when the horizon revisions share a sign), memory a decaying trace. The canonical self feels
+  its own critic. Byrnes's valence series is the LessWrong neighbour; say which
+  "felt anticipation" is meant.
+- **Two derived objects, used from here on.**
+  - The **life weight** `w(s)`: what a unit of base utility at `s` adds to the life-sum once
+    every echo is counted (§3, §4, §7).
+  - The **felt row**: how the momentary self weighs the rest of its life (§3, §5).
+- **Identification** *standard*: any felt path fits some base path (P10). The kernel is a
+  frame until data or a structural family pin it (§9).
+- **LessWrong anchors.** Experiencing against remembering self (lukeprog 2011; Metus 2012);
+  "Not for the Sake of Happiness (Alone)".
+- **Figure.** The echo graph: moments as nodes, anticipation and memory as weighted edges, one
+  remembered-anticipation path highlighted.
+- Companion: core, the canonical model, Objects, P1–P2, P9–P10.
+
+### 3. A good moment counts more than once (~1,000)
+
+- **Question.** If good moments echo, does it matter when they happen? Is there a reason to
+  want a life that gets better?
+- **Example.** The trip of a lifetime taken in the last months of a life has little life left
+  to be remembered in; taken in infancy, nothing looked forward to it. Moving it within the
+  middle of a life changes almost nothing: the holiday's own end is no boundary, since memory
+  goes on after it.
+- **Moments as centrality.** A moment's life weight is its Katz centrality in the
+  anticipation and memory graph. *synthesis*; the hump-shaped planner weights are Caplin &
+  Leahy's (2004, *imported*); the recursive closed form is *not found* (P5).
+- **Flat interior, deficits at the ends.** Away from birth and death every moment approaches
+  the same weight, `1/(1−M)`: given time-neutral aggregation, echoes add no pure time preference over
+  base utility (*standard*: Ramsey 1928; "Against discount rates"). Birth is unanticipated and
+  death unremembered, so the ends weigh less, about a sixth at the illustrative life
+  calibration.
+- **Shape is a boundary effect** *not found* (P6).
+  - The class, stated once: foreseen lives, linear, stationary (translation-invariant),
+    absolutely summable echo with a bounded resolvent. On an infinite line such echo leaves
+    the life-sum unchanged by rearrangement, so a life's shape matters only through its
+    ends, not its slope.
+  - For linear ramps on lives long against the kernel's reach, rising beats falling,
+    asymptotically, iff anticipation's lever arm beats memory's (the kernel's first moment
+    `M₁ > 0`). Short lives have counterexamples. Endpoint pulses compare accumulated echo
+    masses instead, and arbitrary profiles need the whole weight function.
+    Loewenstein & Prelec (1993) have the flat-kernel case and Cosaert & Potoms (2024) the
+    directions, both *imported*.
+  - Size: about `4M₁/T` of the base utility rearranged (direct; a factor `(1−M)^{−2}` larger
+    recursively). Whole-life shape preferences are small unless anticipation and memory reach
+    across decades, and strongest over short sequences (a prediction, *speculation*).
+  - The debate: take Brown's (2019) explaining-away horn openly, with Velleman (1991) as the
+    foil, and answer Hersch & Weltman's (2024) "begs the question": the result is diagnostic.
+    It says what linear echo can explain and what a narrative or nonlinear account must add.
+- **No moment feels these weights.** Each self weighs its life through its own felt row,
+  which is strongly present-weighted (`β ≈ 0.05`–`0.08` at the illustrative calibrations).
+  A self can still choose by the life-sum.
+  - **Patience is not felt anticipation.** Explaining measured patience by the felt row
+    alone would make nearly all experience echo (`M ≈ 0.94` at `β = 0.7` and 4% a year),
+    against the illustrative scenarios' 0.3. A felt-row explanation needs a very large echo
+    mass; patient choice more plausibly runs on the life-sum or another evaluative objective.
+    The inversion is Sáez-Martí & Weibull's (*imported*); the bill is *synthesis*.
+- **Each self is a lens; peak-end.** Judging a life from its end inherits recency. A fading
+  memory kernel gives the end effect, and duration neglect as saturation, with some duration
+  sensitivity for episodes shorter than memory's reach, unlike averaging snapshots. A peak
+  beyond recency needs salience-weighted memory (Lim et al. 2020). *synthesis* of imported
+  pieces (Fredrickson & Kahneman 1993).
+- **Forgotten pain.** A pain later forgotten counted in full when it was felt; it loses only
+  the painful recollections it would have caused. *imported* (Lee et al. 2022; Shardlow et
+  al. 2025; Parfit's amnesia case, second-hand).
+- **Figure.** Life weights `w(s)`, direct against recursive, flat inside with deficits at both
+  ends; inset, a rising and a falling ramp of equal total.
+- Companion: core P5–P7 (peak-end with P7); `calibration.md` for the patience bill.
+- To the companion: the James Dean effect (P8), P7's numbers, the ramp's exceptions.
+
+### 4. Learning can change how life feels without changing what you do (~1,400)
+
+- **Question.** Would you take a free, accurate test for a fatal, untreatable disease? The
+  Litany of Gendlin says owning up to what is true makes nothing worse.
+- **Example.** Huntington's disease: of 1,001 at-risk people untested at enrollment, under
+  10% pursued predictive testing over the study's follow-up, and the untested acted like
+  non-carriers (Oster, Shoulson & Dorsey, working paper; the corrigendum revises the
+  actual-risk series, with less over-optimism). Holiday version: a booking that may fall through,
+  with reassuring and worrying updates and nothing to do until a set date.
+- **Beliefs enter welfare** *imported* (Brunnermeier & Parker 2005). Felt anticipation is a
+  forecast, so what you believe changes what you feel, and welfare is scored by the objective
+  expectation of the felt life.
+- **In expectation the truth is free** *standard* (the tower property: Epstein 2008; Eliaz &
+  Spiegler 2006; Kimball & Willis 2006), given linear echoes and news, a calibrated prior,
+  actions held fixed and a lifespan the information does not move. Pathwise it is not: bad
+  news hurts now. The Litany is right on average and wrong for whoever draws the bad news;
+  Raemon's (2011) "Issues with the Litany of Gendlin" is the pathwise half.
+  - Exception *not found*: mortality information is priced even in the linear recursive
+    model, since remembered anticipation runs only in the branches where you live.
+- **Ignorable is not cost-free** *imported* (Kadane, Schervish & Seidenfeld 2008). Good's
+  theorem says free information never hurts a decision, because you can act as if you had not
+  seen it; it says nothing about how seeing it feels. Their own examples are a mystery's ending
+  and Huntington's testing. LessWrong's value-of-information and updatelessness discussions
+  (Diffractor 2018; Soto 2024) are about the ignorable half.
+- **What prices information is nonlinearity in beliefs** *imported* (Kreps & Porteus via
+  Skiadas 1998; Eliaz & Spiegler 2006; on LessWrong, jimrandomh's `√p` utility of belief).
+  Two felt sources:
+  - **Loss-averse news** *imported* (Kőszegi & Rabin 2009; Pagel 2018). Bad news hurts more
+    than equal good news helps, so at equal effective weights news felt piecemeal costs more
+    than news felt at once, and updates that end where they began still cost. News is a
+    schedulable pain: its cost is its size times the life weight of the moment it is felt
+    (the life-weighted form *not found*). With unequal weights clumping and earliness can
+    pull apart (companion's counterexample).
+  - **Dread outweighing savoring**: it needs recursion (§5).
+- **Optimism or bracing** *imported* (Brunnermeier & Parker 2005; Gollier & Muermann 2010;
+  van Dijk, Zeelenberg & van der Pligt 2003). A rosy forecast buys anticipation now and pays
+  in disappointment later: optimism for long-awaited events, bracing for ones at short
+  notice. Bracing is documented; its hedonic payoff is not (Golub, Gilbert & Wilson 2009).
+- **In the near-Bayesian, linear-anticipation benchmark, self-deception does not pay for an
+  agent who knows it is doing it** *imported* (Bénabou 2015; Bénabou & Tirole 2002).
+  Censoring bad news makes good news suspect, and the two cancel. A formal cousin of "Doublethink", under near-Bayesian
+  sophistication. So the escape is not choosing beliefs: §6 is about choosing what to feel by.
+- **Objections.**
+  - "Not for the Sake of Happiness (Alone)": the post locates a cost and recommends no false
+    belief.
+  - "Then avoid bad news": avoidance forgoes the decision value (Good's half), and avoidance
+    that leaks later can cost more (§6). Ugh fields (Roko 2010) are the failure on the
+    action side; Bostrom's psychological reaction hazards (2011) name the felt cost.
+- **Figure.** The same news felt two ways: one revelation against partial updates that end in
+  the same place. Linear news cancels; loss-averse news charges the path.
+- Companion: decision D5; core N1–N3.
+- To the companion: recollection news; the optimism quantile; rationalization as hedonic
+  arbitrage (at most one line: a learned critic consoles itself after bad news at `λ = 2` and
+  not at `λ = 1`).
+
+### 5. Echoes of echoes: what recursion adds (~1,000)
+
+- **Question.** Why model feelings about feelings at all?
+- **For a life you foresee, one layer is enough** *standard* algebra, the reading
+  *synthesis*. On an infinite line every recursive model is a direct one with a stretched
+  kernel (P2). Recursion shows where foresight or linearity fails, at a life's ends, and under
+  restrictions on the kernel family.
+- **Exponential primitives become present-biased** *imported* one-sided (Sáez-Martí &
+  Weibull 2005; Galperti & Strulovici 2017). Caring directly about every later self with
+  geometrically fading weight, when they all do the same, gives a quasi-hyperbolic felt row;
+  caring only about the next self gives plain exponential weights (P2). Memory loops weaken
+  the bias (two-sided closed form *not found*, provisionally, P4). twanvl (2011) brings
+  hyperbolic discounting from uncertain rates to LessWrong; felt echo is another structural
+  route.
+- **Surprises are information boundaries** *synthesis*. A shock nobody saw coming misses the
+  earlier selves who would have anticipated it, so the recursive model answers differently
+  from its foreseen reduced form, even on an infinite line.
+- **Dread of dread prices information** *not found*: the felt-flow identity and the
+  direct/recursive contrast; the late-resolution structure is *imported* (Kreps & Porteus via
+  Skiadas 1998; Epstein 2008).
+  - Dread outweighing savoring, as a kernel on outcomes, leaves information timing neutral.
+    Recursively you anticipate your own later felt states, which contain your later
+    forecasts, so the asymmetry lands on a belief.
+  - The penalty against a symmetric baseline is the dread excess times the life-weighted
+    expected negative parts of felt states; an information schedule costs what it adds to
+    that penalty. It bites only when some felt state can land on either side of zero;
+    rumination (bad states remembered more) prices information the same way.
+- **A calibrated Bayesian is already braced** *not found*. In the one-event model, the
+  reference that realized news is measured against includes the disappointment you expect.
+  With symmetric forecast errors that lowered reference makes relief more frequent than
+  disappointment (loss probability about 0.3 in the Gaussian checks). Bracing without
+  pessimism about the event.
+- **News about how life will feel feeds on itself.** *known in kind* (Kimball & Willis 2006:
+  simultaneous news about lifetime utility, with a sufficient condition); the sharp threshold
+  and regimes *not found*.
+  - Good news about a far event is felt now, because tomorrow you will be looking forward to
+    it; cancelling a plan costs the anticipation too.
+  - Without memory the loop's gain is just the news strength; memory adds a feedback route
+    (a felt state is remembered, so it moves forecasts of later experience), and
+    anticipation amplifies it. Given the forecasts, `λκ < 1` guarantees a unique, stable felt
+    state for every revision. For `1/λ < κ < 1` and piecewise-linear gain-loss, a uniformly
+    bad revision has no felt state; a bounded gain-loss function can have a stable low state
+    beside the normal one. The joint Bayesian system's sharp condition is open.
+  - A model result, not a theory of despair: the depression and panic bistability models are
+    company, *speculation*.
+- **Figure.** One-layer anticipation of outcomes against anticipation of felt states, with
+  the feedback path drawn; inset, the distribution of realized felt news for a calibrated
+  Bayesian (built-in bracing).
+- Companion: core P2–P4, N3 (canonical), N4; decision D5.
+- To the companion: the 2×2 of echoes against news, the threshold's closed form and full
+  regime classification, D4.
+
+### 6. Act on it, feel it later (~1,200)
+
+- **Question.** Can you act on everything you know without feeling every update?
+- **Example.** P(doom), revised weekly. Or the holiday booking handed to an agent who sends a
+  summary each Sunday, until a refund email arrives on a Wednesday.
+- **Two policies** *synthesis*; *known in kind* (Pagel 2018: the investor who ignores his
+  portfolio and pays a manager; Andries & Haddad 2020: alerts and delegation).
+  - A hedonic agent chooses an action policy (what it does with information) and an affect
+    policy (what information its felt forecasts and news run on).
+  - Good's theorem and updatelessness govern the action policy only. The affect policy is
+    where information costs: Kadane, Schervish & Seidenfeld's cost-free half.
+- **Which affect policy is best depends on the nonlinearity.** In linear models, with actions
+  and the lifespan held fixed, none matters (the tower property). Against loss-averse news it is a weighted scheduling problem that
+  batches where weights are equal. Against dread of dread, feeling by the prior was best in
+  every case checked; there is no theorem.
+- **Actions leak into affect** *known in kind* (Andries & Haddad: observed consumption reveals
+  wealth); the observation closure and pooling condition *synthesis*.
+  - A self that knows its own policy reads hidden news off its actions, their results and
+    even its inaction. Commitment alone does not stop the leak.
+  - Batched feeling needs the whole observable history (acts, results, inaction) to stay
+    uninformative until the batch. Delegation, delayed consequences and pooling can be
+    combined to that end; none suffices alone in general (late consequences do not hide an
+    informative act, and pooling acts does not hide informative results).
+- **P(doom)** *speculation as psychology*: settle a policy, act on it, feel the forecast in
+  batches. Conditioning each action on the latest forecast trades its instrumental value
+  against the news it leaks.
+- **Not belief choice.** Beliefs stay accurate, so §4's cancellation does not bite. Whether
+  affect can come apart from belief within one mind is open; attention and delegation are the
+  known routes.
+- **Optional aside: affect leaks into action too.** In one hidden-game actor-critic, a critic
+  sharing a state with the policy carried its level into action: a critic that expected much
+  kept the agent complacent, whether the level came from rosy feeling or a plain reward shift
+  (`learning.md`, D8; the felt objective is not needed). Kept outside the network, the level
+  stopped mattering: where affect lives in an architecture decides whether it leaks. An
+  architectural example, not evidence about people.
+- **LessWrong anchors.** Soares, "Detach the grim-o-meter" (2015): keep resolve, stop
+  calibrating demeanor to global badness, with no schedule; "Simply locate yourself" (2015);
+  Mayer (2023); TurnTrout (2022); Sabien (2023). The constraint is Ruby's: coping must not
+  corrupt the beliefs action uses.
+- **Objections.** "This is not looking": not looking forgoes the action's value, and a
+  feasible delegated arrangement can preserve it, though leakage and incentives can force
+  trade-offs. "Can a mind do this?": open; delegation is the existence proof.
+- **Figure.** Information flowing to a doer and a feeler, with the leaks through actions,
+  results and inaction drawn.
+- Companion: decision D7; `learning.md`, D8.
+
+### 7. Your past self is a predictor (~1,400)
+
+- **Question.** You looked forward all week to Friday's dinner. On Friday you are tired. Does
+  the week of anticipation count for anything now?
+- **Example.** The dinner; the bottle saved for a special occasion that never comes.
+- **Newcomb inside a life** *synthesis*; nearest prior art Bernheim & Thomadsen 2005 and
+  Geanakoplos 1996 (Newcomb as a psychological game). A choice is Newcomb-like when an
+  already-felt payoff, anticipation, depended on an accurate prediction of it. The past self
+  is a natural predictor, not automatically a good one.
+- **One dial, `J`** *synthesis*: how much of the already-felt past a decision rule counts as
+  depending on the present choice.
+  - `J = 0` is fixed-past choice; full dependence is advance commitment, the planner.
+  - FDT reaches the planner only if past forecasts were accurate evaluations of the decision
+    function on the realized input (the transparent-Newcomb condition); EDT need not.
+  - `J` is one channel, not a classification of decision theories.
+  - Optional aside: in a learner, `J` is a stop-gradient on the self's forecast of its own
+    policy. In the tested no-news scheduling cases, detached it learns the fixed-past date,
+    passed through the commitment date, and a partial weight the dates between; news adds
+    equilibrium and optimization complications. *known in kind* (Oesterheld, Treutlein,
+    Cooper & Hudson 2023; Treutlein 2023 on LessWrong).
+- **The savoring trap** *imported* (Kőszegi 2010, crediting Loewenstein 1987 and Caplin &
+  Leahy 2001); exact stopping conditions *not found*.
+  - Selves who share the life-sum objective, each holding the past fixed, push a pleasure
+    toward the unremembered end and hurry pains: each counts the anticipation it can still
+    gain, not what earlier selves already felt. The bottle.
+  - Opposite in sign to present bias's preproperation (O'Donoghue & Rabin 1999). An
+    effortless pleasure under sophistication tells them apart (*speculation*; Shu & Gneezy's
+    procrastinated pleasures have rival explanations).
+- **Plans become reference points** *imported* (Kőszegi & Rabin 2009: the preferred
+  credible plan, Def. 1, and the plan as its own commitment device, Prop. 5), adapted to
+  recursive news. Deviating from what past selves predicted is felt as news; under loss
+  aversion the losses within that revision can make plans sticky, so expectations can do a
+  commitment device's work. Weak news keeps the trap. The model check's percentages wait on
+  an archived script.
+- **Reliability is worth its anticipation** *synthesis*; anticipation scaled by one's own
+  forecast of follow-through is *not found*.
+  - A self known to bail whenever the moment dips anticipates every plan's reward at a
+    discount (exactly for a fixed reward component; anticipated costs and news move too), so
+    follow-through that looks like sunk cost can pay at the policy level: Parfit's hitchhiker
+    inside one life.
+  - Past anticipation alone is not a reason to follow through, and the echo channel `J` does
+    not by itself favour reliability in the cost-then-reward example.
+  - Felt news can make selves flaky against their own interest (worked example).
+  - Nearest: Bénabou & Tirole's personal rules (2004), whose payoff is instrumental.
+- **LessWrong anchors.** Newcomb and FDT (Yudkowsky & Soares 2017); successive selves as a
+  prisoner's dilemma (picoeconomics: Crowley 2009, Alexander 2009; Wei Dai on Zvi's "How I
+  lost 100 pounds using TDT"); Parfit's hitchhiker.
+- **Objection.** "This is commitment devices": yes, for a causal agent with a device. FDT's
+  claimed edge is reaching the planner without one, if past forecasts track the policy.
+- **Figure.** One pleasure scheduled two ways, the commitment date against the fixed-past
+  selves' date, with the lost memory shaded; optional inset, the learner's dial
+  (`experiments/learned_expectations/scheduling_dial.png`).
+- Companion: decision D1–D3, D6.
+
+### 8. Copies (~500; cuttable to a follow-up)
+
+- **Question.** You are about to be copied. How much should you look forward?
+- **Anticipation, as a forecast of one continuing path, is measure-weighted** *synthesis*,
+  assumed rather than derived. It takes the conserved-measure horn of the Anthropic Trilemma
+  (Yudkowsky 2009); Greaves's caring measure (2004, second-hand) is the precedent.
+- Copy-counted anticipation would let a branching future outweigh a single past without
+  bound.
+- Aggregation is a second axiom. Aggregated by measure as well, splitting into identical
+  continuations is welfare-invisible and adds up to normality (Everett branches); branches
+  with different outcomes are resolved like any uncertainty, news costs included; real copies (uploads, LLM
+  instances) are extra welfare subjects, a population-ethics question the kernel does not
+  settle.
+- Identity is not needed: kernel weight links moments. Parfit's connectedness is the direct
+  kernel and continuity, graded, the resolvent: an analogy (Parfit second-hand, via Bartels &
+  Rips 2010).
+- A context window as a life with hard ends, instances as the branching tree: *speculation*,
+  the follow-up's teaser.
+- **Figure.** A branching tree with measure on its branches.
+- Companion: `selves.md`.
+
+### 9. What the data say (~800)
+
+- **Question.** Do echoes show up in measured happiness, and does the data pick the
+  recursive model?
+- **Momentary happiness**: the Great Brain Experiment (47,067 people) and Forbes & Bennett's
+  two experiments. Rutledge et al.'s (2014) model *imported*; the analysis is new.
+  - Echoes of task outcomes are front-loaded with a slow tail, closer to a power law than to
+    the standard single exponential, in all three datasets, on held-out people.
+  - About 80% of a sustained outcome stream's fitted response comes from earlier trials (the
+    fitted kernel's echo share, 0.78–0.82). It is a statement about task outcomes over a
+    play, not about happiness at large, and under the power law it grows with the window.
+  - The recursive model fits but is not singled out: direct memory fits identically (P2),
+    and a transient plus a mood, or pooling people with different kernels, also front-load.
+  - Chosen risk lowers happiness. In 50/50 gambles an apparent loss-averse news asymmetry is
+    the same regressor as a felt cost of the chosen gamble's spread; where probabilities vary,
+    a lottery-risk regressor absorbs or reduces it.
+  - Across plays, carryover is consistent with a slowly decaying positive afterglow: about
+    45% of a play's luck after minutes and 23% after 22 minutes, with intervals that include
+    zero from hours on; replay timing is the player's choice. No negative adaptation lobe was
+    detected at these scales, and the pulse design constrains slow adaptation only weakly.
+- **Calibration anchors** (`calibration.md`): felt loss aversion 1–2, news strength 0.1–0.3,
+  thought running forward about three times as often as back, dread outweighing savoring, a
+  small felt echo of the weekend.
+- **Figure.** Lag-response curves (single geometric, jump, power law) against the free
+  kernel, with held-out error.
+- Companion: `experiments/happiness/README.md`; `calibration.md`.
+
+### 10. What survives (~600)
+
+- **Question.** What is left if you reject the strongest assumptions?
+- **Claims against what they need.**
+  - Counting felt echoes as welfare: only that experience counts.
+  - Life weights and the boundary result: linear, additive, stationary echo.
+  - Prices on information: nonlinearity, from loss-averse news, dread or rumination, with
+    actions and the lifespan held fixed (mortality information is priced regardless).
+  - The past self as predictor: forecasts that track the policy.
+- **Limits.** Real kernels are sign-asymmetric and nonlinear; power-law forgetting threatens
+  `M < 1` and `M₁`; the evidence for a past–future asymmetry is thin; identification (P10);
+  whether echo adds to the present or displaces it (parked); hedonic adaptation, ruled out
+  only at fast scales (parked); whether affect can separate from belief in one mind.
+- **Example.** Someone knowingly chooses a less pleasant, more meaningful life: the model
+  accounts for its hedonic part and does not settle the choice.
+- **Figure.** The claim–assumption matrix.
+
+## Technical companion
+
+The `formalism/` docs, polished: `core.md` (the model, echoes P1–P10, news N1–N4),
+`decision.md` (D1–D7), `selves.md` (A1–A2, horizons, identity), `calibration.md`, and the
+checks and playground. `formalism/INDEX.md` is its table of contents and claim map.
+
+## Follow-ups
+
+- **Decision theory by learning.** Twins and altruists look alike in symmetric self-play; a
+  copy signal or inferred dependence separates them; iterated games and unknown adversaries
+  (`experiments/learned_expectations/`, `notes/empathy.md`).
+- **Shared-state critics** (`learning.md`, D8). A critic's level reaches the policy through
+  their shared state: machine learning, its own short piece.
+- **LLMs.** The peak-end study (positional weights of an end-of-episode rating identify the
+  effective memory kernel); context windows and sessions as lives; instances as A1's tree.
+- **The Bates world** (`notes/bates.md`): its own project.

@@ -1,6 +1,6 @@
 # Extensions menu
 
-**Status: open for discussion.** A menu from the 2026-10-15 review, not a plan. Sources: Claude, and Codex
+**Status: open for discussion.** A menu from the 2026-10-15 review, not a plan, and not a prerequisite for the post. Sources: Claude, and Codex
 (thread `cu-round2-ext`). Tags: *standard* · *synthesis* · *speculation*. ★ marks Claude's
 top picks for interest × tractability.
 

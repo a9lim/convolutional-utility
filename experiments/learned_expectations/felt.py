@@ -18,7 +18,7 @@ import torch
 
 torch.set_default_dtype(torch.float64)
 
-LIFE = dict(a=0.0643, al=0.7, m=0.3967, mu=0.3, n=0.2, nu=0.7, lam=1.5)              # core.md calibration, weekly
+LIFE = dict(a=0.0643, al=0.7, m=0.3967, mu=0.3, n=0.2, nu=0.7, lam=1.5)              # formalism/calibration.md, weekly
 EVENT = dict(T=16, s=8, a=0.15, al=0.8, m=0.1, mu=0.6, n=0.3, nu=0.7, lam=2.0)       # one game as an event
 ROUNDS = dict(a=0.3, m=0.2, mu=0.6, n=0.3, nu=0.8, lam=2.0)                          # per round; nu is the critic's discount
 

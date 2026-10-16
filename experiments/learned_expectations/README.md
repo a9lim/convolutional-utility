@@ -9,7 +9,28 @@ iterated agent learns on payoffs alone, with no felt utility. Even the canonical
 aggregate TD error rather than each horizon's revision, which agree only at `λ = 1` or when the
 revisions share a sign. Expected return under the true environment is then the objective
 expectation of the felt life-sum: Brunnermeier & Parker's well-being, learned. Open items:
-`next-steps.md`, item 1.
+`next-steps.md`, the follow-up lines.
+
+## Role in the project
+
+Most of this directory is a follow-up line, not evidence for the post (`outline.md`). The
+post uses three things, each as an illustration of a stated incentive, not as evidence about
+people:
+- the scheduling agent's gradient dial between the fixed-past and commitment dates (§7, an
+  optional aside: `J` as a stop-gradient);
+- the motivated critic's consolation after bad news at `λ = 2` and not at `λ = 1` (§4, one
+  line at most);
+- a critic's level reaching the policy through a shared state (§6, an optional aside;
+  `formalism/learning.md`, D8; the felt objective is not needed for it).
+
+The observer is illustrative only: it chooses subjective probabilities under a KL tether and
+is naive about its own later revisions, which is Brunnermeier–Parker-style belief choice, not
+the affect policies of D7. It and the scheduling agent's other results (which credible plan
+learning selects, anticipated news) support the companion's D3 and N3. Everything else
+belongs to two follow-up lines (`next-steps.md`):
+decision theory by learning (games, partners, twins and altruists, iterated play, unknown
+adversaries) and shared-state critics (the hidden-game agent, its critic controls, evolving
+felt parameters).
 
 ## Design and prior art
 
@@ -25,8 +46,8 @@ expectation of the felt life-sum: Brunnermeier & Parker's well-being, learned. O
   actual `J`. Graded `J` needs another knob: a partial gradient weight (used here), an outer
   loop's horizon (Krueger, Maharaj & Leike 2020), or forecast accuracy.
 - New relative to that literature: a temporal stream of felt anticipation, memory and news;
-  `J` graded inside a life-sum; belief and affect heads (D7's two filtrations); the
-  LLM-welfare angle.
+  `J` graded inside a life-sum; belief heads that choose beliefs under a tether (not D7's
+  affect filtrations, which keep beliefs accurate); the LLM-welfare angle.
 
 ## Code
 
@@ -54,7 +75,9 @@ trainer on top of them, with a runner per experiment.
 
 Run from the repo root, e.g. `python experiments/learned_expectations/run_observer.py`.
 
-## The observer
+## Single-self agents
+
+### The observer
 
 An event is announced at 0 and resolves at `s`. At each `t < s` the self holds a subjective
 probability `q_t` of the high outcome and forecasts its felt life rationally given `q_t`.
@@ -80,7 +103,7 @@ The objective has a kink wherever two consecutive beliefs agree (a zero revision
 reference optimizer uses Adam with a decaying rate from several starts, including the best
 step-shaped path.
 
-## The scheduling agent (decision.md D3)
+### The scheduling agent (`decision.md`, D3)
 
 One pleasure, announced at 0, to be taken in `[0, T)`. A tabular stopping policy; felt
 utility is the canonical model, its forecasts Bayesian under a self-model of the same policy,
@@ -100,7 +123,38 @@ differences (1e-9) and the reduced form on deterministic plans (7e-12).
   exact fixed-past and commitment dates, and the dial; writes `scheduling_dial.png`);
   `run_selection.py` (which credible plan learning selects under loss-averse news).
 
-## The game agent
+## Single-self results
+
+- **Observer** (chosen beliefs under a tether, not D7's affect filtration). Optimal beliefs
+  at the life calibration stay calibrated far from the event, brace as it nears, and freeze
+  over the last few periods; optimism never pays there. A
+  network trained on felt welfare captures a median 71% of the reference optimizer's gain on
+  ten held-out events (one training run; the reference has no optimality certificate).
+- **Scheduling: a gradient dial reproduces the fixed-past and commitment benchmarks.** Over
+  30 draws, `w = 0` learns the subgame-perfect fixed-past date in every draw without news and 90% with linear news
+  (the misses sit right after the announcement: two unconverged, one a second equilibrium);
+  `w = 1` learns the commitment date in every draw. Intermediate `w` gives a staircase from
+  the trap to commitment (`scheduling_dial.png`, `scheduling_report.txt`).
+- **Which credible plan does learning select?** With loss-averse news (`n = 0.3, λ = 2`),
+  16 draws, all with several credible plans: fixed-past learning always lands on a credible
+  plan, the earliest one in 96%, and the preferred one only when that is the earliest (75%).
+  Only 4 draws separate the two: the earliest wins in 3, every seed, and seeds vary in 1.
+  A likely mechanism, untested: uncertainty about one's own timing is felt as loss-averse news, so
+  resolving it early pays. The planner (`w = 1`) reaches commitment 73% (median shortfall
+  0%): a stochastic policy's own randomness is felt as news, so deterministic plans are local
+  optima even for the planner (`selection_report.txt`).
+- **Anticipated news.** Deterministic plans carry none, so it moves no credible plan and not
+  the commitment optimum; it acts on the learning path. Against forecasts that leave it out
+  (certainty-equivalent), fixed-past learning picks the same date in every draw and seed.
+  Those forecasts are rosier than rational ones, and in these draws loss-averse news
+  outweighs anticipation, so rational bracing makes one's own randomness cheaper: the
+  first-order cost of randomizing away from a plan is lower in 84% of directions (median 1.6
+  against 2.5; no archived script), and the planner reaches commitment more often (73%
+  against 60%, the earlier code's `selection_report.txt` at git `fd60c6c`; 16 draws, not
+  significant).
+## Follow-up agents
+
+### The game agent
 
 Random 2×2 games, one network for both roles, simultaneous gradient self-play. Each game is
 the observer's event: moves at the announcement, revealed at `s`, my payoff set by the
@@ -109,7 +163,7 @@ batched (`felt.Event`, checked against `felt.BeliefPath` to 1e-15).
 
 - Variants (`oneshot.py`; the belief head reads the action's trunk, or its own with
   `separate_belief`): expected payoffs (the Nash baseline); felt with calibrated beliefs;
-  felt with free beliefs (D7's decoupled affect); felt with action coupled to belief (a soft
+  felt with free beliefs (tethered belief choice); felt with action coupled to belief (a soft
   best response to one's own belief).
 - `run_games.py`: equilibrium play by game class, equilibrium selection, motivated beliefs, and
   linear probes for game class on the hidden layer; writes `games_report.txt` and `games.png`.
@@ -117,7 +171,7 @@ batched (`felt.Event`, checked against `felt.BeliefPath` to 1e-15).
   policy. `w = 0` (the other's policy held fixed) against `w = 1` (gradient through the twin),
   and the graded dial on prisoner's dilemmas against its analytic thresholds.
 
-## The hidden-game agent
+### The hidden-game agent
 
 Repeated rounds (10) of an unknown random 2×2 game against a self-play partner. A GRU sees
 only past moves and its own realized payoffs; an action head and a critic, the forecast of
@@ -139,7 +193,7 @@ they share.
   `channels_report.txt`); `run_evolve.py` (heritable felt parameters under selection on
   lifetime payoff; `evolve_report.txt`, `evolve.png`).
 
-## The iterated-games agent
+### The iterated-games agent
 
 A different known game every round with the same partner: each round draws a prisoner's
 dilemma, chicken, stag hunt or harmony game with fresh payoffs, shown to both players in
@@ -155,7 +209,7 @@ players'). With mixed partners, half of each batch is played against scripted pa
 policy gradient's noise by baseline, batch mean against groups of episodes sharing their context;
 `baselines_report.txt`).
 
-## The unknown-adversary agent
+### The unknown-adversary agent
 
 The iterated agent against a partner drawn per episode and never revealed: a copy (the same network,
 both seats learning), a past self (a frozen snapshot from earlier in training, a league), or one of
@@ -171,7 +225,7 @@ braced, on the shared state. `adversary.py`; `run_adversary.py` (`adversary_repo
 `adversary.png`; per partner, a probe for its identity on the state, and cross-play among the final
 agents).
 
-## The partners agent
+### The partners agent
 
 Caring about a partner, and twins against altruists (`notes/empathy.md`). A population of independently
 initialized networks plays random symmetric 2×2 games, each the game agent's event; each network's
@@ -195,34 +249,10 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   `dependence.py` (`python dependence.py` checks that the calibrated twin's expected gradient is the
   oracle's, payoff and felt); `run_dependence.py` (`dependence_report.txt`, `dependence.png`).
 
-## Results so far
+## Follow-up results
 
-- **Observer.** Optimal beliefs at the life calibration stay calibrated far from the event,
-  brace as it nears, and freeze over the last few periods; optimism never pays there. A
-  network trained on felt welfare captures a median 71% of the reference optimizer's gain on
-  ten held-out events (one training run; the reference has no optimality certificate).
-- **Scheduling: the `J` dial reproduces the decision theories.** Over 30 draws, `w = 0` learns
-  the subgame-perfect fixed-past date in every draw without news and 90% with linear news
-  (the misses sit right after the announcement: two unconverged, one a second equilibrium);
-  `w = 1` learns the commitment date in every draw. Intermediate `w` gives a staircase from
-  the trap to commitment (`scheduling_dial.png`, `scheduling_report.txt`).
-- **Which credible plan does learning select?** With loss-averse news (`n = 0.3, λ = 2`),
-  16 draws, all with several credible plans: fixed-past learning always lands on a credible
-  plan, the earliest one in 96%, and the preferred one only when that is the earliest (75%).
-  Only 4 draws separate the two: the earliest wins in 3, every seed, and seeds vary in 1.
-  A likely mechanism, untested: uncertainty about one's own timing is felt as loss-averse news, so
-  resolving it early pays. The planner (`w = 1`) reaches commitment 73% (median shortfall
-  0%): a stochastic policy's own randomness is felt as news, so deterministic plans are local
-  optima even for the planner (`selection_report.txt`).
-- **Anticipated news.** Deterministic plans carry none, so it moves no credible plan and not
-  the commitment optimum; it acts on the learning path. Against forecasts that leave it out
-  (certainty-equivalent), fixed-past learning picks the same date in every draw and seed.
-  Those forecasts are rosier than rational ones, and in these draws loss-averse news
-  outweighs anticipation, so rational bracing makes one's own randomness cheaper: the
-  first-order cost of randomizing away from a plan is lower in 84% of directions (median 1.6
-  against 2.5; no archived script), and the planner reaches commitment more often (73%
-  against 60%, the earlier code's `selection_report.txt` at git `fd60c6c`; 16 draws, not
-  significant).
+### Decision theory by learning
+
 - **Games.** One network plays random 2×2 games at 87–96% equilibrium play (prisoner's-dilemma-like
   games lowest), and a linear probe recovers game class from its hidden layer at 81–89% against
   71% from raw payoffs (highest with free beliefs): it tells games apart, felt or not (the
@@ -262,64 +292,6 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   0.303), and over-attributing twins are exploited by forgers (0.225–0.234 against them, the oracle 0.258).
   An identity label is a convention about dependence, and it loses where it disagrees with the dependence
   that is there.
-- **Hidden games: two policies.** Training first reaches a complacent policy: after a loss in
-  round 1 it switches only about 45% of the time, never after a gain (about 0.21 per round
-  late). It then usually escapes to win-stay, lose-shift at zero (switch after 99% of losses,
-  about 10% of gains), which explores and learns the game (about 0.30). One honest seed stays
-  complacent for 9000 steps.
-- **A high critic keeps the agent complacent.** The policy never reads the critic, yet the
-  critic's level decides the escape, through the state they share. A free critic is rosy when
-  anticipation outweighs chronic disappointment (`aν > nλ(1−ν)`) and braced otherwise: honest
-  critics escape in 7/8 seeds (steps 250–1250), braced ones in 8/8 (by step 750), rosy ones in
-  0/8 (`braced_report.txt`, `braced.png`).
-  - It is the level, not the bias. An honest critic of rewards shifted by +0.5 (a shift the
-    state does not see and the policy's baseline removes, so only the critic's numbers move)
-    stays complacent in 6/6 seeds, like a rosy one; shifted by −0.5 it escapes in 6/6 at step
-    500, like a braced one. Fixed offsets and expectile critics agree: below realized payoffs
-    16/16 escape by step 750, however deep; well above, 0/8; mildly above, slowly. Neither loss
-    aversion nor the felt objective is needed (at `λ = 1` the motivated critic's gradients
-    equal a fixed offset's exactly; Codex). Detached from the state, a rosy critic escapes 2/4.
-  - Kept outside the network (a running mean of the targets, as PopArt-style normalization
-    does), the level stops mattering: the +0.5 critic escapes in 6/6, as D8 predicts.
-  - Mechanism (decision.md D8): once learning starts, the critic's value and the policy's
-    stay logit share a direction in the state (gradient cosine 0.34–0.58 at step 150, about
-    0 at initialization, drifting back toward 0 or below by step 500 in three of four seeds),
-    and a step that raises value raises staying after losses and gains alike in every seed at
-    every trained checkpoint (`alignment_report.txt`). A critic that must output
-    high numbers keeps telling the policy things are fine. Open: removing the per-round mean of
-    the critic's push on the state also stops the honest critic from escaping (0/4), though
-    its mean residual is small and fluctuates in sign.
-  - The canonical critic, honest about felt utility, sits above payoffs at `λ = 1` (its target
-    includes echoes) and escapes in 1/4; at `λ = 2` in 1/8, late.
-- **Through the decision rule instead.** With the critic as the policy's baseline and kept off
-  the state, its level makes no detectable difference (honest 3/6, rosy 1/6, braced 2/6;
-  `channels_report.txt`): a baseline's level leaves the expected gradient unchanged and acts
-  only through sampling noise (Chung et al. 2021), which batches of 2048 games average away.
-  With an undiscounted critic, whose honest values are higher, the shared-state channel keeps
-  its order at lower rates (braced 3/6, honest 1/6, rosy 0/6).
-- **Felt utility as the policy's reward** leaves the escape rate unchanged at `a = 0.3` (3/4
-  seeds, as for payoffs); at weak anticipation it escapes 1/4, and a motivated, braced critic
-  restores 4/4 (`repeated_report.txt`, 4 seeds each). Escaped agents' states tell game classes
-  apart better (linear probe 41–45% balanced accuracy by round 10, chance 25%; complacent 34%).
-- **Which ways of feeling survive?** Populations of learners born untrained, with heritable
-  `(a, n, λ)`, selected on lifetime payoff over ten generations (weights not inherited; 3 runs
-  per variant, 240 learners each). Whether affect shapes only the critic or also the policy's
-  reward, selection runs against anticipation and for felt news, with no detectable selection
-  on loss aversion: lifetime payoff (×1000) per s.d. of log `a` −4.4 and −5.4, of log `n` +4.0
-  and +3.4, of log `(λ − 1)` +0.1 and −0.2 (pooled s.e. 0.8 each, which treat learners as
-  independent despite shared games and ancestry; run-level uncertainty is larger, with 3 runs
-  per variant); a neutral control shows none (all within one s.e.). Only anticipation moves
-  the population: final `a` 0.025 and 0.038 against the neutral control's 0.134. Final `n`
-  (0.10, 0.17) sits near the founders' median 0.1, inside the neutral control's drift (IQR
-  0.017–0.25), so selection for news shows within generations, not above drift. Populations
-  recover the 10% of lifetime payoff their founders' affect cost. Critics trained at the
-  final medians sit slightly below payoffs (−0.03 to −0.13; a 3-seed, 1000-step check in the
-  2026-10-15 review) against +0.79 at the founders' median: selection removes the rosy push
-  and leaves critics roughly honest, which escape complacency as braced ones do (7/8 against
-  8/8, D8). Loss aversion adds bracing before outcomes and consolation after them, which
-  may be why it is not selected. Fitness is payoff over a short lifetime, mostly escape
-  speed, and the report ran with 1200 steps, 10 generations and 3 runs, not the script's
-  defaults (`evolve_report.txt`).
 - **Iterated randomized games: strategy needs someone to strategize against.** Selfish
   learners trained only against themselves play each game as if it were one-shot: defect in
   the prisoner's dilemma (99%), cooperate in harmony, and in stag hunts coordinate on one
@@ -380,7 +352,68 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   1.5–2.3× against the per-round batch mean once learning starts. Larger groups lose it to fewer distinct
   contexts (64: 2–3× noisier than the batch mean), and GRPO's std normalization is 6–7× noisier. What
   remains is within-context: one move's credit against nine rounds of sampled play.
+
+### Shared-state critics and felt learners
+
+- **Hidden games: two policies.** Training first reaches a complacent policy: after a loss in
+  round 1 it switches only about 45% of the time, never after a gain (about 0.21 per round
+  late). It then usually escapes to win-stay, lose-shift at zero (switch after 99% of losses,
+  about 10% of gains), which explores and learns the game (about 0.30). One honest seed stays
+  complacent for 9000 steps.
+- **A high critic keeps the agent complacent.** The policy never reads the critic, yet the
+  critic's level decides the escape, through the state they share. A free critic is rosy when
+  anticipation outweighs chronic disappointment (`aν > nλ(1−ν)`) and braced otherwise: honest
+  critics escape in 7/8 seeds (steps 250–1250), braced ones in 8/8 (by step 750), rosy ones in
+  0/8 (`braced_report.txt`, `braced.png`).
+  - It is the level, not the bias. An honest critic of rewards shifted by +0.5 (a shift the
+    state does not see and the policy's baseline removes, so only the critic's numbers move)
+    stays complacent in 6/6 seeds, like a rosy one; shifted by −0.5 it escapes in 6/6 at step
+    500, like a braced one. Fixed offsets and expectile critics agree: below realized payoffs
+    16/16 escape by step 750, however deep; well above, 0/8; mildly above, slowly. Neither loss
+    aversion nor the felt objective is needed (at `λ = 1` the motivated critic's gradients
+    equal a fixed offset's exactly; Codex). Detached from the state, a rosy critic escapes 2/4.
+  - Kept outside the network (a running mean of the targets, as PopArt-style normalization
+    does), the level stops mattering: the +0.5 critic escapes in 6/6, as D8 predicts.
+  - Mechanism (`formalism/learning.md`, D8): once learning starts, the critic's value and
+    the policy's stay logit share a direction in the state (gradient cosine 0.34–0.58 at step 150, about
+    0 at initialization, drifting back toward 0 or below by step 500 in three of four seeds),
+    and a step that raises value raises staying after losses and gains alike in every seed at
+    every trained checkpoint (`alignment_report.txt`). A critic that must output
+    high numbers keeps telling the policy things are fine. Open: removing the per-round mean of
+    the critic's push on the state also stops the honest critic from escaping (0/4), though
+    its mean residual is small and fluctuates in sign.
+  - The canonical critic, honest about felt utility, sits above payoffs at `λ = 1` (its target
+    includes echoes) and escapes in 1/4; at `λ = 2` in 1/8, late.
+- **Through the decision rule instead.** With the critic as the policy's baseline and kept off
+  the state, its level makes no detectable difference (honest 3/6, rosy 1/6, braced 2/6;
+  `channels_report.txt`): a baseline's level leaves the expected gradient unchanged and acts
+  only through sampling noise (Chung et al. 2021), which batches of 2048 games average away.
+  With an undiscounted critic, whose honest values are higher, the shared-state channel keeps
+  its order at lower rates (braced 3/6, honest 1/6, rosy 0/6).
+- **Felt utility as the policy's reward** leaves the escape rate unchanged at `a = 0.3` (3/4
+  seeds, as for payoffs); at weak anticipation it escapes 1/4, and a motivated, braced critic
+  restores 4/4 (`repeated_report.txt`, 4 seeds each). Escaped agents' states tell game classes
+  apart better (linear probe 41–45% balanced accuracy by round 10, chance 25%; complacent 34%).
+- **Which ways of feeling survive?** Populations of learners born untrained, with heritable
+  `(a, n, λ)`, selected on lifetime payoff over ten generations (weights not inherited; 3 runs
+  per variant, 240 learners each). Whether affect shapes only the critic or also the policy's
+  reward, selection runs against anticipation and for felt news, with no detectable selection
+  on loss aversion: lifetime payoff (×1000) per s.d. of log `a` −4.4 and −5.4, of log `n` +4.0
+  and +3.4, of log `(λ − 1)` +0.1 and −0.2 (pooled s.e. 0.8 each, which treat learners as
+  independent despite shared games and ancestry; run-level uncertainty is larger, with 3 runs
+  per variant); a neutral control shows none (all within one s.e.). Only anticipation moves
+  the population: final `a` 0.025 and 0.038 against the neutral control's 0.134. Final `n`
+  (0.10, 0.17) sits near the founders' median 0.1, inside the neutral control's drift (IQR
+  0.017–0.25), so selection for news shows within generations, not above drift. Populations
+  recover the 10% of lifetime payoff their founders' affect cost. Critics trained at the
+  final medians sit slightly below payoffs (−0.03 to −0.13; a 3-seed, 1000-step check in the
+  2026-10-15 review) against +0.79 at the founders' median: selection removes the rosy push
+  and leaves critics roughly honest, which escape complacency as braced ones do (7/8 against
+  8/8, D8). Loss aversion adds bracing before outcomes and consolation after them, which
+  may be why it is not selected. Fitness is payoff over a short lifetime, mostly escape
+  speed, and the report ran with 1200 steps, 10 generations and 3 runs, not the script's
+  defaults (`evolve_report.txt`).
 - **Consolation.** At `λ = 2` the motivated critic braces before outcomes and consoles itself
   after bad ones: just after a negative TD error it sits 0.18 below realized payoffs, after a
   positive one 0.51 below. At `λ = 1` the gap vanishes (0.33 against 0.29), as the critic's
-  first-order condition predicts (decision.md D5, rationalization).
+  first-order condition predicts (`decision.md`, D5, rationalization).

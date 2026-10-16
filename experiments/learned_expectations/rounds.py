@@ -13,7 +13,7 @@ payoff, the round), read by heads for the move and a critic C_k, the forecast of
 k on. Every GRU trunk reads the same record. Layouts: `hidden_layout`, linear move and critic heads;
 `iterated_layout`, a tanh head reading the state, the current game and the round. In both the critic shares the
 policy's state by default; `detach` lets it read that state without training it, and `separate_critic` gives
-it a GRU of its own (decision.md D8). The hidden-game agent steps its states once on an empty record before
+it a GRU of its own (formalism/learning.md D8). The hidden-game agent steps its states once on an empty record before
 round 1 (`Hidden.prime`); the iterated agent reads zero states.
 
 Felt utility per round is the reinforcement-learning reading of core.md (felt.rounds_direct, a first pass:
@@ -28,7 +28,7 @@ utility, or both players' payoffs ("team", the twin's objective in self-play); t
 - "canonical": TD toward felt utility itself, so its honest forecast includes anticipated news.
 `center` keeps the critic's per-round level outside the network, at the running mean of the TD targets over all
 learners' episodes (each learner's batch counts once, as in the TD loss), so the network learns only deviations
-and the shared state never carries the level (decision.md D8).
+and the shared state never carries the level (formalism/learning.md D8).
 """
 import torch
 

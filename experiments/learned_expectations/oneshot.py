@@ -7,7 +7,7 @@ either role; an action head and a belief head read one trunk, or the belief head
 Variants:
 - "payoff":     expected payoffs only (the Nash baseline; beliefs irrelevant).
 - "calibrated": felt welfare, beliefs forced to the truth (what felt utility alone does to play).
-- "free":       felt welfare, action and belief chosen separately (decision.md D7's decoupled affect).
+- "free":       felt welfare, action and belief chosen separately (tethered belief choice, not D7's affect filtration).
 - "coupled":    felt welfare, the action must softly best-respond to the agent's own belief, so motivated
                 beliefs move play (Brunnermeier & Parker's trade-off).
 Training is simultaneous gradient play: each player's objective takes the other's policy as given, or, with the

@@ -3,6 +3,14 @@
 The recursive echo model against trial-level ratings of "How happy are you right now?" in a
 risky-choice task (Rutledge, Skandali, Dayan & Dolan 2014).
 
+**In the post** (`outline.md`, §9). The data constrain the kernel's shape and show what the
+model cannot identify; they do not validate recursion. Echoes of task outcomes are
+front-loaded with a slow tail, closer to a power law than to a single exponential, in all three
+datasets; about 80% of a sustained outcome stream's fitted response comes from earlier trials;
+direct and recursive memory fit identically; an apparent loss-averse news asymmetry is
+confounded with chosen risk, and a lottery-risk regressor absorbs or reduces it where
+probabilities vary. The felt-clock, carryover, adaptation and range analyses stay here.
+
 ## Data
 
 - **Great Brain Experiment** smartphone task (Rutledge et al. 2014's replication sample;
@@ -96,7 +104,7 @@ Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
   returns 0.26 from a true 0.5, so it is not a clock estimate. Bands are cross-sectional, so
   age carries cohort and selection into a smartphone game; intervals for the within-play
   sensitivity rest on 16 draws (`audit/felt_clock.py`).
-- **No fast adaptation; luck's afterglow lasts days.** A biphasic kernel, afterglow minus a
+- **No adaptation lobe detected; carryover is consistent with a slow positive afterglow.** A biphasic kernel, afterglow minus a
   slow negative tail `c γ^lag`, collapses to the jump kernel within a play (the fitted reach
   of the negative part goes to 0); a hyperbola minus an exponential gains 0.026% [0.014,
   0.037] by flattening the positive tail, never crossing zero. Between plays, a play's luck
@@ -144,8 +152,9 @@ Forbes & Bennett 2024 (`forbes_report.txt`, `audit/`):
   `γ = 0.883, k₁ = 0.457` (experiment 2), against single geometrics of 0.80 and 0.76;
   cross-validated error over people 1.0% and 1.6% lower. A power law (`ρ` 0.69, 0.76) does
   better, 2.5% and 2.8%. Fitted person by person (56 ratings each), `k₁` is below `γ` for 57%
-  and 62% of people (31% and 39% in the pooling null) and above for 18% and 17%; `k₁ > γ` is
-  inconsistent with recursion at any noise level.
+  and 62% of people (31% and 39% in the pooling null) and above for 18% and 17%. A true
+  kernel with `k₁ > γ` lies outside the nonnegative geometric recursive family; estimates from
+  56 ratings are noisy, so some fits land there by chance.
 - **Bad surprises register more, and only on one's own choices.** Every payoff is a lottery's,
   so RPE weights are news net of anticipation. Positive RPE adds nothing beyond the outcome
   (−0.002), negative RPE lowers affect (0.05 and 0.09 per 100 points), as Forbes & Bennett

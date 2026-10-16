@@ -1,4 +1,5 @@
-"""Numerical checks for formalism/core.md. Run: python formalism/checks.py
+"""Numerical checks for the formalism: core, decision, calibration, selves and learning.
+Run: python formalism/checks.py
 
 Conventions: K[t, s] is the weight of e(s) (recursive model R) or u(s) (direct model D)
 in e(t). Geometric family: forward a*al**(s-t) for s > t, backward m*mu**(t-s) for s < t
@@ -722,7 +723,7 @@ print("P1d rho(K_T) = " + ", ".join(f"{v:.3f} at T = {T}" for T, v in rho.items(
 report("P1d hyperbolic tails cross rho(K_T) = 1 between T = 41 and 42", float(not (rho[41] < 1 <= rho[42])))
 
 
-# Calibration: default parameter sets per horizon (core.md), derived quantities
+# Calibration: default parameter sets per horizon (calibration.md), derived quantities
 for name, (A_, al, B_, mu, n0, nu, lam) in {"waking day, hourly": (0.2, 0.8, 0.1, 0.5, 0.2, 0.8, 1.5),
                                             "life, weekly": (0.15, 0.7, 0.17, 0.3, 0.2, 0.7, 1.5)}.items():
     a, m = A_ * (1 - al) / al, B_ * (1 - mu) / mu

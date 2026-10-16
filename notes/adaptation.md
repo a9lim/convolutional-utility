@@ -139,7 +139,7 @@ core; one of those should be renamed when this reaches core.
   (backward: a contrast transient that fades). Predictable cycles: forward adaptation
   shrinks their amplitude to `1 − h_f` without transients; fast backward adaptation shows
   contrast at the transitions.
-- The week, from core's calibration (Helliwell & Wang): weekends are felt higher though
+- The week, from `calibration.md` (Helliwell & Wang): weekends are felt higher though
   perfectly predictable, Monday is no worse than midweek, Sunday shows no dip. So a level
   term exists (full forward adaptation is out), and backward adaptation is slow against a
   week (no contrast at the transitions).

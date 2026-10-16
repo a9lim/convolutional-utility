@@ -1,6 +1,6 @@
 # Caring about a partner: felt empathy, twins, similarity
 
-**Status: in progress (2026-10-16).** Menu items F6 and F9, the twin dial's caveat, and inferred
+**Status: in progress (2026-10-16); a follow-up line, decision theory by learning, not the post.** Menu items F6 and F9, the twin dial's caveat, and inferred
 dependence. Reviewed by Codex (thread `cu-empathy`); prior art read and filed (`references/INDEX.md`,
 "Games: guilt, Kantian morality, similarity"). Code in `experiments/learned_expectations/`:
 `partners.py`, `run_partners.py`, `run_trust.py`, `dependence.py`, `run_dependence.py`.

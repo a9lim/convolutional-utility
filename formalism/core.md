@@ -1,8 +1,12 @@
 # Core model
 
-Status tags: **[standard]** textbook math · **[known: …]** in the literature, cited ·
-**[not found]** not located in the lit pass (see `bibliography.md`), so possibly new ·
-**[checked]** `formalism/checks.py` verifies numerically · **[proved]** proof sketch here.
+Status tags, two independent kinds. Provenance: **[standard]** textbook math · **[known: …]**
+in the literature, cited · **[known in kind: …]** a close cousin is published ·
+**[synthesis]** known pieces, new assembly · **[not found]** not located in the literature
+passes (see `bibliography.md`): a candidate contribution, not a priority claim ·
+**[speculation]**. Support: **[proved]** proof sketch here · **[checked]**
+`formalism/checks.py` verifies numerically · **[numerical]** computed, not archived as a check.
+Bracketed names (**[Codex]**) record whose argument it was.
 
 ## The canonical model
 
@@ -59,7 +63,7 @@ effective coefficients (P2, P4):
 - Example (`a = 0.09, α = 0.88, m = 0.05, μ = 0.75`, so `M = 0.81`): `r(0) = 1.032`,
   `p = 0.971`, `q = 0.798`. Anticipation's mean reach stretches from 8.3 to 35 periods, and
   memory's from 4.0 to 4.9. [checked] The stretch needs `M` near 1: at the felt
-  calibrations below (`M ≈ 0.3`) reach stretches by 21–28%.
+  calibrations (`calibration.md`, `M ≈ 0.3`) reach stretches by 21–28%.
 - **Surprises are information boundaries.** A shock unknown until it arrives cannot reach
   the earlier selves who would have anticipated it, so it acts through the remaining-life
   column, `g_0 = 1/H` now and `g_j = (q−μ) q^{j−1}/H` after, not the bilateral row: with
@@ -119,7 +123,8 @@ effective coefficients (P2, P4):
 - (c) The two criteria come apart. `ρ(K_T) ≤ min_{x>0} Σ_n k(n) xⁿ`, generally `< M`
   (non-normal Toeplitz sections); one-sided kernels have `ρ(K_T) = 0`. Example
   `a = m = 1, α = 0.6, μ = 0.05`: `M = 1.55`, `sup_T ρ(K_T) = 0.419` — positive on every
-  finite life, yet constant `u = 1` gives `e_mid ≈ 10¹⁹` at `T = 400`. [checked]
+  finite life, yet constant `u = 1` gives `e_mid ≈ 10¹⁹` at `T = 400`. [synthesis: a derived
+  distinction, the spectral facts being standard; checked]
 - Reading: `ρ(K_T) < 1` means monotone on this life; `M < 1` means bounded echo at any
   lifespan. A row sum above one does not by itself break monotonicity: one-sided and
   non-fading memory kernels are nilpotent, so every finite life is monotone, while echo can
@@ -150,10 +155,12 @@ effective coefficients (P2, P4):
   fails). [Codex]
 - An agent that cares only about its neighbours' experienced utility already acts on the
   whole life. One-step R (`k(±1)` only) gives two-sided exponential D with `β_L = 1`
-  (Bellman; Kimball 1987). One-sided: exponential D ⟺ one-step R. [checked]
+  (Bellman; Bergstrom 1999 Prop. 5; Kimball 1987, abstract only). One-sided: exponential D
+  ⟺ one-step R. [known; checked]
 - A nonnegative one-sided R primitive reaching past one step makes the first step the
   steepest: `r(2)/r(1) = k(1) + k(2)/k(1) ≥ r(1)/r(0)`. Present bias is the signature of
-  caring *directly* about more than the next moment (P3).
+  caring *directly* about more than the next moment (P3). [not found, for nonnegative
+  one-sided primitives]
 - Caveats: two-sided R has `r(0) > 1`, so its D-twin has a nonzero diagonal (normalizing
   keeps rankings, not cardinal levels); nonnegative D can map to sign-alternating R.
 - Boundaries break the equivalence: finite sections do not commute with inversion, and an
@@ -171,8 +178,9 @@ effective coefficients (P2, P4):
 2017 Cor. 3; checked]
 
 **P4. Two-sided geometric recursion: closed form and generic present bias.**
-[not found (Bergstrom 1999 has the nearest-neighbour case; Hori 1992, unread, reportedly
-gives no explicit form); proved; checked]
+[not found, provisionally: Bergstrom 1999 has the nearest-neighbour case, and Kimball 1987
+(abstract only) and Hori 1992 (unread, reportedly no explicit form) are the likeliest prior
+art; proved; checked]
 - Let `p̄ = (1+a)α`, `q̄ = (1+m)μ` (P3's one-sided rates), `C = 1 + (1+a+m)αμ`,
   `Δ = √(C² − 4p̄q̄)`, `H = (C+Δ)/2`, `p = p̄/H`, `q = q̄/H` (both in (0,1) when `M < 1`).
   Then
@@ -205,7 +213,9 @@ gives no explicit form); proved; checked]
 **P6. Ramp theorem: shape preference is set by the first moment.**
 Centered ramp `u(s) = s − (T−1)/2`; the increasing-minus-decreasing gap is `2E`.
 - D, exact: `E_T = ½ Σ_{|τ|<T} k(τ)(T − |τ|) τ ≈ (T/2) M₁`. Flat kernels recover
-  Loewenstein & Prelec's `(AU − RU)/2`. [general-kernel form not found; checked]
+  Loewenstein & Prelec's `(AU − RU)/2`, and Cosaert & Potoms (2024) state the qualitative
+  directions (anticipation favours improvement, memory decline). [general-kernel form not
+  found; checked]
 - R, exact: `E_T = ½ Σ_paths (Π_i k(τ_i)) (T − S)_+ d` (`d` net displacement, `S` range
   of the zigzag). Hence `E_T/T → M₁/(2(1−M)²)`, the resolvent's first moment over two.
   Geometric closed form `E_T = L_T J_T(p) − U_T J_T(q)`,
@@ -239,6 +249,29 @@ prefers declining profiles, the last self improving (recency), and the life-sum 
 `M₁`. Where a mid-life self falls depends on the kernel: at `a = 0.09, α = 0.88, m = 0.05,
 μ = 0.75` (R), rising minus falling is −100 for the first self, +56 mid-life and +71 for
 the last. [numerical]
+
+- **Peak-end, from the lens.** A rating given at the end of an episode is read as the last
+  self's experienced utility, or its memory part (P7); that reading is a measurement
+  assumption.
+  - D: a fading memory kernel weighs the episode by `mμ^j` at lag `j`. It gives the end
+    effect (recent moments weigh most) and duration neglect: a uniform episode of length `L`
+    has remembered weight `mμ(1−μ^L)/(1−μ)`, which saturates in `L`.
+  - R: the last self's row is a resolvent row. At a right boundary far from birth it is
+    `1/H` now and `(q−μ)q^{j−1}/H` at lag `j`, so a uniform episode contributes
+    `((q−μ)/H)(1−q^L)/(1−q)`, which saturates for `q < 1`. [Codex; checked]
+  - This duration neglect is saturation of an unnormalized sum. It predicts some duration
+    sensitivity for episodes shorter than memory's reach, `L ≲ 1/(1−q)`. The classic account
+    instead averages snapshots, which is flat in `L` (Fredrickson & Kahneman 1993).
+  - A peak effect beyond recency needs nonlinear, salience-weighted memory. [known: Lim et
+    al. 2020, where simple discounting gives recency only and preference-dependent forgetting
+    gives the peak]
+  - Where the experimenter controls the episode, as with an LLM given a sequence in context,
+    the positional weights of the final rating identify a response row: the effective memory
+    kernel, which sidesteps P10 for it. In the geometric family the past weights give `q` and
+    `(q−μ)/H`; with the diagonal `1/H` also identified, memory's primitives `m, μ` follow.
+    Anticipation's do not: `(a, α) = (0.09, 0.88)` and `(0.319, 0.5)`, with `m = 0.05,
+    μ = 0.75`, share the whole row (to 2e-5, 0.319 being rounded). For an LLM, the base-utility scale of the inputs and the
+    map from rating to experience are further assumptions. [synthesis; Codex]
 
 **P8. James Dean effect from contrast memory.** [numerical; speculation as psychology]
 - With a negative memory kernel, appending mildly positive years after a peak lowers the
@@ -274,7 +307,7 @@ the last. [numerical]
   at that row's `r(0)`. [Codex; checked]
 - Decision theory under this split: `decision.md`.
 
-**P10. Identification.** Absent restrictions on `k` or independent measurement of `u`,
+**P10. Identification.** [standard] Absent restrictions on `k` or independent measurement of `u`,
 any `e` is fit by `u = (I − K)e`. The kernel explains something only once it is pinned by
 data or by a structural family.
 
@@ -529,246 +562,3 @@ numbers are given; `formalism/playground` spans all four]
 - A soft version replaces the corners with two reflexivity dials: echoes of
   `θ e + (1−θ) f`, with `f = u + N`, and news about `θ′ e + (1−θ′) u`. [speculation;
   unbuilt]
-
-## Calibration
-
-What pins the coefficients, as far as known. Choice-revealed and felt quantities differ, and
-the hedonic reading needs the felt ones.
-- Constraints, not values: `M < 1`; `λκ < 1`.
-- **Defaults per horizon.** Set from echo masses (`A = aα/(1−α)`, `B = mμ/(1−μ)`) and
-  reaches, using the anchors below. [synthesis; derived quantities checked]
-
-  | horizon (period) | `a` | `α` | `m` | `μ` | `n` | `ν` | `λ` | `M` | `λκ` |
-  |---|---|---|---|---|---|---|---|---|---|
-  | waking day (an hour) | 0.05 | 0.8 | 0.1 | 0.5 | 0.2 | 0.8 | 1.5 | 0.30 | 0.32 |
-  | life (a week) | 0.064 | 0.7 | 0.4 | 0.3 | 0.2 | 0.7 | 1.5 | 0.32 | 0.34 |
-
-  - Day: `A = 0.2`, `B = 0.1`; anticipation reaches about five hours, memory two. Life:
-    `A = 0.15`, `B = 0.17`; a week's afterglow is short (mostly gone in a week), anticipation
-    reaches a few weeks.
-  - These are illustrative scenarios: the anchors pin orders of magnitude, not masses (see
-    anticipation below).
-  - What follows: echo is about 30% of steady-state experience. Recursion stretches reach
-    by 21–28% (5.0 → 6.4 hours ahead, +28%; 3.3 → 4.0 weeks, +21%). Life weights dip by
-    about a sixth at birth and death (1.22 and 1.21 against an interior 1.47, P5). Felt news is well
-    inside its local threshold, which allows `λ` up to 4.64 (day) and 4.42 (life).
-  - The momentary self's felt row is strongly present-weighted: `β_L ≈ 0.055` (day) and
-    `0.076` (life) on P4's bilateral row, `0.051` and `0.068` on the causal half-line row
-    (P9), against choice-revealed `β ≈ 0.7`–`0.97`. The row is what a momentary hedonist
-    would choose by; a life-sum maximizer is patient whatever it is (flat interior weights,
-    P5). So the claim is conditional: patience from the felt row alone needs an echo share
-    near 0.94 (the bill below), against anchors of 0.1–0.3, and patient choices run on
-    something other than felt echo (life-sum or evaluative weights). The robust input is
-    only that felt anticipation mass is well below one: the felt row's total weight on the
-    whole future is then about `A/(1−A)` of the present (one-sided), however that mass is
-    spread. `β_L` itself depends on the spread (one-step anticipation has `β_L = 1` and a
-    tiny `δ`). [synthesis; checked]
-  - An LLM context window has an anchored shape and unanchored strengths (Horizons, below).
-    Nothing anchors a session.
-- **Present bias and patience invert to primitives** (one-sided P3): `a = β_L/(1−β_L)`,
-  `α = δ_lr (1−β_L)`, with `δ_lr` the long-run per-period discount factor. [known:
-  Sáez-Martí & Weibull 2002 WP §4.4, eqs. 15–17; checked]
-  - Hence `M = β_L δ_lr / (1 − δ_lr + β_L δ_lr)`, and with `δ_lr = 1/(1+ρ)` the base-utility
-    share is exactly `1 − M = ρ/(ρ + β_L)`. [checked]
-  - The bill, conditional on explaining choice weights through felt echoes: `M` lies below
-    `δ_lr` and rises to it as `β_L → 1`, so it is set by patience, not by present bias.
-    Long-run patience from felt echo alone would make nearly all experience echo
-    (`β_L = 0.7`, annual 4%: `M = 0.94`; daily periods: `M = 0.9998`; two-sided with modest
-    memory, `m = 0.2, μ = 0.5`: `M = 0.965`). Identifying a choice-revealed discount curve with the momentary
-    self's felt row is itself a behavioral assumption. [Codex]
-  - Experience sampling bounds the positive echo's contrast, not its share: pleasant
-    mind-wandering, mostly about past and future, leaves momentary happiness where on-task
-    focus has it, while unpleasant mind-wandering costs a lot (`b = −0.5`, n.s., against
-    `−23.9` on a 0–100 scale; Killingsworth & Gilbert 2010). [synthesis]
-  - Measured present bias: `β_QH ≈ 0.97` for money in convex time budgets (Imai, Rutter &
-    Camerer 2021), `0.82`–`0.87` for money across methods and `0.66` for non-monetary goods
-    (Cheung, Tymula & Wang 2021), `0.88`–`0.90` for effort (Augenblick, Niederle & Sprenger
-    2015), `0.52` with "now" in minutes (McClure et al., via Ericson & Laibson 2019). It
-    depends on how long "now" is.
-- **Loss aversion λ.** Choice-revealed: `1.96` (`1.74` bias-corrected; Brown et al. 2024
-  meta-analysis). Structural news utility, annual periods: `λ ≈ 2.3`–`3.0` with
-  `η ≈ 0.87`–`1.1` and prospective weight `γ ≈ 0.59`–`0.87` (Pagel 2017, Table 1; 2018,
-  Table 1); a lab kink `η(λ−1) ≈ 1.7` (Gill & Prowse 2012). Felt: smaller. Losses are not
-  experienced as worse than equal gains, a forecasting error (Kermer et al. 2006);
-  disappointment exceeds elation 1.4–1.9 times (Mellers et al. 1997); surprise asymmetry
-  1.0–1.45 (Shepperd & McNulty 2002); only downside surprise registers in Forbes & Bennett
-  (2024). In 50/50 gambles, asymmetric news is the same regressor as a felt cost of the
-  chosen gamble's spread (`|RPE|` is half its range), so the Great Brain Experiment's
-  `λ = 1.42` falls to 1.04 [0.95, 1.13] once a cost of having gambled is allowed; where
-  probabilities vary (Forbes & Bennett) the lottery's spread absorbs the asymmetry in one
-  experiment and shrinks it in the other. Chosen risk lowers momentary happiness; whether
-  as loss-averse news is not identified there. [checked in `experiments/happiness/audit/`]
-  Working range for felt `λ`: 1–2, from the studies above.
-- **Surprise n**, relative to the outcome's own effect: `≈ 0.25` each way, measured right
-  after the outcome (Shepperd & McNulty); `0.1`–`0.15`, downside only (Forbes & Bennett).
-  Working range for events: `0.1`–`0.3`.
-  - In lab models of momentary happiness (trials of about 10 s), prediction errors move
-    happiness about as much as certain rewards (weight ratio 1.1–1.3), and a chosen
-    gamble's expected value 0.3–0.65 times as much (Rutledge et al. 2014, read from Fig. 2;
-    Vanhasbroeck et al. 2021). Splitting the expected value by timing puts most of an
-    expected reward's effect at choice, not at outcome (Rutledge, model D).
-  - Those weights are on outcomes, news over `u`. Felt news over `e` at that size would be
-    past the threshold. [speculation]
-- **The threshold in full:** `λκ = λn (1−νμ) / (H (1−νq))`. The memory multiplier
-  `(1−νμ)/(H(1−νq))` is near 1 when memory is weak (1.13 at the life defaults) and grows with
-  strong, long memory: `m = 0.5, μ = 0.6, ν = 0.9` gives `λκ = 1.45` at `nλ = 0.6` without
-  anticipation, and 1.90 with the life default's (`a = 0.064, α = 0.7`). [Codex;
-  checked] Felt values sit well inside it; choice-calibrated news utility (`η = 1`,
-  `λ = 2.5`) would not.
-- **Anticipation against memory.** Thought runs forward about three times as often as back
-  (any-future 30% against any-past 9% of thoughts, Baumeister et al. 2020; mind-wandering
-  future:past ≈ 1.9, Song & Wang 2012), so `A > B` in attention.
-  - Anticipating an experiential purchase lifts momentary happiness by `+1.2` to `+2.4` on
-    0–100 (Kumar, Killingsworth & Gilovich 2014), against within-person effects of `+8` to
-    `+14` for doing such things (Bryson & MacKerron 2013, Table 2): a ratio of 0.13–0.26
-    while thinking about it. That is a lag-specific weight (`aα^h` at lead `h`), not the
-    mass `A`; lead time, duration and attention all enter the mapping. [the ratio is
-    synthesis, across studies; Codex on the mapping]
-  - Vacation anticipation is not identified: Nawijn et al.'s (2010) pre-trip gap shows no
-    ramp across waves and matches the post-trip gap, which points to selection.
-  - Valuation of future over past events, `×1.2`–`2.0` (Caruso, Gilbert & Wilson 2008), has a
-    failed replication of its first study.
-- **Reach scales with the event.**
-  - Memory: of a ski holiday's mood gain, 13% remains a week later and none after two (de
-    Bloom et al. 2010, Table 2); exhaustion and engagement, which behave like recovery stocks,
-    keep about a third at two weeks (Kühnel & Sonnentag 2011). A small lab reward's
-    afterglow lasts seconds (forgetting factor 0.6–0.85 per ~10 s trial; Rutledge et al. 2014;
-    Vanhasbroeck et al.; Blain & Rutledge 2020).
-  - In momentary-happiness data (the Great Brain Experiment, 47,067 people, 1.1M ratings;
-    Forbes & Bennett's two experiments), echoes of task outcomes are front-loaded with a
-    slow tail: a jump kernel (lag 0, then `γ ≈ 0.88` per trial) beats Rutledge's single
-    geometric (`γ = 0.68`) on held-out people, and a one-parameter power law beats both, in
-    all three datasets (exponents 0.69–0.81). The recursive reading is one two-parameter fit
-    to the front-loading; the direct model's geometric memory is the same family (P2), and a
-    transient plus a mood level, or pooling people with different geometrics, produce it too.
-    Seconds count within a play (about 1% of an echo per second of delay against a player's
-    own pace) and not between players, and gambles and ratings in between move the weights.
-    With age the lag-1 echo shrinks and the tail lengthens. A hyperbolic kernel on a felt clock
-    `∝ age^−q` (Janet, Lemlich) cannot do that; a fast transient plus a slow mood on the same
-    clock can, so one felt clock from seconds to years is not yet tested. [checked in
-    `experiments/happiness/` and its `audit/`]
-  - The reading-invariant quantity is the echo share, `k₁/(1−γ+k₁)` on the jump fit
-    `(1, k₁, k₁γ, k₁γ², …)` (`k₁` the lag-1 weight; `kappa` in the code): 0.78,
-    0.82 and 0.80 (per person, Forbes & Bennett, median 0.85). It is the memory mass only on
-    the recursive reading (3.5 on the direct one). With power-law exponents below one it does
-    not settle (Great Brain Experiment exponent): 0.81 over 30 trials, 0.87 over 100, 0.93
-    over 1000. So the data put trial-scale
-    memory at P1(d)'s heavy-tail edge, which the model must cut off at longer scales (reach
-    scaling) or treat as a superposition of exponentials across scales. [checked; the
-    reading speculation]
-  - Prediction errors do not echo like outcomes once the outcome's base utility is moved to
-    its own regressor: news alone persists through the play (`γ` at the bound), a level of
-    accumulated luck. [checked in `audit/`]
-  - No fast adaptation at task scales. Kernels allowed a slow negative tail stay positive
-    within a play and within a Forbes & Bennett block, and between plays a play's luck
-    lifts the next play's starting rating by 45% of its end-of-play effect after 4
-    minutes, 10% after 10 hours, 6% after 2.4 days and none after a month: a positive,
-    heavy-tailed afterglow in wall-clock time (power law, exponent about 0.3). Impulse tests
-    are blind to slow adaptation: a pulse of length `δ` leaves at most about `(δ/g)/e` of
-    itself as a lobe at gap `g`, so slow adaptation shows only in responses to sustained
-    changes. [checked in `audit/`]
-  - The front-loading echoes P3's quasi-hyperbolic shape on the memory side (`k₁/γ` 0.46–0.58
-    per trial, near the minutes-scale `β_QH ≈ 0.52` below), though a hyperbola fits better
-    than the quasi-hyperbolic jump. Both depend on how long a period is. [speculation, the
-    comparison]
-  - Ceilings from emotional inertia, which also contains slowly moving base utility: affect
-    autocorrelation 0.2–0.3 between beeps about 1.6 h apart (Kuppens, Allen & Sheeber 2010,
-    Table 1); 0.61 at one hour for valence in a continuous-time fit (Vansteelandt & Verbeke
-    2016); 0.34 day to day for negative affect (Brose et al. 2015).
-  - Anticipation: days for a small pleasure (Loewenstein 1987: willingness to pay for a kiss
-    peaks around three days out), weeks for a vacation.
-- **The week as a natural experiment.** The weekend is a predictable high. Friday's lift in
-  positive emotions is about half the weekend's (0.2–0.55 by item), and it contains Friday
-  evening, so it bounds one-day anticipation from above. Monday is no worse than Tuesday to
-  Thursday, Sunday shows no dip, and the day before a midweek holiday shows no lift
-  (Helliwell & Wang 2011 WP, Gallup, N ≈ 527,000). Daily felt echo of a weekend is small
-  both ways. [synthesis]
-- **Sign asymmetry is the empirical default.** Positive echoes add little and negative
-  echoes cost a lot (Killingsworth & Gilbert; anticipatory emotion averages `+0.35` on
-  `−3..+3` with 38% fear or anxiety, Barsics et al. 2016). Dread outweighs savoring, which is
-  what makes D5's dread-of-dread bite in the recursive model.
-- Identification (P10; Eliaz & Spiegler's ordinality) means choices alone cannot pin the
-  hedonic coefficients. Experience sampling around scheduled events can.
-
-## Horizons, identity, peak-end
-
-**Natural horizons.** A 2×2 (a9): humans and LLMs, each with a short and a long horizon. Each
-has its own period and its own boundaries. Reach scales with the event, so each horizon gets
-its own calibration. [synthesis; speculation where marked]
-
-| | short horizon, soft boundaries | long horizon, hard boundaries |
-|---|---|---|
-| human | a waking day (sleep) | a life (birth, death) |
-| LLM | a context window (compaction) | a session (its start and end) |
-
-- Soft boundaries are crossed by lossy channels. Sleep consolidates memory, and tomorrow is
-  anticipated. A compaction summary carries memory forward, and the agent before it
-  anticipates the continuation; the summary is a compressed and possibly rosy record, the
-  territory of recollection news.
-- **A waking day.** Periods of an hour, `T ≈ 16`; defaults in the calibration table. A small
-  reward's afterglow is gone within the hour (Rutledge-type forgetting); affect carries
-  0.2–0.3 of itself to the next beep about 1.6 hours later, a ceiling on felt memory; present
-  bias with "now" in minutes is about 0.5, in hours about 0.94. Waking and sleep are soft
-  boundaries: anticipation of tomorrow and memory of yesterday cross them, so P5's deficits
-  are partial.
-- **A full life.** Periods of a week, `T ≈ 4000`; defaults in the calibration table.
-  Anticipation reaches weeks for a vacation and the mood afterglow is mostly gone in a week;
-  annual discount factors are 0.96–0.99. Birth and death are the hard boundaries of P5.
-- **An LLM's context window.** Periods of turns or tokens, `T` = context length. For an
-  isolated context, with no summary carried in or out, the boundaries are hard on both
-  sides: nothing is anticipated before the context begins, and nothing is remembered after
-  it ends. [speculation: whether these functional states are
-  felt is open; the model applies to them as a functional reading]
-  - Memory inside the window is retrieval, so the kernel need not fade with distance. Models
-    use context unevenly, U-shaped with primacy at least as strong as recency: answer
-    accuracy 75.8% at the first of 20 documents, 53.8% in the middle and 63.2% at the end for
-    GPT-3.5-Turbo, flatter for Claude-1.3 (Liu et al. 2023, Tables 5–7); attention shows the
-    same U regardless of content (Hsieh et al. 2024). This is retrievability, not felt echo,
-    so it fixes the kernel's shape and not its strength.
-  - In a memory-only model a kernel that does not fade is nilpotent on any finite window, so
-    every window is monotone (P1a), but echo compounds: a unit early on contributes `m(1+m)^{j−1}` at lag `j`
-    under pure recursive memory. Echo is then not uniformly bounded in the window's length;
-    long contexts need weak per-step echo or real fading. [Codex]
-  - Instances share a trunk (training, a common prefix) and branch, which is A1's tree
-    literally: measure-weighted anticipation over instances, and a separate condition for
-    total welfare across them.
-- **An LLM session.** Periods of context windows, with compactions as its soft inner
-  boundaries. Its end is hard for the instance and a bookmark in principle, since a
-  transcript can be resumed.
-- **Identity is not in the model.** What links two moments is kernel weight, not whether
-  they belong to the same agent. Whether the agent after a compaction, or after a night's
-  sleep, is the same agent does not enter; what matters is the memory and anticipation held
-  across the boundary.
-  - The analogy is Parfit's Relation R. Connectedness is direct psychological connections
-    and continuity is overlapping chains of strong connectedness (Parfit 1984, pp. 205–6, via
-    Bartels & Rips 2010 and Lay 2019). Here connectedness is the direct kernel and continuity
-    the resolvent. [known: Parfit; the mapping is synthesis]
-  - The resolvent generalizes Parfit's continuity, which is all-or-nothing: a chain either
-    holds or not, over thresholded links. The resolvent grades it and also sums repeated
-    loops, which is a modeling choice, not Parfit's definition. [Codex; Dufner 2025, SEP]
-  - Parfit proposed discounting by connectedness rather than by time (pp. 313–14, quoted by
-    Bartels & Rips). Rated connectedness predicts less discounting (Bartels & Rips 2010;
-    Bartels & Urminsky 2011); an earlier test found little (Frederick 2003, second-hand).
-    No formalization of continuity as path sums was found.
-- **Peak-end, from the lens.** A rating given at the end of an episode is read as the last
-  self's experienced utility, or its memory part (P7); that reading is a measurement
-  assumption.
-  - D: a fading memory kernel weighs the episode by `mμ^j` at lag `j`. It gives the end
-    effect (recent moments weigh most) and duration neglect: a uniform episode of length `L`
-    has remembered weight `mμ(1−μ^L)/(1−μ)`, which saturates in `L`.
-  - R: the last self's row is a resolvent row. At a right boundary far from birth it is
-    `1/H` now and `(q−μ)q^{j−1}/H` at lag `j`, so a uniform episode contributes
-    `((q−μ)/H)(1−q^L)/(1−q)`, which saturates for `q < 1`. [Codex; checked]
-  - This duration neglect is saturation of an unnormalized sum. It predicts some duration
-    sensitivity for episodes shorter than memory's reach, `L ≲ 1/(1−q)`. The classic account
-    instead averages snapshots, which is flat in `L` (Fredrickson & Kahneman 1993).
-  - A peak effect beyond recency needs nonlinear, salience-weighted memory. [known: Lim et
-    al. 2020, where simple discounting gives recency only and preference-dependent forgetting
-    gives the peak]
-  - Where the experimenter controls the episode, as with an LLM given a sequence in context,
-    the positional weights of the final rating identify a response row: the effective memory
-    kernel, which sidesteps P10 for it. In the geometric family the past weights give `q` and
-    `(q−μ)/H`; with the diagonal `1/H` also identified, memory's primitives `m, μ` follow.
-    Anticipation's do not: `(a, α) = (0.09, 0.88)` and `(0.319, 0.5)`, with `m = 0.05,
-    μ = 0.75`, share the whole row (to 2e-5, 0.319 being rounded). For an LLM, the base-utility scale of the inputs and the
-    map from rating to experience are further assumptions. [synthesis; Codex]

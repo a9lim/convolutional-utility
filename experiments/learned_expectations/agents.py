@@ -1,7 +1,7 @@
 """Agents: named trunks, each read by named heads, and the J dial.
 
 A layout says which trunk each head reads, so whether heads share a representation is configuration: heads on
-one trunk shape each other through it (decision.md D8), a head on its own trunk cannot, and a head with `detach`
+one trunk shape each other through it (formalism/learning.md D8), a head on its own trunk cannot, and a head with `detach`
 reads its trunk without training it. Trunks are tanh MLPs or a GRU cell; heads are linear maps or tanh MLPs,
 reading the trunk's features plus any extra inputs given at call time. Roles name the outputs a wing reads,
 (head, column) pairs, so one head can carry several.

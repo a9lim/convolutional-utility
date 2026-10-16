@@ -1,4 +1,4 @@
-# Decision theory and anthropics under the hedonic reading
+# Decision theory under the hedonic reading
 
 Tags as in `core.md`. Hedonic reading: anticipation and memory are felt, so welfare is the
 life-sum `W = Σ_t e(t)`. "Momentary hedonist" names the alternative objective `e(t)`.
@@ -49,8 +49,9 @@ life-sum `W = Σ_t e(t)`. "Momentary hedonist" names the alternative objective `
     credible plan: a plan is credible if at every date the current self prefers it to
     every other credible continuation (their Def. 1), and the self forming the plan picks
     the best credible one. This is a selection assumption, not implied by rational
-    forecasts. [known in kind: Kőszegi & Rabin 2009, Def. 1; eq. 5 is the news of one's own
-    deviation, Prop. 5 the plan as its own commitment device]
+    forecasts. [known: the concept is Kőszegi & Rabin's (2009, Def. 1), adapted here to
+    recursive news; their eq. 5 is the news of one's own deviation, Prop. 5 the plan as its
+    own commitment device]
   - It is not their model with echoes added. Their gain-loss compares percentiles of
     consumption-utility distributions; ours compares conditional means of experienced
     utility, and our news feeds back on itself even without echoes (a deterministic
@@ -233,7 +234,7 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   `S`, so mortality information is priced even linearly, with the sign of the anticipated
   future's felt value: two moments, the second alive with probability ½, `u = (0, ±1)`,
   `a = m = ½`: knowing at once changes expected welfare by `±1/7`. The direct model, and
-  either kernel alone, stay neutral. [checked] Anticipation linear in beliefs, Bayesian
+  either kernel alone, stay neutral. [not found; checked] Anticipation linear in beliefs, Bayesian
   updating: forecasts are martingales, so by the tower property expected welfare does not
   depend on whether or when information arrives. [standard: Epstein 2008 p. 1121;
   Eliaz & Spiegler 2006 Prop. 1; Bénabou 2015 fn. 16; Kimball & Willis 2006. Kőszegi &
@@ -242,7 +243,8 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   hurt]
 - **Pathwise, it is not.** Good news raises `e` at once and bad news lowers it; the swings
   cancel only on average.
-- **What prices information is nonlinearity in beliefs**, not in outcomes.
+- **What prices information is nonlinearity in beliefs**, not in outcomes, with actions and
+  the lifespan held fixed (mortality, above, and endogenous action are the other routes).
   - Utility concave in the posterior gives information aversion, convex gives seeking.
     [known: Eliaz & Spiegler 2006 Remark 1, two states, "not an original result";
     Bénabou & Tirole 2002 §V.B; one-shot anticipatory models: Kőszegi 2003, Caplin & Eliaz
@@ -300,9 +302,10 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     endorses delusion wherever no decision hangs on the belief.
   - For a sophisticated near-Bayesian with linear anticipation, self-deception gains
     nothing: censoring bad news makes good news suspect, and the two effects cancel
-    (Bénabou 2015 p. 677; Bénabou & Tirole 2002 §IV). This is Yudkowsky's "Doublethink"
-    as a theorem. Delusion pays only for unaware agents, under nonlinear anticipation, or
-    for instrumental reasons.
+    (Bénabou 2015 p. 677; Bénabou & Tirole 2002 §IV). Their result is a formal cousin of
+    Yudkowsky's "Doublethink", conditional on near-Bayesian sophistication and linear
+    anticipation, not a theorem about all motivated reasoning. Delusion pays only for
+    unaware agents, under nonlinear anticipation, or for instrumental reasons.
   - Not in Brunnermeier & Parker: a felt disappointment term. Felt news
     (core N2–N3) supplies both the price of optimism (the news at realization) and a price
     on information. Disappointment is first-order, so the sign of the hedonically optimal
@@ -472,7 +475,7 @@ marked]
     the state of the world; keep it for local work.
   - Soares, "Simply locate yourself" (2015): treat bad news as information about where you
     ended up, not as the world going wrong. This has the updateless structure; with
-    measure-weighted anticipation (A1) it is feeling by the prior over branches.
+    measure-weighted anticipation (`selves.md`, A1) it is feeling by the prior over branches.
   - Mayer, "Being at peace with doom" (2023); TurnTrout, "Emotionally confronting a
     probably-doomed world" (2022: feelings are not beliefs); Sabien, "A way to be okay"
     (2023).
@@ -487,129 +490,7 @@ marked]
   8/8 braced). It is the level, not the bias: an honest critic of rewards shifted up, with
   nothing else changed, does the same. Decoupling needs the affect head kept off the
   representation that acts; through the decision rule, as the policy's baseline, its level
-  barely matters at large batches. Why, in a model: D8. [checked in
+  barely matters at large batches. Why, in a model: `learning.md`, D8. [checked in
   `experiments/learned_expectations/`]
 - **Open.** Fixed-past selves hurry pains (D3), and a body of news is a pain. Does that make
   them feel news piecemeal, i.e. over-check? Subadditivity pulls the other way; untested.
-
-**D8. A shared state carries the critic's level.** [synthesis: a specialization of the
-tangent-kernel calculus (Jacot, Gabriel & Hongler 2018) and of the linear-network modes of
-Saxe, McClelland & Ganguli (2014); checked. Known in kind: value and policy interfere in
-shared networks (Cobbe et al. 2021); reward shifts set exploration through learned Q-values,
-with the same sign (Sun et al. 2022)]
-- Setting: a policy and a critic read one learned state `φ_θ(x)`. The policy's stay logit
-  (within one previous action) is `z = s·φ + c_z`, the critic's value `V = v·φ + c_V`. The
-  critic's targets are raised by `o`: a fixed offset, a reward shift that the policy's
-  baseline removes, or a rosy felt objective (at `λ = 1` exactly an offset).
-- **(a) The only route.** On a given batch the policy's loss does not depend on `o` (a
-  per-round batch-mean baseline over a fixed horizon removes a reward shift exactly). So,
-  setting aside optimizer-wide coupling such as global gradient clipping, `o` reaches the
-  policy only through the critic's gradient on `θ`.
-- **(b) The forcing.** At given parameters, data and detached targets, the `o`-part of the
-  critic's gradient moves the policy at `x'` at rate `2ηo E_x[K(x', x)]` under gradient flow,
-  with `K(x', x) = ∇_θ z(x')·∇_θ V(x)` the cross tangent kernel of the two heads. In a
-  two-layer linear model (`φ = Wx`; `x` a constant feature plus zero-mean features), fit the
-  critic alone to fixed targets by squared error, both heads frozen, `W` and `c_V` at equal
-  rates. Shifting the fitted targets by `f(x) = μ + f̃(x)` (`f̃` zero-mean and representable)
-  ends with the stay logit moved by
-  `Δz(x) = (s·v) [μ/(1 + ‖v‖²) + f̃(x)/‖v‖²]`.
-  The critic's bias takes `μ/(1 + ‖v‖²)` of the mean; the state carries the rest of the
-  mean and all of the varying part. This is the endpoint of the critic's fitting only: the
-  policy's own learning can undo the displacement, and bootstrapped TD targets fall outside
-  it.
-- **(c) The sign, in a regression surrogate.** Two outputs on whitened inputs with targets
-  `V* = αr` and `z* = βr` (`r` the last payoff) have, at a balanced rank-one zero-error
-  factorization (where small initialization leads), `v = (α/√σ)u` and `s = (β/√σ)u` for a
-  unit `u`, `σ = √(α² + β²)`: `s·v = αβ/σ`, `‖v‖² = α²/σ`, and a constant offset gives
-  `Δz = oαβ/(σ + α²)`. So when value and staying both rise with the last payoff (the game
-  persists; win-stay), a high critic pushes toward staying and a low one toward switching,
-  biased or not. The policy learns by REINFORCE, whose improvement direction depends on the
-  history, the policy and the round, so this illustrates how positively related targets
-  align the heads; it is not a theorem about the agent.
-- In the GRU agent: the two heads' gradients go from unrelated at initialization to a
-  cosine of 0.34–0.58 by step 150 (drifting back to −0.27–+0.05 by step 500 in three of
-  four seeds), a step that raises value raises staying in every seed at every trained
-  checkpoint measured (steps 150–500; none at initialization), and reward shifts of ±0.5 decide complacency (6/6 against 0/6),
-  though the policy's gradient is unchanged on every batch. The prediction that follows:
-  keep the critic's level outside the network (a running mean of its targets, as
-  PopArt-style normalization does) and the shift stops mattering. It does: 6/6 escape at
-  +0.5. [checked in `experiments/learned_expectations/`]
-- Limits: Adam's momentum and gradient-dependent denominator change with the offset, so the
-  kernel in (b) is only a guide to its updates. Unexplained: removing the critic's mean push
-  on the state also traps the honest critic.
-
-## Anthropics
-
-**A1. Echo on a branching tree: measure-weighting.** [synthesis; checked where marked]
-- A `b`-ary tree of successors (copies) with geometric kernels.
-- **Stance: anticipation is measure-weighted.** In the causal form, anticipation is a
-  forecast `E_t[e_{t+j}]`, which, as a forecast of one continuing path, weights successors
-  by their measure (Born weight, probability, share). Death or doom branches enter as zero experience, so a likely early
-  end discounts the anticipated future.
-  - Zero is hedonic neutrality, the level of non-experience; the model is not invariant to
-    shifting it (core, Objects). Renormalizing anticipation on survival, as quantum
-    immortality would, drops the discount; measure-weighting is the unnormalized choice.
-  - This is the conserved-measure horn of Yudkowsky's Anthropic Trilemma (2009): copying
-    yourself a trillion times on a lottery win, then merging, changes how many copies feel
-    the win, not what the pre-copy self should anticipate. Where the copies' own welfare
-    goes is the aggregation axiom below.
-- **What measure-weighting rules out.** Copy-counting anticipation would make anticipation
-  a *sum* over successors, so a branching future could outweigh a single past without
-  bound.
-  - Per observer: copy-counted forward mass is `abα/(1 − bα)`, which needs `bα < 1`.
-  - Total across observers: a trunk event is remembered by every descendant, so the
-    copy-counted total needs `bμ < 1` (D) or `bq < 1` (R), with `q` P4's memory tail.
-    Memory-only, `q = (1+m)μ` (resolvent `r(−j) = (m/(1+m))((1+m)μ)^j`): `b = 2, m = 1,
-    μ = 0.3` keeps each observer bounded (`M = 0.43`) while the copy-counted total diverges
-    (`b(1+m)μ = 1.2`). Anticipation feeds back through memory and lengthens the tail:
-    `b = 2, a = 0.3, α = 0.6, m = 0.6, μ = 0.3` passes the memory-only test
-    (`b(1+m)μ = 0.96`) but `bq = 1.014`. [checked; the second example is Codex's]
-- **Two weightings, both needed.** Anticipation is a forecast; measure-weighting it is the
-  choice to forecast one continuing path. Aggregating welfare across observers is a
-  separate axiom: with every kernel zero, two real copies each at `+1` sum to 2 under ordinary additive
-  aggregation, whatever anyone forecasts. Invisibility below assumes welfare is also
-  aggregated by measure (total utilitarianism with measure as the population weight;
-  conserved measure, as for Everettian branches); for real copies
-  (uploads, LLM instances) the copy-counted total above is the population-ethics case, and
-  `bμ < 1` or `bq < 1` is the condition for its aggregate to stay finite. Infinitely many
-  real subjects can have infinite total welfare, so finiteness is an added requirement,
-  not coherence. [Codex]
-- **Under measure-weighted anticipation and aggregation, branching is welfare-invisible.**
-  Duplicating identical branches adds no information and no news, at any `λ`. Branches with
-  different felt outcomes are resolved like any uncertainty (core N2): neutral ex ante (not
-  pathwise) at `λ = 1`, and with loss-averse news it costs in
-  expectation, and updateless affect (D7) can postpone or batch the news but not remove it
-  (one period, `u = ±1` equiprobable, `n = 0.2, λ = 2`: `E[e] = −1/7`). [Codex] Forward
-  mass is `aα/(1 − α)`,
-  and the measure-weighted total memory of a trunk event is `m Σ μ^j`, the unbranched
-  conditions exactly: it adds up to normality.
-- Aggregation weights are normative and the weights inside a forecast epistemic; they can
-  coincide numerically without being one object, and neither is SSA or SIA as a theory of
-  self-location (A2 still needs self-locating credences). Armstrong derives
-  SSA- or SIA-like *betting* from preferences plus linked decisions, and treats subjective
-  anticipation as encoded in the utility function (LW 2011). Precedent for the weighting:
-  Greaves's (2004) caring measure.
-- Well-foundedness alone does not force measure-weighting (faster decay, bounded depth or
-  saturation would also bound the sums), and neither does the forecast reading by itself: an
-  expectation of one successor's experience and an expectation of total successor
-  experience are both forecasts. Forecasting one continuing path is assumed, defensibly for
-  Everett branches (Born-weighted caring, Greaves), not derived. Armstrong's demand stands:
-  say which successors the agent cares about, how much, and which decisions are linked.
-  [Codex]
-
-**A2. Imperfect recall.** [synthesis]
-- Amnesia cuts particular memory links. It creates self-location uncertainty only when
-  the remaining observations fail to fix the current position. In that case `E_t` needs
-  a self-locating credence.
-- The policy space must be specified, including whether randomization is drawn fresh or
-  remembered (Piccione & Rubinstein).
-- Aumann, Hart & Perry dispute the planning/action inconsistency itself.
-- The ex-ante-optimal policy is compatible with CDT plus generalized thirding (Piccione &
-  Rubinstein 1997, Prop. 3) and with EDT plus generalized double-halving (Oesterheld &
-  Conitzer 2024, Cor. 7, their own result). "Compatible" is their term of art: acting by
-  the theory at every observation is consistent with the policy, which need not be the
-  only such policy; with a single observation, EDT with double-halving's compatible
-  policies are exactly the ex-ante-optimal ones (Cor. 8, ties remaining), CDT with
-  thirding's not. Their payoffs are an extensive-form model; utilities that depend on
-  policy-generated forecasts would need an embedding, so this is a literature comparison.
-  "Planning-optimal" is not a uniquely FDT verdict, and no FDT claim is made here.

@@ -7,7 +7,7 @@ payoffs throughout, so the critic acts only through the state it shares with the
 level: rosy or braced (felt objective, offsets, expectiles), forecasting felt utility (canonical), or honest
 about rewards shifted by a constant that the state does not see and the policy's baseline removes (so only
 the critic's level moves), and with the critic's level kept outside the network (a running mean of its
-targets, as PopArt-style normalization does: decision.md D8 predicts the shift then stops mattering). Per critic: how many seeds escape and when, the play that separates the basins,
+targets, as PopArt-style normalization does: formalism/learning.md D8 predicts the shift then stops mattering). Per critic: how many seeds escape and when, the play that separates the basins,
 and the critic's level against realized payoffs, overall and just after bad or good news."""
 import os
 import sys
