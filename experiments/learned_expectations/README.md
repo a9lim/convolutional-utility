@@ -119,10 +119,13 @@ dilemma, chicken, stag hunt or harmony game with fresh payoffs, shown to both pl
 their own randomly ordered action labels, so the cooperative move must be read off the
 matrix. A GRU carries the history (each past game, both moves, my payoff); a head reads the
 state and the current game and gives the move and a critic (honest, its level kept outside
-the network, D8). Self-play with shared weights, REINFORCE on rewards-to-go; objective
-selfish (my payoffs) or team (both players'). With mixed partners, half of each batch is
-played against scripted partners (always cooperate, always defect, tit for tat, coin flip).
-`iterated.py`; `run_iterated.py` (writes `iterated_report.txt`, `iterated.png`).
+the network at the TD loss's mean target over all learners' episodes, D8). Self-play with
+shared weights, REINFORCE on rewards-to-go; objective selfish (my payoffs) or team (both
+players'). With mixed partners, half of each batch is played against scripted partners
+(always cooperate, always defect, tit for tat, coin flip).
+`iterated.py`; `run_iterated.py` (writes `iterated_report.txt`, `iterated.png`); `run_baselines.py` (the
+policy gradient's noise by baseline, batch mean against groups of episodes sharing their context;
+`baselines_report.txt`).
 
 ## The partners agent
 
@@ -275,23 +278,29 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
 - **Iterated randomized games: strategy needs someone to strategize against.** Selfish
   learners trained only against themselves play each game as if it were one-shot: defect in
   the prisoner's dilemma (99%), cooperate in harmony, and in stag hunts coordinate on one
-  equilibrium per game (same move 94%) without regard to history; the one-round control plays
+  equilibrium per game (same move 93%) without regard to history; the one-round control plays
   the same. Nothing depends on the partner's last move, the round, or who the partner is. Team
   learners cooperate everywhere. Trained against a mix of partners, the agent learns to
   strategize across games (4 seeds, `iterated_report.txt`):
   - reciprocity across different games: after the partner cooperated in a different game it
-    cooperates in a prisoner's dilemma 43% of the time, after a defection 6% (stag hunt 86%
-    against 54%);
+    cooperates in a prisoner's dilemma 37% of the time, after a defection 6% (stag hunt 83%
+    against 53%);
   - reading the partner: against always-defect, cooperation in prisoner's dilemmas falls from
-    43% to 4% after one round; against tit for tat it rises to about 75% and holds until the
+    39% to 4% after one round; against tit for tat it rises to about 70% and holds until the
     last rounds; against an unconditional cooperator it rises and then is exploited, down to
-    11% by round 10;
-  - an end game: prisoner's dilemma cooperation 38% in rounds 1–9, 9% in round 10;
-  - reciprocity carries back into self-play (prisoner's dilemma 35%, stag hunt 78%, from 1% and
-    50%), and appears late in training, after about 1,500 steps of near-total defection.
-  - Three times longer training (4 seeds; output not archived) does not raise self-play
-    cooperation (prisoner's dilemma 0.22–0.38) but sharpens the end game: against tit for
-    tat, about 0.7 through round 9, then 0.06–0.12 in round 10.
+    9% by round 10;
+  - an end game: prisoner's dilemma cooperation 32% in rounds 1–9, 5% in round 10;
+  - reciprocity carries back into self-play (prisoner's dilemma 29%, stag hunt 75%, from 1% and
+    51%), and appears late in training, after about 1,500 steps of near-total defection.
+  - Three times longer training (9000 steps, 4 seeds) does not raise self-play cooperation
+    (prisoner's dilemma 0.24–0.31) but sharpens the end game: against tit for tat, about
+    0.6–0.7 through round 9, then 0.07 in round 10 (0.27 at 3000 steps).
+- **Gradient noise by baseline** (mixed partners, one training run, `baselines_report.txt`). At equal
+  episode budget, groups of 4 episodes sharing their game sequence and partner type, with a leave-one-out
+  group baseline (Dr. GRPO's estimator: no std or length normalization), cut the policy gradient's noise
+  1.5–2.3× against the per-round batch mean once learning starts. Larger groups lose it to fewer distinct
+  contexts (64: 2–3× noisier than the batch mean), and GRPO's std normalization is 6–7× noisier. What
+  remains is within-context: one move's credit against nine rounds of sampled play.
 - **Consolation.** At `λ = 2` the motivated critic braces before outcomes and consoles itself
   after bad ones: just after a negative TD error it sits 0.18 below realized payoffs, after a
   positive one 0.51 below. At `λ = 1` the gap vanishes (0.33 against 0.29), as the critic's

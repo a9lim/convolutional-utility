@@ -119,7 +119,7 @@ def train(objective="selfish", steps=3000, G=2048, seed=0, lr=3e-3, families=(0,
             for partner in PARTNERS.values():
                 Rp = rollout(player, G // (2 * len(PARTNERS)), gen, families, partner=partner, K=K)
                 learners.append((Rp[0], Rp[0]["r"] + Rp[1]["r"]))
-        loss = 0.0
+        loss, targets = 0.0, []
         for R, joint in learners:
             reward = joint if objective == "team" else R["r"]
             ret = torch.flip(torch.cumsum(torch.flip(reward, [1]), 1), [1])
@@ -127,13 +127,15 @@ def train(objective="selfish", steps=3000, G=2048, seed=0, lr=3e-3, families=(0,
             C = R["C"] + level
             target = R["r"] + NU * torch.cat([C[:, 1:].detach(), torch.zeros(len(C), 1)], 1)
             loss = loss + ((C - target) ** 2).mean()
+            targets.append(target.detach().mean(0))
         opt.zero_grad()
         loss.backward()
         torch.nn.utils.clip_grad_norm_(player.parameters(), 5.0)
         opt.step()
-        with torch.no_grad():
-            C = rec[1]["C"] + level
-            level += 0.1 * ((rec[1]["r"] + NU * torch.cat([C[:, 1:], torch.zeros(len(C), 1)], 1)).mean(0) - level)
+        # the level tracks the TD loss's own weighting (each learner's batch mean counts once), so the head
+        # learns only deviations from it and carries no mean push on the shared state
+        level += 0.1 * (torch.stack(targets).mean(0) - level)
+    player.level = level                       # the critic's forecast is the head's output + level
     return player
 
 

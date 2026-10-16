@@ -2,7 +2,7 @@
 python experiments/learned_expectations/run_iterated.py   (writes iterated_report.txt, iterated.png; parallel)
 
 Variants: selfish learners over 10 rounds; the same over one round (no future); team learners (both players'
-payoffs, the twin) over 10 rounds. Measured in self-play on fresh episodes: cooperation by family and round,
+payoffs, the twin) over 10 rounds; selfish learners with mixed partners, trained for 3000 and for 9000 steps. Measured in self-play on fresh episodes: cooperation by family and round,
 reciprocity across games (cooperation after the partner cooperated or defected in the previous round, when
 that round was a different game), and play against scripted partners."""
 import os
@@ -19,7 +19,8 @@ from iterated import FAMILIES, PARTNERS, rollout, train  # noqa: E402
 HERE = os.path.dirname(__file__)
 VARIANTS = {"selfish, 10 rounds": (dict(objective="selfish"), 4), "selfish, one round": (dict(objective="selfish", K=1), 2),
             "team, 10 rounds": (dict(objective="team"), 2),
-            "selfish, mixed partners": (dict(objective="selfish", mixed=True), 4)}
+            "selfish, mixed partners": (dict(objective="selfish", mixed=True), 4),
+            "selfish, mixed partners, 9000 steps": (dict(objective="selfish", mixed=True, steps=9000), 4)}
 
 
 def evaluate(player, K):
@@ -65,7 +66,7 @@ def one(job):
         curve.append([float(R[0]["coop"][R[0]["fam"] == f].mean()) for f in range(4)])
 
     player = train(seed=seed, monitor=monitor, **kw)
-    monitor(3000, player)
+    monitor(kw.get("steps", 3000), player)
     return name, seed, dict(evaluate(player, kw.get("K", 10)), curve=curve)
 
 
@@ -100,11 +101,11 @@ if __name__ == "__main__":
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    fig, axes = plt.subplots(1, len(VARIANTS), figsize=(13, 3.6), sharey=True)
-    steps = np.arange(0, 3001, 250)
+    fig, axes = plt.subplots(1, len(VARIANTS), figsize=(16, 3.6), sharey=True)
     for ax, name in zip(axes, VARIANTS):
         for o in [o for n, _, o in out if n == name]:
             c = np.array(o["curve"])
+            steps = 250 * np.arange(len(c))
             for f in range(4):
                 ax.plot(steps, c[:, f], color=plt.cm.tab10(f), alpha=0.7, label=fam_names[f] if o is not None else None)
         ax.set_title(name, fontsize=10)

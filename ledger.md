@@ -31,6 +31,10 @@ at `22c5c4f`).
 
 - Learned-agent comparisons need seeds: the "braced critic raises payoffs" result compared
   braced runs against one honest seed stuck on a plateau.
+- A critic level kept outside the network must track the TD loss's own weighting. The
+  iterated agent's level followed self-play only, so with mixed partners the head carried a
+  mean push of −0.29 on the shared state (−0.5 in rounds 1–2). Fixed, it is 0.00; prisoner's
+  dilemma cooperation went from 0.35 to 0.29, with the qualitative results unchanged.
 - Claims made in chat get checked before they reach the docs. Wrong first: dread pricing
   information in the direct model, CDT/FDT as the mortality/eternity split, "no adaptation
   at task scales", conservation taming copy-counted anthropics.

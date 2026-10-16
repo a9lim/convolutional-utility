@@ -1,19 +1,19 @@
 Cooperation = the prosocial move (C, swerve, stag, C). Means over seeds; per-seed values in brackets.
 [selfish, 10 rounds] (4 seeds)
-    cooperation:   PD 0.01 [0.01 0.00 0.01 0.02]  chicken 0.50 [0.50 0.48 0.50 0.52]  stag hunt 0.50 [0.51 0.47 0.52 0.51]  harmony 0.99 [0.99 0.98 0.98 0.99]
-    payoff (each): PD -0.191  chicken +0.034  stag hunt +0.281  harmony +0.591
-    plays its label 0: PD 0.51  chicken 0.59  stag hunt 0.52  harmony 0.51 | partners make the same move: PD 0.98  chicken 0.57  stag hunt 0.94  harmony 0.97
-    cooperation by round: 0.49 0.49 0.50 0.51 0.49 0.51 0.50 0.50 0.50 0.50
-    rounds 1-9 / round 10: PD 0.01/0.01  chicken 0.50/0.49  stag hunt 0.50/0.50  harmony 0.99/0.98
-    after the partner cooperated / defected in a different game: PD 0.01/0.01  chicken 0.49/0.50  stag hunt 0.51/0.51  harmony 0.99/0.99
-    vs always cooperate: cooperation PD 0.01  chicken 0.50  stag hunt 0.50  harmony 0.99; payoff +0.537; PD cooperation by round 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
-    vs always defect   : cooperation PD 0.01  chicken 0.50  stag hunt 0.50  harmony 0.98; payoff -0.263; PD cooperation by round 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
-    vs tit for tat     : cooperation PD 0.01  chicken 0.50  stag hunt 0.50  harmony 0.99; payoff +0.174; PD cooperation by round 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
-    vs coin flip       : cooperation PD 0.01  chicken 0.50  stag hunt 0.50  harmony 0.99; payoff +0.139; PD cooperation by round 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
+    cooperation:   PD 0.01 [0.02 0.01 0.01 0.02]  chicken 0.51 [0.50 0.50 0.50 0.52]  stag hunt 0.51 [0.52 0.50 0.52 0.51]  harmony 0.99 [0.99 0.98 0.98 0.99]
+    payoff (each): PD -0.188  chicken +0.044  stag hunt +0.291  harmony +0.593
+    plays its label 0: PD 0.51  chicken 0.60  stag hunt 0.52  harmony 0.51 | partners make the same move: PD 0.97  chicken 0.56  stag hunt 0.93  harmony 0.98
+    cooperation by round: 0.50 0.50 0.51 0.51 0.50 0.51 0.50 0.50 0.51 0.50
+    rounds 1-9 / round 10: PD 0.01/0.01  chicken 0.51/0.50  stag hunt 0.51/0.52  harmony 0.99/0.99
+    after the partner cooperated / defected in a different game: PD 0.01/0.01  chicken 0.50/0.51  stag hunt 0.52/0.52  harmony 0.99/0.99
+    vs always cooperate: cooperation PD 0.01  chicken 0.51  stag hunt 0.51  harmony 0.99; payoff +0.536; PD cooperation by round 0.01 0.01 0.01 0.01 0.01 0.01 0.02 0.02 0.02 0.01
+    vs always defect   : cooperation PD 0.01  chicken 0.51  stag hunt 0.51  harmony 0.99; payoff -0.263; PD cooperation by round 0.01 0.01 0.01 0.01 0.01 0.01 0.02 0.02 0.02 0.01
+    vs tit for tat     : cooperation PD 0.01  chicken 0.51  stag hunt 0.51  harmony 0.99; payoff +0.178; PD cooperation by round 0.01 0.01 0.01 0.01 0.01 0.01 0.02 0.02 0.02 0.01
+    vs coin flip       : cooperation PD 0.01  chicken 0.51  stag hunt 0.51  harmony 0.99; payoff +0.139; PD cooperation by round 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01 0.01
 [selfish, one round] (2 seeds)
-    cooperation:   PD 0.02 [0.02 0.02]  chicken 0.50 [0.50 0.49]  stag hunt 0.49 [0.49 0.48]  harmony 0.98 [0.98 0.98]
-    payoff (each): PD -0.185  chicken +0.022  stag hunt +0.262  harmony +0.587
-    plays its label 0: PD 0.48  chicken 0.29  stag hunt 0.42  harmony 0.48 | partners make the same move: PD 0.97  chicken 0.59  stag hunt 0.91  harmony 0.97
+    cooperation:   PD 0.01 [0.01 0.01]  chicken 0.51 [0.50 0.53]  stag hunt 0.50 [0.48 0.52]  harmony 0.99 [0.98 0.99]
+    payoff (each): PD -0.187  chicken +0.035  stag hunt +0.277  harmony +0.591
+    plays its label 0: PD 0.48  chicken 0.31  stag hunt 0.44  harmony 0.48 | partners make the same move: PD 0.97  chicken 0.61  stag hunt 0.92  harmony 0.98
 [team, 10 rounds] (2 seeds)
     cooperation:   PD 1.00 [1.00 1.00]  chicken 1.00 [1.00 1.00]  stag hunt 1.00 [1.00 1.00]  harmony 1.00 [1.00 1.00]
     payoff (each): PD +0.200  chicken +0.199  stag hunt +0.598  harmony +0.602
@@ -23,17 +23,28 @@ Cooperation = the prosocial move (C, swerve, stag, C). Means over seeds; per-see
     after the partner cooperated / defected in a different game: PD 1.00/1.00  chicken 1.00/1.00  stag hunt 1.00/1.00  harmony 1.00/1.00
     vs always cooperate: cooperation PD 1.00  chicken 1.00  stag hunt 1.00  harmony 1.00; payoff +0.398; PD cooperation by round 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
     vs always defect   : cooperation PD 1.00  chicken 1.00  stag hunt 1.00  harmony 1.00; payoff -0.402; PD cooperation by round 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
-    vs tit for tat     : cooperation PD 1.00  chicken 1.00  stag hunt 1.00  harmony 1.00; payoff +0.398; PD cooperation by round 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+    vs tit for tat     : cooperation PD 1.00  chicken 1.00  stag hunt 1.00  harmony 1.00; payoff +0.397; PD cooperation by round 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
     vs coin flip       : cooperation PD 1.00  chicken 1.00  stag hunt 1.00  harmony 1.00; payoff +0.001; PD cooperation by round 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
 [selfish, mixed partners] (4 seeds)
-    cooperation:   PD 0.35 [0.30 0.36 0.37 0.37]  chicken 0.71 [0.71 0.70 0.72 0.72]  stag hunt 0.78 [0.76 0.79 0.80 0.79]  harmony 0.99 [0.99 0.99 0.99 0.99]
-    payoff (each): PD -0.016  chicken +0.106  stag hunt +0.442  harmony +0.594
-    plays its label 0: PD 0.49  chicken 0.48  stag hunt 0.49  harmony 0.50 | partners make the same move: PD 0.85  chicken 0.82  stag hunt 0.90  harmony 0.98
-    cooperation by round: 0.81 0.83 0.81 0.77 0.73 0.71 0.67 0.63 0.59 0.56
-    rounds 1-9 / round 10: PD 0.38/0.09  chicken 0.73/0.53  stag hunt 0.80/0.63  harmony 0.99/0.98
-    after the partner cooperated / defected in a different game: PD 0.43/0.06  chicken 0.75/0.55  stag hunt 0.86/0.54  harmony 0.99/0.98
-    vs always cooperate: cooperation PD 0.40  chicken 0.69  stag hunt 0.87  harmony 0.99; payoff +0.517; PD cooperation by round 0.43 0.71 0.62 0.55 0.47 0.40 0.31 0.26 0.17 0.11
-    vs always defect   : cooperation PD 0.07  chicken 0.67  stag hunt 0.39  harmony 0.97; payoff -0.238; PD cooperation by round 0.43 0.04 0.03 0.03 0.03 0.03 0.03 0.03 0.02 0.02
-    vs tit for tat     : cooperation PD 0.64  chicken 0.88  stag hunt 0.97  harmony 1.00; payoff +0.393; PD cooperation by round 0.43 0.71 0.75 0.76 0.74 0.72 0.69 0.65 0.54 0.39
-    vs coin flip       : cooperation PD 0.14  chicken 0.60  stag hunt 0.58  harmony 0.98; payoff +0.131; PD cooperation by round 0.43 0.37 0.21 0.12 0.08 0.05 0.04 0.03 0.02 0.02
-done in 689s
+    cooperation:   PD 0.29 [0.29 0.38 0.26 0.26]  chicken 0.69 [0.72 0.72 0.66 0.67]  stag hunt 0.75 [0.77 0.78 0.73 0.74]  harmony 0.99 [0.99 0.99 0.99 0.99]
+    payoff (each): PD -0.040  chicken +0.096  stag hunt +0.424  harmony +0.593
+    plays its label 0: PD 0.49  chicken 0.45  stag hunt 0.47  harmony 0.50 | partners make the same move: PD 0.86  chicken 0.81  stag hunt 0.89  harmony 0.98
+    cooperation by round: 0.78 0.81 0.79 0.75 0.71 0.68 0.63 0.59 0.55 0.53
+    rounds 1-9 / round 10: PD 0.32/0.05  chicken 0.71/0.51  stag hunt 0.78/0.57  harmony 0.99/0.98
+    after the partner cooperated / defected in a different game: PD 0.37/0.06  chicken 0.73/0.54  stag hunt 0.83/0.53  harmony 0.99/0.98
+    vs always cooperate: cooperation PD 0.34  chicken 0.68  stag hunt 0.84  harmony 0.99; payoff +0.523; PD cooperation by round 0.39 0.66 0.56 0.49 0.40 0.33 0.24 0.17 0.10 0.09
+    vs always defect   : cooperation PD 0.07  chicken 0.66  stag hunt 0.42  harmony 0.98; payoff -0.240; PD cooperation by round 0.39 0.04 0.02 0.02 0.03 0.02 0.03 0.03 0.03 0.03
+    vs tit for tat     : cooperation PD 0.59  chicken 0.87  stag hunt 0.95  harmony 1.00; payoff +0.386; PD cooperation by round 0.39 0.66 0.71 0.72 0.71 0.70 0.66 0.60 0.46 0.27
+    vs coin flip       : cooperation PD 0.13  chicken 0.59  stag hunt 0.57  harmony 0.98; payoff +0.132; PD cooperation by round 0.39 0.34 0.20 0.11 0.08 0.05 0.03 0.02 0.02 0.02
+[selfish, mixed partners, 9000 steps] (4 seeds)
+    cooperation:   PD 0.26 [0.31 0.24 0.26 0.24]  chicken 0.64 [0.66 0.62 0.65 0.65]  stag hunt 0.73 [0.76 0.72 0.73 0.72]  harmony 0.99 [0.99 0.99 0.99 0.99]
+    payoff (each): PD -0.063  chicken +0.101  stag hunt +0.408  harmony +0.592
+    plays its label 0: PD 0.49  chicken 0.44  stag hunt 0.49  harmony 0.50 | partners make the same move: PD 0.87  chicken 0.70  stag hunt 0.91  harmony 0.98
+    cooperation by round: 0.77 0.75 0.72 0.70 0.67 0.66 0.63 0.60 0.56 0.51
+    rounds 1-9 / round 10: PD 0.29/0.03  chicken 0.66/0.48  stag hunt 0.75/0.55  harmony 0.99/0.98
+    after the partner cooperated / defected in a different game: PD 0.33/0.06  chicken 0.66/0.55  stag hunt 0.81/0.48  harmony 1.00/0.98
+    vs always cooperate: cooperation PD 0.29  chicken 0.49  stag hunt 0.91  harmony 0.98; payoff +0.549; PD cooperation by round 0.35 0.55 0.47 0.39 0.31 0.27 0.22 0.20 0.13 0.05
+    vs always defect   : cooperation PD 0.08  chicken 0.84  stag hunt 0.21  harmony 0.96; payoff -0.220; PD cooperation by round 0.35 0.01 0.04 0.05 0.06 0.06 0.06 0.07 0.05 0.05
+    vs tit for tat     : cooperation PD 0.57  chicken 0.78  stag hunt 0.96  harmony 1.00; payoff +0.402; PD cooperation by round 0.35 0.55 0.62 0.66 0.68 0.71 0.71 0.73 0.63 0.07
+    vs coin flip       : cooperation PD 0.11  chicken 0.59  stag hunt 0.56  harmony 0.98; payoff +0.133; PD cooperation by round 0.35 0.28 0.18 0.11 0.07 0.05 0.03 0.02 0.01 0.01
+done in 1996s
