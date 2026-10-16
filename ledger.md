@@ -94,4 +94,6 @@ requests: `next-steps.md`, item 7.
   fingerprints bitwise identical to the old code, the rest from two intended changes (the
   hidden-game level follows both seats; the detached critic is computed per round), so braced
   and channels were rerun. Codex reviewed it (`cu-framework`): latent issues fixed, design
-  notes for unknown adversaries in `next-steps.md`.
+  notes for unknown adversaries in `next-steps.md`. Unknown adversaries, first run: the hazard
+  sets the end game; twins found no handshake and spent their dependence on lookalikes; a rosy
+  critic made a defector, not a sucker.

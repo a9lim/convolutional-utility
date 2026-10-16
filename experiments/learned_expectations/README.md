@@ -340,6 +340,40 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   - Three times longer training (9000 steps, 4 seeds) does not raise self-play cooperation
     (prisoner's dilemma 0.24–0.31) but sharpens the end game: against tit for tat, about
     0.6–0.7 through round 9, then 0.07 in round 10 (0.27 at 3000 steps).
+- **Unknown adversaries: the horizon sets the end game, and twins find no handshake** (4 seeds per
+  variant, `adversary_report.txt`, `adversary.png`).
+  - Against copies, past selves and eight scripts, selfish learners reciprocate across games: in
+    prisoner's dilemmas they cooperate with every reciprocating partner (copies, past selves, tit
+    for tat, grim, win-stay lose-shift: 0.73–0.75 on the fixed horizon, about 1.00 on the geometric),
+    defect against always-defect from round 3 (0.99, 0.33, 0.06), and exploit unconditional
+    cooperators only in the end game (a reading, untested: they look like reciprocators until
+    probed, and grim punishes probing). Self-play 0.73 (the four-script iterated agent: 0.29). Held
+    out, tit for two tats is met as a reciprocator, alternation as a defector, an extortionate
+    reactive strategy in between (0.52–0.59).
+  - The hazard sets the end game. Against tit for tat over the last five rounds: fixed horizon
+    0.92, 0.74, 0.48, 0.27, 0.15; uniform on 5–15, 0.96 to 0.83; geometric, flat at 1.00.
+  - Selfish learners defect until about step 1,250, as the iterated agent does; twins and altruists
+    cooperate from the start. With group baselines reciprocity was in place by step 1,500 in every
+    seed (cooperation with the step-1,500 self 0.85–0.98), with the batch baseline in none
+    (0.31–0.36).
+  - Twins cooperate with copies, past selves and reciprocating scripts alike (fixed horizon: 0.91,
+    0.91, 0.86–0.92), and their dependence shows only in the end game, extended to all of them
+    (round 10: 0.77 against copies, 0.76 against tit for tat; selfish 0.09). Partner identity is
+    equally decodable from every honest agent's state (0.38–0.39 after five rounds, chance 0.10):
+    against a cooperator, copies and reciprocators look alike, and telling them apart takes
+    deviations that reciprocators punish. A twin that cannot tell copies apart spends its
+    dependence on their lookalikes, as the partners agent's twin without a signal plays as an
+    altruist at `σw` (synthesis; the matching altruist is untested).
+  - Cross-play, fixed horizon (the row agent's payoff): selfish earns most against every column
+    (0.359 against selfish, 0.409 against twins, 0.443 against altruists), twins are exploited in
+    the end game, altruists cooperate with everyone, always-defect included. On the geometric
+    horizon all nine pairings cooperate fully.
+  - A rosy critic makes a defector, not a sucker. With the motivated critic at `a = 0.3` on the
+    shared state, prisoner's dilemma cooperation stays at 0.10–0.19 against every partner, copies
+    and tit for tat included (self-play payoff 0.27 against 0.40): stuck in the early defection
+    basin, as the hidden-game agent stays complacent (D8). Its state tells partners apart better
+    (0.55 after five rounds): defection draws distinct replies. A braced critic (`a = 0.02`) ends
+    where the honest one does, later (cooperation with the step-1,500 self 0.33).
 - **Gradient noise by baseline** (mixed partners, one training run, `baselines_report.txt`). At equal
   episode budget, groups of 4 episodes sharing their game sequence and partner type, with a leave-one-out
   group baseline (Dr. GRPO's estimator: no std or length normalization), cut the policy gradient's noise

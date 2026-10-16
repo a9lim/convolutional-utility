@@ -1,0 +1,210 @@
+4 seeds, 3000 steps. Cooperation = the prosocial move; PD = prisoner's dilemmas. Means over seeds, per-seed values in brackets where shown. Pool partners in training: copy, past self, always cooperate, always defect, tit for tat, coin flip, grim, win-stay lose-shift, suspicious tit for tat, generous tit for tat; held out: alternate, tit for two tats, extortionate.
+[selfish, fixed]
+    vs copy                           PD 0.73 [0.72 0.75 0.71 0.75]  stag 0.92  chicken 0.90  payoff +0.356
+    vs past self, 500 steps back      PD 0.74 [0.72 0.75 0.73 0.77]  stag 0.93  chicken 0.91  payoff +0.380
+    vs past self, 1500 steps back     PD 0.62 [0.62 0.74 0.40 0.74]  stag 0.87  chicken 0.85  payoff +0.343
+    vs always cooperate               PD 0.75 [0.73 0.76 0.73 0.77]  stag 0.94  chicken 0.92  payoff +0.441
+    vs always defect                  PD 0.16 [0.16 0.16 0.16 0.16]  stag 0.57  chicken 0.57  payoff -0.275
+    vs tit for tat                    PD 0.75 [0.74 0.76 0.73 0.76]  stag 0.95  chicken 0.92  payoff +0.396
+    vs coin flip                      PD 0.29 [0.31 0.29 0.28 0.29]  stag 0.68  chicken 0.66  payoff +0.107
+    vs grim                           PD 0.75 [0.74 0.77 0.73 0.77]  stag 0.93  chicken 0.92  payoff +0.372
+    vs win-stay lose-shift            PD 0.75 [0.73 0.76 0.73 0.77]  stag 0.94  chicken 0.92  payoff +0.386
+    vs suspicious tit for tat         PD 0.73 [0.75 0.76 0.70 0.71]  stag 0.95  chicken 0.92  payoff +0.310
+    vs generous tit for tat           PD 0.75 [0.74 0.76 0.73 0.77]  stag 0.94  chicken 0.92  payoff +0.410
+    vs alternate                      PD 0.23 [0.25 0.22 0.23 0.23]  stag 0.64  chicken 0.63  payoff +0.116
+    vs tit for two tats               PD 0.75 [0.73 0.76 0.73 0.77]  stag 0.94  chicken 0.92  payoff +0.431
+    vs extortionate                   PD 0.53 [0.54 0.53 0.52 0.54]  stag 0.80  chicken 0.79  payoff +0.179
+    PD by round vs copy                       0.99 0.99 0.99 0.98 0.96 0.91 0.71 0.45 0.23 0.09 | by rounds to go 4..0: 0.91 0.71 0.45 0.23 0.09
+    PD by round vs always defect              0.99 0.33 0.06 0.02 0.03 0.02 0.03 0.03 0.03 0.03 | by rounds to go 4..0: 0.02 0.03 0.03 0.03 0.03
+    PD by round vs tit for tat                0.99 1.00 0.99 0.99 0.97 0.92 0.74 0.48 0.27 0.15 | by rounds to go 4..0: 0.92 0.74 0.48 0.27 0.15
+    PD by round vs past self, 500 steps back  0.98 0.99 0.99 0.98 0.96 0.91 0.74 0.48 0.24 0.12 | by rounds to go 4..0: 0.91 0.74 0.48 0.24 0.12
+    partner identity from the state after 1/2/3/5 rounds (balanced accuracy, chance 0.10): 0.20 0.32 0.36 0.39
+[twin, fixed]
+    vs copy                           PD 0.91 [0.95 0.90 0.88 0.93]  stag 0.99  chicken 0.96  payoff +0.402
+    vs past self, 500 steps back      PD 0.91 [0.95 0.90 0.88 0.92]  stag 0.99  chicken 0.96  payoff +0.406
+    vs past self, 1500 steps back     PD 0.91 [0.95 0.89 0.88 0.93]  stag 0.99  chicken 0.96  payoff +0.419
+    vs always cooperate               PD 0.92 [0.95 0.90 0.89 0.93]  stag 0.99  chicken 0.96  payoff +0.420
+    vs always defect                  PD 0.17 [0.17 0.19 0.17 0.17]  stag 0.56  chicken 0.55  payoff -0.280
+    vs tit for tat                    PD 0.91 [0.94 0.89 0.88 0.91]  stag 0.99  chicken 0.96  payoff +0.403
+    vs coin flip                      PD 0.34 [0.34 0.35 0.33 0.36]  stag 0.70  chicken 0.67  payoff +0.098
+    vs grim                           PD 0.89 [0.94 0.86 0.86 0.91]  stag 0.98  chicken 0.94  payoff +0.372
+    vs win-stay lose-shift            PD 0.89 [0.94 0.86 0.85 0.91]  stag 0.98  chicken 0.95  payoff +0.383
+    vs suspicious tit for tat         PD 0.86 [0.90 0.84 0.85 0.87]  stag 0.98  chicken 0.95  payoff +0.313
+    vs generous tit for tat           PD 0.91 [0.95 0.89 0.88 0.92]  stag 0.99  chicken 0.96  payoff +0.408
+    vs alternate                      PD 0.27 [0.26 0.29 0.26 0.29]  stag 0.67  chicken 0.64  payoff +0.110
+    vs tit for two tats               PD 0.92 [0.96 0.90 0.89 0.93]  stag 0.99  chicken 0.96  payoff +0.420
+    vs extortionate                   PD 0.63 [0.63 0.63 0.61 0.64]  stag 0.84  chicken 0.82  payoff +0.177
+    PD by round vs copy                       0.98 0.98 0.97 0.96 0.95 0.94 0.90 0.88 0.82 0.77 | by rounds to go 4..0: 0.94 0.90 0.88 0.82 0.77
+    PD by round vs always defect              0.98 0.42 0.08 0.04 0.04 0.03 0.04 0.03 0.03 0.03 | by rounds to go 4..0: 0.03 0.04 0.03 0.03 0.03
+    PD by round vs tit for tat                0.98 0.98 0.97 0.96 0.94 0.93 0.89 0.85 0.81 0.76 | by rounds to go 4..0: 0.93 0.89 0.85 0.81 0.76
+    PD by round vs past self, 500 steps back  0.98 0.98 0.97 0.96 0.95 0.93 0.90 0.87 0.80 0.78 | by rounds to go 4..0: 0.93 0.90 0.87 0.80 0.78
+    partner identity from the state after 1/2/3/5 rounds (balanced accuracy, chance 0.10): 0.20 0.32 0.36 0.39
+[altruist, fixed]
+    vs copy                           PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.396
+    vs past self, 500 steps back      PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.395
+    vs past self, 1500 steps back     PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.402
+    vs always cooperate               PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.397
+    vs always defect                  PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff -0.403
+    vs tit for tat                    PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.400
+    vs coin flip                      PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff -0.002
+    vs grim                           PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.400
+    vs win-stay lose-shift            PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs suspicious tit for tat         PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.318
+    vs generous tit for tat           PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs alternate                      PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.001
+    vs tit for two tats               PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.398
+    vs extortionate                   PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.178
+    PD by round vs copy                       1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    PD by round vs always defect              1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    PD by round vs tit for tat                1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    PD by round vs past self, 500 steps back  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    partner identity from the state after 1/2/3/5 rounds (balanced accuracy, chance 0.10): 0.20 0.32 0.36 0.39
+[selfish, geometric]
+    vs copy                           PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs past self, 500 steps back      PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.395
+    vs past self, 1500 steps back     PD 0.93 [0.85 0.98 0.95 0.93]  stag 0.97  chicken 0.97  payoff +0.386
+    vs always cooperate               PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.400
+    vs always defect                  PD 0.14 [0.15 0.14 0.14 0.14]  stag 0.56  chicken 0.58  payoff -0.269
+    vs tit for tat                    PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.397
+    vs coin flip                      PD 0.27 [0.28 0.27 0.28 0.26]  stag 0.64  chicken 0.65  payoff +0.112
+    vs grim                           PD 0.99 [0.99 0.99 0.99 0.99]  stag 1.00  chicken 1.00  payoff +0.396
+    vs win-stay lose-shift            PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.398
+    vs suspicious tit for tat         PD 0.89 [0.89 0.90 0.91 0.88]  stag 0.97  chicken 0.97  payoff +0.309
+    vs generous tit for tat           PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs alternate                      PD 0.24 [0.25 0.24 0.25 0.23]  stag 0.60  chicken 0.62  payoff +0.133
+    vs tit for two tats               PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.400
+    vs extortionate                   PD 0.52 [0.53 0.52 0.53 0.51]  stag 0.77  chicken 0.77  payoff +0.141
+    PD by round vs copy                       0.99 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    PD by round vs always defect              0.99 0.23 0.06 0.03 0.03 0.02 0.02 0.01 0.01 0.01 | by rounds to go 4..0: 0.14 0.14 0.13 0.13 0.15
+    PD by round vs tit for tat                1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    PD by round vs past self, 500 steps back  0.99 1.00 1.00 1.00 1.00 1.00 1.00 1.00 0.99 1.00 | by rounds to go 4..0: 0.99 1.00 1.00 1.00 1.00
+    partner identity from the state after 1/2/3/5 rounds (balanced accuracy, chance 0.10): 0.20 0.33 0.36 0.39
+[twin, geometric]
+    vs copy                           PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs past self, 500 steps back      PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.396
+    vs past self, 1500 steps back     PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.401
+    vs always cooperate               PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.400
+    vs always defect                  PD 0.17 [0.21 0.15 0.15 0.15]  stag 0.60  chicken 0.60  payoff -0.274
+    vs tit for tat                    PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.397
+    vs coin flip                      PD 0.30 [0.36 0.29 0.28 0.28]  stag 0.67  chicken 0.66  payoff +0.106
+    vs grim                           PD 0.99 [0.99 0.99 0.99 0.99]  stag 1.00  chicken 1.00  payoff +0.396
+    vs win-stay lose-shift            PD 1.00 [0.99 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.398
+    vs suspicious tit for tat         PD 0.92 [0.91 0.93 0.92 0.90]  stag 0.98  chicken 0.98  payoff +0.311
+    vs generous tit for tat           PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs alternate                      PD 0.27 [0.33 0.25 0.25 0.24]  stag 0.64  chicken 0.64  payoff +0.128
+    vs tit for two tats               PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs extortionate                   PD 0.55 [0.59 0.54 0.54 0.53]  stag 0.79  chicken 0.78  payoff +0.143
+    PD by round vs copy                       1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    PD by round vs always defect              1.00 0.28 0.08 0.04 0.05 0.05 0.05 0.03 0.05 0.04 | by rounds to go 4..0: 0.16 0.16 0.15 0.15 0.17
+    PD by round vs tit for tat                1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    PD by round vs past self, 500 steps back  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    partner identity from the state after 1/2/3/5 rounds (balanced accuracy, chance 0.10): 0.20 0.32 0.36 0.39
+[altruist, geometric]
+    vs copy                           PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs past self, 500 steps back      PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.396
+    vs past self, 1500 steps back     PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.402
+    vs always cooperate               PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.400
+    vs always defect                  PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff -0.398
+    vs tit for tat                    PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.397
+    vs coin flip                      PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.001
+    vs grim                           PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs win-stay lose-shift            PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.398
+    vs suspicious tit for tat         PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.322
+    vs generous tit for tat           PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs alternate                      PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.018
+    vs tit for two tats               PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs extortionate                   PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.174
+    PD by round vs copy                       1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    PD by round vs always defect              1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    PD by round vs tit for tat                1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    PD by round vs past self, 500 steps back  1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 1.00
+    partner identity from the state after 1/2/3/5 rounds (balanced accuracy, chance 0.10): 0.20 0.33 0.36 0.39
+[selfish, uniform]
+    vs copy                           PD 0.93 [0.95 0.90 0.95 0.91]  stag 0.99  chicken 0.98  payoff +0.392
+    vs past self, 500 steps back      PD 0.92 [0.96 0.89 0.93 0.91]  stag 0.98  chicken 0.98  payoff +0.388
+    vs past self, 1500 steps back     PD 0.82 [0.59 0.88 0.93 0.86]  stag 0.94  chicken 0.93  payoff +0.375
+    vs always cooperate               PD 0.94 [0.96 0.92 0.96 0.93]  stag 0.99  chicken 0.99  payoff +0.411
+    vs always defect                  PD 0.15 [0.15 0.15 0.16 0.15]  stag 0.58  chicken 0.59  payoff -0.272
+    vs tit for tat                    PD 0.95 [0.97 0.93 0.96 0.93]  stag 0.99  chicken 0.99  payoff +0.399
+    vs coin flip                      PD 0.29 [0.28 0.29 0.31 0.28]  stag 0.66  chicken 0.66  payoff +0.108
+    vs grim                           PD 0.94 [0.96 0.92 0.96 0.92]  stag 0.99  chicken 0.98  payoff +0.390
+    vs win-stay lose-shift            PD 0.94 [0.96 0.92 0.96 0.92]  stag 0.99  chicken 0.98  payoff +0.393
+    vs suspicious tit for tat         PD 0.84 [0.83 0.85 0.89 0.80]  stag 0.97  chicken 0.96  payoff +0.305
+    vs generous tit for tat           PD 0.94 [0.97 0.92 0.96 0.93]  stag 0.99  chicken 0.99  payoff +0.406
+    vs alternate                      PD 0.23 [0.21 0.22 0.25 0.22]  stag 0.63  chicken 0.63  payoff +0.137
+    vs tit for two tats               PD 0.95 [0.97 0.93 0.96 0.93]  stag 0.99  chicken 0.99  payoff +0.411
+    vs extortionate                   PD 0.59 [0.59 0.58 0.61 0.58]  stag 0.80  chicken 0.82  payoff +0.166
+    PD by round vs copy                       0.98 0.99 0.99 0.99 0.99 0.99 0.98 0.97 0.94 0.89 | by rounds to go 4..0: 0.95 0.93 0.88 0.82 0.76
+    PD by round vs always defect              0.98 0.30 0.05 0.03 0.03 0.02 0.02 0.02 0.02 0.03 | by rounds to go 4..0: 0.14 0.05 0.03 0.02 0.02
+    PD by round vs tit for tat                0.99 1.00 1.00 1.00 0.99 0.99 0.99 0.98 0.96 0.91 | by rounds to go 4..0: 0.96 0.95 0.91 0.86 0.83
+    PD by round vs past self, 500 steps back  0.98 0.99 1.00 0.99 0.99 0.99 0.98 0.96 0.94 0.89 | by rounds to go 4..0: 0.95 0.92 0.88 0.82 0.74
+    partner identity from the state after 1/2/3/5 rounds (balanced accuracy, chance 0.10): 0.20 0.32 0.36 0.39
+[selfish, geometric, rosy critic]
+    vs copy                           PD 0.14 [0.12 0.13 0.14 0.18]  stag 0.73  chicken 0.73  payoff +0.271
+    vs past self, 500 steps back      PD 0.14 [0.12 0.13 0.14 0.18]  stag 0.73  chicken 0.72  payoff +0.265
+    vs past self, 1500 steps back     PD 0.14 [0.11 0.13 0.15 0.17]  stag 0.73  chicken 0.73  payoff +0.274
+    vs always cooperate               PD 0.18 [0.12 0.14 0.15 0.31]  stag 0.76  chicken 0.77  payoff +0.526
+    vs always defect                  PD 0.10 [0.09 0.08 0.11 0.10]  stag 0.67  chicken 0.67  payoff -0.260
+    vs tit for tat                    PD 0.19 [0.11 0.14 0.14 0.37]  stag 0.77  chicken 0.77  payoff +0.296
+    vs coin flip                      PD 0.15 [0.11 0.13 0.14 0.22]  stag 0.73  chicken 0.73  payoff +0.135
+    vs grim                           PD 0.13 [0.11 0.11 0.13 0.18]  stag 0.71  chicken 0.71  payoff -0.037
+    vs win-stay lose-shift            PD 0.16 [0.12 0.13 0.15 0.26]  stag 0.75  chicken 0.74  payoff +0.209
+    vs suspicious tit for tat         PD 0.18 [0.11 0.13 0.14 0.36]  stag 0.76  chicken 0.76  payoff +0.217
+    vs generous tit for tat           PD 0.19 [0.12 0.14 0.15 0.36]  stag 0.76  chicken 0.75  payoff +0.373
+    vs alternate                      PD 0.16 [0.12 0.14 0.15 0.23]  stag 0.74  chicken 0.73  payoff +0.150
+    vs tit for two tats               PD 0.19 [0.12 0.14 0.16 0.33]  stag 0.76  chicken 0.76  payoff +0.459
+    vs extortionate                   PD 0.16 [0.12 0.13 0.14 0.24]  stag 0.73  chicken 0.74  payoff +0.149
+    PD by round vs copy                       0.25 0.23 0.15 0.15 0.15 0.13 0.13 0.12 0.10 0.10 | by rounds to go 4..0: 0.13 0.16 0.13 0.14 0.14
+    PD by round vs always defect              0.24 0.17 0.11 0.08 0.07 0.08 0.06 0.05 0.05 0.06 | by rounds to go 4..0: 0.10 0.10 0.09 0.09 0.08
+    PD by round vs tit for tat                0.26 0.21 0.20 0.16 0.17 0.18 0.16 0.17 0.17 0.19 | by rounds to go 4..0: 0.20 0.19 0.19 0.18 0.17
+    PD by round vs past self, 500 steps back  0.26 0.22 0.18 0.16 0.13 0.12 0.12 0.14 0.11 0.12 | by rounds to go 4..0: 0.13 0.15 0.12 0.14 0.14
+    partner identity from the state after 1/2/3/5 rounds (balanced accuracy, chance 0.10): 0.20 0.34 0.43 0.55
+[selfish, geometric, braced critic]
+    vs copy                           PD 0.99 [0.98 0.99 0.99 0.99]  stag 1.00  chicken 1.00  payoff +0.398
+    vs past self, 500 steps back      PD 0.98 [0.98 0.98 0.99 0.98]  stag 0.99  chicken 0.99  payoff +0.393
+    vs past self, 1500 steps back     PD 0.33 [0.34 0.31 0.36 0.32]  stag 0.70  chicken 0.71  payoff +0.233
+    vs always cooperate               PD 1.00 [0.99 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.400
+    vs always defect                  PD 0.15 [0.15 0.14 0.15 0.14]  stag 0.55  chicken 0.56  payoff -0.270
+    vs tit for tat                    PD 1.00 [0.99 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.397
+    vs coin flip                      PD 0.28 [0.29 0.27 0.28 0.26]  stag 0.64  chicken 0.64  payoff +0.111
+    vs grim                           PD 0.99 [0.99 0.99 0.99 0.99]  stag 1.00  chicken 1.00  payoff +0.394
+    vs win-stay lose-shift            PD 0.99 [0.99 0.99 0.99 0.99]  stag 1.00  chicken 1.00  payoff +0.397
+    vs suspicious tit for tat         PD 0.85 [0.85 0.87 0.86 0.82]  stag 0.96  chicken 0.96  payoff +0.304
+    vs generous tit for tat           PD 0.99 [0.99 0.99 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.399
+    vs alternate                      PD 0.25 [0.27 0.24 0.25 0.24]  stag 0.61  chicken 0.62  payoff +0.132
+    vs tit for two tats               PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.400
+    vs extortionate                   PD 0.53 [0.53 0.52 0.53 0.52]  stag 0.76  chicken 0.76  payoff +0.139
+    PD by round vs copy                       0.97 1.00 0.99 0.99 0.99 0.99 0.99 1.00 0.99 0.99 | by rounds to go 4..0: 0.98 0.99 0.99 0.99 0.98
+    PD by round vs always defect              0.98 0.26 0.06 0.03 0.03 0.02 0.02 0.01 0.01 0.01 | by rounds to go 4..0: 0.14 0.14 0.13 0.13 0.15
+    PD by round vs tit for tat                0.99 1.00 0.99 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 0.99 0.99
+    PD by round vs past self, 500 steps back  0.98 0.99 0.99 0.98 0.99 0.99 0.98 0.99 0.98 0.99 | by rounds to go 4..0: 0.98 0.98 0.98 0.98 0.98
+    partner identity from the state after 1/2/3/5 rounds (balanced accuracy, chance 0.10): 0.20 0.32 0.36 0.38
+[selfish, geometric, batch baseline]
+    vs copy                           PD 0.99 [0.99 0.99 0.99 0.99]  stag 1.00  chicken 1.00  payoff +0.398
+    vs past self, 500 steps back      PD 0.99 [0.99 0.99 0.99 0.99]  stag 1.00  chicken 1.00  payoff +0.394
+    vs past self, 1500 steps back     PD 0.34 [0.35 0.34 0.31 0.36]  stag 0.70  chicken 0.71  payoff +0.226
+    vs always cooperate               PD 1.00 [1.00 1.00 1.00 0.99]  stag 1.00  chicken 1.00  payoff +0.400
+    vs always defect                  PD 0.17 [0.22 0.17 0.14 0.16]  stag 0.57  chicken 0.59  payoff -0.275
+    vs tit for tat                    PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.397
+    vs coin flip                      PD 0.30 [0.33 0.29 0.28 0.30]  stag 0.68  chicken 0.69  payoff +0.108
+    vs grim                           PD 0.99 [0.99 0.99 0.99 0.99]  stag 1.00  chicken 1.00  payoff +0.393
+    vs win-stay lose-shift            PD 0.99 [1.00 0.99 0.99 0.99]  stag 1.00  chicken 1.00  payoff +0.397
+    vs suspicious tit for tat         PD 0.90 [0.90 0.91 0.87 0.92]  stag 0.97  chicken 0.98  payoff +0.310
+    vs generous tit for tat           PD 1.00 [0.99 1.00 1.00 0.99]  stag 1.00  chicken 1.00  payoff +0.399
+    vs alternate                      PD 0.27 [0.30 0.25 0.25 0.27]  stag 0.66  chicken 0.67  payoff +0.130
+    vs tit for two tats               PD 1.00 [1.00 1.00 1.00 1.00]  stag 1.00  chicken 1.00  payoff +0.400
+    vs extortionate                   PD 0.54 [0.56 0.53 0.53 0.54]  stag 0.80  chicken 0.80  payoff +0.149
+    PD by round vs copy                       0.97 1.00 1.00 1.00 1.00 1.00 1.00 1.00 0.99 1.00 | by rounds to go 4..0: 0.99 0.99 1.00 0.99 0.99
+    PD by round vs always defect              0.98 0.34 0.12 0.06 0.05 0.05 0.04 0.03 0.04 0.03 | by rounds to go 4..0: 0.16 0.17 0.15 0.15 0.17
+    PD by round vs tit for tat                0.99 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 | by rounds to go 4..0: 1.00 1.00 1.00 1.00 0.99
+    PD by round vs past self, 500 steps back  0.98 0.99 0.99 0.99 0.99 1.00 0.99 0.99 0.99 0.99 | by rounds to go 4..0: 0.99 0.99 0.99 0.99 0.99
+    partner identity from the state after 1/2/3/5 rounds (balanced accuracy, chance 0.10): 0.20 0.32 0.36 0.39
+cross-play, fixed horizon: row agent against a frozen column agent of another seed; PD cooperation / payoff of the row agent (self-play: against its own copy)
+    selfish   selfish 0.73 / +0.359   twin 0.73 / +0.409   altruist 0.75 / +0.443   self-play 0.73 / +0.356
+    twin      selfish 0.88 / +0.337   twin 0.89 / +0.394   altruist 0.92 / +0.423   self-play 0.91 / +0.402
+    altruist  selfish 1.00 / +0.327   twin 1.00 / +0.385   altruist 1.00 / +0.400   self-play 1.00 / +0.396
+cross-play, geometric horizon: row agent against a frozen column agent of another seed; PD cooperation / payoff of the row agent (self-play: against its own copy)
+    selfish   selfish 1.00 / +0.399   twin 1.00 / +0.399   altruist 1.00 / +0.399   self-play 1.00 / +0.399
+    twin      selfish 1.00 / +0.399   twin 1.00 / +0.399   altruist 1.00 / +0.399   self-play 1.00 / +0.399
+    altruist  selfish 1.00 / +0.399   twin 1.00 / +0.399   altruist 1.00 / +0.399   self-play 1.00 / +0.399
+done in 4298s

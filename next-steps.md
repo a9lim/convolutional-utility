@@ -17,19 +17,14 @@ in `formalism/` and the experiment READMEs; this file lists only what is open.
      policy gradient alone, plus the game-varying critic gradient, plus its per-round mean;
      round-2 stay logit on fixed first-round histories.
    - **Seeds.** The game agent's motivated-belief pattern is still one run.
-   - **Unknown adversaries** (next; on the framework, `rounds.py`). Iterated games with random
-     horizons (geometric or uniform: the hazard's shape as a dial for the end game) against a
-     partner drawn per episode and never revealed: scripts, copies, frozen past snapshots (a
-     league), a frozen independent bank, co-learners, held-out partners. Selfish, twin (gated on
-     true copies), altruist and felt objectives; Dr. GRPO-style group baselines (groups of about
-     4) and a separate-critic GAE arm. Predictions: twins invent a handshake (the copy bit, from
-     behavior); past snapshots act as forgers; a rosy critic makes a sucker. Design (Codex,
-     `cu-framework`): padded episodes with masks and per-episode terminal bootstraps; time not
-     normalized by the realized horizon (it would reveal it); a group shares horizon, games,
-     labels and partner; privileged per-episode metadata (partner, true copy, group) kept out of
-     the observation; the objective's weights over partner types made explicit; the felt
-     critic `C` (affect, discount `ν`) kept apart from the advantage baseline `V` (discount
-     `γ`); `rounds.train` split into rollout, rewards, advantages, critic targets and update.
+   - **Unknown adversaries** (`adversary.py`). No handshake at 3000 steps: longer training, a larger
+     share of copies, partners that do not punish probing, the dependence signal or cheap talk (does
+     a twin use them?). Test the twin as an altruist toward lookalikes (an altruist at the copies'
+     share of cooperating partners, about 0.29). Why the batch baseline and a braced critic learn
+     reciprocity later; the rosy critic's defection basin with its level outside (D8's mechanism or
+     the felt objective?); co-learning partners and a frozen independent bank; the policy on felt
+     utility; the separate-critic GAE arm, keeping the felt critic `C` (affect, discount `ν`) apart
+     from the advantage baseline `V` (discount `γ`, Codex).
    - **The generalist.** Every head on one trunk across wings: does affect trained in one
      context change action in another (D8 across tasks)? After the per-task baselines.
    - **Evolving felt parameters.** Is `λ`'s neutrality the consolation term undoing its
