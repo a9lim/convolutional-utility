@@ -41,7 +41,8 @@ artifact); sources in `bibliography.md`.
     decision", not "beliefs are welfare" bare.
   - Define on first use the words LessWrong uses otherwise: *anticipation* is felt, not the
     "anticipated experiences" of "Making Beliefs Pay Rent"; *news* is a felt revision, not
-    information; *valence* is not Byrnes's.
+    information; *valence* is not Byrnes's; *utility* is felt and summed, not a VNM
+    representation of preferences (§2).
   - Say what the post brings, never that LessWrong lacks it: the scans were not exhaustive.
   - Keep agent provenance (who argued what) out of the post; it lives in the companion and
     the ledger.
@@ -56,6 +57,7 @@ abstract only · **2ND** second-hand · **scan** a LessWrong search summary, rea
 | savoring and dread change what people choose | Loewenstein 1987 (FT); Berns et al. 2006 (FT) | "Lotteries: a waste of hope" (scan); "Justified expectation of pleasant surprises" (FT) | 1 |
 | anticipation and memory as felt utility, counted where felt | Jevons 1871 (no entry); Caplin & Leahy 2001 (FT), 2004 (WP); Kahneman, Wakker & Sarin 1997 (FT); Hersch & Weltman 2022 (FT) | experiencing against remembering self (lukeprog 2011, Metus 2012; scan) | 2 |
 | recursive, two-sided interdependence and its stability | Bergstrom 1999 (FT) | | 2, 5 |
+| the same recursion read as preference: benefit-cost on private values | Bergstrom 2006 (WP); Milgrom 1993 (2ND) | | 2 |
 | discounting backward as well as forward | Ray, Vellodi & Wang 2024 (FT) | | 2 |
 | momentary happiness as expectations plus prediction errors | Rutledge et al. 2014 (FT) | Byrnes, valence series (scan) | 2, 9 |
 | planner weights over a life; no pure time preference | Caplin & Leahy 2004 (WP); Ramsey 1928 (FT) | "Against discount rates" (scan) | 3 |
@@ -142,6 +144,13 @@ Word budget: 9.4k.
 - **Four things to keep apart:** an event's base utility; the experienced utility of a
   moment; the welfare of a life; the objective a self chooses by. Most confusion in this
   literature is a slide between two of them.
+- **Not a VNM utility** *standard*. On LessWrong "utility" defaults to von Neumann and
+  Morgenstern's: a representation of preferences over lotteries, unique up to positive
+  affine maps, with no zero, and summable across times or people only with further
+  structure. Experienced utility is felt, cardinal and summed, and its zero matters: a
+  longer life at negative `e` is worse, and the level kinks (§5) sit at hedonic zero, which
+  choices alone do not pin. Choices bear on it only through an assumption about what a self
+  chooses by (patience §3, loss aversion §9).
 - **The equation.** Experienced utility now is base utility now, plus felt anticipation of
   later experience, plus felt memory of earlier experience, plus felt news (the jolt when
   forecasts change):
@@ -179,6 +188,15 @@ Word budget: 9.4k.
   - The **life weight** `w(s)`: what a unit of base utility at `s` adds to the life-sum once
     every echo is counted (§3, §4, §7).
   - The **felt row**: how the momentary self weighs the rest of its life (§3, §5).
+  - **Rows and columns of one operator** *standard* algebra, the reading *synthesis*. For a
+    foreseen life `e = R u` with `R = (I − K)⁻¹`: the felt row is a row of `R`, the life
+    weight a column sum, `W = Σ_s w(s) u_s`. Read as preference, the same recursion makes
+    each row a self's utility function over the life (Bergstrom 1999 between people;
+    Sáez-Martí & Weibull 2005 between selves), the momentary hedonist's objective, and with
+    pure altruism benefit-cost counts base values only (Bergstrom 2006; Milgrom 1993). The
+    hedonic reading sums the columns. Which object is welfare is the reading, and the two
+    disagree most about time: a steeply present-weighted row against flat interior columns
+    (§3).
 - **Identification** *standard*: any felt path fits some base path (P10). The kernel is a
   frame until data or a structural family pin it (§9).
 - **LessWrong anchors.** Experiencing against remembering self (lukeprog 2011; Metus 2012);
