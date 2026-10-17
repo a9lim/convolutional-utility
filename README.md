@@ -33,9 +33,8 @@ interdependence (Bergstrom), news utility (Kőszegi & Rabin), optimal expectatio
 own questions: the Litany of Gendlin, value of information and updatelessness, Newcomb and
 FDT, discount rates, the Anthropic Trilemma. The candidate results, not found in the
 literature passes, are narrower: shape as a boundary effect (and the ramp theorem),
-recursion's price on information under dread, a calibrated Bayesian being already braced
-(flagged: it needs loss-averse news), the news loop's gain, and a reanalysis of public
-momentary-happiness data. Two framings are new
+recursion's price on information under dread, the news loop's gain, and a reanalysis of
+public momentary-happiness data. Two framings are new
 assemblies with close prior art: affect policies and their leaks, and the past self as
 predictor. The full lists are at the top of `outline.md`.
 

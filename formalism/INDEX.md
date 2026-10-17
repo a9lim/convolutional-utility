@@ -10,7 +10,8 @@ provenance (standard, known, known in kind, synthesis, not found, speculation) a
   forecasts, linear and sign-symmetric) and its reduced form, the reinforcement-learning
   reading, objects, echoes P1–P10 (peak-end with P7), felt news N1–N4 (N3 and the threshold
   also in the canonical model), the recollection-news sketch, the 2×2 of echoes against news,
-  and the extension: sign asymmetries X1–X4, ranked by felt evidence. Post §2–§5.
+  and the extension: sign asymmetries X1–X4, ranked by felt evidence, and the bracing they
+  give a calibrated Bayesian. Post §2–§5.
 - `decision.md` — decision theory under the hedonic reading: how much the felt past depends
   on the present choice (`J`), D1–D7 (Newcomb-like choices, decision rules, the savoring trap,
   the momentary hedonist, beliefs as welfare, reliability, affect policies). Post §4–§7.
@@ -63,7 +64,6 @@ support; a dash means the claim rests on the cited source or on algebra in the d
 | 5 | sign asymmetries ranked by felt evidence: dread, memory by sign, a base kink, loss-averse news | X1–X4; calibration | synthesis; data | sources; data | `audit/sign_kernels.py`, `audit/risk_cost.py` |
 | 5 | kinked echoes well-founded, given news forcing, when the reach-aware larger-side echo share `L < 1` | core, extension | standard argument; Codex | — | — |
 | 5 | dread of dread prices information only in R; exact identity (extension) | D5, X1 | not found; structure known (Kreps–Porteus via Skiadas 1998) | proved; checked | `D5 identity`, `D5 straddle`, `D5 timing-neutral unless R` |
-| 5 | a calibrated Bayesian is already braced (extension, flagged: needs loss-averse news) | X4 (N3 canonical) | not found | checked (Gaussian) | `N3 canonical slope`, `N3 canonical optimum` |
 | 5 | the news loop's gain: unique and stable iff `κ < 1`, amplification `1/(1−κ)` | N4 | known in kind (Kimball & Willis 2006, linear solvability); closed form not found | proved; checked | `N4 half-line` |
 | 5 | with loss-averse news, the threshold `λκ < 1` and the regimes past it | X4 (N4) | not found (sharp form); known in kind (Kimball & Willis 2006) | proved; checked | `N4 regimes`, `N4 saturation` |
 | 5 | far news felt now; cancelling costs the anticipation | N4; the 2×2 | known in kind | checked | `RF` echoed news kernel; `formalism/playground` |
@@ -93,4 +93,6 @@ support; a dash means the claim rests on the cited source or on algebra in the d
 
 In the companion only: P1(d) heavy tails, P8 (the James Dean effect), P9's semantics beyond
 what §7 needs, D4, the recollection-news sketch, the 2×2's table, the threshold's closed form
-and X4's full regime classification, the optimism quantile, A2, the horizons beyond a life.
+and X4's full regime classification, the optimism quantile, built-in bracing (concave feelings
+brace a calibrated Bayesian, the extension and X4: checks `Bracing`, `N3 canonical`), A2, the
+horizons beyond a life.

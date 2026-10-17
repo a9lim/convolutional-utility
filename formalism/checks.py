@@ -650,6 +650,133 @@ for T, s, a, al, m, mu, n0, nu in [(12, 7, 0.15, 0.8, 0.1, 0.6, 0.3, 0.7), (14, 
 report("N3 canonical, lam = 1: slope Acal - (1'g) kt at every bias", err1, tol=5e-3)
 
 
+# Bracing (core, the extension). One event u_s = Z ~ N(0, 1), revealed at s; recursive echoes kinked by
+# sign (gains ap, mp with memory reach mup; losses am, mm, mum), felt news phi_lam over e, Bayesian
+# forecasts. Concave kinks (am >= ap, mm mum^j >= mp mup^j at every lag, lam >= 1) make every felt state
+# after the event nondecreasing and concave in Z: at Z = 0 each is at or above its forecast, the felt news
+# N(0) >= 0, and P(N < 0) <= 1/2. Convex kinks make them convex and reverse the inequalities at Z = 0. At
+# lam = 1, exactly, N(0) = kn'.dK (E[e^-] - e(0)^-), dK the loss-minus-gain kernel after the event and kn'
+# the echoed news kernel of the gain side; to first order, around the symmetric kernel,
+# N(0) = kn'.dK g / ((1 - kappa) sqrt(2 pi)) and P(N < 0) = 1/2 - kn'.dK g / (2 pi kappa).
+zb = np.linspace(-8, 8, 3201)
+wb = np.exp(-zb ** 2 / 2)
+wb /= wb.sum()
+i0 = len(zb) // 2
+
+
+def braced(T, s, al, ap, am, mp, mm, mup, mum, n0, nu, lam=1.0):
+    """Felt states after the event by outcome (rows over zb), the felt news at realization, P(N < 0)."""
+    Kp, Km = K_matrix(T, ap, al, mp, mup), K_matrix(T, am, al, mm, mum)
+    kn = n0 * nu ** np.arange(T - s)
+    phi = lambda x: np.where(x >= 0, x, lam * x)
+    e = np.zeros((len(zb), T))
+    for _ in range(50000):
+        new = np.maximum(e, 0) @ Kp.T - np.maximum(-e, 0) @ Km.T
+        new[:, :s] = wb @ new[:, :s]                   # before the event: the expected kinked echo
+        new[:, s] += zb + phi(e[:, s:] - wb @ e[:, s:]) @ kn
+        if np.abs(new - e).max() < 1e-13:
+            break
+        e = 0.5 * new + 0.5 * e
+    else:
+        raise RuntimeError("bracing: felt fixed point did not converge")
+    eF = new[:, s:]
+    N = phi(eF - wb @ eF) @ kn
+    k = np.nonzero(np.diff(np.sign(N)))[0][0]
+    z0 = zb[k] - N[k] * (zb[k + 1] - zb[k]) / (N[k + 1] - N[k])
+    return eF, N, float(Phi(z0)), Kp[s:, s:], Km[s:, s:], kn
+
+
+def echoed_news(K, kn):
+    """kn' = kn'R_F / (1 - kappa), g and kappa on the kernel K after the event."""
+    RF = np.linalg.inv(np.eye(len(kn)) - K)
+    return RF.T @ kn / (1 - kn @ RF[:, 0]), RF[:, 0], kn @ RF[:, 0]
+
+
+T, s, al, n0 = 30, 12, 0.6, 0.3
+err_shape, err_id, Ps = 0.0, 0.0, {}
+for kind, cases in {"concave": {"dread": (0.1, 0.3, 0.3, 0.3, 0.5, 0.5, 0.7, 1.0),
+                                "rumination": (0.2, 0.2, 0.2, 0.4, 0.5, 0.5, 0.7, 1.0),
+                                "news lam 2": (0.2, 0.2, 0.3, 0.3, 0.5, 0.5, 0.7, 2.0),
+                                "news lam 2 + dread": (0.1, 0.3, 0.3, 0.3, 0.5, 0.5, 0.7, 2.0),
+                                # no gain-side echo and nu = 0, so the gain side's g and kn' reach no later
+                                # moment; loss-side memory and anticipation still carry the outcome (Codex)
+                                "loss side only, nu = 0": (0.0, 0.2, 0.0, 0.2, 0.5, 0.5, 0.0, 1.0)},
+                    "convex": {"savoring > dread": (0.3, 0.1, 0.3, 0.3, 0.5, 0.5, 0.7, 1.0),
+                               "fading affect alone": (0.2, 0.2, 0.3, 0.3, 0.6, 0.4, 0.7, 1.0)},
+                    "null": {"dread, m = 0": (0.1, 0.3, 0.0, 0.0, 0.5, 0.5, 0.7, 1.0),
+                             "rumination, a = nu = 0": (0.0, 0.0, 0.2, 0.4, 0.5, 0.5, 0.0, 1.0)}}.items():
+    for name, (ap, am, mp, mm, mup, mum, nu, lam) in cases.items():
+        eF, N, P, Kp, Km, kn = braced(T, s, al, ap, am, mp, mm, mup, mum, n0, nu, lam)
+        gap, d2 = eF[i0] - wb @ eF, np.diff(eF, 2, axis=0)
+        Ps[name] = P
+        err_shape = max(err_shape, -np.diff(eF, axis=0).min(), -np.diff(N).min())   # nondecreasing in Z
+        if kind == "concave":
+            err_shape = max(err_shape, d2.max(), -gap.min(), float(N[i0] <= 0), float(P >= 0.5))
+        elif kind == "convex":
+            err_shape = max(err_shape, -d2.min(), gap.max(), float(N[i0] >= 0), float(P <= 0.5))
+        else:
+            err_shape = max(err_shape, abs(N[i0]))
+        if lam == 1.0:
+            neg = np.maximum(-eF, 0)
+            err_id = max(err_id, abs(N[i0] - echoed_news(Kp, kn)[0] @ (Km - Kp) @ (wb @ neg - neg[i0])))
+report("Bracing: concave kinks -> every felt state concave in Z, N(0) > 0, P(loss) < 1/2; convex reverse; "
+       "dread needs memory, rumination needs reach", err_shape, tol=1e-10)
+report("Bracing, lam = 1: N(0) = kn'.dK (E[e^-] - e(0)^-)", err_id, tol=1e-10)
+print("     P(N < 0): " + ", ".join(f"{k} {v:.4f}" for k, v in Ps.items()))
+
+# lam alone reproduces X4's closed form: N(z) = psi(z - sbar), so E N = sbar and N(0) = kt (-sbar)
+eF, N, P, Kp, _, kn = braced(T, s, al, 0.2, 0.2, 0.3, 0.3, 0.5, 0.5, n0, 0.7, 2.0)
+kap = echoed_news(Kp, kn)[2]
+kt, lt = kap / (1 - kap), 2.0 * (1 - kap) / (1 - 2.0 * kap)
+lo, hi = -50.0, 0.0
+for _ in range(100):
+    mid = (lo + hi) / 2
+    lo, hi = (mid, hi) if mid - wb @ (np.where(zb - mid >= 0, kt, lt * kt) * (zb - mid)) < 0 else (lo, mid)
+sbar = (lo + hi) / 2
+report("Bracing, news alone: E N = sbar, N(0) = kt (-sbar) (X4)", max(abs(wb @ N - sbar), abs(N[i0] + kt * sbar)),
+       tol=1e-8)
+
+# first order in the asymmetry
+err_fo = 0.0
+for ap, am, mp, mm in [(0.198, 0.202, 0.3, 0.3), (0.2, 0.2, 0.297, 0.303)]:
+    eF, N, P, Kp, Km, kn = braced(T, s, al, ap, am, mp, mm, 0.5, 0.5, n0, 0.7)
+    knp, g, kap = echoed_news((Kp + Km) / 2, kn)
+    err_fo = max(err_fo, abs(N[i0] / (knp @ (Km - Kp) @ g / ((1 - kap) * np.sqrt(2 * np.pi))) - 1))
+report("Bracing, first order: N(0) = kn'.dK g / ((1 - kappa) sqrt(2 pi)) at a 1% asymmetry", err_fo, tol=5e-3)
+
+# Mixed memory, illustrative: a loss echo 1.75 times a gain's at lag 1, fading faster, equal echo masses
+# (not the data's trial-scale shape). To first order the sign is sum_j dm_j W_j, W_j = sum_t kn'(t + j) g_t;
+# a nonincreasing kn' makes W nonincreasing, so the single crossing braces; a rising kn' can reverse it.
+mup, mp, mum = 0.6, 0.05, 0.3
+mm = mp * mup / (1 - mup) * (1 - mum) / mum
+rows, ok = [], True
+for nu in (0.7, 0.99):
+    eF, N, P, Kp, Km, kn = braced(120, 20, 0.8, 0.2, 0.2, mp, mm, mup, mum, 0.1, nu)
+    knp, g, _ = echoed_news((Kp + Km) / 2, kn)
+    L = len(kn)
+    W = np.array([knp[j:] @ g[:L - j] for j in range(1, L)])
+    dm = mm * mum ** np.arange(1, L) - mp * mup ** np.arange(1, L)
+    decaying = bool(np.all(np.diff(knp) <= 0))
+    ok &= (np.sign(dm @ W) == np.sign(N[i0])) and decaying == (nu == 0.7) and (N[i0] > 0) == decaying
+    ok &= (not decaying) or bool(np.all(np.diff(W) <= 0))
+    rows.append(f"P(N < 0) = {P:.4f} at nu = {nu} (kn' {'nonincreasing' if decaying else 'rising'})")
+print("     equal-mass front-loaded loss echo: " + "; ".join(rows))
+report("Bracing, mixed memory: first-order sign sum_j dm_j W_j; braced with nonincreasing kn', reversed "
+       "with rising kn'", float(not ok))
+
+# Size in the illustrative felt calibrations: dread 3 and 6 times savoring at the default mean; memory with
+# the data's lag-1 ratio 1.13 and mass ratio 1.02, carried to the default's decay; against loss-averse news
+# at lam = 1.2 and 2.
+for name, (a, al_, m, mu, n0_, nu) in {"day": (0.05, 0.8, 0.1, 0.5, 0.2, 0.8),
+                                       "life": (0.064, 0.7, 0.4, 0.3, 0.2, 0.7)}.items():
+    mum = 1 - (1 - mu) * 1.13 / 1.02
+    out = [braced(60, 30, al_, 2 * a / (1 + r), 2 * a * r / (1 + r), m, m, mu, mu, n0_, nu)[2] for r in (3, 6)]
+    out.append(braced(60, 30, al_, a, a, m, 1.13 * m * mu / mum, mu, mum, n0_, nu)[2])
+    out += [braced(60, 30, al_, a, a, m, m, mu, mu, n0_, nu, lam)[2] for lam in (1.2, 2.0)]
+    print(f"Brc {name}: P(N < 0) = {out[0]:.4f} / {out[1]:.4f} (dread x3 / x6), {out[2]:.4f} (memory by sign), "
+          f"{out[3]:.4f} / {out[4]:.4f} (news lam 1.2 / 2)")
+
+
 # D5, exact: with sign-dependent strengths (kp, km forward; mp, mm backward) and Bayesian forecasts,
 # E[W] = W_sym - sum_t w_t [(km - kp) sum_j al^j E[X_{t+j}^-] + (mm - mp) sum_j mu^j E[X_{t-j}^-]],
 # w the life weights of the (kp, mp) kernel (D: 1 for these terms); no felt news. X = u in D:

@@ -27,10 +27,8 @@ Each item names the section and claim it unblocks.
 2. **Evidence the post's numbers rest on.**
    - §7: archive the script behind D3's credible-plan table (80 draws; a session script
      until now, its rerun dropping the draws past the threshold), or drop its percentages.
-   - §5: write out what the docs only assert: P4's matching step for `r(0)`, the half-line
-     `g_j` behind N4's `κ`, and X4's `Θ, λ̃, b*`.
-   - §5, #3: does built-in bracing survive at `λ = 1` with sign-asymmetric echoes (X1, X2),
-     as skew in felt experience concave in the outcome? If not, cut it from the post.
+   - §5: write out what the docs only assert: P4's matching step for `r(0)` and the
+     half-line `g_j` behind N4's `κ`.
 3. **Priority before claiming.** §5's two-sided present bias (P4): read Kimball 1987 (*J.
    Monetary Econ.* 20(2): 301–326) and Hori 1992 (*JET* 56(2): 451–467); until then it is
    "not found, provisionally".
@@ -68,9 +66,9 @@ Each item names the section and claim it unblocks.
     `J` as a function of predictability (§7).
   - D2 with news: the `J` identity extended by the news-forcing derivative and a stated
     reference counterfactual.
-  - N3 in the canonical model with sign-asymmetric memory of disappointment (the fading
-    affect bias, X2); whether X4's built-in bracing survives forecasts that are not fully
-    Bayesian.
+  - N3 in the canonical model with kinked echoes at `λ = 1` (dread, memory by sign): does the
+    optimism trade gain an interior optimum, as loss-averse news gives one (X4)? Whether
+    built-in bracing survives forecasts that are not fully Bayesian.
   - D5: the delusional optimist under felt news (unaware against sophisticated);
     rationalization given Bénabou's cancellation; recollection news formalized, with the
     backward version of N3; whether reflective consistency forces linear anticipation.
@@ -80,7 +78,7 @@ Each item names the section and claim it unblocks.
   kinked echoes, or a counterexample; the soft 2×2 (reflexivity dials between direct and
   recursive echoes and news); power-law kernels beyond P1(d).
 - **Polish for publication.** Agent provenance markers out of the expository text (they stay
-  in git and the ledger); one notation throughout.
+  in git and the ledger); one notation throughout; write out X4's `Θ, λ̃, b*`.
 - **Calibration gaps.** Anticipation's reach within a day; vacation anticipation (Nawijn's
   gap looks like selection); news strength, lab (prediction errors about as strong as
   rewards) against events (0.1–0.3); everything about LLM strengths.

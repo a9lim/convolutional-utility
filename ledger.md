@@ -18,7 +18,9 @@ at `22c5c4f`).
   measures). Felt news `λ` is roughly 1.0–1.2 in the happiness data once chosen risk is
   costed, and λ ≈ 2 is a choice quantity; the cleanest
   kink structurally (news's, at zero revision) is the least supported as a feeling. Built-in
-  bracing, which needs `λ > 1`, is flagged for the post.
+  bracing survives at `λ = 1` (any concave felt channel braces), but echo kinks brace only
+  slightly at the felt calibrations and memory's sign depends on its lag profile, so it left
+  the post for the companion.
 - **Post** (a9; restructured 2026-10-16 at a9's request): one flagship post, working title
   *Experience Echoes*, ten sections around a running holiday example (`outline.md`), with
   the formalism as technical companion. Mostly a bridge: imported ideas credited inside the
@@ -68,7 +70,7 @@ at `22c5c4f`).
 `cu-fresh-review`, `cu-extensions` (Bates), `cu-round2-core`, `cu-round2-ext` (the menu),
 `cu-displacement`, `cu-disc-ext` (menu G), `cu-games-ext` (menu F), `cu-c1-leakage` (D7's
 leakage bullets), `cu-framework`, `cu-empathy`, `cu-restructure` (the post's architecture and
-triage), `cu-novelty-audit` (attribution, row by row). Job replies under `~/.gaslamp/jobs/`; the premise reply, source of P4–P6's
+triage), `cu-novelty-audit` (attribution, row by row), `bracing-review` (concave bracing). Job replies under `~/.gaslamp/jobs/`; the premise reply, source of P4–P6's
 closed forms, is `cx-20261012-230641-77eb/reply.md`.
 
 ## Blocked sources, not circumvented

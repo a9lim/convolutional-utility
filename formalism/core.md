@@ -529,6 +529,51 @@ Codex on the qualifiers]
     point, a sufficient bound is `L + 2λ sup_t Σ_j k_n(j) < 1`, since the forecast difference
     `E_t − E_{t−1}` can have sup-norm operator norm near 2; the sharp condition is open.
     [Codex]
+- **Concave feelings brace a calibrated Bayesian** (extends N3, canonical model: one event
+  `u_s = Z`, `Z` with mean and median 0 (symmetric, say), Bayesian forecasts). [synthesis:
+  Jensen's inequality on the felt fixed point; proved; checked; Codex verified]
+  - If every kink is concave (`a⁻ ≥ a⁺`, `m⁻(μ⁻)^j ≥ m⁺(μ⁺)^j` at every lag, `λ_u ≥ 1`,
+    `λ ≥ 1`) and the larger-side felt system after the event is stable (`ρ(K_F^max) < 1`,
+    `λκ^max < 1`), then at any joint felt fixed point (its existence is the open joint
+    condition above) every felt state after the event is nondecreasing and concave in `Z`.
+    At the median outcome each is at or above its forecast, so the felt news there is
+    `≥ 0`, and `P(N < 0) ≤ ½`: relief at least as frequent as disappointment, with no
+    pessimism about `Z`.
+  - Convex kinks (stability with `max(1, λ)κ^max < 1`) make the felt states convex, still
+    nondecreasing: the news at the median outcome is `≤ 0`, and disappointment the more
+    frequent when it is `< 0`.
+  - Proof sketch. No felt state before the event depends on `Z`, and after it forecasts are
+    exact. Given the forecast, the felt path after the event is the fixed point of a map
+    that is nondecreasing and concave in the path (a sum of per-term kinks
+    `min(k⁺x, k⁻x)`), concave and nondecreasing in `Z` (affine without a base kink), and a
+    contraction in a weighted sup norm, its slopes bounded entrywise by the larger-side
+    system. Iteration from zero keeps both properties in `Z`. The Bayesian forecast is
+    `E e_j(Z) ≤ e_j(0)`, so the news at `Z = 0` is `Σ_j k_n(j) φ_λ(e_j(0) − E e_j(Z)) ≥ 0`.
+  - Strict, `N(0) > 0`, iff some state the news weighs (`k_n(j) > 0`) is above its forecast
+    at the median; for Gaussian `Z`, iff that state is not affine in `Z` (a kink the outcome
+    moves across, on a path to the news), and then `P(N < 0) < ½`. [Codex]
+  - Each channel braces its own way: a base kink by skewing the outcome itself, so the
+    forecast errors of `u` are no longer symmetric; loss-averse news through the expected
+    news in its reference (X4, in closed form); kinked echoes through skew alone, the felt
+    news keeping mean zero (its welfare effect need not vanish once echoes are kinked).
+  - Linear base and news (`λ_u = λ = 1`), exactly and for `ΔK` of any sign:
+    `N(0) = k_n′ᵀ ΔK (E[e⁻] − e(0)⁻)`, with `ΔK` the loss-minus-gain echo kernel after the
+    event and `k_n′` the echoed news kernel (the canonical model) of the gain-side kernel:
+    D5's identity, in news form. To first order in the asymmetry, around the symmetric
+    kernel (`κ > 0`), `N(0) ≈ k_n′ᵀ ΔK g / ((1−κ)√(2π))` and
+    `P(N < 0) ≈ ½ − k_n′ᵀ ΔK g / (2πκ)`: the asymmetry read along the outcome's felt path
+    `g`, weighted by the news felt about each moment of it. [Codex verified]
+  - It needs recursion. In the comparison model (news over `u`) `N = k_n(0) Z` whatever the
+    echoes. A dread kink braces only if memory of either sign carries the outcome forward;
+    a memory kink only if the news at realization reaches later moments (`ν > 0`, or
+    anticipation of either sign). These are necessary routes, exact for each asymmetry
+    alone; with both, loss-side paths can brace where the gain side's `g` and `k_n′` reach
+    no later moment. [Codex; checked]
+  - Small in the illustrative felt calibrations (`calibration.md`): `P(N < 0) = 0.497`–`0.499`
+    for dread 3–6 times savoring, and `0.4985`–`0.4992` for memory with the data's lag-1 and
+    mass ratios (1.13, 1.02) carried to the defaults' decay, against `0.49` for loss-averse
+    news at `λ = 1.2` and `0.45` at `λ = 2`. An echo kink braces only times a second echo
+    (memory for dread; news reach or anticipation for memory). [checked]
 
 **X1. Dread outweighs savoring** (`a⁻ > a⁺`). The best-supported asymmetry.
 - Evidence. Within-person survey coefficients put dread at 6.19 times savoring (Dawson &
@@ -544,6 +589,9 @@ Codex on the qualifiers]
   its own later felt states, which contain later forecasts, so the kink lands on a belief and
   prices information, with an exact identity (decision.md D5). Coarser affect filtrations
   were better in every case checked (D7).
+- Dread braces a calibrated Bayesian (the bracing result above) only by anticipating states
+  that remember the outcome: after a bad outcome you dread your memories of it. In the
+  illustrative felt calibrations, slightly: `P(N < 0) ≈ 0.497`–`0.499`. [checked]
 
 **X2. Memory by sign** (`m⁺, m⁻`; `μ⁺, μ⁻`).
 - Two documented asymmetries pull apart. Negative affect fades faster than positive, the
@@ -562,6 +610,17 @@ Codex on the qualifiers]
 - Results: rumination prices information like dread (D5). Remembered disappointment, `B` in
   N3, shrinks only if its integrated weight falls: faster fading against a stronger start
   can leave it equal, as in the data, and then N3 does not tilt. [Codex]
+- Bracing (above) depends on the lag profile, `Δm_j = m⁻(μ⁻)^j − m⁺(μ⁺)^j`. [checked]
+  - Rumination, a loss echo at least as strong at every lag, braces. The fading affect bias
+    alone (equal start, faster fading) has `Δm_j < 0` at every lag and reverses it:
+    disappointment more frequent than relief (`P(N < 0) = 0.55` in the check).
+  - The data's shape, stronger then weaker with alike masses, is mixed, with no sign in
+    general. To first order its sign is `Σ_j Δm_j W_j`, `W_j = Σ_t k_n′(t+j) g_t`. A
+    nonincreasing `k_n′` makes `W` nonincreasing in lag, so a single crossing with
+    `Σ_j Δm_j ≥ 0` braces. A rising `k_n′` (strong anticipation, `ν` near 1; the canonical
+    model) can reverse it: an illustrative equal-mass kernel (loss echo 1.75 times a gain's
+    at lag 1, not the data's 1.13) gives `P(N < 0) = 0.499` at `ν = 0.7` and `0.502` at
+    `ν = 0.99`. [Codex verified the first-order sign]
 
 **X3. A base kink** (`λ_u > 1`).
 - Kőszegi & Rabin put none in consumption utility: all of their loss aversion is gain-loss
@@ -622,10 +681,8 @@ Codex on the qualifiers]
   - `dW/db|₀ = A − k_n(0)(1+B)(1+λ)/2`. With `Θ = A / (k_n(0)(1+B))`, the optimal bias
     satisfies `P(Z < b*) = (Θ−1)/(λ−1)` for `1 < Θ < λ`. Calibration is optimal only at
     `Θ = (1+λ)/2`; `Θ ≤ 1` gives unbounded pessimism and `Θ ≥ λ` unbounded optimism.
-- **A calibrated Bayesian is already braced** (extends N3, canonical model). [not found;
-  checked. Flagged: it needs `λ > 1`, the least-supported asymmetry. Whether skew from
-  sign-asymmetric echoes (X1, X2), felt experience concave in the outcome, gives an analogue
-  is open.]
+- **Built-in bracing in closed form** (extends N3, canonical model): the news case of
+  concave bracing (above), where the reference itself sinks. [not found; checked]
   - The felt news at realization solves `N = κ φ_λ(y + N)`. Hence `N = κ̃ y` for gains and
     `λ̃κ̃ y` for losses, where `λ̃ = λ(1−κ)/(1−λκ) = 1 + (λ−1)/(1−λκ)`. The loop amplifies
     loss aversion, without bound as `λκ → 1`, and leaves `λ = 1` fixed; all of it for
@@ -633,8 +690,9 @@ Codex on the qualifiers]
   - The reference point is the forecast of felt experience, which already contains the
     expected news `N̄ = E[ψ(Z − N̄)] < 0`, with `ψ` that piecewise-linear map. A calibrated
     Bayesian is already braced: unbiased, the realized news is a loss with probability
-    `P(Z < N̄) < ½` (about 0.3 in the checks). This is an accurate forecast of negatively
-    skewed felt experience, not pessimism about `Z`.
+    `P(Z < N̄) < ½`, about 0.3 in the checks (near the threshold, `λκ ≈ 0.8`), 0.49 at
+    `λ = 1.2` and 0.45 at `λ = 2` in the illustrative felt calibrations. This is an accurate
+    forecast of negatively skewed felt experience, not pessimism about `Z`.
   - `dW/db|₀ = 𝒜 − (1ᵀg) κ̃ [1 + (λ̃−1) P(Z < N̄)]`. Optimum:
     `P(Z < b* + N̄) = (Θ−1)/(λ̃−1)` with `Θ = 𝒜/((1ᵀg) κ̃)`, for `1 < Θ < λ̃`; `W″ < 0`, so it
     is the unique global optimum, and the corners are unbounded pessimism (`Θ ≤ 1`) and

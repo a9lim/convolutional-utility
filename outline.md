@@ -94,22 +94,17 @@ Candidates, conditional on the literature passes. None is the premise, which is 
    your own future felt states. An exact identity gives the dread penalty against a symmetric
    baseline; what a schedule of information costs is how it moves that penalty. Mortality
    information is priced even in the symmetric core.
-3. **The calibrated Bayesian is already braced** (X4; flagged). An extension result that
-   needs loss-averse news, the least-supported asymmetry. A correct forecast of how an event
-   will feel includes the disappointment you expect; with symmetric forecast errors, that
-   lowered reference makes relief more frequent than disappointment. Whether sign-asymmetric
-   echoes give an analogue is open.
-4. **The news loop's gain** (N4). Felt news about felt experience has a unique, stable felt
+3. **The news loop's gain** (N4). Felt news about felt experience has a unique, stable felt
    state for every revision iff its loop gain `κ < 1`, and amplifies each revision by
    `1/(1−κ)`. Without memory the gain is the news strength alone; memory adds a feedback
    route, and anticipation amplifies it.
-5. **Affect policies** (D7, synthesis with close prior art). A hedonic agent picks an action
+4. **Affect policies** (D7, synthesis with close prior art). A hedonic agent picks an action
    policy and an affect policy; Good's theorem and updatelessness govern only the first, and
    the agent's own actions leak into the second.
-6. **The past self as predictor** (D1, D2, D6, synthesis). How much already-felt anticipation
+5. **The past self as predictor** (D1, D2, D6, synthesis). How much already-felt anticipation
    a rule counts as depending on the present choice is one dial; reliability is worth the
    anticipation it earns. Exact savoring-trap stopping conditions (D3) are in the companion.
-7. **The data** (§9). A new analysis of public momentary-happiness data: the echo of a task
+6. **The data** (§9). A new analysis of public momentary-happiness data: the echo of a task
    outcome is front-loaded and heavy-tailed; an apparent loss-averse news asymmetry is
    confounded with chosen risk; a loss's echo starts stronger than a gain's and fades
    faster.
@@ -346,13 +341,6 @@ Word budget: 9.4k.
     expected negative parts of felt states; an information schedule costs what it adds to
     that penalty. It bites only when some felt state can land on either side of zero;
     rumination (bad states remembered more) prices information the same way.
-- **A calibrated Bayesian is already braced** *not found*, an extension result, flagged: it
-  needs loss-averse news, the least-supported asymmetry. In the one-event model, the
-  reference that realized news is measured against includes the disappointment you expect.
-  With symmetric forecast errors that lowered reference makes relief more frequent than
-  disappointment (loss probability about 0.3 in the Gaussian checks). Bracing without
-  pessimism about the event. Whether skew from sign-asymmetric echoes gives an analogue is
-  open; if not, cut it from the post.
 - **News about how life will feel feeds on itself.** *known in kind* (Kimball & Willis 2006:
   simultaneous news about lifetime utility, with a sufficient condition); the sharp threshold
   and regimes *not found*.
@@ -371,7 +359,9 @@ Word budget: 9.4k.
   the feedback path drawn; inset, the sign asymmetries ranked by their felt evidence.
 - Companion: core P2–P4, N4, X1–X4; decision D5.
 - To the companion: the 2×2 of echoes against news, the threshold's closed form and full
-  regime classification, D4.
+  regime classification, D4; built-in bracing (any concave felt channel makes a calibrated
+  Bayesian's relief more frequent than its disappointment; at `λ = 1` dread does so only
+  slightly, and memory's sign depends on its lag profile).
 
 ### 6. Act on it, feel it later (~1,200)
 
