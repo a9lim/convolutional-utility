@@ -10,8 +10,15 @@ at `22c5c4f`).
 - **Model** (a9): recursive echoes with recursive news is canonical, the direct form its
   reduced form for foreseen lives; forecasts are rational. Notation: every kernel is Latin
   strength times Greek reach (`a α^j`, `m μ^j`, `n ν^j`, adaptation `c γ^j`); first moment
-  `M₁`, gain-loss `φ_λ`, felt news `N_t`, the jump kernel's lag-1 weight `k₁`, P4's rates
-  `p̄, q̄`.
+  `M₁`, gain-loss `φ_λ` (extension), felt news `N_t`, the jump kernel's lag-1 weight `k₁`,
+  P4's rates `p̄, q̄`.
+- **Symmetric core** (a9, 2026-10-17): the canonical model is linear and sign-symmetric
+  (`λ = 1`). Sign asymmetries are the extension X1–X4, ranked by felt evidence: dread over
+  savoring, memory by sign, a base kink, loss-averse news (a synthesis across unlike
+  measures). Felt news `λ` is roughly 1.0–1.2 in the happiness data once chosen risk is
+  costed, and λ ≈ 2 is a choice quantity; the cleanest
+  kink structurally (news's, at zero revision) is the least supported as a feeling. Built-in
+  bracing, which needs `λ > 1`, is flagged for the post.
 - **Post** (a9; restructured 2026-10-16 at a9's request): one flagship post, working title
   *Experience Echoes*, ten sections around a running holiday example (`outline.md`), with
   the formalism as technical companion. Mostly a bridge: imported ideas credited inside the

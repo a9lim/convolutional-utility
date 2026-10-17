@@ -13,9 +13,10 @@ Each item names the section and claim it unblocks.
      cancelled).
    - §2: the echo graph, with one remembered-anticipation path.
    - §3: life weights `w(s)`, direct against recursive; inset, equal-total ramps.
-   - §4: the same news felt two ways, one revelation against partial updates.
-   - §5: one-layer against recursive anticipation, the feedback path drawn; inset, realized
-     felt news for a calibrated Bayesian.
+   - §4: the booking's news along a reassuring and a worrying path, averaging to the life
+     without news; inset, partial updates under linear and loss-averse news.
+   - §5: one-layer against recursive anticipation, the feedback path drawn; inset, the sign
+     asymmetries ranked by felt evidence.
    - §6: information to a doer and a feeler, with the leaks.
    - §7: one pleasure scheduled by commitment and by fixed-past selves, the lost memory
      shaded; optional inset `scheduling_dial.png`.
@@ -27,7 +28,9 @@ Each item names the section and claim it unblocks.
    - §7: archive the script behind D3's credible-plan table (80 draws; a session script
      until now, its rerun dropping the draws past the threshold), or drop its percentages.
    - §5: write out what the docs only assert: P4's matching step for `r(0)`, the half-line
-     `g_j` behind N4's `κ`, and N3-canonical's `Θ, λ̃, b*`.
+     `g_j` behind N4's `κ`, and X4's `Θ, λ̃, b*`.
+   - §5, #3: does built-in bracing survive at `λ = 1` with sign-asymmetric echoes (X1, X2),
+     as skew in felt experience concave in the outcome? If not, cut it from the post.
 3. **Priority before claiming.** §5's two-sided present bias (P4): read Kimball 1987 (*J.
    Monetary Econ.* 20(2): 301–326) and Hori 1992 (*JET* 56(2): 451–467); until then it is
    "not found, provisionally".
@@ -56,8 +59,8 @@ Each item names the section and claim it unblocks.
 ## The companion
 
 - **Open formal items the post touches.**
-  - The sharp condition for the joint Bayesian forecast fixed point (only the sufficient
-    row-sum condition is known; §2).
+  - Under loss-averse news, the sharp condition for the joint Bayesian forecast fixed point
+    (only the sufficient row-sum condition is known; X4). Linear news has none to find.
   - D7: a comparison theorem for coarser affect filtrations under dread or rumination (§6
     says "every case checked"); jointly implementable action and affect policies, under both
     constraints (credibility under a changed `G`, and leakage).
@@ -66,14 +69,16 @@ Each item names the section and claim it unblocks.
   - D2 with news: the `J` identity extended by the news-forcing derivative and a stated
     reference counterfactual.
   - N3 in the canonical model with sign-asymmetric memory of disappointment (the fading
-    affect bias); whether built-in bracing survives forecasts that are not fully Bayesian.
+    affect bias, X2); whether X4's built-in bracing survives forecasts that are not fully
+    Bayesian.
   - D5: the delusional optimist under felt news (unaware against sophisticated);
     rationalization given Bénabou's cancellation; recollection news formalized, with the
     backward version of N3; whether reflective consistency forces linear anticipation.
   - §8, copies: pin A1 against Armstrong's ADT text and Greaves 2004.
 - **Loose ends.** Check the stock-form ODE numerically; sign-asymmetric kernels (what
-  survives of P6 and D3?); the soft 2×2 (reflexivity dials between direct and recursive
-  echoes and news); power-law kernels beyond P1(d).
+  survives of P6 and D3 under X1–X2?); the larger-side echo share as the sharp condition for
+  kinked echoes, or a counterexample; the soft 2×2 (reflexivity dials between direct and
+  recursive echoes and news); power-law kernels beyond P1(d).
 - **Polish for publication.** Agent provenance markers out of the expository text (they stay
   in git and the ledger); one notation throughout.
 - **Calibration gaps.** Anticipation's reach within a day; vacation anticipation (Nawijn's
@@ -112,6 +117,10 @@ None of these blocks the post; §9 reports what is in hand.
 - A multi-scale reading of the heavy tail against `M < 1`.
 - Whether `a < 0` is dread, the certainty effect, or curvature (it halves under power
   utility).
+- Separate a base kink from loss-averse news at the offer (X3): a design whose pre-trial
+  forecast is away from zero points, or the offer reveal as its own event.
+- Memory by sign beyond a play: does the fading affect bias's crossing (near lag 13 trials
+  here) scale with the event, as reach does?
 - Slow adaptation needs step data: parked with B4 (below).
 
 ## Follow-up lines
@@ -148,7 +157,7 @@ Independent research, not prerequisites for the post.
     populations; run-level uncertainty.
   - **Well-foundedness as a learning failure.** The canonical critic at `a = 0.3, ν = 0.8`
     (anticipation mass 1.2) diverged; map where TD on felt utility diverges against
-    `M + λN < 1`.
+    `M + N < 1`, and `M + λN < 1` with loss-averse news.
   - **Evidence gaps** (2026-10-15 audit): archive the twin-dial output and the
     anticipated-news comparison (the "84% of directions" figure has no script), and the
     observer's tree-solver and finite-difference checks; report the consolation gap

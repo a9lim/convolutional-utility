@@ -9,7 +9,9 @@ front-loaded with a slow tail, closer to a power law than to a single exponentia
 datasets; about 80% of a sustained outcome stream's fitted response comes from earlier trials;
 direct and recursive memory fit identically; an apparent loss-averse news asymmetry is
 confounded with chosen risk, and a lottery-risk regressor absorbs or reduces it where
-probabilities vary. The felt-clock, carryover, adaptation and range analyses stay here.
+probabilities vary; a loss's echo starts stronger than a gain's and fades faster. Whether the
+play-long persistence belongs to base utility or to news is not identified. The felt-clock,
+carryover, adaptation and range analyses stay here.
 
 ## Data
 
@@ -130,22 +132,38 @@ Great Brain Experiment (`gbe_report.txt`, `gbe.png`, `audit/`):
   divisive normalization over that window would be −16%, so about a tenth of it; too small
   to improve held-out error. Forbes & Bennett are too noisy to tell (positive RPE carries no
   weight there, so its ratio is undefined) (`audit/divisive.py`).
-- **News does not echo like the outcome.** Fitted separately, the kernels of certain rewards,
-  expected values and prediction errors nearly coincide (`γ` 0.88, 0.87, 0.89), but the RPE
-  regressor there still carries the outcome's base utility. With base utility in its own
-  regressor, news alone has `γ` at the bound 0.999 (`k₁` 0.27): a persistent level, luck
-  accumulated over the play, against `γ ≈ 0.79` for base utility (`audit/news_kernel.py`).
+- **Where the persistence sits is not identified.** Fitted separately, the kernels of certain
+  rewards, expected values and prediction errors nearly coincide (`γ` 0.88, 0.87, 0.89), but
+  the RPE regressor there still carries the outcome's base utility. With base utility in its
+  own regressor the fit has two near-tied optima: news persists through the play (`γ` at the
+  bound 0.999, `k₁` 0.28) with base utility at `γ = 0.78`, or base utility persists
+  (`γ = 0.94`) with fast news (`γ = 0.45`, `k₁` 0.70). The second fits slightly better on
+  held-out players (0.648694 against 0.648754) and in 6 of 8 participant resamples, by under
+  0.01% of the error. Something persists over a play, accumulated luck or the outcomes
+  themselves, but the data do not say which (`audit/news_kernel.py`; the same two optima with
+  outcomes and news split by sign, `audit/sign_kernels.py`).
 - **Chosen risk lowers happiness; loss-averse news is not identified.** The structural model
   (base utility pinned by safe choices, linear in money; news by mixed trials) gives
-  `λ = 1.42` [1.37, 1.50], `n = 0.52`, base loss aversion 1.20 and `a = −0.30`. But splitting
+  `λ = 1.42` [1.37, 1.50], `n = 0.52`, base loss aversion 1.20 [1.18, 1.23] and `a = −0.30`. But splitting
   news by sign is `½(β₊+β₋)·RPE + ½(β₊−β₋)·|RPE|`, and in a 50/50 gamble `|RPE|` is half the
   gamble's range, known at choice: asymmetric news and a felt cost of the chosen gamble's
   spread are the same regressor. Adding one constant cost of having gambled (−0.024 SD) takes
   `λ` to 1.04 [0.95, 1.13] and fits slightly better. `a = −0.30` mostly reflects linear base
   utility extrapolated from safe amounts (30–55) to gamble outcomes (±150): with power utility
-  `ρ = 0.8`, `a = −0.15` and `λ = 1.36`, or 1.13 with the gamble cost (`audit/risk_cost.py`).
-  Under linear base utility, gamble outcomes feel worse than their EV implies, as diminishing
-  sensitivity predicts.
+  `ρ = 0.8`, `a = −0.15` and `λ = 1.36`, or 1.13 with the gamble cost (`audit/risk_cost.py`);
+  with a kernel per term, 1.17 with the gamble cost (`audit/sign_kernels.py`). Under linear
+  base utility, gamble outcomes feel worse than their EV implies, as diminishing sensitivity
+  predicts. Base loss aversion stays at 1.20 under the gamble cost and under curvature, but
+  its kink sits at zero points, about where the pre-trial forecast stands, so it reads
+  equally as loss-averse news on seeing the offer.
+- **A loss's echo starts stronger and fades faster.** With base utility's kernel split by
+  sign, starting from the best shared fit: a trial's loss moves the current rating 1.28
+  [1.25, 1.31] times an equal gain; its echo is 1.13 times a gain's one trial on, 1.03 at ten
+  and 0.94 at twenty, crossing one near thirteen, with per-trial decay 0.942 [0.937, 0.944]
+  against 0.952 [0.949, 0.954]. The echo masses over a play are alike (1.02 [0.99, 1.05]; the
+  whole effect 1.05 [1.03, 1.09]). Held-out error falls 0.012%. Read as memory, it is the
+  fading affect bias at trial scale (`audit/sign_kernels.py`; intervals from 16 resamples that
+  refit only the two split kernels, so too narrow).
 
 Forbes & Bennett 2024 (`forbes_report.txt`, `audit/`):
 - **The same front-loading.** Jump kernel `γ = 0.885, k₁ = 0.516` (experiment 1) and
@@ -163,6 +181,7 @@ Forbes & Bennett 2024 (`forbes_report.txt`, `audit/`):
   RPE− 0.025; SD −0.052 [−0.097, −0.019]) and shrinks in experiment 2 (the `|RPE|` term −0.026
   [−0.069, 0.013]). In experiment 1 RPE registers on free choices and not on forced ones. A
   better unchosen outcome lowers affect slightly (regret), a worse one raises it (relief).
+  Base utility by sign gives 1.16 and 1.14, and 0.95 and 1.00 with the SD.
 
 ## Audit
 
@@ -176,8 +195,13 @@ experiments/happiness/audit/kernel_shapes.py`; `confounds.py` needs `extract_tim
   and double-exponential shapes (the hyperbola is within 0.03% of the free kernel).
 - `kernel_shapes.py`: Rutledge, jump, power law and hyperbola on held-out participants, with
   paired bootstrap differences; the jump by task version.
-- `risk_cost.py`: the structural model with a cost of having gambled and power utility.
-- `news_kernel.py`: per-component kernels with base utility separated from news.
+- `risk_cost.py`: the structural model with a cost of having gambled and power utility;
+  news and base loss aversion.
+- `news_kernel.py`: per-component kernels with base utility separated from news, from two
+  starts, and which optimum wins across participant resamples.
+- `sign_kernels.py`: base utility's kernel split by sign, nested in the best shared fit
+  (each from two starts, with and without a cost of having gambled), and a bootstrap of the
+  loss-to-gain ratios by lag.
 - `confounds.py`: the lag-1 weight by trial type and latency, and the rating boundary.
 - `felt_clock.py`: trials against seconds (raw, and against the play's own pace) on the jump
   and the hyperbola; kernels by age band against a felt clock `∝ age^−q`; a recovery check on

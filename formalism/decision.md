@@ -42,9 +42,9 @@ life-sum `W = Σ_t e(t)`. "Momentary hedonist" names the alternative objective `
     linear news observationally β–δ with `β = (1+γη)/(1+η)`]. It need not decay: with
     strong anticipation and `ν` near 1 it rises (`a = 0.2, α = 0.8, m = 0, n = 0.1,
     ν = 0.99`). [checked; Codex]
-  - Loss-averse news: deviations that move value in time are mixed revisions, with the
-    loss side charged at `λ`, so plans become reference points and can enforce
-    themselves. At kinks, use finite deviations.
+  - Under loss-averse news (core X4), deviations that move value in time are mixed
+    revisions, with the loss side charged at `λ`, so plans become reference points and can
+    enforce themselves. At kinks, use finite deviations.
   - Choice then needs an equilibrium concept. We adopt a Kőszegi–Rabin-style preferred
     credible plan: a plan is credible if at every date the current self prefers it to
     every other credible continuation (their Def. 1), and the self forming the plan picks
@@ -59,8 +59,8 @@ life-sum `W = Σ_t e(t)`. "Momentary hedonist" names the alternative objective `
     [Codex]
   - After the initial announcement, a deterministic equilibrium path with no further
     information produces no further news. Under uncertainty, Bayesian forecast
-    innovations remain; at `λ > 1` they cost
-    `E[N_t] = −((λ−1)/2) Σ_j k_n(j) E|E_t[e_{t+j}] − E_{t−1}[e_{t+j}]|`. [Codex]
+    innovations remain, free in expectation with linear news; loss-averse news (X4) charges
+    them `E[N_t] = −((λ−1)/2) Σ_j k_n(j) E|E_t[e_{t+j}] − E_{t−1}[e_{t+j}]|`. [Codex]
 
 ## Propositions
 
@@ -162,20 +162,20 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   |---|---|---|---|
   | none | 1% | 93% | 1.0 |
   | linear, `n = 0.3` | 53% | 86% | 1.0 |
-  | `n = 0.2, λ = 1.5` (felt calibration) | 66% | 98% | 2.6 |
-  | `n = 0.3, λ = 2` | 98% | 99% | 4.7 |
+  | loss-averse (X4), `n = 0.2, λ = 1.5` | 66% | 98% | 2.6 |
+  | loss-averse (X4), `n = 0.3, λ = 2` | 98% | 99% | 4.7 |
 
   - No draw lacked a credible plan, and whenever the commitment date was credible the
     preferred credible plan was it.
-  - Example (`a = 0.3, α = 0.7, m = 0.2, μ = 0.6, n = 0.3, ν = 0.7, λ = 2`):
+  - Example, loss-averse (`a = 0.3, α = 0.7, m = 0.2, μ = 0.6, n = 0.3, ν = 0.7, λ = 2`):
     `C_1 = {12, 13, 14}`, commitment 14; without news `C_1 = {19}` against commitment 15.
   - Linear news can tilt deviating selves toward the present, offsetting the trap's
-    postponement. Loss aversion makes plans sticky: once a self expects the pleasure at a
-    date, waiting past it is felt as a loss, so more plans are credible and the commitment
-    optimum often among them.
+    postponement. Loss-averse news (X4) makes plans sticky: once a self expects the pleasure
+    at a date, waiting past it is felt as a loss, so more plans are credible and the
+    commitment optimum often among them.
   - Neither is guaranteed. By continuity the trap survives weak news: at `n = 0.001` the
     example still gives `C_1 = {19}` against 15, with accurate expectations. News can
-    offset postponement, and loss aversion can make expectations do the work of a
+    offset postponement, and loss-averse news can make expectations do the work of a
     commitment device. [known in kind: Kőszegi & Rabin 2009, Prop. 5 and p. 925]
   - The exact stopping conditions above are for the direct model without news, and the
     `argmax/argmin w` commitment benchmark likewise.
@@ -185,10 +185,10 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     conjectured mechanism, untested: under loss aversion, uncertainty about one's own
     timing is itself felt as news, so resolving it early pays. [observed in
     `experiments/learned_expectations/`]
-  - Anticipated news changes none of this. Deterministic plans carry none, so the credible
-    plans and the commitment optimum are as without it; it acts only on mixed policies, the
-    learning path. There rational forecasts brace for one's own randomness (core N3's
-    built-in bracing). Where news outweighs anticipation this makes randomness cheaper, and
+  - Anticipated news, nonzero only under loss-averse news, changes none of this.
+    Deterministic plans carry none, so the credible plans and the commitment optimum are as
+    without it; it acts only on mixed policies, the learning path. There rational forecasts
+    brace for one's own randomness (core X4's built-in bracing). Where news outweighs anticipation this makes randomness cheaper, and
     the planner reaches the commitment date more often; the fixed-past learner selects the
     same dates, seed for seed, as with forecasts that leave anticipated news out. [synthesis;
     checked against the earlier code's `selection_report.txt` at git `fd60c6c`; the planner's
@@ -225,10 +225,10 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
 - **Which probability scores welfare.** Welfare is the objective expectation of the felt
   life-sum, as in Brunnermeier & Parker's well-being (2005, Def. 1). The agent's beliefs
   shape what is felt; they do not score it.
-- **In expectation, the truth is free.** Needs a calibrated prior, linear echoes, no
-  nonlinear news (`λ = 1`), and actions held fixed: with direct news alone (`n = 0.2,
-  ν = 0.5, λ = 2`, `Z = ±1` at realization) revelation a period early costs 0.05 and at
-  realization 0.10. [Codex; checked by hand] It also needs a lifespan the information
+- **In expectation, the truth is free.** Needs a calibrated prior, the symmetric core's
+  linear echoes and news, and actions held fixed: with loss-averse direct news alone (X4;
+  `n = 0.2, ν = 0.5, λ = 2`, `Z = ±1` at realization) revelation a period early costs 0.05
+  and at realization 0.10. [Codex; checked by hand] It also needs a lifespan the information
   does not move. Under death risk the recursive loop (remembered anticipation) runs only in
   surviving branches, and its gain `1/(1 − a·m·S)` is convex in the survival probability
   `S`, so mortality information is priced even linearly, with the sign of the anticipated
@@ -258,9 +258,9 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     that Kreps–Porteus leaves the assignment of utility across periods open, which the
     kernels fill. The felt-flow form, the D/R contrast and the identity below were not
     found. checked]
-  - **Exact accounting.** Give the echo strengths a sign: savoring `a⁺` and dread `a⁻`
-    forward, `m⁺` and `m⁻` back, an extension of the canonical equation separate from
-    news's `λ`. With Bayesian forecasts and felt news switched off,
+  - **Exact accounting.** Give the echo strengths a sign (core X1–X2): savoring `a⁺` and
+    dread `a⁻` forward, `m⁺` and `m⁻` back. With Bayesian forecasts and felt news switched
+    off,
     `E[W] = W_sym − Σ_t w_t [(a⁻−a⁺) Σ_j α^j E[X_{t+j}⁻] + (m⁻−m⁺) Σ_j μ^j E[X_{t−j}⁻]]`,
     with `w` the life weights of the `(a⁺, m⁺)` kernel (1 in D) and `W_sym` its welfare.
     [proved; checked]
@@ -284,9 +284,10 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
       (`m⁻ > m⁺`), the worry early news causes is remembered. Two periods, linear
       anticipation 0.2, `m⁺ = 0.1`, `m⁻ = 0.3`, terminal `u = ±1`: early revelation costs
       0.026 against revelation at realization. [checked; Codex]
-    - With canonical news kept, its forcing `wᵀE[N]` enters too, and a symmetric baseline
-      solved separately has different endogenous news; compare at fixed news forcing.
-  - Other routes to avoidance: loss-averse news utility (core N2; Kőszegi & Rabin 2009
+    - Linear news adds no forcing (`E[N] = 0`, core N1). With loss-averse news kept (X4),
+      its forcing `wᵀE[N]` enters too, and a symmetric baseline solved separately has
+      different endogenous news; compare at fixed news forcing.
+  - Other routes to avoidance: loss-averse news utility (core X4; Kőszegi & Rabin 2009
     Props. 1–4: partial information hurts, clumped information helps; Pagel 2018:
     inattention), and chosen beliefs with linear anticipation (Brunnermeier & Parker 2005
     pp. 1108–09; Oster, Shoulson & Dorsey 2013).
@@ -306,19 +307,19 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
     Yudkowsky's "Doublethink", conditional on near-Bayesian sophistication and linear
     anticipation, not a theorem about all motivated reasoning. Delusion pays only for
     unaware agents, under nonlinear anticipation, or for instrumental reasons.
-  - Not in Brunnermeier & Parker: a felt disappointment term. Felt news
-    (core N2–N3) supplies both the price of optimism (the news at realization) and a price
-    on information. Disappointment is first-order, so the sign of the hedonically optimal
-    bias depends on anticipation mass against remembered, loss-weighted disappointment:
-    optimism for long-awaited events, bracing otherwise. In the canonical model the felt
-    forecast already contains the expected disappointment, so a calibrated Bayesian is
-    already braced (core N3).
+  - Not in Brunnermeier & Parker: a felt disappointment term. Felt news (core N3) supplies
+    the price of optimism, the disappointment at realization; a price on information needs
+    a kink (core X1, X2, X4). Disappointment is first-order, so the sign of the hedonically
+    optimal bias depends on anticipation mass against remembered disappointment: optimism
+    for long-awaited events, bracing otherwise, and with linear news there is no interior
+    optimum. Under loss-averse news the felt forecast already contains the expected
+    disappointment, so a calibrated Bayesian is already braced (core X4).
 - **Rationalization as hedonic arbitrage.** [speculation]
   - Updating less on bad news keeps anticipation high now and moves the cost into later
     disappointment or decisions.
   - Bénabou's cancellation says it pays only for agents who don't see themselves doing
     it, or under nonlinearity.
-  - Loss-averse felt news gives the arbitrage an exact form. In the RL reading, the
+  - Loss-averse felt news (core X4) gives the arbitrage an exact form. In the RL reading, the
     forecast `V_t`, set after period `t−1`'s outcome, enters that period's news through
     `δ_{t−1} = r_{t−1} + νV_t − V_{t−1}` and the next period's with the opposite sign. Its
     marginal felt value is `aν + nν φ'(δ_{t−1}) − n E[φ'(δ_t)]`, larger by `nν(λ − 1)` just
@@ -364,20 +365,22 @@ Loewenstein 1987 and Caplin & Leahy 2001]; exact stopping results [not found; ch
   revealed at `d`. Policies: reliable (always pay) or flaky (skip when high). Echoes
   `a = 0.1, α = 0.8, m = 0.15, μ = 0.6`; `T = 16, s = 10`. [checked]
   - Main case (`d = 3, ν = 0.5, c_H = 2.5`). Without news the planner prefers reliability
-    (`E[W]` 4.47 against 3.85) and it is the unique equilibrium. With `n = 0.3, λ = 2` the
-    planner still prefers it (3.92 against 3.78), but the only equilibrium is flaky:
+    (`E[W]` 4.47 against 3.85) and it is the unique equilibrium. Linear news leaves `E[W]`
+    as it is (N1) and narrows the high-cost self's margin for paying (2.46 without news,
+    1.01 at `n = 0.3`); at `n = 0.5` the only equilibrium is flaky, against the planner:
     skipping a near cost is felt now as good news, and the lost reward is far off, felt
-    through a decaying `k_n`. [known in kind: Kőszegi & Rabin 2009, Prop. 5, present tilt
-    when `γ < 1/λ`]
+    through a decaying `k_n`. Loss-averse news (X4) flips it sooner: at `n = 0.3, λ = 2` the
+    planner still prefers reliability (3.92 against 3.78) and the only equilibrium is flaky.
+    [known in kind: Kőszegi & Rabin 2009, Prop. 5, present tilt when `γ < 1/λ`]
   - Other cases (`d = 6, ν = 0.7`). Without news, fixed-past selves pay at `c_H = 3.5`,
     where the planner would skip: their remaining-life weights favour later rewards (the
-    savoring direction). At `n = 0.2, λ = 1.5, c_H = 3` both policies are self-enforcing
-    and expectations decide.
+    savoring direction). Under loss-averse news (X4), at `n = 0.2, λ = 1.5, c_H = 3`, both
+    policies are self-enforcing and expectations decide.
   - The echo channel `J` does not by itself favour reliability here: earlier selves
     anticipate the nearer item more, so for cost-then-reward plans their anticipation
     weighs the cost. [synthesis]
-- So felt news can create unreliability against the planner's preference, and loss
-  aversion can make either policy self-enforcing. A third channel, causal: following
+- So felt news can create unreliability against the planner's preference, and loss-averse
+  news can make either policy self-enforcing. A third channel, causal: following
   through raises later selves' forecasts of their own reliability (self-reputation),
   which a fixed-past self can count. [untested]
 - Precedent: Bénabou & Tirole 2004 (personal rules; lapses are diagnostic of willpower;
@@ -395,16 +398,16 @@ marked]
   Felt forecasts and felt news are computed on an *affect filtration* `G_t ⊆ F_t`, coarser
   or delayed. Realized base utility is felt when it happens. Strict **updateless affect**:
   `G_t` is the prior until realization.
-- **Free in linear models.** Without felt news or nonlinearity, expected welfare does not
-  depend on `G` (tower property). [standard]
-- **Which `G` is best depends on the nonlinearity.** [checked on examples]
+- **Free in the symmetric core.** With linear echoes and news, and outcomes and the
+  lifespan held fixed, expected welfare does not depend on `G` (tower property). [standard]
+- **Which `G` is best depends on the kink** (core X1–X4). [checked on examples]
   - R with dread or rumination asymmetry (D5): coarser `G` keeps felt states from spreading
     into negative parts, which is what D5's identity charges. Strict updateless affect is best in
     every example checked. A general comparison theorem is open: felt states under a
     coarser `G` are not simply conditional expectations of those under `F`.
-  - Loss-averse felt news (core N2): a weighted scheduling problem. Subadditivity favours
+  - Loss-averse felt news (core X4): a weighted scheduling problem. Subadditivity favours
     feeling news in batches; decaying `k_n` favours feeling far-off news early; the optimum
-    trades them off, and neither rule dominates (core N2's counterexample). Strict
+    trades them off, and neither rule dominates (core X4's counterexample). Strict
     updateless affect is optimal only if realization is the cheapest time.
 - **The split in decision-theory terms.** Good's theorem and updatelessness concern the
   action policy, where information is ignorable. The affect policy is where information
@@ -439,12 +442,13 @@ marked]
     delegation cannot always shield the agent, because observed consumption reveals wealth;
     it works best for decisions with long-term implications, where hidden trading meets
     consumption observed late (NBER WP, pp. 23–25).
-  - What a leak costs depends on the nonlinearity. Loss-averse news at equal effective
+  - What a leak costs depends on the kink; in the symmetric core, nothing in expectation,
+    with outcomes and the lifespan held fixed. Loss-averse news at equal effective
     weights `c = w(r) k_n(s−r)`: splitting a revision into increments `x, y` adds
     `c(λ−1)[x⁻ + y⁻ − (x+y)⁻]`, positive exactly when they have opposite signs. Moving an
     intact revision earlier is neutral; a leak that pulls part of a batch forward destroys
     cancellation (`+1, −1` batched costs nothing, felt separately `λ − 1`); unequal timing
-    weights change both (core N2). R with dread or rumination: coarser `G` was better in
+    weights change both (core X4). R with dread or rumination: coarser `G` was better in
     every example checked, so forced revelation is expected to cost; no theorem. [Codex]
   - Binary example. State `Z = ±1` seen by the doer, action `a = Z` with probability `q`,
     `u = sZ + r·1[a = Z] + εη` realized at `T`, with `η = ±1` revealed only at `T`, the
@@ -463,8 +467,9 @@ marked]
   found as a formal object on LessWrong; HonoreDB (2011) pins *belief* at the prior, a
   different split. Informal precedents below.
 - **Example: P(doom).** A high forecast lowers felt anticipation, but that level effect is
-  neutral ex ante in the linear model. Following every update piecemeal costs more than
-  batching at equal weights when `λ > 1`. The hedonic prescription: settle a policy, act on
+  neutral ex ante in the linear model. Under loss-averse news (X4), following every update
+  piecemeal costs more than batching at equal weights; under dread of dread (X1), coarser
+  feeling did better in every case checked. The hedonic prescription: settle a policy, act on
   it, and feel the forecast in batches. Leakage makes conditioning each action on the
   forecast a trade-off: its instrumental value against the news its observation,
   consequences and inaction carry. Size and frequency alone decide nothing (a tiny action

@@ -635,6 +635,20 @@ for T, s, a, al, m, mu, n0, nu, lam in [(12, 7, 0.15, 0.8, 0.1, 0.6, 0.3, 0.7, 2
 report("N3 canonical slope at bias 0 (closed form)", err_s, tol=5e-3)
 report("N3 canonical optimum: slope vanishes at the predicted b*", err_b, tol=2e-2)
 
+# N3 in the core (lam = 1): no anticipated news, and the slope Acal - (1'g) kt at every bias, so the
+# hedonic optimum is a corner.
+h, err1 = 1e-4, 0.0
+for T, s, a, al, m, mu, n0, nu in [(12, 7, 0.15, 0.8, 0.1, 0.6, 0.3, 0.7), (14, 9, 0.12, 0.7, 0.1, 0.6, 0.25, 0.6)]:
+    args = (T, s, a, al, m, mu, n0, nu, 1.0, zs, w_obj)
+    _, K, g, kn = n3_canonical(0.0, *args)
+    kt = (kn @ g) / (1 - kn @ g)
+    w = np.linalg.solve(np.eye(T) - K.T, np.ones(T))
+    pred = w[s] - g.sum() - g.sum() * kt
+    for b0 in (-1.0, 0.0, 1.5):
+        slope = (n3_canonical(b0 + h, *args)[0] - n3_canonical(b0 - h, *args)[0]) / (2 * h)
+        err1 = max(err1, abs(slope - pred))
+report("N3 canonical, lam = 1: slope Acal - (1'g) kt at every bias", err1, tol=5e-3)
+
 
 # D5, exact: with sign-dependent strengths (kp, km forward; mp, mm backward) and Bayesian forecasts,
 # E[W] = W_sym - sum_t w_t [(km - kp) sum_j al^j E[X_{t+j}^-] + (mm - mp) sum_j mu^j E[X_{t-j}^-]],
@@ -724,8 +738,8 @@ report("P1d hyperbolic tails cross rho(K_T) = 1 between T = 41 and 42", float(no
 
 
 # Calibration: default parameter sets per horizon (calibration.md), derived quantities
-for name, (A_, al, B_, mu, n0, nu, lam) in {"waking day, hourly": (0.2, 0.8, 0.1, 0.5, 0.2, 0.8, 1.5),
-                                            "life, weekly": (0.15, 0.7, 0.17, 0.3, 0.2, 0.7, 1.5)}.items():
+for name, (A_, al, B_, mu, n0, nu) in {"waking day, hourly": (0.2, 0.8, 0.1, 0.5, 0.2, 0.8),
+                                       "life, weekly": (0.15, 0.7, 0.17, 0.3, 0.2, 0.7)}.items():
     a, m = A_ * (1 - al) / al, B_ * (1 - mu) / mu
     p, q, r0 = geometric_closed_form(a, al, m, mu)
     C = 1 + (1 + a + m) * al * mu
@@ -734,10 +748,10 @@ for name, (A_, al, B_, mu, n0, nu, lam) in {"waking day, hourly": (0.2, 0.8, 0.1
     print(f"CAL {name}: a = {a:.3f}, m = {m:.3f}; M = {A_ + B_:.2f}; beta_L = {1 - 1 / ((1 + a) * r0):.3f} "
           f"(bilateral), {1 - H / (1 + a):.3f} (causal); "
           f"reach {1 / (1 - al):.1f} -> {1 / (1 - p):.1f} ahead, {1 / (1 - mu):.1f} -> {1 / (1 - q):.1f} back; "
-          f"lam kappa = {lam * kap:.2f}")
+          f"kappa = {kap:.3f}, loop amplification 1/(1 - kappa) = {1 / (1 - kap):.3f}")
 
-# Calibration, the quoted numbers: life weights at the ends against the interior (life, P5), the
-# largest lam each default allows (1/kappa), and the threshold's memory multiplier and examples.
+# Calibration, the quoted numbers: life weights at the ends against the interior (life, P5), each
+# default's loop gain kappa and amplification 1/(1 - kappa), and the threshold's memory multiplier and examples.
 def kappa_half(a, al, m, mu, n0, nu):
     _, q_, _ = geometric_closed_form(a, al, m, mu)
     C_ = 1 + (1 + a + m) * al * mu
@@ -747,11 +761,13 @@ def kappa_half(a, al, m, mu, n0, nu):
 
 day, life = (0.05, 0.8, 0.1, 0.5), (0.15 * 0.3 / 0.7, 0.7, 0.17 * 0.7 / 0.3, 0.3)
 w = np.linalg.solve(np.eye(400) - K_matrix(400, *life).T, np.ones(400))
-got = [w[0], w[-1], w[200], 1 / kappa_half(*day, 0.2, 0.8)[0], 1 / kappa_half(*life, 0.2, 0.7)[0],
+kd, kl = kappa_half(*day, 0.2, 0.8)[0], kappa_half(*life, 0.2, 0.7)[0]
+got = [w[0], w[-1], w[200], kd, kl, 1 / (1 - kd), 1 / (1 - kl),
        kappa_half(*life, 0.2, 0.7)[1], kappa_half(0.0, 0.7, 0.5, 0.6, 0.6, 0.9)[0],
        kappa_half(0.064, 0.7, 0.5, 0.6, 0.6, 0.9)[0]]
-doc = [1.22, 1.21, 1.47, 4.64, 4.42, 1.13, 1.45, 1.90]
-report("CAL quoted numbers: ends 1.22/1.21 vs 1.47; lam up to 4.64/4.42; multiplier 1.13; lam kappa 1.45/1.90",
+doc = [1.22, 1.21, 1.47, 0.22, 0.23, 1.27, 1.29, 1.13, 1.45, 1.90]
+report("CAL quoted numbers: ends 1.22/1.21 vs 1.47; kappa 0.22/0.23, amplification 1.27/1.29; "
+       "multiplier 1.13; kappa 1.45/1.90 at n = 0.6",
        max(abs(g - d) for g, d in zip(got, doc)), tol=0.006)
 
 # N4 with saturating gain-loss, y = D + c clip(phi(y), -1, 1): bistable over a range of shocks only
@@ -866,14 +882,17 @@ def d6_margin(pay_high, T, d, s, p, v, cL, cH, a, al, m, mu, n0, nu, lam):
 
 args = (16, 3, 10, 0.3, 3.0, 0.5, 2.5, 0.1, 0.8, 0.15, 0.6)
 rows = {}
-for n0, lam in [(0.0, 1.0), (0.3, 2.0)]:
+for n0, lam in [(0.0, 1.0), (0.3, 1.0), (0.5, 1.0), (0.3, 2.0)]:
     rows[(n0, lam)] = [d6_margin(pay, *args, n0, 0.5, lam) for pay in (True, False)]
+for (n0, lam), ((Wr, mr), (Wf, mf)) in rows.items():
+    print(f"D6c n = {n0}, lam = {lam}: E[W] reliable {Wr:.3f}, flaky {Wf:.3f}; "
+          f"reliable self-enforcing {mr >= 0} ({mr:+.3f}), flaky {mf >= 0} ({mf:+.3f})")
 (Wr0, mr0), (Wf0, mf0) = rows[(0.0, 1.0)]
+(Wr1, mr1), (Wf1, mf1) = rows[(0.5, 1.0)]
 (Wr2, mr2), (Wf2, mf2) = rows[(0.3, 2.0)]
-print(f"D6c no news: E[W] reliable {Wr0:.3f} > flaky {Wf0:.3f}; reliable self-enforcing {mr0 >= 0}, flaky {mf0 >= 0}. "
-      f"n = 0.3, lam = 2: E[W] reliable {Wr2:.3f} > flaky {Wf2:.3f}; reliable self-enforcing {mr2 >= 0}, flaky {mf2 >= 0}")
-report("D6c felt news makes the high-cost self flaky against the planner",
-       float(not (Wr0 > Wf0 and mr0 >= 0 > mf0 and Wr2 > Wf2 and mr2 < 0 <= mf2)))
+report("D6c felt news makes the high-cost self flaky against the planner (linear at n = 0.5; loss-averse at n = 0.3)",
+       float(not (Wr0 > Wf0 and mr0 >= 0 > mf0 and abs(Wr1 - Wr0) < 1e-9 and mr1 < 0 <= mf1
+                  and rows[(0.3, 1.0)][0][1] >= 0 and Wr2 > Wf2 and mr2 < 0 <= mf2)))
 
 # RL reading: linear news over e is (n/nu) times the TD error e_{t-1} + nu V_t - V_{t-1}, with
 # V_t = sum_j nu^j x_t(j) over the forecast path of e (x_t(0) = e_t); pathwise, lam = 1.

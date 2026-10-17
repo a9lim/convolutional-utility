@@ -34,26 +34,86 @@ hyperbolic 2p vs jump: -0.661% [-0.731, -0.584]
 v1-2 (cursor at 50, ratio design): jump gamma 0.896 kappa 0.390, B 0.789
 v3-5 (random cursor, uncorrelated): jump gamma 0.875 kappa 0.433, B 0.776
 
-## risk_cost.py
+## risk_cost.py (2026-10-17)
 plays with partial NaN: 0 dropped: 888
-rho 1.0 dummy False: test MSE 0.648815 (+0.000% vs repo structural); lam 1.42 [1.36, 1.51], a -0.30 [-0.32, -0.28]
-rho 1.0 dummy True: test MSE 0.648760 (-0.008% vs repo structural); lam 1.04 [0.95, 1.13], a -0.30 [-0.32, -0.28], gambled -0.0238 SD per gamble
-rho 0.8 dummy False: test MSE 0.648085 (-0.113% vs repo structural); lam 1.36 [1.32, 1.43], a -0.15 [-0.16, -0.12]
-rho 0.8 dummy True: test MSE 0.648051 (-0.118% vs repo structural); lam 1.13 [1.03, 1.22], a -0.15 [-0.16, -0.12], gambled -0.0177 SD per gamble
-rho 0.7 dummy True: test MSE 0.648392 (-0.065% vs repo structural); lam 1.18 [1.08, 1.27], a -0.06 [-0.08, -0.03], gambled -0.0135 SD per gamble
+rho 1.0 dummy False: test MSE 0.648815 (+0.000% vs repo structural); lam 1.42 [1.36, 1.51], a -0.30 [-0.32, -0.28], base loss aversion 1.20 [1.18, 1.23]
+rho 1.0 dummy True: test MSE 0.648760 (-0.008% vs repo structural); lam 1.04 [0.95, 1.13], a -0.30 [-0.32, -0.28], base loss aversion 1.20 [1.18, 1.23], gambled -0.0238 SD per gamble
+rho 0.8 dummy False: test MSE 0.648085 (-0.113% vs repo structural); lam 1.36 [1.32, 1.43], a -0.15 [-0.16, -0.12], base loss aversion 1.20 [1.18, 1.23]
+rho 0.8 dummy True: test MSE 0.648051 (-0.118% vs repo structural); lam 1.13 [1.03, 1.22], a -0.15 [-0.16, -0.12], base loss aversion 1.20 [1.18, 1.23], gambled -0.0177 SD per gamble
+rho 0.7 dummy True: test MSE 0.648392 (-0.065% vs repo structural); lam 1.18 [1.08, 1.27], a -0.06 [-0.08, -0.03], base loss aversion 1.19 [1.17, 1.23], gambled -0.0135 SD per gamble
 
-## news_kernel.py
+## news_kernel.py (2026-10-17)
 plays with partial NaN: 0 dropped: 888
-per-component jump kernels: paid (base): gamma 0.786 kappa 0.558 weight +0.491; EV (anticipation): gamma 0.732 kappa 0.616 weight -0.181; RPE (news only, base in paid): gamma 0.999 kappa 0.274 weight +0.320
-0 [0.776 0.574 0.729 0.613 0.999 0.28 ]
-1 [0.78  0.564 0.727 0.66  0.999 0.285]
-2 [0.774 0.571 0.726 0.612 0.999 0.27 ]
-3 [0.776 0.566 0.727 0.643 0.999 0.273]
-4 [0.773 0.57  0.735 0.632 0.999 0.271]
-5 [0.776 0.571 0.73  0.613 0.999 0.283]
-6 [0.776 0.57  0.729 0.625 0.999 0.269]
-7 [0.771 0.574 0.739 0.604 0.999 0.269]
-bootstrap SD (gamma,kappa) per component: [0.003 0.003 0.004 0.018 0.    0.006]
+generic start: train 0.653064 test 0.648754 | paid (base): gamma 0.776 kappa 0.570 weight +0.486; EV (anticipation): gamma 0.713 kappa 0.649 weight -0.176; RPE (news only, base in paid): gamma 0.999 kappa 0.276 weight +0.325
+slow-base start: train 0.653001 test 0.648694 | paid (base): gamma 0.940 kappa 0.398 weight +0.523; EV (anticipation): gamma 0.970 kappa 0.310 weight -0.199; RPE (news only, base in paid): gamma 0.450 kappa 0.704 weight +0.280
+0 generic start: news gamma 0.999, base gamma 0.769 | slow-base start: news gamma 0.438, base gamma 0.939 | RSS(persistent news) - RSS(fast news) +176.13
+1 generic start: news gamma 0.999, base gamma 0.772 | slow-base start: news gamma 0.454, base gamma 0.945 | RSS(persistent news) - RSS(fast news) +28.71
+2 generic start: news gamma 0.999, base gamma 0.767 | slow-base start: news gamma 0.440, base gamma 0.939 | RSS(persistent news) - RSS(fast news) +62.79
+3 generic start: news gamma 0.999, base gamma 0.769 | slow-base start: news gamma 0.452, base gamma 0.941 | RSS(persistent news) - RSS(fast news) -94.05
+4 generic start: news gamma 0.999, base gamma 0.766 | slow-base start: news gamma 0.446, base gamma 0.941 | RSS(persistent news) - RSS(fast news) +155.63
+5 generic start: news gamma 0.999, base gamma 0.768 | slow-base start: news gamma 0.436, base gamma 0.943 | RSS(persistent news) - RSS(fast news) +10.37
+6 generic start: news gamma 0.999, base gamma 0.770 | slow-base start: news gamma 0.445, base gamma 0.938 | RSS(persistent news) - RSS(fast news) +145.43
+7 generic start: news gamma 0.999, base gamma 0.765 | slow-base start: news gamma 0.444, base gamma 0.939 | RSS(persistent news) - RSS(fast news) -77.34
+fast news fits better in 6/8 resamples; mean RSS difference +50.96 (total RSS ~560101)
+
+## sign_kernels.py (2026-10-17)
+plays with partial NaN: 0 dropped: 888
+== A no dummy, start default: train 0.649920 test 0.645512
+  kernel paid++paid-  gamma 0.947 kappa 0.397 mass 5.96
+  kernel EV++EV-      gamma 0.953 kappa 0.255 mass 4.06
+  kernel RPE++RPE-    gamma 0.473 kappa 0.686 mass 1.30
+  weights: paid+ +0.466  paid- +0.568  EV+ -0.175  EV- -0.145  RPE+ +0.268  RPE- +0.332
+== A no dummy, start news_kernel: train 0.650406 test 0.645990
+  kernel paid++paid-  gamma 0.774 kappa 0.573 mass 2.53
+  kernel EV++EV-      gamma 0.653 kappa 0.687 mass 1.98
+  kernel RPE++RPE-    gamma 0.999 kappa 0.275 mass 7.86
+  weights: paid+ +0.436  paid- +0.530  EV+ -0.171  EV- -0.131  RPE+ +0.309  RPE- +0.368
+== B dummy, start default: train 0.649811 test 0.645474
+  kernel paid++paid-  gamma 0.946 kappa 0.396 mass 5.88
+  kernel EV++EV-      gamma 0.950 kappa 0.238 mass 3.67
+  kernel RPE++RPE-    gamma 0.467 kappa 0.692 mass 1.30
+  kernel gambled      gamma 0.937 kappa 0.350 mass 4.73
+  weights: paid+ +0.478  paid- +0.562  EV+ -0.137  EV- -0.200  RPE+ +0.272  RPE- +0.318  gambled -0.027
+== B dummy, start news_kernel: train 0.650251 test 0.645878
+  kernel paid++paid-  gamma 0.772 kappa 0.570 mass 2.50
+  kernel EV++EV-      gamma 0.652 kappa 0.634 mass 1.82
+  kernel RPE++RPE-    gamma 0.999 kappa 0.279 mass 7.97
+  kernel gambled      gamma 0.637 kappa 1.391 mass 3.83
+  weights: paid+ +0.443  paid- +0.527  EV+ -0.135  EV- -0.182  RPE+ +0.310  RPE- +0.361  gambled -0.019
+  best B: base ratio 1.18; news lam 1.17
+== C paid kernel split by sign, from best B: train 0.649638 test 0.645397
+  kernel paid+        gamma 0.952 kappa 0.416 mass 6.60
+  kernel paid-        gamma 0.943 kappa 0.364 mass 5.24
+  kernel EV++EV-      gamma 0.958 kappa 0.229 mass 3.86
+  kernel RPE++RPE-    gamma 0.472 kappa 0.698 mass 1.32
+  kernel gambled      gamma 0.985 kappa 0.391 mass 9.27
+  weights: paid+ +0.459  paid- +0.589  EV+ -0.137  EV- -0.209  RPE+ +0.281  RPE- +0.313  gambled -0.029
+  base ratio immediate 1.28; echo 1.02; total 1.05
+  lag-j sign ratio of the echo, j=1,5,10,20: 1.13 1.08 1.03 0.94
+0 [1.262 0.985 1.022 6.414 5.007 0.952 0.939]
+1 [1.29  1.01  1.047 6.73  5.269 0.953 0.944]
+2 [1.245 0.999 1.031 6.546 5.252 0.952 0.941]
+3 [1.252 1.023 1.054 6.433 5.254 0.953 0.943]
+4 [1.302 1.029 1.065 6.599 5.213 0.952 0.944]
+5 [1.291 1.007 1.044 6.703 5.231 0.954 0.944]
+6 [1.286 1.022 1.056 6.705 5.33  0.954 0.944]
+7 [1.277 1.011 1.047 6.383 5.052 0.952 0.938]
+8 [1.281 1.042 1.074 6.459 5.253 0.951 0.944]
+9 [1.279 1.009 1.046 6.424 5.067 0.949 0.939]
+10 [1.27  1.    1.035 6.578 5.179 0.952 0.939]
+11 [1.293 1.004 1.043 6.385 4.96  0.95  0.937]
+12 [1.281 1.046 1.077 6.562 5.359 0.951 0.944]
+13 [1.312 1.057 1.091 6.56  5.284 0.951 0.944]
+14 [1.284 1.022 1.057 6.46  5.138 0.951 0.941]
+15 [1.26  1.021 1.053 6.437 5.218 0.952 0.942]
+  immediate ratio: 1.279, 2.5-97.5% [1.248, 1.309]
+  echo ratio: 1.018, 2.5-97.5% [0.990, 1.053]
+  total ratio: 1.053, 2.5-97.5% [1.026, 1.086]
+  mass+: 6.524, 2.5-97.5% [6.384, 6.721]
+  mass-: 5.192, 2.5-97.5% [4.978, 5.348]
+  gamma+: 0.952, 2.5-97.5% [0.949, 0.954]
+  gamma-: 0.942, 2.5-97.5% [0.937, 0.944]
+DONE
 
 ## confounds.py
 plays with partial NaN: 0 dropped: 888

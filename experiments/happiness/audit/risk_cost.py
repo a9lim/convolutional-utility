@@ -21,14 +21,14 @@ for rho, dummy in [(1.0, False), (1.0, True), (0.8, False), (0.8, True), (0.7, T
     w, rss, n = fitX(X, ~test)
     _, rt, nt = fitX(X, test, w)
     if base_te is None: base_te = rt / nt
-    lam = w[4] / w[3]; a = w[2] / w[0]
+    lam = w[4] / w[3]; a = w[2] / w[0]; base = w[1] / w[0]
     bs = []
     for p in picks:
         sel = np.zeros(len(D["subj"]), bool)  # use index arrays directly
         Xs, ys = X[p][GOOD[p]], Zr[p][GOOD[p]]
         Xs = Xs - Xs.mean(1, keepdims=True); ys = ys - ys.mean(1, keepdims=True)
         wb = np.linalg.lstsq(Xs.reshape(-1, Xs.shape[-1]), ys.reshape(-1), rcond=None)[0]
-        bs.append([wb[4] / wb[3], wb[2] / wb[0]] + ([wb[5]] if dummy else [0]))
+        bs.append([wb[4] / wb[3], wb[2] / wb[0], wb[1] / wb[0]])
     bs = np.array(bs)
     q = lambda c: f"[{np.quantile(bs[:, c], .025):.2f}, {np.quantile(bs[:, c], .975):.2f}]"
-    print(f"rho {rho} dummy {dummy}: test MSE {rt/nt:.6f} ({100*(rt/nt/base_te-1):+.3f}% vs repo structural); lam {lam:.2f} {q(0)}, a {a:+.2f} {q(1)}" + (f", gambled {w[5]:+.4f} SD per gamble" if dummy else ""), flush=True)
+    print(f"rho {rho} dummy {dummy}: test MSE {rt/nt:.6f} ({100*(rt/nt/base_te-1):+.3f}% vs repo structural); lam {lam:.2f} {q(0)}, a {a:+.2f} {q(1)}, base loss aversion {base:.2f} {q(2)}" + (f", gambled {w[5]:+.4f} SD per gamble" if dummy else ""), flush=True)

@@ -3,7 +3,7 @@ Run: python formalism/pathwise.py [out.png]
 
 Unforeseen announcements: each announcement is a surprise the self gave no probability to, so its
 forecasts carry no anticipated news (no anxiety term). The canonical model's Bayesian forecasts include
-anticipated news; the two agree at lam = 1 (core.md, the canonical model). At each t the self solves for
+anticipated news; the two agree under the core's linear news (core.md, the canonical model). At each t the self solves for
 its felt e_t and its forecast path x of e on [t, T), given current forecasts of u, realized past e, and
 its previous forecast path.
     x = u_hat[t:] + A x + mem_past + s e_0,   s = felt news at t
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(2, 1, figsize=(11, 8), sharex=True)
     colors = {"base": "#7f7f7f", "anticipation": "#2a7ab9", "memory": "#d08a1e", "news": "#c0392b"}
     for ax, over, title in [(axes[0], "u", "News over base utility"), (axes[1], "e", "News over experienced utility")]:
-        e, c, loop = run(T, 0.0, EVENTS, KF, KB, KN, 2.0, over)
+        e, c, loop = run(T, 0.0, EVENTS, KF, KB, KN, 1.0, over)
         t = np.arange(T)
         for k, col in colors.items():
             ax.plot(t, c[k], color=col, lw=1.6, label=k)
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     axes[0].legend(loc="lower left", fontsize=8, ncol=5, frameon=False)
     axes[1].set_xlabel("time")
     fig.suptitle("Recursive model with felt news: a = m = 0.1, α = 0.85, μ = 0.75 (M = 0.87), "
-                 "n = 0.3, ν = 0.7, λ = 2", fontsize=11)
+                 "n = 0.3, ν = 0.7, linear news", fontsize=11)
     fig.tight_layout()
     fig.savefig(out, dpi=130)
     print(f"saved {out}")

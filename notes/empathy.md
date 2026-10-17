@@ -74,7 +74,7 @@ Setting: my move changes partner `j`'s payoff by `Δ = H − L` (`H` if I cooper
   - `J = 0` runs from `g₁(1 + κ̃)` to `g₁(1 + κ̃λ̃)` (`κ̃ = 0.50`, `λ̃ = 4.0`, `g₁ = 1.22`): guilt is
     amplified by the news loop and scaled by how long `j` feels it, so guilt toward a partner with
     long memory is larger (F7's forgiveness as the other's kernel). Below linear in between: `j`'s felt
-    forecast includes its expected disappointment (core N3's built-in bracing), so its reference sits
+    forecast includes its expected disappointment (core X4's built-in bracing, under loss-averse news), so its reference sits
     below `E_qπ_j` and letdowns are smaller.
   - `J = 1` drops from 3.26 to 2.56 where Ann's announcement outlook crosses zero (`p ≈ 0.589`).
   - Slopes must be taken off the boundary: at a certain outcome the realized news sits on `ψ`'s kink.

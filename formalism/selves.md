@@ -105,9 +105,9 @@ boundary.
   real subjects can have infinite total welfare, so finiteness is an added requirement,
   not coherence. [Codex]
 - **Under measure-weighted anticipation and aggregation, branching is welfare-invisible.**
-  Duplicating identical branches adds no information and no news, at any `λ`. Branches with
-  different felt outcomes are resolved like any uncertainty (core N2): neutral ex ante (not
-  pathwise) at `λ = 1`, and with loss-averse news it costs in
+  Duplicating identical branches adds no information and no news, under any kink. Branches
+  with different felt outcomes are resolved like any uncertainty (core N1–N2): neutral ex
+  ante (not pathwise) in the symmetric core, and with loss-averse news (core X4) it costs in
   expectation, and updateless affect (D7) can postpone or batch the news but not remove it
   (one period, `u = ±1` equiprobable, `n = 0.2, λ = 2`: `E[e] = −1/7`). [Codex] Forward
   mass is `aα/(1 − α)`,

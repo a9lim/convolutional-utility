@@ -8,7 +8,8 @@ feelings are experiences and welfare is the life-sum of experience. Experienced 
 then base utility plus felt anticipation forward, felt memory backward and felt news on
 revisions, recursively (you remember looking forward; you look forward to remembering). For
 foreseen lives and linear echo this is a convolution of base utility with a two-sided
-kernel, hence the name.
+kernel, hence the name. The core weighs gains and losses alike; sign asymmetries are an
+extension, ranked by their felt evidence.
 
 **What follows.**
 
@@ -17,8 +18,9 @@ kernel, hence the name.
   stationary echo, the shape of a foreseen life matters only through its ends.
 - Learning can change how a life feels without changing what you do. With calibrated
   forecasts, linear echoes and news, fixed actions and a fixed lifespan, information is
-  neutral in expectation but moves welfare on each path; loss-averse news and dread of dread
-  put a price on it. So a hedonic agent chooses an affect policy, what it feels by, as
+  neutral in expectation but moves welfare on each path; once gains and losses are weighed
+  apart, dread of dread (the best-supported asymmetry) and loss-averse news put a price on
+  it. So a hedonic agent chooses an affect policy, what it feels by, as
   well as an action policy, and its own actions leak into the first.
 - The self that looked forward to a choice is a predictor of it, so ordinary choices inside
   one life can be Newcomb-like. How much of that already-felt anticipation a decision rule
@@ -31,8 +33,9 @@ interdependence (Bergstrom), news utility (Kőszegi & Rabin), optimal expectatio
 own questions: the Litany of Gendlin, value of information and updatelessness, Newcomb and
 FDT, discount rates, the Anthropic Trilemma. The candidate results, not found in the
 literature passes, are narrower: shape as a boundary effect (and the ramp theorem),
-recursion's price on information, a calibrated Bayesian being already braced, the news loop's
-threshold, and a reanalysis of public momentary-happiness data. Two framings are new
+recursion's price on information under dread, a calibrated Bayesian being already braced
+(flagged: it needs loss-averse news), the news loop's gain, and a reanalysis of public
+momentary-happiness data. Two framings are new
 assemblies with close prior art: affect policies and their leaks, and the past self as
 predictor. The full lists are at the top of `outline.md`.
 

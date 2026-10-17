@@ -18,8 +18,8 @@ post uses three things, each as an illustration of a stated incentive, not as ev
 people:
 - the scheduling agent's gradient dial between the fixed-past and commitment dates (§7, an
   optional aside: `J` as a stop-gradient);
-- the motivated critic's consolation after bad news at `λ = 2` and not at `λ = 1` (§4, one
-  line at most);
+- the motivated critic's consolation after bad news at `λ = 2` and not at `λ = 1` (the
+  companion's loss-averse extension, X4, one line at most);
 - a critic's level reaching the policy through a shared state (§6, an optional aside;
   `formalism/learning.md`, D8; the felt objective is not needed for it).
 
