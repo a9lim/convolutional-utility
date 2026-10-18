@@ -69,7 +69,8 @@ def objectives(agent, ev, A, Bm, variant, tau=3.0, beta=8.0, ent=0.02, w=0.0, sc
 
 
 def train(variant, steps=3000, batch=512, seed=0, lr=1e-3, tau=3.0, w=0.0, symmetric=False, separate_belief=False,
-          feel=EVENT, scale=1.0):
+          feel=EVENT, scale=1.0, monitor=None):
+    """monitor(step, agent, ev) every 250 steps and at the end; it draws no randomness the training uses."""
     gen = torch.Generator().manual_seed(seed)
     torch.manual_seed(seed)
     agent, ev = Agent(**layout(separate_belief=separate_belief)), Event(**feel)
@@ -83,4 +84,8 @@ def train(variant, steps=3000, batch=512, seed=0, lr=1e-3, tau=3.0, w=0.0, symme
         opt.zero_grad()
         loss.backward()
         opt.step()
+        if monitor and it % 250 == 0:
+            monitor(it, agent, ev)
+    if monitor:
+        monitor(steps, agent, ev)
     return agent, ev

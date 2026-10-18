@@ -9,7 +9,9 @@ on true identity, a selection experiment rather than inferred dependence. Evalua
 prisoner's dilemmas and stag hunts (run_twin.py's families): cooperation (move 0) when the bit says copy and
 when it says other, against the local stability of all-cooperate and all-defect computed from the same
 objective (partners.slopes). Felt rows are canonical (lam = 1), where they reduce to payoff rows (partners.py); the
-X4 rows add loss-averse news."""
+X4 rows add loss-averse news. Also writes partners_runs.json: per variant, cooperation by family and bit with its
+stability classes, cooperation over training (every 250 steps), and play on the symmetric (S, T) plane by bit."""
+import json
 import os
 import sys
 import time
@@ -22,6 +24,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from felt import EVENT, X4, Event  # noqa: E402
 from games import symmetric_family  # noqa: E402
 from partners import policy, slopes, train  # noqa: E402
+from run_games import plane  # noqa: E402
 
 HERE = os.path.dirname(__file__)
 VARIANTS = {
@@ -71,8 +74,21 @@ def one(job):
     name, seed = job
     torch.set_num_threads(int(os.environ.get("THREADS", "2")))
     kw = dict(VARIANTS[name])
-    nets, F = train(seed=seed, steps=int(os.environ.get("STEPS", "4000")), **kw)
     sigma, signal = kw.get("sigma", 0.5), kw.get("signal", True)
+    fams, bits = families(), ((1.0, "copy"), (0.0, "other")) if signal else ((0.0, "no signal"),)
+    curve = []
+
+    def monitor(step, nets):
+        with torch.no_grad():
+            curve.append(dict(step=step, **{f"{fam}, {key}": round(float(torch.stack([
+                policy(n, A, A.transpose(1, 2), torch.full((len(A),), bit)) for n in nets]).mean()), 4)
+                for fam, A in fams.items() for bit, key in bits}))
+
+    nets, F = train(seed=seed, steps=int(os.environ.get("STEPS", "4000")), monitor=monitor, **kw)
+    P, _ = plane()
+    with torch.no_grad():
+        play_map = {key: [round(float(x), 4) for x in torch.stack([
+            policy(n, P, P.transpose(1, 2), torch.full((len(P),), bit)) for n in nets]).mean(0)] for bit, key in bits}
     dials = {k: kw[k] for k in DIALS if k in kw}
     out = {}
     for fam, A in families().items():
@@ -91,6 +107,7 @@ def one(job):
                 cls={k: (float(v.double().mean()), float(pc[:, v].mean()) if v.any() else float("nan"))
                      for k, v in cl.items()})
         out[fam] = res
+    out["curve"], out["map"] = curve, play_map
     return name, seed, out
 
 
@@ -107,6 +124,10 @@ if __name__ == "__main__":
     say(f"Canonical felt welfare alpha m(q) + beta m(p), alpha {al:.3f}, beta {be:.3f}: felt empathy at (wE, J) is altruism "
         f"at wE (beta + J alpha)/(alpha + beta), so wE 0.5 at J 0 is altruism at {0.5 * be / (al + be):.3f}, at J 1 at 0.5. "
         f"X4: lam {X4['lam']}.")
+    json.dump(dict(alpha=al, beta=be, plane=[round(float(x), 4) for x in plane()[1]],
+                   variants={n: {k: (v if k != "feel" else "X4") for k, v in kw.items()} for n, kw in VARIANTS.items()},
+                   runs=[dict(variant=n, seed=s, **o) for n, s, o in out]),
+              open(os.path.join(HERE, "partners_runs.json"), "w"))
     for name in VARIANTS:
         rs = [o for n, _, o in out if n == name]
         say(f"[{name}] {dict((k, v) for k, v in VARIANTS[name].items() if k != 'feel')}")

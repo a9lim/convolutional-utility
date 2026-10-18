@@ -182,7 +182,8 @@ batched (`felt.Event`, checked against `felt.BeliefPath` to 1e-15).
   linear probes for game class on the hidden layer, canonical and under X4; equilibrium selection
   over seeds as a four-way control (payoffs; payoffs at scale `α + β`, the calibrated felt agent's
   temperature against the entropy bonus; calibrated felt, canonical; and X4); writes
-  `games_report.txt` and `games.png`.
+  `games_report.txt`, `games.png` and `games_runs.json` (learning curves, play on the symmetric
+  game plane, the sweep by seed).
 - `run_twin.py`: the `J` dial in symmetric games, where the other player is a copy of one's own
   policy. `w = 0` (the other's policy held fixed) against `w = 1` (gradient through the twin),
   and the graded dial on prisoner's dilemmas against its analytic thresholds.
@@ -258,15 +259,17 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
 - `partners.py` (model, trainer, local-stability slopes; `python partners.py` checks that no gradient
   leaks between networks, that a copy at `w_T = 0` trains like a mirror, the
   twin–empathizer identity, and the canonical reduction to payoffs, with its counterexample); `run_partners.py` (the variants against the analytic stability classes;
-  `partners_report.txt`, `partners.png`); `run_trust.py` (a trust game with felt empathy and the
-  interpersonal `J`, analytic; `trust_report.txt`).
+  `partners_report.txt`, `partners.png`, `partners_runs.json` with training curves and play on the
+  game plane); `run_trust.py` (a trust game with felt empathy and the interpersonal `J`, analytic;
+  `trust_report.txt`, `trust_sweeps.json` along `λ`, `a` and `n`).
 - Inferred dependence: a twin told only a noisy similarity signal adds its dependence gradient, evaluated
   in the copy branch, at its estimate `d(s)` that the partner is a copy (a Bayesian posterior under an
   assumed model, or a head on its own trunk fit to identities revealed after each match), against the
   identity oracle.
   Strangers and forgers (strangers with copy-like signals) are frozen causal networks from a shared bank.
   `dependence.py` (`python dependence.py` checks that the calibrated twin's expected gradient is the
-  oracle's, payoff and felt); `run_dependence.py` (`dependence_report.txt`, `dependence.png`).
+  oracle's, payoff and felt); `run_dependence.py` (`dependence_report.txt`, `dependence.png`,
+  `dependence_runs.json`).
 
 ## Follow-up results
 

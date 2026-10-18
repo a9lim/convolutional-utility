@@ -1,5 +1,6 @@
 """A trust game with felt empathy and the interpersonal J (notes/empathy.md). Run:
-python experiments/learned_expectations/run_trust.py   (writes trust_report.txt)
+python experiments/learned_expectations/run_trust.py   (writes trust_report.txt and trust_sweeps.json, the
+thresholds along lam, a and n)
 
 Ann trusts at 0, or takes the outside option (payoff 0, no event). Trusting announces an event: Ann holds a
 belief q that Bob honors from 0 until he chooses at s, when his move is revealed: she gets H if he honors,
@@ -14,8 +15,11 @@ W(1, 0) > W(0, 0): Ann's anticipation of honor outweighs her letdown (direct mod
 canonical model W(q, p) = alpha m(q) + beta m(p) (felt.Event.weights): J = 0 resists (H - L) beta / (alpha + beta)
 per unit empathy whatever Ann expects, J = 1 resists H - L, and J = 1 resists more iff alpha > 0. Within this event
 family with linear echoes and base utility, expectation-dependent guilt needs loss-averse news (X4)."""
+import json
 import os
 import sys
+
+import numpy as np
 
 import torch
 
@@ -76,3 +80,17 @@ if __name__ == "__main__":
         "resists more iff alpha > 0. Under X4, for w t*(q=0)/w < t < w t*(q=1)/w Bob honors iff Ann expects him to (guilt "
         "makes trust self-fulfilling); J = 1 has one threshold.")
     open(os.path.join(HERE, "trust_report.txt"), "w").write("\n".join(lines) + "\n")
+    rows = []
+    for sweep, key, xs, lams in (("lam", "lam", np.round(np.arange(0.5, 2.51, 0.05), 2), (None,)),
+                                 ("a", "a", np.round(np.arange(0.0, 0.301, 0.01), 2), (1.0, X4["lam"])),
+                                 ("n", "n", np.round(np.arange(0.0, 0.501, 0.02), 2), (1.0, X4["lam"]))):
+        for lam in lams:
+            for x in xs:
+                kw = dict(EVENT, **{key: float(x)}, **({} if lam is None else {"lam": lam}))
+                try:
+                    g = gains(Event(**kw))
+                except ValueError:
+                    continue
+                rows.append(dict(sweep=sweep, x=float(x), lam=kw["lam"], **{k: round(g[c] / g["own"], 4) for k, c in (
+                    ("J0_expects_honor", "guilt"), ("J0_expects_grab", "surprise"), ("J1", "policy"))}))
+    json.dump(rows, open(os.path.join(HERE, "trust_sweeps.json"), "w"))

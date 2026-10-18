@@ -10,7 +10,9 @@ learned dependence head, a naive bayes twin that counts forgers as copies, and a
 90% of partners are copies, a universal one that treats every partner as a copy;
 felt oracle and bayes at w = 0.5 under loss-averse news (X4) as a control. Four seeds each. Measured:
 cooperation in prisoner's dilemmas and stag hunts by signal; the dependence estimate against the true
-posterior; payoff against each partner type; and boundary gradient signs of the expected gradient."""
+posterior; payoff against each partner type; and boundary gradient signs of the expected gradient. Also writes
+dependence_runs.json: every variant and seed, with the true posterior per environment."""
+import json
 import os
 import sys
 import time
@@ -138,6 +140,11 @@ if __name__ == "__main__":
         "signs point to all-cooperate only / all-defect only / both / neither, and learned cooperation there.")
     for env, shares in ENV.items():
         say(f"true P(copy | s), {env}: " + " ".join(f"{float(posterior(s, shares, ETA)):.2f}" for s in GRID))
+    json.dump(dict(grid=GRID, eta=ETA, env=ENV,
+                   posterior={env: [float(posterior(s, sh, ETA)) for s in GRID] for env, sh in ENV.items()},
+                   variants={n: {k: (v if k != "feel" else "X4") for k, v in kw.items()} for n, kw in VARIANTS.items()},
+                   runs=[dict(variant=n, seed=sd, **o) for n, sd, o in out]),
+              open(os.path.join(HERE, "dependence_runs.json"), "w"), default=lambda x: None)
     for name, kw in VARIANTS.items():
         rs = [o for n, _, o in out if n == name]
         say(f"[{name}] {dict((k, v) for k, v in kw.items() if k not in ('env', 'feel'))}")

@@ -115,4 +115,4 @@ Canonical felt welfare alpha m(q) + beta m(p), alpha 0.713, beta 1.837: felt emp
     PD        other    : cooperate 0.46 [0.46 0.47]   C only 0.24:0.92  D only 0.00:nan  both 0.76:0.32  neither 0.00:nan
     stag hunt copy     : cooperate 0.77 [0.78 0.77]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.76  neither 0.00:nan
     stag hunt other    : cooperate 0.75 [0.76 0.75]   C only 0.07:1.00  D only 0.00:nan  both 0.93:0.73  neither 0.00:nan
-done in 1940s
+done in 1109s

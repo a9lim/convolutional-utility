@@ -75,10 +75,11 @@ def match(n1, n2, A, copy, felt, signal, eps, gen, dials):
 
 
 def train(K=4, sigma=0.5, signal=True, eps=0.0, felt=False, feel=EVENT, strangers="others", steps=4000, batch=1024,
-          seed=0, lr=1e-3, **dials):
+          seed=0, lr=1e-3, monitor=None, **dials):
     """strangers: "others" pairs each network with another one; "self" with a mirror: its own current policy
     under a stop-gradient, a lookalike whose play the learner treats as fixed (recomputed every step, it does
-    move with the network's parameters between steps)."""
+    move with the network's parameters between steps). monitor(step, nets) every 250 steps and at the end; it
+    draws no randomness the training uses."""
     gen = torch.Generator().manual_seed(seed)
     torch.manual_seed(seed)
     nets = [Agent(**LAYOUT) for _ in range(K)]
@@ -103,6 +104,10 @@ def train(K=4, sigma=0.5, signal=True, eps=0.0, felt=False, feel=EVENT, stranger
         opt.zero_grad()
         loss.backward()
         opt.step()
+        if monitor and it % 250 == 0:
+            monitor(it, nets)
+    if monitor:
+        monitor(steps, nets)
     return nets, F
 
 
