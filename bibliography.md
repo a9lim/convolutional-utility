@@ -1533,26 +1533,33 @@ searchable.
   in continuing tasks, PPO included, §2.4); Andrychowicz et al. 2021 (value normalization
   and separate networks matter in on-policy RL, §3.2–3.3). Texts in `papers/`.
 - **Marek, M. & Ryabinin, M. (2026).** Score centering stabilizes off-policy reinforcement
-  learning. arXiv:2609.20807. **ABS+** (arXiv HTML v1, §3–§6 read through extraction; text not
-  archived)
+  learning. arXiv:2609.20807. **FT** (arXiv v1) ·
+  `papers/marek-2026-score-centering-stabilizes-off-policy-reinforcement-learning.txt`
   - Off-policy the policy gradient splits, conditional on the prefix, as `E_q[R] s̄ + Cov_q(R, s)`,
     `s̄ = E_q[∇ log p]` (§4, eq. 3): "drift" sees rewards only through their mean and, for a
     positive mean, distils the trainer toward the sampler (`s̄` is minus the gradient of the
-    cross-entropy to it); on-policy it vanishes.
-    Score centering subtracts `s̄` (eq. 4; loss form eq. 8, top-k head with the tail modelled
-    by the trainer); group centering does not remove drift (§4). LLM RL under
-    training–inference mismatch (quantized samplers, weight noise, staleness), 0.6B–30B;
-    deliberately severe mismatch, 30B runs mostly single-seed (§5, §6). Under staleness, centering
-    plus importance correction beats centering alone (§5.3). The off-policy route for a
-    level to reach a policy (`learning.md` D9), beside sampling noise (Chung et al. 2021) and
-    a shared state (D8).
+    cross-entropy to it); on-policy it vanishes. Score centering subtracts `s̄` (eq. 4; loss
+    form eq. 11, top-k head with the tail modelled by the trainer, eqs. 6–8; with importance
+    weights, eqs. 9–12); group centering does not remove drift (§4). LLM RL under
+    training–inference mismatch (weight noise, quantized samplers, staleness), 0.6B–30B, SGD;
+    deliberately severe mismatch, 30B runs mostly single-seed (§5, B.3). Under staleness,
+    centering plus importance correction beats centering alone (§5.3).
+  - The sign of a replayed level, offline (§3, Fig. 2, fn. 4): training on a fixed sampler's
+    data is stable only with non-negative rewards; with negative ones log-probabilities run
+    to −∞ and the model collapses (Ren & Sutherland 2025, cited there). Online under mismatch
+    the order reverses, because the sampler is a biased copy re-synced each step; "what
+    matters is not the size of the mismatch, but whether the teacher is fixed or tracks the
+    student" (§6). D9's replay 100 steps late sits between, and shows the offline sign.
 - **Wu, Y., Tucker, G. & Nachum, O. (2019).** Behavior regularized offline reinforcement
-  learning (BRAC). arXiv:1911.11361. **ABS+** (arXiv HTML v1, §3 read by Codex; text not archived)
-  - Regularizes a learned policy toward the behavior policy by a divergence, as a penalty in
-    the value or the policy objective (§3). The closest precedent for D9's anchor: a positive
-    reward offset in uncorrected replay adds an attraction toward the policy that played the
-    memory (`−c ∇KL(q‖p)`). TRPO (Schulman et al. 2015) constrains a KL; PPO (2017) clips its
-    surrogate objective; the anchor enforces no bound.
+  learning (BRAC). arXiv:1911.11361. **ABS+** (arXiv v1; abstract, §1–§3 read) ·
+  `papers/wu-2019-behavior-regularized-offline-reinforcement-learning.txt`
+  - Regularizes a learned policy toward the behavior policy by a divergence `D(π_θ, π_b)`
+    (KL, MMD, Wasserstein), as a value penalty or a policy penalty (§3, eqs. 5–7; KL taken
+    as `E_{π_θ}[log π_θ − log π_b]`, p. 5); the KL-control line (Jaques et al. 2019) and
+    trust regions (Schulman et al. 2015) cited as kin. The closest precedent for D9's anchor,
+    which a positive reward offset in uncorrected replay adds unasked as `−c ∇KL(q‖p)`, the
+    other direction of the KL. TRPO constrains a KL; PPO (2017) clips its surrogate
+    objective; the anchor enforces no bound.
 - **Fedus, W., Gelada, C., Bengio, Y., Bellemare, M. G. & Larochelle, H. (2019).** Hyperbolic
   discounting and learning over multiple horizons. arXiv:1902.06865. **ABS+** (abstract,
   introduction, §9, Fig. 9) ·

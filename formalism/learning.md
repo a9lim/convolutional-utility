@@ -51,9 +51,11 @@ with the same sign (Sun et al. 2022)]
   on the state also traps the honest critic.
 
 **D9. Off-policy, a level enters the expected gradient.** [standard: the covariance split and
-score centering (Marek & Ryabinin 2026, §4); attraction toward a behavior policy known in kind
-(BRAC, Wu, Tucker & Nachum 2019; TRPO constrains a KL, PPO clips its surrogate); the reading as
-a route for felt levels, synthesis; checked in the learner]
+score centering (Marek & Ryabinin 2026, §4); the sign of a level in training on a fixed
+sampler's data known (their §3, Fig. 2: stable only with non-negative rewards); attraction
+toward a behavior policy known in kind (BRAC, Wu, Tucker & Nachum 2019; TRPO constrains a KL,
+PPO clips its surrogate); the reading as a route for felt levels, synthesis; checked in the
+learner]
 - Setting: a policy `p_θ` learns from histories `H` and moves `y` drawn by another, fixed policy
   `q` (memories replayed from an older self, without importance weights), advantage `A`.
   History by history,
@@ -82,10 +84,13 @@ a route for felt levels, synthesis; checked in the learner]
   and −0.5 fails in every seed; the analytic attraction alone, added to unshifted replay without
   the shift's sampling noise, gives similar trajectories and the same terminal payoff, and the
   repulsion alone fails; centered, the stark asymmetry goes and outcomes are mixed, with
-  oscillating curves. [checked] Whether the attraction helps should depend on what it attracts
-  toward: in Marek & Ryabinin's quantized and noisy samplers it would compound a bias each
-  step, here it holds the policy near the self that played its memories against a signal 100
-  steps late (interpretation; the sampler's kind is not isolated). Their own staleness runs
-  favour centering with importance correction over centering alone (§5.3).
+  oscillating curves. [checked] Marek & Ryabinin show the same sign offline (§3, Fig. 2): on a
+  fixed sampler's data, non-negative rewards train stably and negative ones collapse, as
+  log-probabilities run to −∞ (Ren & Sutherland 2025, cited there); online under mismatch the
+  order reverses, because a biased sampler re-synced each step compounds the pull. What
+  matters, in their words, is "whether the teacher is fixed or tracks the student" (§6).
+  Memories 100 steps old are a teacher that tracks slowly, and here they behave like the
+  offline case. Their staleness runs favour centering with importance correction over
+  centering alone (§5.3).
 - Limits: Adam and global clipping act on the sum, so (a) is exact for the gradient, not the
   update; the anchor bounds nothing, unlike a trust region.

@@ -146,6 +146,7 @@ Shared representations and the critic's level (D8)
 - `sun-2022-exploit-reward-shifting-in-value-based-deep-rl.txt`, `schaul-2019-ray-interference-a-source-of-plateaus-in-deep-reinforcement-learning.txt`, `cobbe-2021-phasic-policy-gradient.txt`, `hessel-2019-multi-task-deep-reinforcement-learning-with-popart.txt`, `van-hasselt-2016-learning-values-across-many-orders-of-magnitude.txt`, `naik-2024-reward-centering.txt` — arXiv
 - `rashid-2020-optimistic-exploration-even-with-a-pessimistic-initialisation.txt`, `du-2018-adapting-auxiliary-losses-using-gradient-similarity.txt`, `garcin-2025-studying-the-interplay-between-the-actor-and-critic-representations-in-reinforcement-learning.txt`, `wan-2025-an-empirical-study-of-deep-reinforcement-learning-in-continuing-tasks.txt`, `andrychowicz-2021-what-matters-in-on-policy-reinforcement-learning.txt` — arXiv
 - `fedus-2019-hyperbolic-discounting-and-learning-over-multiple-horizons.txt` — arXiv; value heads for many discount factors on one shared representation (Figure 9)
+- `marek-2026-score-centering-stabilizes-off-policy-reinforcement-learning.txt` (D9), `wu-2019-behavior-regularized-offline-reinforcement-learning.txt` — arXiv v1
 - Screened, not cited: `raileanu-2021-*`, `ciosek-2019-*`, `mastikhina-2025-*`, `machado-2015-*`, `engstrom-2020-*`, `liu-2026-*`, `zhu-2025-*`
 
 Games: guilt, Kantian morality, similarity

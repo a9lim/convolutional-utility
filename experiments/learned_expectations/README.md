@@ -464,9 +464,12 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   seed. Score centering removes the term and the stark asymmetry with it, leaving mixed
   outcomes (2/4 at +0.5 and at −0.5, 1/4 unshifted, whose seed 0 ends at 0.2599, just under
   the threshold), oscillating curves and a policy further from its past self (RMS `|q − p|`
-  0.21–0.32). Behavior regularization is known (BRAC; TRPO constrains a KL, PPO clips its
-  surrogate); here a positive reward level supplies an attraction unasked. It acts through Adam
-  and the shared clipping, so the gradient decomposition is exact and the update's is not.
+  0.21–0.32). The sign is the one Marek & Ryabinin find offline (§3, Fig. 2: on a fixed
+  sampler's data non-negative rewards train stably and negative ones collapse); online, with a
+  biased sampler re-synced each step, they find the reverse. Behavior regularization is known
+  (BRAC; TRPO constrains a KL, PPO clips its surrogate); here a positive reward level supplies
+  an attraction unasked. It acts through Adam and the shared clipping, so the gradient
+  decomposition is exact and the update's is not.
   - A learner reinforced by felt utility without a baseline fails under replay in 3 of 4 (one
     reaches the plateau); adapting its felt reference (`h = 3`) attenuates the replayed level
     (−0.01 over learning) and all 4 fail; centered, 1 of 4 escapes. One seed's difference:

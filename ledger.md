@@ -65,6 +65,8 @@ at `22c5c4f`).
 - Learners: Adam stalls on saturated sigmoids (fixed by preconditioning each self's
   gradient by reach and slope); population-based training confounds selection with
   inherited weights, so evolution is generational (born untrained).
+- Read the full text of a paper before designing on it. An extraction of Marek & Ryabinin's
+  §4–§6 missed §3, whose offline runs had the sign my replay prediction got wrong.
 - Literature agents: a control-character cleanup once touched 15 reference files (restored by
   re-extraction, spot-checked byte for byte); one agent died on an API filter error and
   needed a leaner brief.
@@ -162,6 +164,8 @@ requests: `next-steps.md`, the post's citations and the companion's prior art.
   three-point level curve that could not carry an "only through the level" claim; all
   replaced before the runs that count. My prediction for replay was the wrong sign: I
   expected the drift toward the old policy to slow learning, and it is what keeps the
-  replaying learner learning (Codex's analytic-anchor control: sufficient in this grid).
+  replaying learner learning (Codex's analytic-anchor control: sufficient in this grid). The
+  paper's §3 already shows that sign offline; I had read it through an extraction that
+  skipped §3, and found it only when archiving the full text (lesson above).
   The invasion rerun reproduced every earlier arm exactly. Results: README, `learning.md` D9,
   the adaptation note.
