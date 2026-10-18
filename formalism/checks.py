@@ -516,6 +516,27 @@ for h in (1, 5, 20, 30, 50):
 report("RF direct news equals the primitive kernel", max(abs(x - kn_r[h]) for x, h in zip(prim, (1, 5, 20, 30, 50))))
 print("RF  echoed news kernel at h = 1, 5, 20, 30, 50: " + ", ".join(f"{x:.3f}" for x in eff))
 
+# The 2x2 of echoes and news (core.md): the jolt on hearing at 5 of a +5 event 5 / 15 / 30 periods
+# ahead (T = 60), and the life-sum of a plan (+4 at 35, announced at 5, cancelled at 28, T = 50) with
+# linear and loss-averse (lam = 2) news. Rows: echoes / news, direct (u) or recursive (e).
+core_2x2 = {(False, "u"): [0.49, 0.05, 0.00, 0.73, 0.44], (False, "e"): [1.22, 0.33, 0.05, 0.21, -2.22],
+            (True, "u"): [0.49, 0.05, 0.00, 6.02, 5.71], (True, "e"): [1.55, 0.92, 0.57, 5.56, 1.48]}
+err, rows = 0.0, []
+for (rec, over), want in core_2x2.items():
+    got = []
+    for T, events, lams in [(60, [[(5, 5 + h, 5.0, None)] for h in (5, 15, 30)], (1.0,)),
+                            (50, [[(5, 35, 4.0, 28)]], (1.0, 2.0))]:
+        kf_r, kb_r = pw.kernels(T, a, al, m, mu)
+        kn_r = 0.3 * 0.8 ** np.arange(T)
+        for ev in events:
+            for lam in lams:
+                e_, c_, _ = pw.run(T, 0.0, ev, kf_r, kb_r, kn_r, lam, over, recursive=rec)
+                got.append(c_["news"][5] if T == 60 else e_.sum())
+    err = max(err, max(abs(x - y) for x, y in zip(got, want)))
+    rows.append(f"{'R' if rec else 'D'}/{'R' if over == 'e' else 'D'} " + " ".join(f"{x:+.2f}" for x in got))
+report("2x2 jolts and cancelled-plan life-sums (lam = 1, 2) match core.md to rounding", err, tol=0.005)
+print("2x2 echoes/news: jolt at 5/15/30, cancelled plan lam = 1, 2: " + "; ".join(rows))
+
 # P1(d): non-summable tails. Simple-hyperbolic kernels with the same short-run rates
 j = np.arange(1, 2000)
 for T in (50, 2000):

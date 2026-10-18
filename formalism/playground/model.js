@@ -1,30 +1,39 @@
-// Pathwise convolutional-utility model with felt news. Port of formalism/pathwise.py, plus the
-// direct (non-recursive) model. Deterministic announcements; certainty-equivalent forecasts.
+// Pathwise convolutional-utility model with felt news, linear in every channel. Port of
+// formalism/pathwise.py at lam = 1, with biphasic memory (notes/adaptation.md): the memory kernel is
+// m·μ^j − c·γ^j, afterglow minus adaptation. Recursive: echoes and news are about experienced
+// utility (the canonical model). Direct: echoes of the felt base f = u + N, news about base utility.
+// Deterministic announcements; certainty-equivalent forecasts.
 (function (root) {
   "use strict";
 
-  // Anticipation a·α^j, memory m·μ^j, news k_n(j) = n·ν^j (γ·n·ν^j for j ≥ 1 with Kőszegi–Rabin's γ).
+  // Anticipation a·α^j, afterglow m·μ^j, adaptation c·γ^j, news k_n(j) = n·ν^j.
   function kernels(p) {
-    const kf = new Float64Array(p.T), kb = new Float64Array(p.T), kn = new Float64Array(p.T);
-    const gamma = p.gamma == null ? 1 : p.gamma;
-    for (let j = 1; j < p.T; j++) {
+    const T = p.T;
+    const kf = new Float64Array(T), kg = new Float64Array(T), kd = new Float64Array(T);
+    const kb = new Float64Array(T), kn = new Float64Array(T);
+    for (let j = 1; j < T; j++) {
       kf[j] = p.a * Math.pow(p.al, j);
-      kb[j] = p.m * Math.pow(p.mu, j);
-      kn[j] = gamma * p.n * Math.pow(p.nu, j);
+      kg[j] = p.m * Math.pow(p.mu, j);
+      kd[j] = p.c * Math.pow(p.ga, j);
+      kb[j] = kg[j] - kd[j];
+      kn[j] = p.n * Math.pow(p.nu, j);
     }
     kn[0] = p.n;
-    return { kf, kb, kn };
+    return { kf, kg, kd, kb, kn };
   }
 
-  // Forecast at time t of base utility on [0, T). t = -1 is the prior.
+  // Forecast at time t of base utility on [0, T); t = -1 is the prior. An event adds its value to
+  // each of its periods [at, at + dur). It is known from its announcement, or from its start if
+  // unannounced; a cancellation drops the periods not yet lived.
   function forecastU(p, t) {
     const u = new Float64Array(p.T).fill(p.base);
     for (const ev of p.events) {
-      const s = ev.at;
-      if (s < 0 || s >= p.T) continue;
-      const cancelled = ev.cancel != null && ev.cancel <= Math.min(t, s);
-      if (cancelled) continue;
-      if (s <= t || (ev.announce != null && ev.announce <= t)) u[s] += ev.value;
+      if (!(ev.at <= t || (ev.announce != null && ev.announce <= t))) continue;
+      const end = Math.min(p.T, ev.at + (ev.dur == null ? 1 : ev.dur));
+      for (let s = Math.max(0, ev.at); s < end; s++) {
+        if (ev.cancel != null && ev.cancel <= Math.min(t, s)) continue;
+        u[s] += ev.value;
+      }
     }
     return u;
   }
@@ -70,55 +79,49 @@
     return A;
   }
 
-  // All roots of h(s) = s - sum_j nu_j phi(x0_j + s g_j - prev_j). h is piecewise linear with kinks
-  // where a revision changes sign, so its roots are found exactly, interval by interval.
-  function newsRoots(x0, g, xPrev, t, kn, n, phi) {
-    // Revisions below rounding noise are no news (past the threshold, any bad news has no felt state).
-    const d = new Float64Array(n);
-    for (let j = 0; j < n; j++) { const r = x0[j] - xPrev[t + j]; d[j] = Math.abs(r) < 1e-9 * (1 + Math.abs(x0[j])) ? 0 : r; }
-    const h = (s) => { let v = s; for (let j = 0; j < n; j++) v -= kn[j] * phi(d[j] + s * g[j]); return v; };
-    const br = [];
-    for (let j = 0; j < n; j++) if (kn[j] !== 0 && Math.abs(g[j]) > 1e-15) br.push(-d[j] / g[j]);
-    br.sort((p, q) => p - q);
-    const pts = [];
-    if (br.length === 0) pts.push(-1, 1); else { pts.push(br[0] - 1); for (const b of br) pts.push(b); pts.push(br[br.length - 1] + 1); }
-    const roots = [];
-    const add = (r) => { if (!roots.some((q) => Math.abs(q - r) < 1e-9 * (1 + Math.abs(r)))) roots.push(r); };
-    // left ray, finite intervals, right ray: h is linear on each
-    const seg = (l, r) => {
-      const hl = h(l), hr = h(r);
-      if (hl === 0) add(l);
-      if (hr === 0) add(r);
-      if (hl * hr < 0) add(l - hl * (r - l) / (hr - hl));
+  // Recursive echoes are well-founded for every lifespan iff 1 − K(z) has no zeros on the unit
+  // circle and winding number zero; for a nonnegative kernel this is M < 1 (notes/adaptation.md).
+  function echoSymbol(p) {
+    const geo = (w, r, th) => {          // w r e^{iθ} / (1 − r e^{iθ})
+      const nr = w * r * Math.cos(th), ni = w * r * Math.sin(th);
+      const dr = 1 - r * Math.cos(th), di = -r * Math.sin(th), dd = dr * dr + di * di;
+      return [(nr * dr + ni * di) / dd, (ni * dr - nr * di) / dd];
     };
-    const ray = (x, dir) => {   // h linear beyond x; slope from two points on the ray
-      const hx = h(x), h2 = h(x + dir), slope = (h2 - hx) * dir;
-      if (hx === 0) { add(x); return; }
-      const r = x - hx / slope;
-      if (slope !== 0 && (r - x) * dir > 0) add(r);
-    };
-    ray(pts[0], -1);
-    for (let i = 0; i + 1 < pts.length; i++) seg(pts[i], pts[i + 1]);
-    ray(pts[pts.length - 1], 1);
-    return roots.sort((p, q) => p - q);
+    const N = 4096;
+    let minAbs = Infinity, turn = 0, prev = null;
+    for (let i = 0; i <= N; i++) {
+      const th = (2 * Math.PI * i) / N;
+      const f = geo(p.a, p.al, th), g = geo(p.m, p.mu, -th), d = geo(p.c, p.ga, -th);
+      const re = 1 - (f[0] + g[0] - d[0]), im = -(f[1] + g[1] - d[1]);
+      minAbs = Math.min(minAbs, Math.hypot(re, im));
+      const arg = Math.atan2(im, re);
+      if (prev != null) {
+        let da = arg - prev;
+        if (da > Math.PI) da -= 2 * Math.PI;
+        if (da < -Math.PI) da += 2 * Math.PI;
+        turn += da;
+      }
+      prev = arg;
+    }
+    return { minAbs, winding: Math.round(turn / (2 * Math.PI)) };
   }
 
   function simulate(p) {
-    const T = p.T, { kf, kb, kn } = kernels(p);
-    const lam = p.lam, phi = (x) => (x >= 0 ? x : lam * x);
-    const e = new Float64Array(T), fHist = new Float64Array(T);
-    const comp = { base: new Float64Array(T), anticipation: new Float64Array(T),
-                   memory: new Float64Array(T), news: new Float64Array(T) };
-    let M = 0;
-    for (let j = 1; j < T; j++) M += kf[j] + kb[j];
-    const out = { e, comp, M, maxLoop: 0, failAt: null, failLoop: null, multiAt: [] };
+    const T = p.T, rec = p.recursive, { kf, kg, kd, kb, kn } = kernels(p);
+    const e = new Float64Array(T), f = new Float64Array(T);
+    const past = rec ? e : f;
+    const comp = { base: new Float64Array(T), anticipation: new Float64Array(T), afterglow: new Float64Array(T),
+                   adaptation: new Float64Array(T), news: new Float64Array(T) };
+    const A = (p.a * p.al) / (1 - p.al), G = (p.m * p.mu) / (1 - p.mu), h = (p.c * p.ga) / (1 - p.ga);
+    const sym = echoSymbol(p);
+    const out = { e, comp, A, G, h, M: A + G - h, wellFounded: sym.minAbs > 1e-6 && sym.winding === 0,
+                  kappa: new Float64Array(T), unstableAt: [], failAt: null };
 
-    // Forecast path of felt experience on [t, T) for a given forecast of u, with news s at t.
-    // Returns x0 (path with s = 0) and g (the path's response to a unit of news at t).
+    // Forecast path of felt experience on [t, T) for a given forecast of u, with news s at t:
+    // x0 is the path at s = 0 and g its response to a unit of news at t.
     function pathAt(t, uh) {
-      const n = T - t, A = echoMatrix(kf, kb, n);
+      const n = T - t, Am = echoMatrix(kf, kb, n);
       const memPast = new Float64Array(n);
-      const past = p.recursive ? e : fHist;
       for (let k = 0; k < n; k++) {
         let s = 0;
         for (let q = 0; q < t; q++) {
@@ -128,9 +131,9 @@
         memPast[k] = s;
       }
       const x0 = new Float64Array(n), g = new Float64Array(n);
-      if (p.recursive) {
+      if (rec) {
         const IA = new Float64Array(n * n);
-        for (let i = 0; i < n * n; i++) IA[i] = -A[i];
+        for (let i = 0; i < n * n; i++) IA[i] = -Am[i];
         for (let i = 0; i < n; i++) IA[i * n + i] += 1;
         const solve = luSolver(IA, n);
         if (!solve) return null;
@@ -143,16 +146,16 @@
         // Direct: x = (I + A) f + memory of past f; future news forecast as zero.
         for (let i = 0; i < n; i++) {
           let s = uh[t + i] + memPast[i];
-          for (let j = 0; j < n; j++) s += A[i * n + j] * uh[t + j];
+          for (let j = 0; j < n; j++) s += Am[i * n + j] * uh[t + j];
           x0[i] = s;
-          g[i] = (i === 0 ? 1 : 0) + A[i * n + 0];
+          g[i] = (i === 0 ? 1 : 0) + Am[i * n];
         }
       }
       return { x0, g };
     }
 
     let uPrev = forecastU(p, -1);
-    let first = pathAt(0, uPrev);
+    const first = pathAt(0, uPrev);
     let xPrev = new Float64Array(T);
     if (first) xPrev.set(first.x0);
 
@@ -162,29 +165,30 @@
       if (!pa) { out.failAt = t; break; }
       const { x0, g } = pa;
       let s = 0;
-      if (p.over === "u") {
-        for (let j = 0; j < n; j++) s += kn[j] * phi(uh[t + j] - uPrev[t + j]);
+      if (!rec) {
+        for (let j = 0; j < n; j++) s += kn[j] * (uh[t + j] - uPrev[t + j]);
       } else {
-        let loop = 0;
-        for (let j = 0; j < n; j++) loop += kn[j] * Math.abs(g[j]);
-        loop *= lam;
-        out.maxLoop = Math.max(out.maxLoop, loop);
-        const roots = newsRoots(x0, g, xPrev, t, kn, n, phi);
-        if (roots.length === 0) { out.failAt = t; out.failLoop = loop; break; }
-        if (roots.length > 1) out.multiAt.push(t);
-        s = roots[roots.length - 1];   // the better felt state when there are two
+        // s = k_n·(d + s g): the revision's direct news amplified by 1/(1 − κ), κ = k_n·g (N4).
+        let kd0 = 0, kap = 0;
+        for (let j = 0; j < n; j++) { kd0 += kn[j] * (x0[j] - xPrev[t + j]); kap += kn[j] * g[j]; }
+        out.kappa[t] = kap;
+        if (Math.abs(1 - kap) < 1e-12) {
+          if (Math.abs(kd0) > 1e-12) { out.failAt = t; break; }
+        } else s = kd0 / (1 - kap);
+        if (kap >= 1) out.unstableAt.push(t);   // the felt state exists but is unstable, news felt backwards
       }
       const x = new Float64Array(n);
       for (let i = 0; i < n; i++) x[i] = x0[i] + s * g[i];
       e[t] = x[0];
-      fHist[t] = uh[t] + s;
+      f[t] = uh[t] + s;
       comp.base[t] = uh[t];
       comp.news[t] = s;
-      let ant = 0;
-      if (p.recursive) for (let j = 1; j < n; j++) ant += kf[j] * x[j];
-      else for (let j = 1; j < n; j++) ant += kf[j] * uh[t + j];
+      let ant = 0, glow = 0, adapt = 0;
+      for (let j = 1; j < n; j++) ant += kf[j] * (rec ? x[j] : uh[t + j]);
+      for (let j = 1; j <= t; j++) { glow += kg[j] * past[t - j]; adapt -= kd[j] * past[t - j]; }
       comp.anticipation[t] = ant;
-      comp.memory[t] = x[0] - uh[t] - s - ant;
+      comp.afterglow[t] = glow;
+      comp.adaptation[t] = adapt;
       xPrev = new Float64Array(T); xPrev.set(x, t);
       uPrev = uh;
     }

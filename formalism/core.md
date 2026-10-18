@@ -471,7 +471,7 @@ new here. Formal cousins: Skiadas 1998; Routledge & Zin 2010; Artstein-Avidan & 
 are direct (anticipation and memory of the felt base `u + N`) or recursive (of experienced
 utility);
 news is direct (about base utility) or recursive (about experienced utility). [checked where
-numbers are given; `formalism/playground` spans all four]
+numbers are given (`2x2`); `pathwise.py` spans all four, the playground the diagonal]
 - All four are reparametrizations of one another for foreseen lives on ℤ (P2 and N4), so
   the choice shows only through boundaries of a life or of information, restrictions on the
   kernel family, and the extension's kinks.
@@ -481,10 +481,10 @@ numbers are given; `formalism/playground` spans all four]
 - The news axis carries: how much a far-off event's news is felt now; cancellation costing
   the lost anticipation; disappointment about disappointment; the threshold `κ < 1`.
 - Signatures (`a = 0.09, α = 0.88, m = 0.05, μ = 0.75, n = 0.3, ν = 0.8`, unforeseen
-  announcements): the news felt on hearing of a +5 event 5 / 15 / 30 periods ahead, and the
-  life-sum of a plan announced and later cancelled (the playground's "cancelled" preset:
-  `+4` at 35, announced at 5, cancelled at 28, `T = 50`; `model.js` `simulate().lifeSum`;
-  the jolts are all gains, so loss-averse news leaves them unchanged):
+  announcements): the news felt on hearing of a +5 event 5 / 15 / 30 periods ahead (heard at
+  5, `T = 60`), and the life-sum of a plan announced and later cancelled (`+4` at 35, announced
+  at 5, cancelled at 28, `T = 50`; the playground's "cancelled" preset); the jolts are all
+  gains, so loss-averse news leaves them unchanged:
 
   | echoes / news | jolt at 5 / 15 / 30 | cancelled plan's life-sum |
   |---|---|---|

@@ -25,12 +25,14 @@ provenance (standard, known, known in kind, synthesis, not found, speculation) a
   follow-up, cited in the post at most once (§6).
 - `checks.py` — numerical verification of the propositions; `python formalism/checks.py`
   (every check passes). Check names below are its labels.
-- `pathwise.py` — pathwise simulation of the canonical model under unforeseen announcements,
-  with exact root-finding, and the component plot (`full-model-over-time.png`, the post's §1
+- `pathwise.py` — pathwise simulation under unforeseen announcements of the canonical model and
+  the 2×2's other corners (`over`, `recursive`), with exact root-finding for loss-averse news, and
+  the component plot (`full-model-over-time.png`, the post's §1
   figure in draft); `python formalism/pathwise.py [out.png]`.
 - `playground/` — the interactive page (`index.html`, published as an artifact) and
-  `model.js`, a JS port of `pathwise.py` that matches it to rounding, plus the direct model
-  and exact root-counting past the despair threshold.
+  `model.js`, a JS port of `pathwise.py` at `λ = 1` that matches it to rounding: one switch
+  between the canonical model and the direct one, biphasic memory (afterglow minus adaptation,
+  `notes/adaptation.md`), and lasting events.
 
 ## Claims by post section
 
@@ -67,7 +69,7 @@ support; a dash means the claim rests on the cited source or on algebra in the d
 | 5 | dread of dread prices information only in R; exact identity (extension) | D5, X1 | not found; structure known (Kreps–Porteus via Skiadas 1998) | proved; checked | `D5 identity`, `D5 straddle`, `D5 timing-neutral unless R` |
 | 5 | the news loop's gain: unique and stable iff `κ < 1`, amplification `1/(1−κ)` | N4 | known in kind (Kimball & Willis 2006, linear solvability); closed form not found | proved; checked | `N4 half-line` |
 | 5 | with loss-averse news, the threshold `λκ < 1` and the regimes past it | X4 (N4) | not found (sharp form); known in kind (Kimball & Willis 2006) | proved; checked | `N4 regimes`, `N4 saturation` |
-| 5 | far news felt now; cancelling costs the anticipation | N4; the 2×2 | known in kind | checked | `RF` echoed news kernel; `formalism/playground` |
+| 5 | far news felt now; cancelling costs the anticipation | N4; the 2×2 | known in kind | checked | `RF` echoed news kernel; `2x2` |
 | 6 | action and affect policies; Good's theorem covers the first | D7 | synthesis; known in kind (Pagel 2018; Andries & Haddad 2020) | — | — |
 | 6 | the best affect policy depends on the asymmetry; in the symmetric core none matters in expectation, outcomes and lifespan fixed | D7 | synthesis | checked on examples; no theorem | `N2 news cost`, `D5 identity` |
 | 6 | actions leak into affect | D7 | known in kind (Andries & Haddad); closure synthesis | checked (binary example) | `D7 leakage`, `D7 partial leak` |

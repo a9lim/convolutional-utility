@@ -1,4 +1,5 @@
 <title>Convolutional Utility Playground</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,500;1,500&display=swap">
@@ -18,6 +19,7 @@
   --s-base: #8a949a;
   --s-ant: #2d63ad;
   --s-mem: #ad7410;
+  --s-adapt: #8a3f9e;
   --s-news: #bf3727;
   --ok: #2b7a4b;
   --warn: #a96300;
@@ -31,7 +33,7 @@
   :root:not([data-theme="light"]) {
     --bg: #10161a; --surface: #172025; --ink: #e5ebee; --muted: #97a4ac; --rule: #29343a;
     --grid: #1e282d; --accent: #58b8c2; --accent-soft: #1d3338;
-    --s-e: #f1f4f6; --s-base: #8c979e; --s-ant: #6fa6ee; --s-mem: #e2a945; --s-news: #f0705e;
+    --s-e: #f1f4f6; --s-base: #8c979e; --s-ant: #6fa6ee; --s-mem: #e2a945; --s-adapt: #d08ae0; --s-news: #f0705e;
     --ok: #5cc48a; --warn: #e6a23a; --bad: #f0736a; --bad-wash: rgba(240, 115, 106, 0.10);
     color-scheme: dark;
   }
@@ -39,7 +41,7 @@
 :root[data-theme="dark"] {
   --bg: #10161a; --surface: #172025; --ink: #e5ebee; --muted: #97a4ac; --rule: #29343a;
   --grid: #1e282d; --accent: #58b8c2; --accent-soft: #1d3338;
-  --s-e: #f1f4f6; --s-base: #8c979e; --s-ant: #6fa6ee; --s-mem: #e2a945; --s-news: #f0705e;
+  --s-e: #f1f4f6; --s-base: #8c979e; --s-ant: #6fa6ee; --s-mem: #e2a945; --s-adapt: #d08ae0; --s-news: #f0705e;
   --ok: #5cc48a; --warn: #e6a23a; --bad: #f0736a; --bad-wash: rgba(240, 115, 106, 0.10);
   color-scheme: dark;
 }
@@ -47,7 +49,9 @@
 * { box-sizing: border-box; }
 body {
   background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px;
-  line-height: 1.5; padding-inline: 16px; padding-block: 20px 40px;
+  line-height: 1.5; padding-block: 20px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 .wrap { max-width: 1080px; margin-inline: auto; display: grid; gap: 18px; }
 
@@ -85,7 +89,9 @@ h1 {
 }
 .term[aria-pressed="false"] { opacity: 0.38; border-bottom-style: dashed; }
 .term .sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin-right: 5px; vertical-align: 0.08em; }
-.eq-note { font-family: var(--font-body); font-size: 0.78rem; color: var(--muted); }
+.eq-group { display: inline-flex; align-items: baseline; gap: 4px 8px; flex-wrap: wrap; }
+.eq-group .bracket { color: var(--muted); font-size: 0.86rem; font-family: var(--font-body); }
+.eq-note { font-family: var(--font-body); font-size: 0.78rem; color: var(--muted); flex-basis: 100%; }
 
 .chart-box { position: relative; width: 100%; min-width: 0; }
 svg.chart { display: block; width: 100%; height: auto; touch-action: pan-y; user-select: none; }
@@ -121,26 +127,27 @@ svg.chart .evlabel { font-family: var(--font-body); font-size: 11px; fill: var(-
   margin: 0; font: 600 0.74rem var(--font-body); text-transform: uppercase; letter-spacing: 0.09em;
   color: var(--muted);
 }
+.panel h2 .formula { text-transform: none; letter-spacing: 0; font: 500 0.82rem var(--font-display); color: var(--ink); margin-left: 4px; }
 .ctl { display: grid; gap: 4px; }
 .ctl label { display: flex; justify-content: space-between; gap: 8px; font-size: 0.88rem; }
 .ctl label span.v { font-family: var(--font-data); font-variant-numeric: tabular-nums; color: var(--ink); }
-.ctl .hint { font-size: 0.76rem; color: var(--muted); }
+.hint { font-size: 0.76rem; color: var(--muted); }
 input[type="range"] { width: 100%; accent-color: var(--accent); margin: 0; }
 
-.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; justify-self: start; }
 .seg button {
   font: 500 0.82rem var(--font-body); background: var(--surface); color: var(--ink); border: 0;
   padding: 6px 10px; cursor: pointer;
 }
 .seg button + button { border-left: 1px solid var(--rule); }
 .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
-.seg-row { display: grid; gap: 4px; }
+.seg-row { display: grid; gap: 6px; }
 .toolbar { display: flex; align-items: center; gap: 8px; justify-content: flex-end; font-size: 0.84rem; color: var(--muted); }
 .seg-row > span { font-size: 0.88rem; }
 
 .events-panel { grid-column: 1 / -1; }
 .table-scroll { overflow-x: auto; }
-table.events { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 0.86rem; }
+table.events { border-collapse: collapse; width: 100%; min-width: 600px; font-size: 0.86rem; }
 table.events th {
   text-align: left; font: 600 0.72rem var(--font-body); text-transform: uppercase; letter-spacing: 0.07em;
   color: var(--muted); padding: 4px 6px; border-bottom: 1px solid var(--rule);
@@ -158,7 +165,7 @@ table.events input.name { font-family: var(--font-body); min-width: 110px; }
 .btn:hover { border-color: var(--accent); }
 .btn.x { padding: 3px 8px; color: var(--muted); }
 .events-foot { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }
-.events-foot .hint { font-size: 0.78rem; color: var(--muted); }
+.events-foot .hint { font-size: 0.78rem; max-width: 70ch; }
 
 footer { color: var(--muted); font-size: 0.8rem; display: grid; gap: 4px; max-width: 80ch; }
 footer a { color: var(--accent); }
@@ -180,10 +187,14 @@ footer a { color: var(--accent); }
       <span class="op">+</span>
       <button class="term" id="term-anticipation" style="--c: var(--s-ant)" aria-pressed="true"><span class="sw"></span>anticipation</button>
       <span class="op">+</span>
-      <button class="term" id="term-memory" style="--c: var(--s-mem)" aria-pressed="true"><span class="sw"></span>memory</button>
+      <span class="eq-group"><span class="bracket">memory:</span>
+        <button class="term" id="term-afterglow" style="--c: var(--s-mem)" aria-pressed="true"><span class="sw"></span>afterglow</button>
+        <span class="op">+</span>
+        <button class="term" id="term-adaptation" style="--c: var(--s-adapt)" aria-pressed="true"><span class="sw"></span>adaptation</button>
+      </span>
       <span class="op">+</span>
       <button class="term" id="term-news" style="--c: var(--s-news)" aria-pressed="true"><span class="sw"></span>news</button>
-      <span class="eq-note">Tap a term to hide or show it. The black line is e<sub>t</sub>, felt experience.</span>
+      <span class="eq-note">Tap a term to hide or show it. The black line is e<sub>t</sub>, felt experience. Each colored line is one term's contribution; adaptation pulls below zero after good times.</span>
     </div>
     <div class="toolbar">
       <span>Scale</span>
@@ -205,66 +216,65 @@ footer a { color: var(--accent); }
     <section class="panel" aria-labelledby="h-model">
       <h2 id="h-model">Model</h2>
       <div class="seg-row">
-        <span>Echoes</span>
-        <div class="seg" role="group" aria-label="Echo model">
+        <div class="seg" role="group" aria-label="Model">
           <button id="rec-on" aria-pressed="true">Recursive</button>
           <button id="rec-off" aria-pressed="false">Direct</button>
         </div>
-      </div>
-      <div class="seg-row">
-        <span>News is about</span>
-        <div class="seg" role="group" aria-label="What news is about">
-          <button id="over-e" aria-pressed="true">How life will feel</button>
-          <button id="over-u" aria-pressed="false">Base utility</button>
-        </div>
+        <span class="hint" id="hint-model"></span>
       </div>
       <div class="ctl">
-        <label for="c-ghost"><span>Show the other news setting as a dashed line</span><input type="checkbox" id="c-ghost" checked></label>
+        <label for="c-ghost"><span>Show the other model as a dashed line</span><input type="checkbox" id="c-ghost" checked></label>
       </div>
       <div class="ctl"><label for="c-T"><span>Life length T</span><span class="v" id="v-T"></span></label><input type="range" id="c-T" min="20" max="100" step="1"></div>
       <div class="ctl"><label for="c-base"><span>Baseline u</span><span class="v" id="v-base"></span></label><input type="range" id="c-base" min="-1" max="1" step="0.05"></div>
     </section>
 
     <section class="panel" aria-labelledby="h-ant">
-      <h2 id="h-ant">Anticipation k(j) = a·α<sup>j</sup></h2>
+      <h2 id="h-ant">Anticipation <span class="formula">a·α<sup>j</sup></span></h2>
       <div class="ctl"><label for="c-a"><span>Strength a</span><span class="v" id="v-a"></span></label><input type="range" id="c-a" min="0" max="0.3" step="0.005"></div>
       <div class="ctl"><label for="c-al"><span>Reach α</span><span class="v" id="v-al"></span></label><input type="range" id="c-al" min="0.3" max="0.97" step="0.01"></div>
       <span class="hint" id="hint-ant"></span>
     </section>
 
     <section class="panel" aria-labelledby="h-mem">
-      <h2 id="h-mem">Memory k(−j) = m·μ<sup>j</sup></h2>
+      <h2 id="h-mem">Afterglow <span class="formula">m·μ<sup>j</sup></span></h2>
       <div class="ctl"><label for="c-m"><span>Strength m</span><span class="v" id="v-m"></span></label><input type="range" id="c-m" min="0" max="0.3" step="0.005"></div>
       <div class="ctl"><label for="c-mu"><span>Reach μ</span><span class="v" id="v-mu"></span></label><input type="range" id="c-mu" min="0.3" max="0.97" step="0.01"></div>
       <span class="hint" id="hint-mem"></span>
     </section>
 
+    <section class="panel" aria-labelledby="h-adapt">
+      <h2 id="h-adapt">Adaptation <span class="formula">−c·γ<sup>j</sup></span></h2>
+      <div class="ctl"><label for="c-c"><span>Strength c</span><span class="v" id="v-c"></span></label><input type="range" id="c-c" min="0" max="0.2" step="0.001"></div>
+      <div class="ctl"><label for="c-ga"><span>Reach γ</span><span class="v" id="v-ga"></span></label><input type="range" id="c-ga" min="0.5" max="0.99" step="0.01"></div>
+      <span class="hint" id="hint-adapt"></span>
+    </section>
+
     <section class="panel" aria-labelledby="h-news">
-      <h2 id="h-news">News k<sub>n</sub>(j) = n·ν<sup>j</sup></h2>
-      <div class="ctl"><label for="c-n"><span>News strength n</span><span class="v" id="v-n"></span></label><input type="range" id="c-n" min="0" max="0.8" step="0.01"></div>
-      <div class="ctl"><label for="c-nu"><span>News reach ν</span><span class="v" id="v-nu"></span></label><input type="range" id="c-nu" min="0" max="0.95" step="0.01"></div>
+      <h2 id="h-news">News <span class="formula">n·ν<sup>j</sup></span></h2>
+      <div class="ctl"><label for="c-n"><span>Strength n</span><span class="v" id="v-n"></span></label><input type="range" id="c-n" min="0" max="0.95" step="0.01"></div>
+      <div class="ctl"><label for="c-nu"><span>Reach ν</span><span class="v" id="v-nu"></span></label><input type="range" id="c-nu" min="0" max="0.95" step="0.01"></div>
       <span class="hint">News about j periods ahead is felt with weight n·ν<sup>j</sup>; n alone is the surprise when a moment arrives.</span>
-      <div class="ctl"><label for="c-lam"><span>Loss aversion λ</span><span class="v" id="v-lam"></span></label><input type="range" id="c-lam" min="1" max="4" step="0.05"></div>
     </section>
 
     <section class="panel events-panel" aria-labelledby="h-events">
       <h2 id="h-events">Events</h2>
       <div class="table-scroll">
         <table class="events">
-          <thead><tr><th>What</th><th>Happens at</th><th>Value</th><th>Announced at</th><th>Cancelled at</th><th><span class="sr" hidden>Remove</span></th></tr></thead>
+          <thead><tr><th>What</th><th>Starts at</th><th>Lasts</th><th>Value</th><th>Announced at</th><th>Cancelled at</th><th><span class="sr" hidden>Remove</span></th></tr></thead>
           <tbody id="events-body"></tbody>
         </table>
       </div>
       <div class="events-foot">
         <button class="btn" id="add-event">Add event</button>
-        <span class="hint">Leave "announced at" empty for a surprise. Times run from 0 to T − 1.</span>
+        <span class="hint">Times run from 0 to T − 1. "Lasts" counts periods. Leave "announced at" empty for a surprise, learned when it starts. Cancelling a lasting event midway ends it early.</span>
       </div>
     </section>
   </div>
 
   <footer>
-    <span>Each self solves for its own felt experience and its forecast of the rest of its life, given what it knows. Forecasts expect no further news. News is linear by default; λ above 1 makes bad revisions count λ times, the companion's loss-averse extension. Anticipation, memory and news weights are all geometric.</span>
-    <span>Model: <a href="https://github.com/a9lim/convolutional-utility" target="_blank" rel="noopener">a9lim/convolutional-utility</a>, <code>formalism/core.md</code> (felt news, N1–N4; loss-averse news, X4) and <code>formalism/pathwise.py</code>, which this page reproduces.</span>
+    <span>Each self solves for its own felt experience and its forecast of the rest of its life, given what it knows. Forecasts expect no further news. Every channel is linear, and every kernel geometric. Memory is afterglow minus adaptation, the biphasic extension; at c = 0 it is the canonical model's afterglow alone.</span>
+    <span>Model: <a href="https://github.com/a9lim/convolutional-utility" target="_blank" rel="noopener">a9lim/convolutional-utility</a>: <code>formalism/core.md</code> (the canonical model; felt news, N1–N4), <code>notes/adaptation.md</code> (biphasic memory), and <code>formalism/pathwise.py</code>, which this page reproduces.</span>
   </footer>
 </div>
 
@@ -274,44 +284,54 @@ footer a { color: var(--accent); }
   "use strict";
   const $ = (id) => document.getElementById(id);
 
-  const SHARED = { a: 0.09, al: 0.88, m: 0.05, mu: 0.75, n: 0.3, nu: 0.8, lam: 1, base: 0, T: 50 };
+  const SHARED = { a: 0.09, al: 0.88, m: 0.05, mu: 0.75, c: 0, ga: 0.95, n: 0.3, nu: 0.8, base: 0, T: 50 };
   const PRESETS = [
     { key: "disneyland", name: "Disneyland",
       note: "<strong>A big trip, announced early.</strong> The news lands as a jolt. The excitement fades into a lull while the trip is far away, then anticipation ramps up as it gets close. Afterwards, memory carries an afterglow. The close-up scale clips the trip itself so the build-up is visible.",
-      params: { ...SHARED }, over: "e", recursive: true, zoom: "close",
-      events: [{ name: "Disneyland", at: 34, value: 5, announce: 6, cancel: null }] },
+      params: { ...SHARED }, recursive: true, zoom: "close",
+      events: [{ name: "Disneyland", at: 34, dur: 1, value: 5, announce: 6, cancel: null }] },
     { key: "trips", name: "Two trips and a surprise",
-      note: "<strong>The scenario from the project figure.</strong> The first trip happens as planned, so it brings no news when it arrives. A surprise loss hits with base utility and news together, then lingers in memory. The second trip is cancelled: with news about how life will feel, that costs the anticipation you were counting on.",
-      params: { a: 0.1, al: 0.85, m: 0.1, mu: 0.75, n: 0.3, nu: 0.7, lam: 1, base: 0, T: 60 }, over: "e", recursive: true,
-      events: [{ name: "Trip 1", at: 20, value: 3, announce: 5, cancel: null },
-               { name: "Trip 2", at: 45, value: 3, announce: 25, cancel: 40 },
-               { name: "Surprise loss", at: 33, value: -3, announce: null, cancel: null }] },
+      note: "<strong>The scenario from the project figure.</strong> The first trip happens as planned, so it brings no news when it arrives. A surprise loss hits with base utility and news together, then lingers in memory. The second trip is cancelled, and in the recursive model that also costs the anticipation you were counting on.",
+      params: { ...SHARED, a: 0.1, al: 0.85, m: 0.1, mu: 0.75, n: 0.3, nu: 0.7, T: 60 }, recursive: true,
+      events: [{ name: "Trip 1", at: 20, dur: 1, value: 3, announce: 5, cancel: null },
+               { name: "Trip 2", at: 45, dur: 1, value: 3, announce: 25, cancel: 40 },
+               { name: "Surprise loss", at: 33, dur: 1, value: -3, announce: null, cancel: null }] },
     { key: "cancelled", name: "A cancelled plan",
-      note: "<strong>Planned, looked forward to, then called off.</strong> Compare the two news settings. When news is about how life will feel, the cancellation also takes back the anticipation you were counting on, so the day it is called off hurts far more. The life-sum stays positive either way, because the excitement you remember survives the cancellation.",
-      params: { ...SHARED }, over: "e", recursive: true,
-      events: [{ name: "Holiday", at: 35, value: 4, announce: 5, cancel: 28 }] },
+      note: "<strong>Planned, looked forward to, then called off.</strong> In the recursive model you look forward to looking forward, so the run-up is felt more and the life-sum stays well above zero. The day it is called off hurts more too: news about how life will feel takes back the anticipation you were counting on. The direct model (dashed) feels little of the plan either way.",
+      params: { ...SHARED }, recursive: true,
+      events: [{ name: "Holiday", at: 35, dur: 1, value: 4, announce: 5, cancel: 28 }] },
     { key: "badnews", name: "Bad news in advance",
       note: "<strong>A loss you learn about long before it happens.</strong> The news hits early and hard, then dread builds as the day approaches. Delete the announcement time to turn it into a surprise: the day itself hurts more, but the life-sum is better, because there was nothing to dread.",
-      params: { ...SHARED }, over: "e", recursive: true,
-      events: [{ name: "Loss", at: 38, value: -4, announce: 10, cancel: null }] },
-    { key: "threshold", name: "Past the threshold",
-      note: "<strong>Strong surprise weight and high loss aversion</strong>, the loss-averse extension (the core model has λ = 1). The news loop gain λκ is above 1. Good news then has two possible felt states (the chart keeps the brighter one), and the first bad news has none, so the life stops there. Lower λ or n to bring it back.",
-      params: { a: 0.1, al: 0.85, m: 0.1, mu: 0.75, n: 0.45, nu: 0.7, lam: 2.5, base: 0, T: 50 }, over: "e", recursive: true,
-      events: [{ name: "Good news", at: 12, value: 3, announce: null, cancel: null },
-               { name: "Bad news", at: 28, value: -3, announce: null, cancel: null }] },
+      params: { ...SHARED }, recursive: true,
+      events: [{ name: "Loss", at: 38, dur: 1, value: -4, announce: 10, cancel: null }] },
+    { key: "loud", name: "Loud news",
+      note: "<strong>Disappointment about disappointment.</strong> A strong surprise weight and a memory of how things felt make the news loop κ large: a felt surprise changes how the rest of life will feel, which is news in turn. A surprise of 2 is felt as more than 10. Raise n further and κ passes 1: the loop no longer settles, and news is felt backwards.",
+      params: { ...SHARED, a: 0.05, al: 0.85, m: 0.1, mu: 0.75, n: 0.75, nu: 0.6 }, recursive: true,
+      events: [{ name: "Good surprise", at: 15, dur: 1, value: 2, announce: null, cancel: null },
+               { name: "Bad surprise", at: 32, dur: 1, value: -2, announce: null, cancel: null }] },
+    { key: "raise", name: "A raise",
+      note: "<strong>A lasting raise, as a surprise, with strong adaptation.</strong> The new level becomes the bar. In the direct model you adapt to circumstances, and adaptation this strong nearly completes: the raise fades toward nothing. In the recursive model you adapt to how life feels, and that can never finish, because what you adapt to falls as you adapt. The raise settles near half its size.",
+      params: { ...SHARED, a: 0.05, al: 0.8, m: 0.15, mu: 0.6, c: 0.068, ga: 0.95, T: 80 }, recursive: true,
+      events: [{ name: "Raise", at: 15, dur: 65, value: 2, announce: null, cancel: null }] },
+    { key: "afterglow", name: "Afterglow, then the bar",
+      note: "<strong>Biphasic memory: a fast afterglow minus slow adaptation.</strong> After the trip the afterglow fades first, then the trip becomes the bar, and memory turns negative for a while. In the recursive model you also adapt to the excitement of the run-up, so the bar is already rising before you go. The close-up scale clips the trip itself.",
+      params: { ...SHARED, m: 0.1, mu: 0.7, c: 0.02, ga: 0.93, T: 60 }, recursive: true, zoom: "close",
+      events: [{ name: "Trip", at: 24, dur: 3, value: 5, announce: 10, cancel: null }] },
   ];
 
   const SLIDERS = [
-    ["T", 0], ["base", 2], ["a", 3], ["al", 2], ["m", 3], ["mu", 2], ["n", 2], ["nu", 2], ["lam", 2],
+    ["T", 0], ["base", 2], ["a", 3], ["al", 2], ["m", 3], ["mu", 2], ["c", 3], ["ga", 2], ["n", 2], ["nu", 2],
   ];
   const SERIES = [
     { key: "base", color: "--s-base", label: "base" },
     { key: "anticipation", color: "--s-ant", label: "anticipation" },
-    { key: "memory", color: "--s-mem", label: "memory" },
+    { key: "afterglow", color: "--s-mem", label: "afterglow" },
+    { key: "adaptation", color: "--s-adapt", label: "adaptation" },
     { key: "news", color: "--s-news", label: "news" },
   ];
 
-  const state = { params: {}, over: "e", recursive: true, events: [], visible: { base: true, anticipation: true, memory: true, news: true },
+  const state = { params: {}, recursive: true, events: [],
+                  visible: { base: true, anticipation: true, afterglow: true, adaptation: true, news: true },
                   ghost: true, preset: null, hoverT: null, zoom: "full" };
   let result = null, ghost = null;
 
@@ -328,7 +348,7 @@ footer a { color: var(--accent); }
   function loadPreset(key) {
     const pr = PRESETS.find((p) => p.key === key) || PRESETS[0];
     state.params = { ...pr.params };
-    state.over = pr.over; state.recursive = pr.recursive;
+    state.recursive = pr.recursive;
     state.events = pr.events.map((e) => ({ ...e }));
     state.preset = pr.key; state.hoverT = null; state.zoom = pr.zoom || "full";
     for (const p of PRESETS) $("preset-" + p.key).setAttribute("aria-pressed", String(p.key === pr.key));
@@ -350,8 +370,6 @@ footer a { color: var(--accent); }
     }
     $("rec-on").setAttribute("aria-pressed", String(state.recursive));
     $("rec-off").setAttribute("aria-pressed", String(!state.recursive));
-    $("over-e").setAttribute("aria-pressed", String(state.over === "e"));
-    $("over-u").setAttribute("aria-pressed", String(state.over === "u"));
     $("c-ghost").checked = state.ghost;
     $("zoom-full").setAttribute("aria-pressed", String(state.zoom === "full"));
     $("zoom-close").setAttribute("aria-pressed", String(state.zoom === "close"));
@@ -359,9 +377,22 @@ footer a { color: var(--accent); }
   }
   function hints() {
     const p = state.params;
-    const ant = p.al < 1 ? (p.a * p.al) / (1 - p.al) : Infinity, mem = p.mu < 1 ? (p.m * p.mu) / (1 - p.mu) : Infinity;
-    $("hint-ant").textContent = `Total weight ${fmt(ant, 2)}, mean reach ${fmt(1 / (1 - p.al), 1)} periods ahead.`;
-    $("hint-mem").textContent = `Total weight ${fmt(mem, 2)}, mean reach ${fmt(1 / (1 - p.mu), 1)} periods back.`;
+    const A = (p.a * p.al) / (1 - p.al), G = (p.m * p.mu) / (1 - p.mu), h = (p.c * p.ga) / (1 - p.ga);
+    $("hint-model").textContent = state.recursive
+      ? "Anticipation, memory and news are all about how life feels: the canonical model."
+      : "Anticipation and memory are of base utility plus news, and news is about base utility.";
+    $("hint-ant").textContent = `Total weight ${fmt(A, 2)}, mean reach ${fmt(1 / (1 - p.al), 1)} periods ahead.`;
+    $("hint-mem").textContent = `Total weight ${fmt(G, 2)}, mean reach ${fmt(1 / (1 - p.mu), 1)} periods back.`;
+    if (p.c <= 0) { $("hint-adapt").textContent = "Off. The canonical model has afterglow only."; return; }
+    let shape;
+    const cross = p.m > 0 && p.mu !== p.ga ? Math.log(p.m / p.c) / Math.log(p.ga / p.mu) : NaN;
+    const first = p.m * p.mu - p.c * p.ga;
+    if (cross > 1 && first > 0) shape = `Memory is positive up to ${fmt(cross, 1)} periods back, then negative.`;
+    else if (cross > 1) shape = `Memory is negative up to ${fmt(cross, 1)} periods back, then positive.`;
+    else shape = `Memory is ${first > 0 ? "positive" : "negative"} at every lag.`;
+    const settle = state.recursive ? 1 / (1 - A - G + h) : 1 + A + G - h;
+    $("hint-adapt").textContent = `Mass h = ${fmt(h, 2)}, mean reach ${fmt(1 / (1 - p.ga), 1)} periods back. ${shape} ` +
+      `A lasting change settles at ${fmt(settle, 2)}× its size.`;
   }
   for (const [k, d] of SLIDERS) {
     $("c-" + k).addEventListener("input", (ev) => {
@@ -373,8 +404,6 @@ footer a { color: var(--accent); }
   }
   $("rec-on").addEventListener("click", () => { state.recursive = true; markCustom(); syncControls(); schedule(); });
   $("rec-off").addEventListener("click", () => { state.recursive = false; markCustom(); syncControls(); schedule(); });
-  $("over-e").addEventListener("click", () => { state.over = "e"; markCustom(); syncControls(); schedule(); });
-  $("over-u").addEventListener("click", () => { state.over = "u"; markCustom(); syncControls(); schedule(); });
   $("c-ghost").addEventListener("change", (ev) => { state.ghost = ev.target.checked; schedule(); });
   $("zoom-full").addEventListener("click", () => { state.zoom = "full"; syncControls(); draw(); });
   $("zoom-close").addEventListener("click", () => { state.zoom = "close"; syncControls(); draw(); });
@@ -403,6 +432,7 @@ footer a { color: var(--accent); }
     if (opt.min != null) i.min = opt.min;
     if (opt.max != null) i.max = opt.max;
     if (opt.placeholder) i.placeholder = opt.placeholder;
+    if (opt.label) i.setAttribute("aria-label", opt.label);
     i.value = value == null ? "" : value;
     i.addEventListener("input", () => onChange(i.value));
     return i;
@@ -418,13 +448,15 @@ footer a { color: var(--accent); }
       name.addEventListener("input", () => { ev.name = name.value; markCustom(); draw(); });
       tr.appendChild(cell(name));
       const intOrNull = (v) => (v === "" || isNaN(Number(v)) ? null : Math.round(Number(v)));
-      tr.appendChild(cell(numInput(`ev-${idx}-at`, ev.at, { min: 0, max: T - 1 }, (v) => {
+      tr.appendChild(cell(numInput(`ev-${idx}-at`, ev.at, { min: 0, max: T - 1, label: "Starts at" }, (v) => {
         const n = intOrNull(v); if (n == null) return; ev.at = Math.min(Math.max(0, n), T - 1); markCustom(); schedule(); })));
-      tr.appendChild(cell(numInput(`ev-${idx}-value`, ev.value, { step: "0.5" }, (v) => {
+      tr.appendChild(cell(numInput(`ev-${idx}-dur`, ev.dur === 1 ? null : ev.dur, { min: 1, max: T, placeholder: "1", label: "Lasts, in periods" }, (v) => {
+        const n = intOrNull(v); ev.dur = n == null ? 1 : Math.max(1, n); markCustom(); schedule(); })));
+      tr.appendChild(cell(numInput(`ev-${idx}-value`, ev.value, { step: "0.5", label: "Value" }, (v) => {
         if (v === "" || isNaN(Number(v))) return; ev.value = Number(v); markCustom(); schedule(); })));
-      tr.appendChild(cell(numInput(`ev-${idx}-ann`, ev.announce, { min: 0, max: T - 1, placeholder: "surprise" }, (v) => {
+      tr.appendChild(cell(numInput(`ev-${idx}-ann`, ev.announce, { min: 0, max: T - 1, placeholder: "surprise", label: "Announced at" }, (v) => {
         const n = intOrNull(v); ev.announce = n == null ? null : Math.min(Math.max(0, n), T - 1); markCustom(); schedule(); })));
-      tr.appendChild(cell(numInput(`ev-${idx}-cancel`, ev.cancel, { min: 0, max: T - 1, placeholder: "—" }, (v) => {
+      tr.appendChild(cell(numInput(`ev-${idx}-cancel`, ev.cancel, { min: 0, max: T - 1, placeholder: "—", label: "Cancelled at" }, (v) => {
         const n = intOrNull(v); ev.cancel = n == null ? null : Math.min(Math.max(0, n), T - 1); markCustom(); schedule(); })));
       const del = document.createElement("button");
       del.className = "btn x"; del.textContent = "Remove"; del.setAttribute("aria-label", `Remove ${ev.name || "event"}`);
@@ -435,7 +467,7 @@ footer a { color: var(--accent); }
   }
   $("add-event").addEventListener("click", () => {
     const T = state.params.T;
-    state.events.push({ name: "New event", at: Math.min(T - 1, Math.round(T * 0.6)), value: 2, announce: Math.round(T * 0.2), cancel: null });
+    state.events.push({ name: "New event", at: Math.min(T - 1, Math.round(T * 0.6)), dur: 1, value: 2, announce: Math.round(T * 0.2), cancel: null });
     markCustom(); renderEvents(); schedule();
   });
 
@@ -443,11 +475,10 @@ footer a { color: var(--accent); }
   let pending = false;
   function schedule() { if (!pending) { pending = true; requestAnimationFrame(() => { pending = false; recompute(); }); } }
   function recompute() {
-    const P = state.params;
-    const base = { ...P,
-                   events: state.events.map((e) => ({ at: e.at, value: e.value, announce: e.announce, cancel: e.cancel })), recursive: state.recursive };
-    result = ConvModel.simulate({ ...base, over: state.over });
-    ghost = state.ghost ? ConvModel.simulate({ ...base, over: state.over === "e" ? "u" : "e" }) : null;
+    const base = { ...state.params,
+                   events: state.events.map((e) => ({ at: e.at, dur: e.dur, value: e.value, announce: e.announce, cancel: e.cancel })) };
+    result = ConvModel.simulate({ ...base, recursive: state.recursive });
+    ghost = state.ghost ? ConvModel.simulate({ ...base, recursive: !state.recursive }) : null;
     draw(); status();
   }
 
@@ -466,6 +497,13 @@ footer a { color: var(--accent); }
     for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) ticks.push(Math.abs(v) < 1e-12 ? 0 : v);
     return { ticks, step };
   }
+  function wash(svg, geo, from, to, label) {
+    const { xs, m, pw, ph, T } = geo, half = pw / Math.max(1, T - 1) / 2;
+    const x0 = Math.max(m.l, xs(from) - half), x1 = Math.min(m.l + pw, xs(to) + half);
+    el("rect", { x: x0, y: m.t, width: Math.max(0, x1 - x0), height: ph, fill: css("--bad-wash") }, svg);
+    const lt = el("text", { x: x0 + 6, y: m.t + ph - 8 }, svg);
+    lt.style.fill = css("--bad"); lt.textContent = label;
+  }
   let geom = null;
   function draw() {
     if (!result) return;
@@ -479,11 +517,14 @@ footer a { color: var(--accent); }
     const pw = W - m.l - m.r, ph = H - m.t - m.b;
     const xs = (t) => m.l + (T <= 1 ? 0 : (t / (T - 1)) * pw);
 
-    // y range over visible series
+    // y range over visible series; the close-up skips short events' own periods
     let lo = 0, hi = 0;
     const close = state.zoom === "close";
     const spike = new Set();
-    if (close) for (let t = 0; t < n; t++) if (Math.abs(result.comp.base[t] - state.params.base) > 1e-9) spike.add(t);
+    if (close) for (const ev of state.events) {
+      if ((ev.dur || 1) > 5) continue;
+      for (let s = ev.at; s < Math.min(T, ev.at + (ev.dur || 1)); s++) if (!(ev.cancel != null && ev.cancel <= s)) spike.add(s);
+    }
     const scan = (arr, len) => { for (let i = 0; i < len; i++) { if (spike.has(i)) continue; if (arr[i] < lo) lo = arr[i]; if (arr[i] > hi) hi = arr[i]; } };
     scan(result.e, n);
     for (const s of SERIES) if (state.visible[s.key] && !(close && s.key === "base")) scan(result.comp[s.key], n);
@@ -508,34 +549,38 @@ footer a { color: var(--accent); }
     const tl = el("text", { x: m.l + pw, y: m.t + ph + 16, "text-anchor": "end" }, g);
     if (!xt.includes(T - 1)) tl.textContent = "t";
 
-    // failure wash
-    if (result.failAt != null) {
-      el("rect", { x: xs(result.failAt) - (pw / Math.max(1, T - 1)) / 2, y: m.t, width: m.l + pw - xs(result.failAt) + (pw / Math.max(1, T - 1)) / 2, height: ph, fill: css("--bad-wash") }, svg);
-      const t2 = el("text", { x: Math.min(xs(result.failAt) + 6, m.l + pw - 4), y: m.t + 14, "text-anchor": xs(result.failAt) > m.l + pw - 120 ? "end" : "start" }, svg);
-      t2.style.fill = css("--bad"); t2.textContent = "no felt state";
-    }
+    // where the model breaks down
+    if (result.unstableAt.length) wash(svg, geom, result.unstableAt[0], result.unstableAt[result.unstableAt.length - 1], "κ > 1: news felt backwards");
+    if (result.failAt != null) wash(svg, geom, result.failAt, T - 1, "no felt state");
 
     // events
     const evg = el("g", {}, svg);
     const placed = [];
     state.events.forEach((ev) => {
       const col = ev.value >= 0 ? css("--accent") : css("--bad");
+      const dur = ev.dur || 1, end = Math.min(T - 1, ev.at + dur - 1);
       if (ev.announce != null && ev.announce < ev.at) {
         el("line", { x1: xs(ev.announce), x2: xs(ev.announce), y1: m.t, y2: m.t + ph, stroke: col, "stroke-width": 1, "stroke-dasharray": "3 4", opacity: 0.55 }, evg);
         el("path", { d: `M ${xs(ev.announce) - 4} ${m.t - 2} L ${xs(ev.announce) + 4} ${m.t - 2} L ${xs(ev.announce)} ${m.t + 4} Z`, fill: col }, evg);
       }
       const cancelled = ev.cancel != null && ev.cancel <= ev.at;
-      if (cancelled) {
+      const cutShort = ev.cancel != null && ev.cancel > ev.at && ev.cancel <= end;
+      if (cancelled || cutShort) {
         el("line", { x1: xs(ev.cancel), x2: xs(ev.cancel), y1: m.t, y2: m.t + ph, stroke: col, "stroke-width": 1, "stroke-dasharray": "1 3", opacity: 0.6 }, evg);
         const cx = xs(ev.cancel), cy = m.t - 2;
         el("path", { d: `M ${cx - 4} ${cy - 4} L ${cx + 4} ${cy + 4} M ${cx - 4} ${cy + 4} L ${cx + 4} ${cy - 4}`, stroke: col, "stroke-width": 1.6 }, evg);
       }
+      if (dur > 1) {
+        const last = cutShort ? ev.cancel - 1 : end;
+        el("rect", { x: xs(ev.at), y: m.t, width: Math.max(0, xs(last) - xs(ev.at)), height: ph, fill: col, opacity: cancelled ? 0.025 : 0.06 }, evg);
+      }
       el("line", { x1: xs(ev.at), x2: xs(ev.at), y1: m.t, y2: m.t + ph, stroke: col, "stroke-width": 1, opacity: cancelled ? 0.25 : 0.45 }, evg);
       el("circle", { cx: xs(ev.at), cy: m.t - 2, r: 4, fill: cancelled ? css("--surface") : col, stroke: col, "stroke-width": 1.5 }, evg);
-      // label, stacked to avoid collisions
-      const label = (ev.name || "event") + (cancelled ? " (cancelled)" : "");
+      // label, stacked to avoid collisions; a lasting event is labelled at its start
+      const label = (ev.name || "event") + (cancelled ? " (cancelled)" : cutShort ? " (cut short)" : "");
       const w = label.length * 6.2 + 8;
-      let x = Math.min(Math.max(xs(ev.at) - w / 2, m.l), m.l + pw - w);
+      const anchor = dur > 1 ? xs(ev.at) + w / 2 - 4 : xs(ev.at);
+      let x = Math.min(Math.max(anchor - w / 2, m.l), m.l + pw - w);
       let row = 0;
       while (placed.some((p) => p.row === row && x < p.x + p.w && p.x < x + w)) row++;
       placed.push({ x, w, row });
@@ -555,19 +600,20 @@ footer a { color: var(--accent); }
       el("path", { d: path(result.comp[s.key], n), fill: "none", stroke: css(s.color), "stroke-width": 1.6, "stroke-linejoin": "round" }, sg);
     }
     if (n > 0) el("path", { d: path(result.e, n), fill: "none", stroke: css("--s-e"), "stroke-width": 2.6, "stroke-linejoin": "round" }, sg);
+    // off-scale values: an arrow at each, the run's extreme labelled once
+    const off = (t) => (result.e[t] > hi ? 1 : result.e[t] < lo ? -1 : 0);
     for (let t = 0; t < n; t++) {
-      const v = result.e[t];
-      if (v > hi || v < lo) {
-        const up = v > hi, x = xs(t), y = up ? m.t + 2 : m.t + ph - 2, d = up ? 6 : -6;
+      const dir = off(t);
+      if (!dir) continue;
+      let t1 = t, peak = t;
+      while (t1 + 1 < n && off(t1 + 1) === dir) { t1++; if (Math.abs(result.e[t1]) > Math.abs(result.e[peak])) peak = t1; }
+      for (let k = t; k <= t1; k++) {
+        const x = xs(k), y = dir > 0 ? m.t + 2 : m.t + ph - 2, d = dir > 0 ? 6 : -6;
         el("path", { d: `M ${x - 5} ${y + d} L ${x} ${y} L ${x + 5} ${y + d} Z`, fill: css("--s-e") }, svg);
-        const lab = el("text", { x: x + 8, y: up ? y + 9 : y - 3 }, svg); lab.textContent = (v >= 0 ? "+" : "") + v.toFixed(1);
       }
-    }
-
-    // two felt states markers
-    for (const t of result.multiAt) {
-      const x = xs(t), y = ys(result.e[t]);
-      el("path", { d: `M ${x} ${y - 7} L ${x + 6} ${y} L ${x} ${y + 7} L ${x - 6} ${y} Z`, fill: "none", stroke: css("--warn"), "stroke-width": 1.6 }, svg);
+      const v = result.e[peak], y = dir > 0 ? m.t + 2 : m.t + ph - 2;
+      const lab = el("text", { x: xs(t1) + 8, y: dir > 0 ? y + 9 : y - 3 }, svg); lab.textContent = (v >= 0 ? "+" : "") + v.toFixed(1);
+      t = t1;
     }
 
     // crosshair
@@ -593,7 +639,7 @@ footer a { color: var(--accent); }
   }
   function readout(t) {
     const r = $("readout"); r.textContent = "";
-    if (t == null) { r.textContent = "No felt state from the start: lower λ or n."; return; }
+    if (t == null) { r.textContent = "No felt state from the start: lower n, m or μ."; return; }
     const add = (label, v, color) => {
       const s = document.createElement("span"); s.className = "r";
       if (color) { const i = document.createElement("i"); i.style.setProperty("--c", css(color)); s.appendChild(i); }
@@ -619,23 +665,26 @@ footer a { color: var(--accent); }
   function status() {
     const box = $("status"); box.textContent = "";
     const pill = (cls, text, title) => { const s = document.createElement("span"); s.className = "pill " + cls; s.textContent = text; if (title) s.title = title; box.appendChild(s); };
-    pill("plain", `Life-sum ${result.lifeSum >= 0 ? "+" : ""}${result.lifeSum.toFixed(2)}`, "Sum of felt experience over the life");
+    const signed = (v) => (v >= 0 ? "+" : "") + v.toFixed(2);
+    pill("plain", `Life-sum ${signed(result.lifeSum)}`, "Sum of felt experience over the life");
     if (ghost) {
-      const other = state.over === "e" ? "news about base utility" : "news about how life will feel";
-      pill("plain", `With ${other}: ${ghost.failAt != null ? "stops at t = " + ghost.failAt : (ghost.lifeSum >= 0 ? "+" : "") + ghost.lifeSum.toFixed(2)}`);
+      const other = state.recursive ? "Direct model" : "Recursive model";
+      pill("plain", `${other}: ${ghost.failAt != null ? "stops at t = " + ghost.failAt : signed(ghost.lifeSum)}`);
     }
     const M = result.M;
-    if (state.recursive) {
-      if (M < 1) pill("ok", `Echo share M = ${M.toFixed(2)}`, "Below 1: the echoes of echoes converge");
-      else pill("bad", `Echo share M = ${M.toFixed(2)}: echoes don't converge`, "At or above 1 the recursive model is not well-founded; results can explode or flip sign");
-    } else pill("plain", `Echo weight M = ${M.toFixed(2)}`);
-    if (state.over === "e") {
-      const L = result.maxLoop;
-      if (result.failAt != null) pill("bad", `No felt state at t = ${result.failAt}: bad news past the threshold`, "λκ ≥ 1: disappointment about disappointment does not settle");
-      else if (L >= 1) pill("warn", `News loop λκ = ${L.toFixed(2)}: past the threshold`);
-      else pill("ok", `News loop λκ = ${L.toFixed(2)}`, "Below 1: every piece of news has exactly one felt state");
-      if (result.multiAt.length) pill("warn", `Two felt states at t = ${result.multiAt.join(", ")} (showing the brighter)`);
+    if (!state.recursive) pill("plain", `Echo weight M = ${M.toFixed(2)}`, "Direct echoes are one layer deep, so they are always well-founded");
+    else if (result.wellFounded) pill("ok", `Echo mass M = ${M.toFixed(2)}`, "1 − K(z) has no zeros on the unit circle and winds zero times: the echoes of echoes converge");
+    else if (M >= 1) pill("bad", `Echo mass M = ${M.toFixed(2)}: echoes don't converge`, "At or above 1 the recursive echoes are not well-founded; results can explode or flip sign");
+    else pill("bad", `Adaptation overshoots: echoes don't settle`, "1 − K(z) vanishes or winds around zero on the unit circle");
+    if (state.recursive && result.T > 0) {
+      let kmax = -Infinity;
+      for (let t = 0; t < result.T; t++) kmax = Math.max(kmax, result.kappa[t]);
+      if (result.unstableAt.length) {
+        const last = result.unstableAt[result.unstableAt.length - 1];
+        pill("bad", `News loop κ = ${kmax.toFixed(2)}: above 1 until t = ${last}, news felt backwards`, "κ > 1: the felt state is unstable and good news is felt as bad");
+      } else pill("ok", `News loop κ = ${kmax.toFixed(2)}: news felt ×${(1 / (1 - kmax)).toFixed(2)}`, "Below 1: every revision has one stable felt state, its direct news amplified by 1/(1 − κ)");
     }
+    if (result.failAt != null) pill("bad", `No felt state at t = ${result.failAt}`, "κ = 1 exactly, or the echoes cannot be solved");
   }
 
   // ---------- boot ----------

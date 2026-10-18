@@ -59,17 +59,22 @@ def news_root(d, g, kn, lam):
     return s
 
 
-def run(T, base, events, kf, kb, kn, lam, over):
+def run(T, base, events, kf, kb, kn, lam, over, recursive=True):
+    """recursive=False is direct echoes: anticipation and memory of the felt base f = u + N, with
+    future news forecast as zero (core.md, the 2x2)."""
     phi = lambda x: np.where(x >= 0, x, lam * x)
-    e = np.zeros(T)
+    e, f = np.zeros(T), np.zeros(T)
     comp = {k: np.zeros(T) for k in ("base", "anticipation", "memory", "news")}
     loop = np.zeros(T)
+    past = e if recursive else f
 
     def path(t, uh):
         n = T - t
         i, j = np.meshgrid(np.arange(n), np.arange(n), indexing="ij")
         A = np.where(j > i, kf[np.clip(j - i, 0, T - 1)], 0) + np.where(j < i, kb[np.clip(i - j, 0, T - 1)], 0)
-        mem_past = np.array([e[:t][::-1] @ kb[k + 1:k + 1 + t] for k in range(n)]) if t else np.zeros(n)
+        mem_past = np.array([past[:t][::-1] @ kb[k + 1:k + 1 + t] for k in range(n)]) if t else np.zeros(n)
+        if not recursive:
+            return uh[t:] + A @ uh[t:] + mem_past, np.eye(n)[:, 0] + A[:, 0]
         Rinv = np.linalg.inv(np.eye(n) - A)
         return Rinv @ (uh[t:] + mem_past), Rinv[:, 0]
 
@@ -87,10 +92,10 @@ def run(T, base, events, kf, kb, kn, lam, over):
                 raise RuntimeError(f"news over e not well-founded at t={t}: lam (kn . g) = {loop[t]:.3f}")
             s = news_root(x0 - x_prev[t:], g, kn[:n], lam)
         x = x0 + s * g
-        e[t] = x[0]
+        e[t], f[t] = x[0], uh[t] + s
         comp["base"][t] = uh[t]
-        comp["anticipation"][t] = kf[1:n] @ x[1:]
-        comp["memory"][t] = e[:t][::-1] @ kb[1:t + 1] if t else 0.0
+        comp["anticipation"][t] = kf[1:n] @ (x[1:] if recursive else uh[t + 1:])
+        comp["memory"][t] = past[:t][::-1] @ kb[1:t + 1] if t else 0.0
         comp["news"][t] = s
         x_prev = np.concatenate([np.zeros(t), x])
         u_prev = uh
