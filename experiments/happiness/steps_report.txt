@@ -1,0 +1,41 @@
+== Keren et al. 2021 (27-trial blocks): 78 sessions from 78 people, 2886 ratings (37 each, z-scored within session); gambles 71% of trials; mean prediction error per trial by block +1.30, -1.01, +1.10 points.
+[jump] params [0.7105 0.7283]; CV MSE 0.71441; weights CR +0.083 EV +0.058 RPE +0.070 drift -0.895; k[1, 5, 10, 20] [0.728 0.186 0.034 0.001]; first negative lag none  (9s)
+[hyperbola] params [0.1605 2.9812]; CV MSE 0.71335; weights CR +0.087 EV +0.063 RPE +0.076 drift -0.820; k[1, 5, 10, 20] [0.642 0.173 0.058 0.014]; first negative lag none  (22s)
+[biphasic] params [1.025  0.7105 0.1247 0.    ]; CV MSE 0.71443; weights CR +0.083 EV +0.058 RPE +0.070 drift -0.895; k[1, 5, 10, 20] [0.728 0.186 0.034 0.001]; first negative lag none; collapses to the jump kernel (no adaptation term with a reach of its own)  (47s)
+[hyperbola - exp] params [1.6820e-01 2.8622e+00 2.4000e-03 9.9990e-01]; CV MSE 0.71373; weights CR +0.087 EV +0.063 RPE +0.076 drift -0.834; k[1, 5, 10, 20] [0.638 0.172 0.057 0.012]; first negative lag 43; negative tail 0.0024 per lag at reach 10000 trials  (78s)
+[jump + running means of earlier inputs] params [0.7226 0.8238]; CV MSE 0.71882; weights CR +0.080 EV +0.056 RPE +0.064 drift -1.016; running means CR -0.105 EV -0.094 RPE -0.037
+    held-out error, paired bootstrap over people (2000 resamples):
+    biphasic against jump: +0.003% [-0.001, +0.007]
+    hyperbola - exp against hyperbola: +0.053% [-0.014, +0.125]
+    hyperbola against jump: -0.148% [-0.450, +0.140]
+    jump + running means of earlier inputs against jump: +0.617% [+0.262, +0.951]
+    jump-kernel residual, late minus early half of each block (z, post-trial ratings): block 1 (good) +0.196 [+0.052, +0.327]; block 2 (bad) -0.062 [-0.199, +0.078]; block 3 (good) +0.040 [-0.075, +0.152]
+    distinguishability D^2 (residual variance 0.702; the jump kernel's positive mass 3.52), by the fraction f = 0.25, 0.5, 1 of it an adaptation tail cancels, at reach 1/(1 - gamma):
+        reach 5: 0.1, 0.8, 25.4
+        reach 10: 1.0, 5.8, 39.2
+        reach 20: 1.2, 5.3, 26.1
+        reach 50: 0.4, 1.8, 7.6
+
+== Jangraw et al. 2023, Weekly-Rest-02 and -03 (22-trial blocks): 316 sessions from 171 people, 9164 ratings (29 each, z-scored within session); gambles 84% of trials; mean prediction error per trial by block +2.05, -0.73, +2.01 points.
+[jump] params [0.6871 0.3504]; CV MSE 0.80486; weights CR +0.084 EV +0.076 RPE +0.176 drift -0.777; k[1, 5, 10, 20] [0.35  0.078 0.012 0.   ]; first negative lag none  (107s)
+[hyperbola] params [0.5964 1.9287]; CV MSE 0.80535; weights CR +0.082 EV +0.076 RPE +0.175 drift -0.772; k[1, 5, 10, 20] [0.406 0.07  0.024 0.007]; first negative lag none  (135s)
+[biphasic] params [0.7468 0.6871 0.2368 0.6871]; CV MSE 0.80536; weights CR +0.084 EV +0.076 RPE +0.176 drift -0.777; k[1, 5, 10, 20] [0.35  0.078 0.012 0.   ]; first negative lag none; collapses to the jump kernel (no adaptation term with a reach of its own)  (261s)
+[hyperbola - exp] params [1.1065 1.1932 0.0369 0.9999]; CV MSE 0.80607; weights CR +0.084 EV +0.077 RPE +0.175 drift -0.619; k[1, 5, 10, 20] [ 0.374  0.07   0.014 -0.013]; first negative lag 14; negative tail 0.0369 per lag at reach 10000 trials  (337s)
+[jump + running means of earlier inputs] params [0.69   0.3559]; CV MSE 0.80629; weights CR +0.084 EV +0.076 RPE +0.176 drift -0.779; running means CR -0.023 EV -0.005 RPE -0.009
+    held-out error, paired bootstrap over people (2000 resamples):
+    biphasic against jump: +0.061% [-0.021, +0.154]
+    hyperbola - exp against hyperbola: +0.090% [-0.139, +0.341]
+    hyperbola against jump: +0.061% [-0.053, +0.176]
+    jump + running means of earlier inputs against jump: +0.177% [+0.117, +0.244]
+    jump-kernel residual, late minus early half of each block (z, post-trial ratings): block 1 (good) +0.018 [-0.050, +0.089]; block 2 (bad) +0.003 [-0.074, +0.083]; block 3 (good) +0.038 [-0.048, +0.122]
+    distinguishability D^2 (residual variance 0.801; the jump kernel's positive mass 2.12), by the fraction f = 0.25, 0.5, 1 of it an adaptation tail cancels, at reach 1/(1 - gamma):
+        reach 5: 0.4, 3.7, 83.9
+        reach 10: 2.5, 12.4, 70.3
+        reach 20: 2.3, 9.8, 43.9
+        reach 50: 0.7, 2.9, 12.0
+
+== Jangraw et al., RestAfterWins: 25 people (rest ratings exactly at the slider's 0.5: median 0.00 of a person's, more than half for 1). Raw 0-1 ratings: before the closed-loop winning block 0.729, its last rating 0.773; at rest, 15 s apart, minus the pre-task rating at ratings 1, 5, 10, 20, 30: -0.011, -0.154, -0.211, -0.311, -0.295; ratings 21-30 -0.286 [-0.448, -0.136], below it for 68% at the last.
+    the rest period opening COVID02 (164 sessions, no outcomes yet, 16.5 s apart): -0.0103 per minute, last minus first rest rating -0.045
+    the rest period opening COVID03 (160 sessions, no outcomes yet, 16.5 s apart): -0.0100 per minute, last minus first rest rating -0.050
+    illustrative: at the weekly cohorts' timing ratings 21-30 come about 17 minutes after the pre-task rating; if that opening-rest slope held throughout, drift alone gives -0.172, leaving -0.115 [-0.276, +0.035] (drift treated as known).
+(369s)

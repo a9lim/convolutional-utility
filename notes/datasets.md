@@ -184,8 +184,8 @@ the experiment READMEs and `formalism/calibration.md`.
 
 ## Order
 
-1. Open now, in-task: Blain & Rutledge for `n, ν`; Keren and Jangraw open-loop steps for a
-   minutes-scale `c, γ`, alongside the Great Brain Experiment's audit.
+1. Done: Blain & Rutledge for `n, ν`; Keren and Jangraw open-loop steps for a minutes-scale
+   `c, γ` (results in `experiments/happiness/README.md`).
 2. Moments now: Dolton & MacKerron's hourly tables (`a`, with odds for `n`); Villano's decay.
 3. EMOTE request (a9): the Trier day and `FUTUREXP` for `a, α`; exam release for all three.
 4. Dartmouth step test, after the PAM rubric.

@@ -1,0 +1,37 @@
+75 participants, 3450 ratings (46 each, z-scored within participant and block), two 80-trial blocks each.
+Learner fitted to choices, stable / volatile: learning rate 0.160 / 0.446 (paper 0.16 / 0.47), probability weight phi 0.57 / 0.49 (paper 0.57 / 0.44), median beta 12.0 / 7.4 (14 of 150 blocks at the cap of 50).
+An outcome's news about later trials, dF = w_EVm dV + w_P dW (arrival weights 0.350, 0.814), shares PPE's sign on 74% of trials (98% when the chosen car was believed better, 1% when believed worse; corr(PPE, dF) 0.47).
+
+1. Free regressors (weights per unit of the regressor, in z; V, W per later trial):
+[Blain & Rutledge: PPE] gamma 0.676 kappa 0.627; CV MSE 0.6608; PPE +1.021, drift -0.042  (5s)
+[arrival] gamma 0.620 kappa 0.590; CV MSE 0.5663; EVm +0.350, RPEm +0.267, P +0.814, PPE +1.063, drift -0.300  (13s)
+[arrival + free dV, dW (news about later)] gamma 0.625 kappa 0.595; CV MSE 0.5661; EVm +0.353, RPEm +0.308, P +0.799, PPE +1.013, dV -4.652, dW +1.625, drift -0.298  (21s)
+[arrival + free Vnext, Wnext (anticipation of later)] gamma 0.681 kappa 0.575; CV MSE 0.5612; EVm +0.377, RPEm +0.252, P +0.832, PPE +1.073, Vnext -4.282, Wnext +1.047, drift -0.255  (29s)
+[arrival + dF (tied news about later, one free strength)] gamma 0.626 kappa 0.593; CV MSE 0.5663; EVm +0.354, RPEm +0.297, P +0.798, PPE +1.023, dF +0.405, drift -0.300  (46s)
+[arrival, PPE split by the sign of dF] gamma 0.618 kappa 0.590; CV MSE 0.5668; EVm +0.350, RPEm +0.259, P +0.816, PPE_same +1.059, PPE_opp +1.085, drift -0.302  (63s)
+Held-out error against arrival (paired bootstrap over participants, 2000 resamples):
+    Blain & Rutledge: PPE: +16.68% [+12.22, +20.92]
+    arrival + free dV, dW (news about later): -0.03% [-0.36, +0.28]
+    arrival + free Vnext, Wnext (anticipation of later): -0.91% [-1.87, +0.12]
+    arrival + dF (tied news about later, one free strength): -0.01% [-0.26, +0.25]
+    arrival, PPE split by the sign of dF: +0.08% [-0.01, +0.19]
+
+2. The sign test: news about later trials at strength lam (lam dF in the felt input) raises PPE's weight where dF shares its sign over where it opposes it by 0.149 lam (injected into the split design).
+
+3. News on arrival in the win channel: r = w_PPE / w_P = 1.307. If P's weight is the expected win's base utility with no further anticipation at choice, the memory-only interior model reads it as loop gain kappa = 1 - 1/r = 0.235 and effective strength r - 1 = 0.307 (the magnitude channel's ratio w_RPEm / w_EVm is 0.761; their difference is in the bootstrap). A plug-in sensitivity fit, news about later trials at that strength with the same next-trial innovation over all remaining trials, kernel refitted at each nu, MSE by nu: 0.0: 0.56033, 0.2: 0.56012, 0.4: 0.55988, 0.5: 0.55976, 0.6: 0.55971, 0.7: 0.55992, 0.8: 0.56124, 0.9: 0.56913; best tested nu 0.6 (nominal likelihood-ratio set 0.0 to 0.7; not a calibrated bound).
+
+Bootstrap over participants (200 resamples):
+    PPE where dF shares its sign: median +1.062 [+0.939, +1.196]
+    PPE where dF opposes it: median +1.084 [+0.933, +1.262]
+    same - opposite: median -0.022 [-0.147, +0.101]
+    gamma: median +0.617 [+0.572, +0.662]
+    kappa (kernel): median +0.593 [+0.533, +0.658]
+    r = w_PPE / w_P: median +1.300 [+1.142, +1.493]
+    1 - 1/r: median +0.230 [+0.124, +0.330]
+    w_RPEm / w_EVm: median +0.741 [+0.290, +1.406]
+    win minus magnitude channel ratio: median +0.568 [-0.231, +1.188]
+    news about later, free strength (weight on dF): median +0.403 [-0.145, +0.929]
+    injection slope: median +0.150 [+0.122, +0.178]
+    same - opposite over the injection slope (implied strength): median -0.143 [-0.969, +0.661]
+    nu at the effective strength (100 resamples): median +0.600 [+0.000, +0.800]
+(676s)

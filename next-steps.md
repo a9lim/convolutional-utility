@@ -119,7 +119,17 @@ None of these blocks the post; §9 reports what is in hand.
   forecast is away from zero points, or the offer reveal as its own event.
 - Memory by sign beyond a play: does the fading affect bias's crossing (near lag 13 trials
   here) scale with the event, as reach does?
-- Slow adaptation needs step data: parked with B4 (below).
+- Slow adaptation needs step data: parked with B4 (below). The in-task steps (Keren, Jangraw)
+  add no evidence of adaptation, and their injection distances are uncalibrated.
+  - A recovery simulation through the actual pipeline would turn them into bounds: the null
+    and alternative tails, noise resampled by person, the cross-validated comparison.
+  - RestAfterWins's fall below the starting mood after a winning streak is within drift. An
+    announced against an unannounced end would separate a lobe from news.
+- News about later trials (Blain & Rutledge), Codex's repairs not yet made: forecasts
+  propagated per horizon (revisions now persist unchanged over the trials left); recovery
+  simulations to calibrate the bound; anticipation and news profiled jointly; whether one news
+  strength serves both channels (the magnitude channel's ratio is 0.74 [0.29, 1.41], the win
+  channel's 1.30).
 - Data for the constants the task fits leave open (anticipation, news about later moments,
   memory beyond minutes, adaptation steps): candidates, access and order in
   `notes/datasets.md`.

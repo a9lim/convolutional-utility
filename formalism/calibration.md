@@ -105,6 +105,16 @@ the hedonic reading needs the felt ones.
     expected reward's effect at choice, not at outcome (Rutledge, model D).
   - Those weights are on outcomes, news over `u`. Felt news over `e` at that size would be
     past the threshold. [speculation]
+  - News about later trials shows no reliable effect at trial scale.
+    - Data: Blain & Rutledge's car-race bandit, where an outcome revises the odds of every
+      remaining trial; beliefs from a learner fitted to choices.
+    - A proxy for the revision of later trials' expected input adds no held-out fit. Its free
+      strength is 0.40 [−0.15, +0.93].
+    - PPE's weight does not fall where the outcome is bad news about later.
+    - News on arrival, read in a memory-only model, gives a loop gain of 0.23 [0.12, 0.33].
+    - A plug-in sensitivity fit at that strength prefers a reach of 0.6 per ~9 s trial (grid
+      percentiles [0, 0.8]); that is not a bound. [checked in `experiments/happiness/`; the
+      reduced-form reading is Codex's]
 - **The threshold in full:** `κ = n (1−νμ) / (H (1−νq))`. The memory multiplier
   `(1−νμ)/(H(1−νq))` is near 1 when memory is weak (1.13 at the life defaults) and grows with
   strong, long memory: `m = 0.5, μ = 0.6, ν = 0.9` gives `κ = 1.45` at `n = 0.6` without
@@ -165,6 +175,16 @@ the hedonic reading needs the felt ones.
     are blind to slow adaptation: a pulse of length `δ` leaves at most about `(δ/g)/e` of
     itself as a lobe at gap `g`, so slow adaptation shows only in responses to sustained
     changes. [checked in `audit/`]
+  - Steps at task scales add no evidence of adaptation either.
+    - Data: blocks of 22–27 trials of sustained good, bad and good luck (Keren et al. 2021, 78
+      people; Jangraw et al. 2023, 171).
+    - Biphasic kernels collapse to the jump kernel, and history-based references do not
+      improve prediction.
+    - An injected tail that cancels the whole afterglow within 10–20 trials would sit far from
+      the fitted model (an uncalibrated distance). No bound on strength or timescale is
+      established yet.
+    - After a closed-loop winning streak, mood at rest falls below where it started, within
+      what drift could explain (25 people). [checked in `experiments/happiness/`]
   - The front-loading echoes P3's quasi-hyperbolic shape on the memory side (`k₁/γ` 0.46–0.58
     per trial, near the minutes-scale `β_QH ≈ 0.52` above), though a hyperbola fits better
     than the quasi-hyperbolic jump. Both depend on how long a period is. [speculation, the

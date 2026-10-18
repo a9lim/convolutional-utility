@@ -11,7 +11,8 @@ direct and recursive memory fit identically; an apparent loss-averse news asymme
 confounded with chosen risk, and a lottery-risk regressor absorbs or reduces it where
 probabilities vary; a loss's echo starts stronger than a gain's and fades faster. Whether the
 play-long persistence belongs to base utility or to news is not identified. The felt-clock,
-carryover, adaptation and range analyses stay here.
+carryover, adaptation and range analyses stay here, as do news about later trials (Blain &
+Rutledge) and the step tests (Keren, Jangraw).
 
 ## Data
 
@@ -23,6 +24,18 @@ carryover, adaptation and range analyses stay here.
   `899fb2380a25b208bf9a445e0c06b9d8`), unzipped to `data/gbe/extracted/`.
 - **Forbes & Bennett 2024** (OSF `m7dtw`): two experiments, 150 participants each, 4 blocks of
   53 trials and 56 affect ratings per person; CSVs in `data/forbes/exp1`, `data/forbes/exp2`.
+- **Blain & Rutledge 2020** (*eLife* 9: e57977; GitHub `BastienBlain/MSWB_LearningNotReward`,
+  `PublicCode/Blain_MoodTracksLearning_data.mat`, MD5 `a2b8ec33b80365c886bc367bbf30854b`, no
+  license stated): a car-race bandit whose win probability must be learned, 75 participants,
+  a stable and a volatile block of 80 trials each, 46 ratings. In `data/blain/`.
+- **Keren et al. 2021** (*eLife*; OSF `vw7sz`, `Figure2_SourceData/Structured experiment
+  data`, 79 xlsx files, one empty): the open-loop up-down-up task, 3 blocks of 27 trials, 37
+  ratings. In `data/keren/structured/`.
+- **Jangraw et al. 2023** (*Nat. Hum. Behav.* 7: 596; OSF `km69z`,
+  `PassageOfTimeDysphoria_Data.zip`, 206 MB, MD5 `f51220d6a6cea49f850dc7930fffc256`, NIMH
+  public domain): the same task after a rest period, 3 blocks of 22 trials, 29 ratings, in the
+  cohorts Weekly-Rest-02 and -03 (folders `COVID02`, `COVID03`; complete runs per the archive's
+  data checks); RestAfterWins (`Return1`). Unzipped in part to `data/jangraw/extracted/`.
 - `data/` is gitignored; the downloads are data only (the GBE archive's MATLAB script is not run).
 
 ## Code
@@ -36,9 +49,15 @@ carryover, adaptation and range analyses stay here.
   and `gbe.png`.
 - `forbes.py`, `run_forbes.py`: the same models on Forbes & Bennett, cross-validated over
   people, with each person's own kernel; writes `forbes_report.txt`.
+- `blain.py`, `run_blain.py`: news about later trials in Blain & Rutledge's bandit. A delta-rule
+  learner fitted to choices gives each trial's belief; the trial's own channels and the
+  forecast of later trials, free and tied to them; writes `blain_report.txt`.
+- `steps.py`, `run_steps.py`: kernel shapes, biphasic memory included, at the step changes in
+  luck of Keren's and Jangraw's up-down-up task; writes `steps_report.txt`.
 
 Run from the repo root: `python experiments/happiness/run_gbe.py` (about 13 minutes),
-`python experiments/happiness/run_forbes.py`.
+`python experiments/happiness/run_forbes.py`, `run_blain.py` (about 12 minutes),
+`run_steps.py`.
 
 ## The models
 
@@ -182,6 +201,108 @@ Forbes & Bennett 2024 (`forbes_report.txt`, `audit/`):
   [−0.069, 0.013]). In experiment 1 RPE registers on free choices and not on forced ones. A
   better unchosen outcome lowers affect slightly (regret), a worse one raises it (relief).
   Base utility by sign gives 1.16 and 1.14, and 0.95 and 1.00 with the SD.
+
+News about later trials, Blain & Rutledge 2020 (`blain_report.txt`):
+- **The design.** Here an outcome is news about later trials: it moves the belief about which
+  car wins, and with it the value of every remaining trial.
+  - A delta-rule learner fitted to choices, one learning rate, inverse temperature (capped at
+    50, as in the paper) and probability weight per environment, reproduces the paper's
+    learning rates: 0.160 and 0.446, against 0.16 and 0.47.
+  - Each trial's own channels: the reward magnitude (EVm anticipated at choice, RPEm on
+    arrival) and winning itself (the believed win probability P, and PPE = win − P).
+  - News about later trials, dF = w_EVm dV + w_P dW:
+    - dV, dW are the innovations in a later trial's expected reward and win probability under
+      the participant's own choice rule. That is the value after the outcome minus its forecast
+      before it, which already averages over the outcome.
+    - The weights convert them into a proxy for the revision of a later trial's expected
+      own-trial input.
+  - In these proxies dF shares PPE's sign on 98% of trials when the chosen car was believed
+    better and 1% when it was believed worse. There a win generally worsens the forecast of
+    later trials (the race gets less predictable) and a loss improves it.
+- **Expected-win and PPE regressors improve prediction; the tested future-value proxies add no
+  reliable gain.**
+  - The trial's own channels cut held-out error 14% against Blain & Rutledge's PPE-only model
+    (that model is +16.7% [+12.2, +20.9] worse).
+  - Post-outcome ratings rise with the filtered pre-outcome win probability (0.81 z per unit).
+  - Adding dV and dW free: −0.03% [−0.36, +0.28]. Adding dF with one free strength: −0.01%
+    [−0.26, +0.25]. That strength is 0.41 on the full sample, median 0.40 [−0.15, +0.93].
+  - dF, its sign split and the injection below are rebuilt from each training fold's or
+    resample's own arrival fit.
+- **The sign test.** Felt news about later trials would raise PPE's weight where dF shares its
+  sign over where it opposes it, by 0.149 per unit of strength (injecting dF into the same
+  design; median 0.150 [0.122, 0.178]).
+  - The observed gap is −0.022 [−0.147, +0.101]. Over the slope, resample by resample, the
+    implied strength is −0.14 [−0.97, +0.66].
+  - These are percentile ranges under a surrogate model; their coverage as a bound on the
+    strength is not established.
+- **In the canonical model's terms.** News on arrival in the win channel: r = w_PPE / w_P = 1.30
+  [1.14, 1.49].
+  - Reading r as `1/(1−κ)` assumes the memory-only interior model, with P's weight the expected
+    win's base utility and no further anticipation at choice. On that reading the news loop
+    gain is κ = 0.23 [0.12, 0.33].
+  - The effective news kernel over base revisions is then (r − 1) ν^h (core, the reduced form;
+    Codex).
+  - A plug-in sensitivity fit puts news about later trials at that strength, applying the next
+    trial's innovation to all remaining trials, with the kernel refitted at each ν. The best
+    tested reach is ν = 0.6 per trial (about 9 s), and full-sample error rises at 0.8 and 0.9.
+    Across 100 participant bootstraps the best grid value spans [0, 0.8].
+  - This is not an upper bound on canonical news reach. Forecasts are not propagated by
+    horizon, the interior reduction is used near a block's end, and the strength is plugged in.
+  - The magnitude channel's ratio, w_RPEm / w_EVm = 0.74 [0.29, 1.41], is imprecise. Its
+    difference from the win channel's is +0.57 [−0.23, +1.19], so one shared news strength is
+    not rejected.
+- **Caveats.** Beliefs come from a fitted learner. Intervals are from a bootstrap over 75
+  participants, and likelihood-ratio sets are nominal. Codex's repairs not yet made are in
+  `next-steps.md`.
+  - Anticipation of later trials is not identified. The unrestricted level coefficients
+    (Vnext, Wnext) take opposite signs, −4.3 and +1.0; learning trends and mood drift are
+    possible confounds.
+
+Step changes in luck, Keren et al. 2021 and Jangraw et al. 2023 (`steps_report.txt`):
+- **The design.** Three unsignalled blocks of mostly good, then bad, then good luck: 27 trials
+  each in Keren's version (78 people), 22 in Jangraw's. Mean prediction error per trial by
+  block: +1.3, −1.0, +1.1 points (Keren); +2.0, −0.7, +2.0 (Jangraw).
+  - Jangraw's two weekly cohorts are pooled: 316 sessions from 171 people, 145 of them in both
+    weeks.
+  - The model is the GBE one (CR, EV, RPE through one kernel) with a linear drift and a fixed
+    effect per session. Folds and bootstraps are by person.
+- **The tested adaptation terms bring no reliable predictive gain.**
+  - Biphasic memory collapses to the jump kernel in both datasets. Its negative part takes
+    zero reach (Keren) or the afterglow's own reach (Jangraw), so it has no lobe of its own.
+    Held-out error against the jump kernel: +0.003% [−0.001, +0.007] (Keren) and +0.061%
+    [−0.021, +0.154] (Jangraw).
+  - A hyperbola minus a slow exponential does no better: +0.05% and +0.09% against the
+    hyperbola.
+  - Nor do running means of all earlier inputs as covariates: +0.62% [+0.26, +0.95] and +0.18%
+    [+0.12, +0.24]. That is a reference from the whole history, in the spirit of Keren's primacy
+    model but not that model.
+  - The early-to-late residual contrasts within blocks show no consistent adaptation-shaped
+    pattern. Mood climbs more than the kernel predicts through Keren's first good block (+0.20 z
+    [+0.05, +0.33]), the opposite sign.
+- **How far an adaptation tail sits from the fitted model.**
+  - The method: inject, without noise, a tail that cancels a fraction `f` of the jump kernel's
+    positive mass, with reach `1/(1−γ)` trials. Refit the whole jump model (kernel, weights,
+    drift, fixed effects). D² is what it cannot absorb, over the residual variance.
+  - Results by `f`. Cancelling it all within 10–20 trials leaves D² = 44–70 (Jangraw) and
+    26–39 (Keren). Half leaves 5–12, a quarter 1–2.5. A 50-trial reach leaves 12 and 8 at
+    `f = 1`.
+  - D² is an uncalibrated distance, not the power of the cross-validated comparison.
+  - So the injection analysis does not establish bounds on adaptation's strength or timescale.
+    A recovery simulation through the actual pipeline would (`next-steps.md`).
+- **RestAfterWins, after a winning streak ends.** 25 people, raw 0–1 ratings.
+  - A closed-loop winning block, whose prediction errors grow to keep mood rising, then 30
+    ratings at rest 15 s apart. Mood is 0.73 before the block and 0.77 at its end.
+  - At rest it falls to 0.29 [0.14, 0.45] below the pre-task rating (ratings 21–30), and below
+    it for 68% of people at the last.
+  - The rest period that opens the weekly cohorts, with no outcomes yet, drifts −0.010 per
+    minute. The RestAfterWins files log no durations; at the weekly cohorts' timing, ratings
+    21–30 come about 17 minutes after the pre-task rating.
+  - Illustrative subtraction: if that slope held throughout the gambling and the rest, drift
+    alone gives −0.17, leaving −0.12 [−0.28, +0.04]. So this is no evidence of a fall beyond
+    drift.
+  - If there were one, two readings would compete: an adaptation lobe, or the canonical model's
+    news. An unexpectedly early ending would be bad news about future wins; a foreseen one
+    would only end anticipation. Participants' expectations about stopping were not measured.
 
 ## Audit
 
