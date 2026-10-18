@@ -236,15 +236,16 @@ def rounds_direct(r, C, feel=ROUNDS):
     return r + feel["nu"] * signed(Cn, feel["a"], feel.get("dread", 1.0)) + mem + news
 
 
-def rounds_canonical(r, C, feel=ROUNDS):
+def rounds_canonical(r, C, feel=ROUNDS, shift=0.0):
     """Canonical felt utility over the critic's forecasts of felt utility: e_k = x_k + n phi(e_k + nu C_{k+1} - C_k),
-    x_k = r_k + a nu C_{k+1} + sum_j m mu^j e_{k-j}; the root is on the branch of x_k + nu C_{k+1} - C_k."""
+    x_k = r_k + a nu C_{k+1} + sum_j m mu^j e_{k-j} - shift; the root is on the branch of x_k + nu C_{k+1} - C_k.
+    shift: a felt reference's pull h r (notes/adaptation.md), inside the solve, so memory echoes adapted states."""
     G, K = r.shape
     Cn = torch.cat([C[:, 1:], torch.zeros(G, 1)], 1)
     es = []
     for k in range(K):
         mem = sum(feel["m"] * feel["mu"] ** j * es[k - j] for j in range(1, k + 1)) if k else 0.0
-        x = r[:, k] + feel["a"] * feel["nu"] * Cn[:, k] + mem
+        x = r[:, k] + feel["a"] * feel["nu"] * Cn[:, k] + mem - shift
         z = x + feel["nu"] * Cn[:, k] - C[:, k]
         c = torch.where(z >= 0, 1.0, feel["lam"])
         es.append(x + feel["n"] * c * z / (1 - feel["n"] * c))

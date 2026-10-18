@@ -1532,6 +1532,27 @@ searchable.
   policy collects); Wan, Korenkevych & Zhu 2025 (a ±100 reward offset breaks most deep RL
   in continuing tasks, PPO included, §2.4); Andrychowicz et al. 2021 (value normalization
   and separate networks matter in on-policy RL, §3.2–3.3). Texts in `papers/`.
+- **Marek, M. & Ryabinin, M. (2026).** Score centering stabilizes off-policy reinforcement
+  learning. arXiv:2609.20807. **ABS+** (arXiv HTML v1, §3–§6 read through extraction; text not
+  archived)
+  - Off-policy the policy gradient splits, conditional on the prefix, as `E_q[R] s̄ + Cov_q(R, s)`,
+    `s̄ = E_q[∇ log p]` (§4, eq. 3): "drift" sees rewards only through their mean and, for a
+    positive mean, distils the trainer toward the sampler (`s̄` is minus the gradient of the
+    cross-entropy to it); on-policy it vanishes.
+    Score centering subtracts `s̄` (eq. 4; loss form eq. 8, top-k head with the tail modelled
+    by the trainer); group centering does not remove drift (§4). LLM RL under
+    training–inference mismatch (quantized samplers, weight noise, staleness), 0.6B–30B;
+    deliberately severe mismatch, 30B runs mostly single-seed (§5, §6). Under staleness, centering
+    plus importance correction beats centering alone (§5.3). The off-policy route for a
+    level to reach a policy (`learning.md` D9), beside sampling noise (Chung et al. 2021) and
+    a shared state (D8).
+- **Wu, Y., Tucker, G. & Nachum, O. (2019).** Behavior regularized offline reinforcement
+  learning (BRAC). arXiv:1911.11361. **ABS+** (arXiv HTML v1, §3 read by Codex; text not archived)
+  - Regularizes a learned policy toward the behavior policy by a divergence, as a penalty in
+    the value or the policy objective (§3). The closest precedent for D9's anchor: a positive
+    reward offset in uncorrected replay adds an attraction toward the policy that played the
+    memory (`−c ∇KL(q‖p)`). TRPO (Schulman et al. 2015) constrains a KL; PPO (2017) clips its
+    surrogate objective; the anchor enforces no bound.
 - **Fedus, W., Gelada, C., Bengio, Y., Bellemare, M. G. & Larochelle, H. (2019).** Hyperbolic
   discounting and learning over multiple horizons. arXiv:1902.06865. **ABS+** (abstract,
   introduction, §9, Fig. 9) ·

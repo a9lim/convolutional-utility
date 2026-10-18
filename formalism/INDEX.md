@@ -20,8 +20,9 @@ provenance (standard, known, known in kind, synthesis, not found, speculation) a
 - `calibration.md` — what pins the coefficients: per-horizon defaults, the present-bias
   inversion and the patience bill, the sign asymmetries ranked by felt evidence, news
   strength, reach, the momentary-happiness fits. Post §3, §5 and §9.
-- `learning.md` — D8, the critic's level through a shared state: the formal side of the
-  learner follow-up, cited in the post at most once (§6).
+- `learning.md` — D8, the critic's level through a shared state, and D9, a level off-policy
+  (the attraction toward the policy that played a memory): the formal side of the learner
+  follow-up, cited in the post at most once (§6).
 - `checks.py` — numerical verification of the propositions; `python formalism/checks.py`
   (every check passes). Check names below are its labels.
 - `pathwise.py` — pathwise simulation of the canonical model under unforeseen announcements,

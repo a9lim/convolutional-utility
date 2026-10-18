@@ -202,7 +202,9 @@ they share.
   loss-averse news (`λ = 2`) unless marked `λ = 1`. Critic controls: a fixed per-round
   offset in the TD loss, expectile TD, a canonical critic that forecasts felt utility itself,
   rewards shifted for the learners only, a critic detached from the shared state, and the
-  critic as the policy's baseline.
+  critic as the policy's baseline. Adaptation (`adapt`): a felt reference across episodes.
+  Replay (`replay`): the policy learns from episodes `lag` steps old without importance
+  weights, optionally score-centered.
 - `rounds.py` (the `Hidden` source, `hidden_layout`, rollout and trainer); `run_repeated.py` (the
   variants over seeds; `repeated_report.txt`, `repeated.png`); `run_braced.py` (what the critic's
   level does, eighteen critics over seeds; `braced_report.txt`, `braced.png`); `run_alignment.py` (value
@@ -210,8 +212,10 @@ they share.
   critic's level through the state, through the policy's baseline, or both;
   `channels_report.txt`); `run_evolve.py` (heritable felt strengths and sign ratios under
   selection on lifetime payoff; `evolve_report.txt`, `evolve.png`, `evolve_runs.json`);
-  `run_invasion.py` (local selection on each sign ratio at the canonical model, by paired
-  invasions; `invasion_report.txt`, `invasion_runs.json`).
+  `run_invasion.py` (selection on each sign ratio and adaptation at the canonical model, by
+  paired factor-of-two invasions with mean-field controls; `invasion_report.txt`, `invasion_runs.json`);
+  `run_adaptation.py` (a felt reference across episodes, learning from replayed memories, score
+  centering; `adaptation_report.txt`, `adaptation_runs.json`).
 
 ### The iterated-games agent
 
@@ -427,6 +431,46 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   only through sampling noise (Chung et al. 2021), which batches of 2048 games average away.
   With an undiscounted critic, whose honest values are higher, the shared-state channel keeps
   its order at lower rates (braced 3/6, honest 1/6, rosy 0/6).
+- **Adaptation frees a rosy critic's agent, not the canonical critic's** (`run_adaptation.py`,
+  `adaptation_report.txt`, 6 seeds, `λ = 1`). A felt reference across episodes (felt utility
+  minus `h` times its running mean over training, `notes/adaptation.md`'s slow lobe on felt
+  states) weighs the motivated critic's push by welfare's interior life weight `1/(1+h)`,
+  exactly a per-round TD offset profile. At `a = 0.3` the critic's level falls close to the TD
+  fixed point's prediction (2.76, 1.39, 0.70, 0.28 at `h = 0, 1, 3, 9`; predicted 2.77/(1+h),
+  Codex) and escapes return as it falls: 0/6, 0/6, 2/6, 5/6. The canonical critic, which
+  forecasts felt utility (`a = 0.05`; the reference inside the solve, so with forecasts held a
+  unit of `h r` lowers round-mean felt utility by about 2.07), goes from +0.33 to −0.43 at
+  `h = 3` and escapes earlier (median step 1000 to 625), but the same two seeds of six escape
+  at every `h`. Without memory in its targets 3/6 and 4/6 (`h = 0, 3`), without news 2/6 and
+  3/6; none reaches the honest critic's 7/8. Lowering this critic's mean level did not change
+  which seeds escape; what holds it is open.
+- **Learning from memory: the replayed level anchors the policy** (`run_adaptation.py`, 4 seeds;
+  `formalism/learning.md` D9). The policy learns only from episodes 100 steps old, each once,
+  without importance weights; the critic trains on fresh play with its level outside the
+  network, and shifts of ±0.5 go to the policy's rewards only. On-policy, unshifted and shifted
+  arms all escape in 4/4 (at batch 2048 a level acts only through sampling noise). Under replay
+  the sign decides: +0.5 learns in every seed (late payoff 0.265–0.269, short of on-policy's
+  0.30, the policy staying near its 100-step-old self, RMS `|q − p|` about 0.07); −0.5 is near
+  zero payoff in every seed by step 250 and stays there (no switching; its policy gradients,
+  0.33–0.41 in norm at step 250, then become tiny). Unshifted replay reaches the complacent
+  plateau in 2 of 4 and fails in 2; the batch baseline, which removes a constant but not the
+  level's variation across histories, fails in 4. A shift `c` adds exactly `−c(K − k)∇KL(q‖p)`
+  plus a term of mean zero: an attraction toward the policy that played the memory, a repulsion
+  for `c < 0`. At the first checkpoint the whole sampled correction that score centering
+  removes points back toward the old weights at +0.5 (cosine +0.02 to +0.13) and away at −0.5
+  (−0.35 to −0.37). The attraction alone suffices here: unshifted replay plus only that
+  analytic term (Codex's control) gives similar trajectories and the same terminal payoff in
+  every seed (0.267–0.272, paired curves within 0.05), and the repulsion alone fails in every
+  seed. Score centering removes the term and the stark asymmetry with it, leaving mixed
+  outcomes (2/4 at +0.5 and at −0.5, 1/4 unshifted, whose seed 0 ends at 0.2599, just under
+  the threshold), oscillating curves and a policy further from its past self (RMS `|q − p|`
+  0.21–0.32). Behavior regularization is known (BRAC; TRPO constrains a KL, PPO clips its
+  surrogate); here a positive reward level supplies an attraction unasked. It acts through Adam
+  and the shared clipping, so the gradient decomposition is exact and the update's is not.
+  - A learner reinforced by felt utility without a baseline fails under replay in 3 of 4 (one
+    reaches the plateau); adapting its felt reference (`h = 3`) attenuates the replayed level
+    (−0.01 over learning) and all 4 fail; centered, 1 of 4 escapes. One seed's difference:
+    adaptation that frees a shared-state critic may cost a learner that learns from memory.
 - **Felt utility as the policy's reward** leaves the escape rate unchanged at `a = 0.3` (3/4
   seeds, as for payoffs); at weak anticipation it escapes 1/4, and a motivated, braced critic
   restores 4/4 (`repeated_report.txt`, 4 seeds each). Escaped agents' states tell game classes
@@ -448,20 +492,35 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   payoff over a short lifetime, mostly escape speed. Coevolution in small populations measures
   associations, not local selection: founders range widely and genes are linked (Codex).
 - **Selection at the canonical model follows the critic's level** (paired invasions;
-  `run_invasion.py`, `invasion_report.txt`, raw fits in `invasion_runs.json`). One focal learner
-  among canonical residents carries one ratio at 1/2, 1 or 2, everything else held (initial
-  weights, games, pairings, sampling draws; rumination with the felt critic gives exactly zero, as
-  it must). Over a rosy critic (`a 0.3, n 0.3`) dread and loss-averse news are both selected in
-  every seed: slope per unit log ratio +20.5 (2.7) and +5.9 (1.5) with the felt critic, +13.0
-  (5.2) and +6.4 (1.4) with felt agents, dread concave (a quadratic through the three points
-  peaks near a ratio of 1.6). Over a braced critic (`a 0.02`) `λ` is under stabilizing selection
-  at 1 with the felt critic (slope −2.4 (3.3), curvature −34 (8)) and selected below 1 with felt
-  agents (−7.3 (2.9); no seed favours 2), and dread barely matters (+1.2 (0.3)). Canonical focal
-  payoff 139–171, s.d. over seeds 2–9. A reading, untested on the critics' levels: each asymmetry
-  is selected as a correction to the critic's level (D8). Dread weakens anticipation's upward
-  push on positive forecasts and loss-averse news strengthens news's downward push after
-  letdowns, so both help a rosy critic escape complacency. Rumination's rise under coevolution is
-  not seen locally (−0.4 (0.4) rosy, +1.4 (1.5) braced).
+  `run_invasion.py`, `invasion_report.txt`, raw fits, levels and push spreads in
+  `invasion_runs.json`). One focal learner among canonical residents carries one gene at 1/2, 1
+  or 2, everything else held (initial weights, games, pairings, sampling draws; rumination with
+  the felt critic gives exactly zero, as it must). Factor-of-two contrasts, not derivatives.
+  The genes: the three sign ratios and adaptation as `1 + h` (the felt reference, above; for
+  the motivated critic an episode-independent, round-dependent forcing profile; `1 + h = 1/2` is
+  sensitization). Over a rosy critic (`a 0.3, n 0.3`, level +2.74 above realized payoffs) dread,
+  loss-averse news and adaptation are favoured: slope per unit log gene +20.5 (2.7), +5.9 (1.5)
+  and +37.8 (3.6) with the felt critic (doubled beats halved in 8/8 seeds each), +13.0 (5.2),
+  +6.4 (1.4) and +26.7 (4.3) with felt agents (dread 6/8, the others 8/8); adaptation at `h = 1`
+  beats none by +6.3 (0.7) and +5.5 (0.8), in every seed, and sensitization costs 46 and 32.
+  Each lowers the critic's level at the doubled ratio (dread 1.0, `λ` 1.0, adaptation 1.4) and
+  raises it at the halved one, and payoff follows the level. Mean-field arms keep each round's
+  batch-mean push on the critic and drop its variation across episodes; they come within 1
+  (lifetime payoff ×1000) of dread and `λ`, except `λ` doubled with felt agents (+2.4 full,
+  +3.7 mean field, paired gap −1.3 (0.2)), so removing the push's heterogeneity changes little
+  over a rosy critic. Over a braced critic (`a 0.02`, level −0.68) `λ` has negative curvature
+  with the felt critic (slope −2.4 (3.3), curvature −34 (8)), consistent with stabilizing
+  selection at 1, and is selected below 1 with felt agents (−7.3 (2.9)); dread barely matters
+  (+1.2 (0.3)); adaptation shows no clear one-sided benefit (`h = 1`: −0.5 (2.7), +1.0 (0.6));
+  sensitization costs 11 and 7. Here the push's heterogeneity matters for `λ`: doubling it costs
+  9.7 (2.9) and 9.4 (3.4) while moving the level by −0.14, its mean field 3.4 and 2.6 (paired
+  gaps −6.3 (3.0), −6.8 (3.2)); the push that depends on the history is harder after letdowns
+  (the consolation pattern below). Dread's forecasts rarely change sign, so its mean field
+  nearly coincides with it by construction (within-round push spread, s.d. over |mean|, 0–0.2;
+  for `λ` 0.2 and up, unbounded where a round's mean push is near zero); with felt agents the
+  actor's felt rewards keep the gene in both arms. Canonical focal payoff 139–171, s.d. over
+  seeds 2–9; the rerun reproduces the earlier arms exactly. Rumination's rise under
+  coevolution is not seen locally (−0.4 (0.4) rosy, +1.4 (1.5) braced).
 - **Consolation.** At `λ = 2` the motivated critic braces before outcomes and consoles itself
   after bad ones: just after a negative TD error it sits 0.18 below realized payoffs, after a
   positive one 0.51 below. At `λ = 1` the gap vanishes (0.33 against 0.29), as the critic's

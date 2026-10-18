@@ -153,11 +153,12 @@ Independent research, not prerequisites for the post.
     no kink, so no frozen beliefs; does `α`'s sign decide optimism, as in the game agent?).
   - **The generalist.** Every head on one trunk across wings: does affect trained in one
     context change action in another (D8 across tasks)? After the per-task baselines.
-  - **Evolving felt parameters.** The level reading of the invasions, tested: the focal
-    critic's level against realized payoffs in each arm, and invasions against an offset
-    critic of the same level (if the asymmetries act only through the level, they vanish
-    there). Rumination's rise under coevolution with felt agents, absent locally: a linked
-    gene or a non-local optimum? Longer lifetimes, where escape speed matters less; welfare
+  - **Evolving felt parameters.** Over a braced critic the heterogeneity of `λ`'s push matters
+    (doubling `λ` costs 9.7 and 9.4, its mean field 3.4 and 2.6, gaps ±3): which histories, and
+    is it the consolation pattern? Smaller contrasts than factor two for local gradients, and a
+    bounded push-spread measure. Adaptation as a gene in a world that learns from memory,
+    where the level anchors (D9) and selection may reverse. Rumination's rise under
+    coevolution with felt agents, absent locally: a linked gene or a non-local optimum? Longer lifetimes, where escape speed matters less; welfare
     (felt) against fitness (payoff) of the evolved populations; observed dispositions (menu F4).
   - **Well-foundedness as a learning failure.** The canonical critic at `a = 0.3, ν = 0.8`
     (anticipation mass 1.2) diverged; map where TD on felt utility diverges against
@@ -169,7 +170,17 @@ Independent research, not prerequisites for the post.
     ablation for credible-plan selection (only 4 of 16 draws are informative); seeds for the
     game agent's motivated-belief pattern (one run), and for X4's residual lean to risk
     dominance over the matched-temperature control (+0.014, 4 of 5 seeds).
-- **Shared-state critics** (`formalism/learning.md`, D8).
+- **Shared-state critics** (`formalism/learning.md`, D8, D9).
+  - **The canonical critic's complacency**: lowering its mean level below payoffs did not
+    change which seeds escape (the same two of six); without memory or news 2–4 of 6. More seeds, the critic's
+    response to the last payoff by round (D8(c)'s varying part), and the alignment diagnostic
+    on it.
+  - **Learning from memory** (D9). Separate the anchor from Adam and clipping (a matched
+    update-size control; update norms, clip factors, KL to the old self through the early
+    transition); a lag sweep and importance-weighted replay; a matched schedule for the
+    on-policy comparison; felt replay with more seeds, where adaptation's cost is one seed so
+    far; the motivated critic under replay, where the critic's level reaches the policy
+    through the state and, as the baseline, through drift with opposite signs.
   - **Two channels for optimism.** Through the policy's baseline the critic's level does
     nothing detectable at batch 2048. Next: small batches, where a baseline's level should
     matter (optimistic non-committal, pessimistic committal); and a decision rule that reads

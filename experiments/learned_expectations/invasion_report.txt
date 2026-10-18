@@ -1,19 +1,100 @@
-Population 8, lifetime 1200 steps, 8 seeds; the focal learner (member 0) carries the ratio at e^-eps, 1, e^eps (eps = log 2), residents at 1. Lifetime payoff x1000, mean (s.e. over seeds): the focal's
-slope per unit log ratio and curvature, and the residents' mean slope (spillover). Canonical focal payoff and its s.d. over seeds set the scale.
-[felt critic, rosy (a 0.3, n 0.3)] canonical focal 138.9 (s.d. 1.8)
+Population 8, lifetime 1200 steps, 8 seeds; the focal learner (member 0) carries the gene at e^-eps, 1, e^eps (eps = log 2), residents at 1. Lifetime payoff x1000, mean (s.e. over seeds): the focal's
+slope per unit log gene and curvature, and the residents' mean slope (spillover). Adaptation's gene is 1 + h.
+Canonical focal payoff and its s.d. over seeds set the scale.
+[felt critic, rosy (a 0.3, n 0.3)] canonical focal 138.9 (s.d. 1.8), critic level +2.74
     lam        slope   +5.88 ( 1.51)  curvature   -6.31 ( 3.11)  residents' slope  +0.35 (0.20)  focal higher at e^eps in 8/8, equal in 0
     dread      slope  +20.52 ( 2.70)  curvature  -41.09 ( 7.67)  residents' slope  +1.10 (0.16)  focal higher at e^eps in 8/8, equal in 0
     rumination slope   +0.00 ( 0.00)  curvature   +0.00 ( 0.00)  residents' slope  +0.00 (0.00)  focal higher at e^eps in 0/8, equal in 8
-[felt critic, braced (a 0.02, n 0.3)] canonical focal 167.9 (s.d. 3.9)
+    adaptation slope  +37.78 ( 3.60)  curvature  -82.60 (12.20)  residents' slope  +1.77 (0.31)  focal higher at e^eps in 8/8, equal in 0
+    by arm, against the canonical focal: critic level and payoff; and the within-round spread of the felt
+    push on the focal's critic (s.d. over episodes / |mean|; 0 when every episode gets the same push):
+      lam -                    level  +0.51 (0.00)  payoff   -5.59 ( 1.67)  push spread 0.205
+      lam +                    level  -1.03 (0.00)  payoff   +2.56 ( 0.70)  push spread 6320644.379
+      dread -                  level  +1.57 (0.00)  payoff  -24.09 ( 3.66)  push spread 0.000
+      dread +                  level  -1.01 (0.00)  payoff   +4.35 ( 0.63)  push spread 0.126
+      rumination -             level  +0.00 (0.00)  payoff   +0.00 ( 0.00)  push spread 0.000
+      rumination +             level  +0.00 (0.00)  payoff   +0.00 ( 0.00)  push spread 0.000
+      adaptation -             level  +2.81 (0.00)  payoff  -46.03 ( 5.40)  push spread 0.000
+      adaptation +             level  -1.37 (0.00)  payoff   +6.34 ( 0.69)  push spread 0.000
+      lam -, mean field        level  +0.52 (0.00)  payoff   -5.95 ( 1.45)  push spread 0.184
+      lam +, mean field        level  -1.03 (0.00)  payoff   +2.61 ( 0.58)  push spread 3160393.145
+      dread -, mean field      level  +1.57 (0.00)  payoff  -23.33 ( 2.84)  push spread 0.000
+      dread +, mean field      level  -0.90 (0.00)  payoff   +4.21 ( 0.67)  push spread 0.220
+    lam + against its mean field: payoff gap   -0.05 ( 0.26), level gap -0.01
+    lam - against its mean field: payoff gap   +0.36 ( 0.61), level gap -0.01
+    dread + against its mean field: payoff gap   +0.14 ( 0.14), level gap -0.11
+    dread - against its mean field: payoff gap   -0.76 ( 1.78), level gap -0.00
+    adaptation h = 1 against none (one-sided): payoff   +6.34 ( 0.69), higher in 8/8
+[felt critic, braced (a 0.02, n 0.3)] canonical focal 167.9 (s.d. 3.9), critic level -0.68
     lam        slope   -2.36 ( 3.27)  curvature  -33.56 ( 8.02)  residents' slope  +0.33 (0.22)  focal higher at e^eps in 2/8, equal in 0
     dread      slope   +1.21 ( 0.29)  curvature   -4.43 ( 4.94)  residents' slope  +0.07 (0.09)  focal higher at e^eps in 8/8, equal in 0
     rumination slope   +0.00 ( 0.00)  curvature   +0.00 ( 0.00)  residents' slope  +0.00 (0.00)  focal higher at e^eps in 0/8, equal in 8
-[felt agents, rosy (a 0.3, n 0.3)] canonical focal 142.3 (s.d. 2.6)
+    adaptation slope   +7.53 ( 1.83)  curvature  -23.86 ( 6.57)  residents' slope  +0.32 (0.23)  focal higher at e^eps in 7/8, equal in 0
+    by arm, against the canonical focal: critic level and payoff; and the within-round spread of the felt
+    push on the focal's critic (s.d. over episodes / |mean|; 0 when every episode gets the same push):
+      lam -                    level  +0.25 (0.01)  payoff   -6.42 ( 3.06)  push spread 18.533
+      lam +                    level  -0.14 (0.00)  payoff   -9.70 ( 2.88)  push spread 2.439
+      dread -                  level  +0.02 (0.00)  payoff   -1.90 ( 1.21)  push spread 0.112
+      dread +                  level  +0.01 (0.00)  payoff   -0.23 ( 1.19)  push spread 0.112
+      rumination -             level  +0.00 (0.00)  payoff   +0.00 ( 0.00)  push spread 0.000
+      rumination +             level  +0.00 (0.00)  payoff   +0.00 ( 0.00)  push spread 0.000
+      adaptation -             level  -0.67 (0.00)  payoff  -10.95 ( 0.95)  push spread 0.000
+      adaptation +             level  +0.34 (0.00)  payoff   -0.51 ( 2.70)  push spread 0.000
+      lam -, mean field        level  +0.28 (0.00)  payoff   -2.03 ( 2.53)  push spread 3.369
+      lam +, mean field        level  -0.17 (0.00)  payoff   -3.43 ( 0.55)  push spread 2.497
+      dread -, mean field      level  +0.02 (0.00)  payoff   -1.41 ( 0.70)  push spread 0.111
+      dread +, mean field      level  +0.01 (0.00)  payoff   -1.36 ( 2.50)  push spread 0.112
+    lam + against its mean field: payoff gap   -6.27 ( 2.98), level gap +0.03
+    lam - against its mean field: payoff gap   -4.39 ( 2.53), level gap -0.02
+    dread + against its mean field: payoff gap   +1.13 ( 1.32), level gap -0.00
+    dread - against its mean field: payoff gap   -0.49 ( 0.62), level gap -0.00
+    adaptation h = 1 against none (one-sided): payoff   -0.51 ( 2.70), higher in 6/8
+[felt agents, rosy (a 0.3, n 0.3)] canonical focal 142.3 (s.d. 2.6), critic level +2.74
     lam        slope   +6.39 ( 1.43)  curvature   -8.46 ( 3.58)  residents' slope  -0.10 (0.38)  focal higher at e^eps in 8/8, equal in 0
     dread      slope  +12.99 ( 5.16)  curvature  -19.93 (14.70)  residents' slope  +0.82 (0.20)  focal higher at e^eps in 6/8, equal in 0
     rumination slope   -0.40 ( 0.37)  curvature   +0.87 ( 0.89)  residents' slope  +0.09 (0.20)  focal higher at e^eps in 4/8, equal in 0
-[felt agents, braced (a 0.02, n 0.3)] canonical focal 170.7 (s.d. 9.4)
+    adaptation slope  +26.69 ( 4.26)  curvature  -54.16 (13.25)  residents' slope  +1.61 (0.14)  focal higher at e^eps in 8/8, equal in 0
+    by arm, against the canonical focal: critic level and payoff; and the within-round spread of the felt
+    push on the focal's critic (s.d. over episodes / |mean|; 0 when every episode gets the same push):
+      lam -                    level  +0.51 (0.00)  payoff   -6.46 ( 1.65)  push spread 0.206
+      lam +                    level  -1.04 (0.00)  payoff   +2.40 ( 0.84)  push spread 14573999.464
+      dread -                  level  +1.57 (0.00)  payoff  -13.79 ( 7.07)  push spread 0.000
+      dread +                  level  -1.01 (0.00)  payoff   +4.21 ( 0.68)  push spread 0.126
+      rumination -             level  -0.00 (0.00)  payoff   +0.48 ( 0.32)  push spread 0.000
+      rumination +             level  +0.00 (0.00)  payoff   -0.06 ( 0.35)  push spread 0.000
+      adaptation -             level  +2.82 (0.00)  payoff  -31.51 ( 6.09)  push spread 0.000
+      adaptation +             level  -1.37 (0.00)  payoff   +5.49 ( 0.78)  push spread 0.000
+      lam -, mean field        level  +0.51 (0.00)  payoff   -5.71 ( 1.47)  push spread 0.188
+      lam +, mean field        level  -1.03 (0.00)  payoff   +3.66 ( 0.69)  push spread 8092288.795
+      dread -, mean field      level  +1.57 (0.00)  payoff  -13.44 ( 7.27)  push spread 0.000
+      dread +, mean field      level  -0.90 (0.00)  payoff   +3.96 ( 0.72)  push spread 0.222
+    lam + against its mean field: payoff gap   -1.26 ( 0.23), level gap -0.00
+    lam - against its mean field: payoff gap   -0.75 ( 0.44), level gap -0.00
+    dread + against its mean field: payoff gap   +0.25 ( 0.23), level gap -0.11
+    dread - against its mean field: payoff gap   -0.34 ( 0.46), level gap +0.00
+    adaptation h = 1 against none (one-sided): payoff   +5.49 ( 0.78), higher in 8/8
+[felt agents, braced (a 0.02, n 0.3)] canonical focal 170.7 (s.d. 9.4), critic level -0.68
     lam        slope   -7.25 ( 2.91)  curvature  -18.12 (10.09)  residents' slope  +1.25 (0.25)  focal higher at e^eps in 0/8, equal in 0
     dread      slope   +3.08 ( 2.17)  curvature   +2.76 ( 4.07)  residents' slope  -0.25 (0.19)  focal higher at e^eps in 7/8, equal in 0
     rumination slope   +1.36 ( 1.45)  curvature   +1.70 ( 2.68)  residents' slope  +0.15 (0.14)  focal higher at e^eps in 3/8, equal in 0
-done in 4636s
+    adaptation slope   +5.65 ( 2.17)  curvature  -12.10 ( 4.16)  residents' slope  +0.30 (0.16)  focal higher at e^eps in 7/8, equal in 0
+    by arm, against the canonical focal: critic level and payoff; and the within-round spread of the felt
+    push on the focal's critic (s.d. over episodes / |mean|; 0 when every episode gets the same push):
+      lam -                    level  +0.24 (0.01)  payoff   +0.67 ( 2.88)  push spread 20.190
+      lam +                    level  -0.14 (0.00)  payoff   -9.38 ( 3.40)  push spread 2.458
+      dread -                  level  +0.02 (0.00)  payoff   -1.47 ( 0.60)  push spread 0.112
+      dread +                  level  +0.01 (0.00)  payoff   +2.80 ( 2.46)  push spread 0.112
+      rumination -             level  -0.00 (0.00)  payoff   -0.53 ( 0.40)  push spread 0.000
+      rumination +             level  +0.00 (0.00)  payoff   +1.35 ( 1.64)  push spread 0.000
+      adaptation -             level  -0.67 (0.00)  payoff   -6.83 ( 2.48)  push spread 0.000
+      adaptation +             level  +0.34 (0.00)  payoff   +1.01 ( 0.62)  push spread 0.000
+      lam -, mean field        level  +0.28 (0.00)  payoff   +1.32 ( 1.72)  push spread 3.737
+      lam +, mean field        level  -0.17 (0.00)  payoff   -2.57 ( 1.43)  push spread 2.402
+      dread -, mean field      level  +0.02 (0.00)  payoff   +0.39 ( 1.29)  push spread 0.112
+      dread +, mean field      level  +0.01 (0.00)  payoff   +2.40 ( 2.30)  push spread 0.112
+    lam + against its mean field: payoff gap   -6.81 ( 3.15), level gap +0.03
+    lam - against its mean field: payoff gap   -0.65 ( 1.19), level gap -0.04
+    dread + against its mean field: payoff gap   +0.40 ( 0.21), level gap -0.00
+    dread - against its mean field: payoff gap   -1.86 ( 1.82), level gap -0.00
+    adaptation h = 1 against none (one-sided): payoff   +1.01 ( 0.62), higher in 6/8
+done in 9819s

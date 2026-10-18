@@ -30,7 +30,7 @@ import torch
 sys.path.insert(0, os.path.dirname(__file__))
 from agents import Agent  # noqa: E402
 from felt import ROUNDS, rounds_direct  # noqa: E402
-from rounds import Hidden, hidden_layout, rollout, td_loss  # noqa: E402
+from rounds import Hidden, hidden_layout, rollout, td_loss, to_go  # noqa: E402
 
 P, G, K = 8, 2048, 10
 LIFE = int(os.environ.get("LIFE", "1200"))
@@ -46,20 +46,34 @@ def unpack(g):
 
 
 def loss_of(R, f, variant):
+    """A member's loss under its feel f. Beyond the genes, f may carry `h`, the felt reference's strength (the
+    motivated critic ascends welfare, weighing its push by 1 / (1 + h); the reference's level in felt rewards
+    cancels against the batch baseline), and `meanfield`: the critic's felt push replaced by its batch mean at each
+    round, the per-round level of the forcing without its dependence on the history (the signs of forecasts and
+    TD errors that the sign ratios read). At the canonical model the push is the same for every episode, so
+    meanfield changes nothing there."""
     reward = rounds_direct(R["r"], R["C"].detach(), f) if variant == "felt agents" else R["r"]
-    ret = torch.flip(torch.cumsum(torch.flip(reward.detach(), [1]), 1), [1])
+    ret = to_go(reward)
     loss = -(R["logp"] * (ret - ret.mean(0, keepdim=True))).mean() + td_loss(R, f)
     if variant != "neutral":
-        loss = loss - rounds_direct(R["r"], R["C"], f).sum(1).mean()
+        felt = rounds_direct(R["r"], R["C"], f)
+        if f.get("meanfield"):
+            g = torch.autograd.grad(felt.sum(), R["C"], retain_graph=True)[0]          # each episode's push on C
+            push = (g.mean(0) * R["C"]).sum(1).mean()
+        else:
+            push = felt.sum(1).mean()
+        loss = loss - push / (1 + f.get("h", 0.0))
     return loss
 
 
-def lifetime(genomes, variant, rng, gen):
-    """Train a fresh population for one lifetime; returns each member's mean payoff over it."""
-    agents = [Agent(**hidden_layout()) for _ in genomes]
+def lifetime(feels, variant, rng, gen):
+    """Train a fresh population, one member per feel, for one lifetime. Returns each member's mean payoff over it,
+    its critic's mean level (forecast minus realized nu-discounted payoff-to-go, rounds 2-10) and, for members whose
+    feel carries `probe`, the within-round spread of the felt push on its critic (s.d. over episodes over |mean|,
+    averaged over rounds and steps; zero when the push is the same for every episode)."""
+    agents = [Agent(**hidden_layout()) for _ in feels]
     opts = [torch.optim.Adam(ag.parameters(), lr=3e-3) for ag in agents]
-    feels = [dict(ROUNDS, **unpack(g)) for g in genomes]
-    total, g = np.zeros(P), G // (P // 2)
+    total, level, spread, g = np.zeros(P), np.zeros(P), np.zeros(P), G // (P // 2)
     for _ in range(LIFE):
         A, Bm = torch.rand(G, 2, 2, generator=gen) * 2 - 1, torch.rand(G, 2, 2, generator=gen) * 2 - 1
         order, loss = rng.permutation(P), 0.0
@@ -67,15 +81,26 @@ def lifetime(genomes, variant, rng, gen):
             i, j = order[2 * p], order[2 * p + 1]
             rec = rollout(agents[i], Hidden(A[p * g:(p + 1) * g], Bm[p * g:(p + 1) * g]), K, gen, other=agents[j])
             for seat, k in ((0, i), (1, j)):
-                loss = loss + loss_of(rec[seat], feels[k], variant)
-                total[k] += float(rec[seat]["r"].mean())
+                R = rec[seat]
+                loss = loss + loss_of(R, feels[k], variant)
+                total[k] += float(R["r"].mean())
+                with torch.no_grad():
+                    disc, acc = torch.zeros_like(R["r"]), torch.zeros(len(R["r"]))
+                    for t in reversed(range(K)):
+                        acc = R["r"][:, t] + feels[k]["nu"] * acc
+                        disc[:, t] = acc
+                    level[k] += float((R["C"] - disc)[:, 1:].mean())
+                if feels[k].get("probe"):                      # how much the felt push on C varies within a round
+                    C = R["C"].detach().requires_grad_()
+                    push = torch.autograd.grad(rounds_direct(R["r"], C, feels[k]).sum(), C)[0]
+                    spread[k] += float((push.std(0) / push.mean(0).abs().clamp_min(1e-12)).mean())
         for o in opts:
             o.zero_grad()
         loss.backward()
         for ag, o in zip(agents, opts):
             torch.nn.utils.clip_grad_norm_(ag.parameters(), 5.0)
             o.step()
-    return total / LIFE
+    return total / LIFE, level / LIFE, spread / LIFE
 
 
 def evolve(job):
@@ -87,7 +112,7 @@ def evolve(job):
     genomes = np.column_stack([rng.uniform(lo, hi, P) for lo, hi in FOUNDERS])
     hist = []
     for _ in range(GENS):
-        fit = lifetime(genomes, variant, rng, gen)
+        fit = lifetime([dict(ROUNDS, **unpack(g)) for g in genomes], variant, rng, gen)[0]
         hist.append(dict(genomes=genomes.tolist(), fit=fit.tolist()))
         parents = genomes[np.argsort(fit)[-(P // 2):]]
         genomes = np.clip(np.repeat(parents, 2, axis=0) + 0.2 * rng.normal(size=(P, len(GENES))), LO, HI)

@@ -568,8 +568,9 @@ checks and playground. `formalism/INDEX.md` is its table of contents and claim m
 - **Decision theory by learning.** Twins and altruists look alike in symmetric self-play; a
   copy signal or inferred dependence separates them; iterated games and unknown adversaries
   (`experiments/learned_expectations/`, `notes/empathy.md`).
-- **Shared-state critics** (`learning.md`, D8). A critic's level reaches the policy through
-  their shared state: machine learning, its own short piece.
+- **Shared-state critics** (`learning.md`, D8, D9). A critic's level reaches the policy through
+  their shared state, and a replayed level through the gap to the self that played the memory
+  (an anchor; adaptation attenuates it): machine learning, its own short piece.
 - **LLMs.** The peak-end study (positional weights of an end-of-episode rating identify the
   effective memory kernel); context windows and sessions as lives; instances as A1's tree.
 - **The Bates world** (`notes/bates.md`): its own project.

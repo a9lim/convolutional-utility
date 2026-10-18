@@ -49,3 +49,43 @@ with the same sign (Sun et al. 2022)]
 - Limits: Adam's momentum and gradient-dependent denominator change with the offset, so the
   kernel in (b) is only a guide to its updates. Unexplained: removing the critic's mean push
   on the state also traps the honest critic.
+
+**D9. Off-policy, a level enters the expected gradient.** [standard: the covariance split and
+score centering (Marek & Ryabinin 2026, §4); attraction toward a behavior policy known in kind
+(BRAC, Wu, Tucker & Nachum 2019; TRPO constrains a KL, PPO clips its surrogate); the reading as
+a route for felt levels, synthesis; checked in the learner]
+- Setting: a policy `p_θ` learns from histories `H` and moves `y` drawn by another, fixed policy
+  `q` (memories replayed from an older self, without importance weights), advantage `A`.
+  History by history,
+  `E_q[A ∇ log p_y | H] = E_q[A | H] s̄ + Cov_q(A, ∇ log p_y | H)`,
+  `s̄ = Σ_v q_v ∇ log p_v = −∇ CE(q ‖ p)`.
+  On a binary move's logit `z`, `s̄ = (q − p) ∇z`. On-policy `s̄ = 0` for every history, not
+  only on average, so a level reaches an on-policy learner only through sampling noise (Chung
+  et al. 2021) or through what else it changes, such as a critic that shares the state (D8).
+- **(a) A constant's part, exactly.** Adding `c` to every round's reward, with no baseline that
+  absorbs it, adds `c(K − k)` to the return at round `k` (from 0) and, per history,
+  `c(K − k)(y − p)∇z = c(K − k)(q − p)∇z + c(K − k)(y − q)∇z`: minus `c(K − k)∇ KL(q ‖ p)`, an
+  attraction toward the policy that played the memory for `c > 0` (a repulsion for `c < 0`),
+  plus a term of mean zero under `q` (Codex). Near the old weights the first is a restoring
+  force, `≈ −c(K − k) F (θ − θ_old)` with `F` the Fisher information.
+- **(b) Removing it.** Score centering subtracts `s̄` and leaves the covariance under the stale
+  sampler; a baseline exact at every history (predicting returns under the behavior's
+  continuation) removes `E_q[A | H]`; a batch or group mean removes only a constant, not the
+  level's variation across histories (as Marek & Ryabinin note for group centering);
+  adaptation, reward centering on felt utility, attenuates the global part (to `1/(1+h)` for a
+  fixed direct input when felt states are adapted).
+- **(c) Three routes for a level, then**: sampling noise (vanishes with batch size), a shared
+  state (D8), and the mismatch between the policy that learns and the one that acted. Only the
+  third enters the expected raw gradient of the policy itself.
+- In the hidden-game agent learning from 100-step-old memories (`adaptation_report.txt`, 4
+  seeds a cell), the attraction is what keeps it learning: a shift of +0.5 learns in every seed
+  and −0.5 fails in every seed; the analytic attraction alone, added to unshifted replay without
+  the shift's sampling noise, gives similar trajectories and the same terminal payoff, and the
+  repulsion alone fails; centered, the stark asymmetry goes and outcomes are mixed, with
+  oscillating curves. [checked] Whether the attraction helps should depend on what it attracts
+  toward: in Marek & Ryabinin's quantized and noisy samplers it would compound a bias each
+  step, here it holds the policy near the self that played its memories against a signal 100
+  steps late (interpretation; the sampler's kind is not isolated). Their own staleness runs
+  favour centering with importance correction over centering alone (§5.3).
+- Limits: Adam and global clipping act on the sum, so (a) is exact for the gradient, not the
+  update; the anchor bounds nothing, unlike a trust region.

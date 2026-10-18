@@ -1,0 +1,46 @@
+3000 steps. Escaped: late payoff above 0.26; escape step: first evaluation (every 250 steps) above 0.25.
+Level: critic minus realized payoff-to-go at its own discount, rounds 2-10. Adaptation: the reference r at
+the end. Replay (lag 100, learning from step 100), means over learning: the replayed advantage's mean,
+the RMS gap |q - p| between old and current move probabilities, and the sample logit-correction RMS over
+the raw-score RMS, |A (q - p)| / |A (y - p)| (first 500 steps of learning in brackets). Parameter space, at
+checkpoints every 250 steps, over the weights the policy reads: the correction score centering removes,
+mean[A grad sum_v q_v log p_v], as a share of the raw ascent direction's norm, and its cosine with the way back
+to the weights that played the batch (positive: that component pulls toward the past self). On-policy arms
+learn from step 0; replay arms from step 100 (the critic trains alone before), each batch once.
+
+[adaptation]
+arm                                    escaped  escape step    late (escaped/not)  level  reference r
+motivated, rosy                         0/6        - (---)           -   / 0.210  +2.76  +0.000
+motivated, rosy, h = 1                  0/6        - (---)           -   / 0.211  +1.39  +0.276
+motivated, rosy, h = 3                  2/6      750 (750-750)     0.305 / 0.210  +0.70  +0.122
+motivated, rosy, h = 9                  5/6      500 (250-500)     0.306 / 0.213  +0.28  +0.048
+canonical                               2/6     1000 (750-1250)    0.303 / 0.210  +0.33  +0.000
+canonical, h = 1                        2/6      875 (750-1000)    0.299 / 0.210  -0.19  +0.116
+canonical, h = 3                        2/6      625 (500-750)     0.301 / 0.213  -0.43  +0.053
+canonical, no memory                    3/6      750 (250-2000)    0.303 / 0.214  +0.05  +0.000
+canonical, no memory, h = 3             4/6      625 (250-1250)    0.303 / 0.214  -0.49  +0.055
+canonical, no news                      2/6      875 (500-1250)    0.301 / 0.212  +0.40  +0.000
+canonical, no news, h = 3               3/6     1000 (500-1500)    0.300 / 0.210  -0.42  +0.055
+
+[replay]
+arm                                    escaped  escape step    late (escaped/not)  level   A mean        |q - p|       correction RMS   |corr|/|raw|  cos back
+on-policy, no baseline                  4/4      500 (250-1250)    0.303 /   -    +0.01  
+on-policy, no baseline, actor +0.5      4/4      375 (250-500)     0.306 /   -    +0.01  
+on-policy, no baseline, actor -0.5      4/4      500 (250-750)     0.307 /   -    -0.03  
+replay, batch baseline                  0/4        - (---)           -   / 0.003  -0.00  -0.000 [-0.000]  +0.069 [+0.195]  +71730357.000 [+0.425]   0.69       +0.05
+replay, no baseline                     0/4        - (---)           -   / 0.103  -0.02  +0.215 [-0.183]  +0.102 [+0.162]  +0.449 [+0.368]   1.21       +0.06
+replay, no baseline, centered           1/4     1875 (1750-2000)   0.274 / 0.089  -0.04  +0.430 [+0.243]  +0.214 [+0.323]  +0.570 [+0.919]   0.65       +0.01
+replay, actor +0.5                      4/4     2250 (2250-3000)   0.267 /   -    +0.04  +3.566 [+2.923]  +0.072 [+0.057]  +0.095 [+0.071]   1.13       +0.06
+replay, actor +0.5, centered            2/4     1750 (750-2750)    0.277 / 0.003  +0.01  +3.181 [+3.072]  +0.248 [+0.395]  +0.522 [+0.712]   0.65       +0.07
+replay, actor -0.5                      0/4        - (---)           -   / 0.003  +0.05  -2.750 [-2.751]  +0.018 [+0.103]  +456.946 [+2650.197]   0.11       -0.04
+replay, actor -0.5, centered            2/4     1250 (1000-1750)   0.269 / 0.005  +0.01  -2.141 [-2.397]  +0.317 [+0.404]  +0.693 [+0.626]   0.97       -0.12
+replay, anchor +0.5                     4/4     2500 (2250-2750)   0.269 /   -    +0.02  +0.817 [+0.178]  +0.077 [+0.057]  +0.128 [+0.080]   0.83       -0.00
+replay, anchor -0.5                     0/4        - (---)           -   / 0.003  +0.03  -0.000 [-0.001]  +0.018 [+0.103]  +489.658 [+2839.911]   0.22       +0.01
+
+[felt]
+arm                                    escaped  escape step    late (escaped/not)  level   A mean        |q - p|       correction RMS   |corr|/|raw|  cos back
+felt, on-policy, no baseline            4/4      250 (250-1000)    0.307 /   -    -0.02  
+felt, replay, no baseline               0/4        - (---)           -   / 0.055  +0.01  +0.231 [-0.327]  +0.108 [+0.191]  +10.259 [+0.415]   1.05       +0.06
+felt, replay, no baseline, h = 3        0/4        - (---)           -   / 0.003  -0.03  -0.009 [-0.090]  +0.072 [+0.184]  +3.474 [+0.394]   2352.96       +0.04
+felt, replay, no baseline, centered     1/4      750 (500-1000)    0.287 / 0.152  +0.04  +1.269 [+0.778]  +0.353 [+0.391]  +0.721 [+0.803]   0.79       +0.02
+done in 1016s (14 runs this invocation)

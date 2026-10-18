@@ -75,7 +75,8 @@ at `22c5c4f`).
 `cu-fresh-review`, `cu-extensions` (Bates), `cu-round2-core`, `cu-round2-ext` (the menu),
 `cu-displacement`, `cu-disc-ext` (menu G), `cu-games-ext` (menu F), `cu-c1-leakage` (D7's
 leakage bullets), `cu-framework`, `cu-empathy`, `cu-restructure` (the post's architecture and
-triage), `cu-novelty-audit` (attribution, row by row), `bracing-review` (concave bracing). Job replies under `~/.gaslamp/jobs/`; the premise reply, source of P4–P6's
+triage), `cu-novelty-audit` (attribution, row by row), `bracing-review` (concave bracing),
+`adaptation-replay` (the felt reference, replay, score centering, the invasion controls). Job replies under `~/.gaslamp/jobs/`; the premise reply, source of P4–P6's
 closed forms, is `cx-20261012-230641-77eb/reply.md`.
 
 ## Blocked sources, not circumvented
@@ -151,3 +152,16 @@ requests: `next-steps.md`, the post's citations and the companion's prior art.
   Codex's design review added paired invasions, which show selection on dread and `λ`
   following the critic's level. Runners whose reports rest on `λ > 1` pin it; reruns that
   kept their configuration reproduced their reports exactly.
+- **2026-10-18.** a9 asked to test biphasic memory's adaptation in the learners, and brought
+  Marek & Ryabinin's score centering (arXiv 2609.20807) to fold in. Built a felt reference
+  across episodes, replay from 100-step-old memories with score centering, and adaptation as
+  a fourth invasion gene with mean-field controls (`run_adaptation.py`, `run_invasion.py`;
+  the critic-level session card folded in). Codex's design review caught the canonical
+  reference subtracted after the solve instead of inside it, the first batch replayed 101
+  times during warm-up, reward shifts reaching the critic in the replay arms, and a
+  three-point level curve that could not carry an "only through the level" claim; all
+  replaced before the runs that count. My prediction for replay was the wrong sign: I
+  expected the drift toward the old policy to slow learning, and it is what keeps the
+  replaying learner learning (Codex's analytic-anchor control: sufficient in this grid).
+  The invasion rerun reproduced every earlier arm exactly. Results: README, `learning.md` D9,
+  the adaptation note.

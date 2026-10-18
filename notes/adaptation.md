@@ -1,6 +1,7 @@
 # Hedonic adaptation (B4)
 
-**Status: parked by a9.** Chosen form: biphasic memory, `c γ^j`. a9 does not buy
+**Status: parked by a9** (for the core; the learners test it, below). Chosen form: biphasic
+memory, `c γ^j`. a9 does not buy
 range-frequency's reductio (scheduling awful days to raise welfare), nor full adaptation's
 "quit while ahead". The data rule out only fast adaptation; slow adaptation waits on the
 step test below (download status in `next-steps.md`, Parked).
@@ -176,10 +177,21 @@ core; one of those should be renamed when this reaches core.
 - The RL reading completes: centered reward (adaptation is reward centering, subtracting a
   running average of past reward; Naik, Wan, Tomar & Sutton 2024), value (anticipation),
   TD error (news). Causality fixes the directions: a reference can only average the past,
-  a value is about the future, an error compares them. Reward centering also removes the
-  sensitivity to reward level that D8 found in the shared-state critic, so adaptation may
-  be the felt trace of what a learner needs to learn well. *synthesis; the evolutionary
-  reading speculative*
+  a value is about the future, an error compares them. *synthesis*
+- **In learners** (`experiments/learned_expectations/`, `adaptation_report.txt`,
+  `invasion_report.txt`; a population-wide reference over training steps, so adaptation
+  across episodes). A motivated critic ascending welfare weighs its felt push by the interior
+  life weight `1/(1+h)`, exactly a per-round TD offset profile: its level falls about as
+  `1/(1+h)` and a rosy critic's agent escapes complacency again (0/6 to 5/6 at `h = 9`).
+  Paired invasions favour it over a rosy critic in every seed (+6.3 lifetime payoff ×1000 at
+  `h = 1`) and show no clear benefit over a braced one; sensitization (`h = −½`) costs in both.
+  A canonical critic adapted to felt utility drops below payoffs and still escapes in the same
+  two seeds of six. For a learner that learns from stale memories without importance weights,
+  a positive replayed level is an attraction toward the self that played them, and it is what
+  keeps that learner learning (`formalism/learning.md` D9); adaptation attenuates it there (one
+  seed's difference so far). So the evolutionary reading cuts both ways: adaptation frees a
+  learner whose affect shares its state, and may cost one that learns from memory.
+  *checked in learners; the evolutionary reading speculation*
 
 ## Tested on the happiness data
 
