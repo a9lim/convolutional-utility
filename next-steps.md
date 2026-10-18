@@ -120,6 +120,9 @@ None of these blocks the post; §9 reports what is in hand.
 - Memory by sign beyond a play: does the fading affect bias's crossing (near lag 13 trials
   here) scale with the event, as reach does?
 - Slow adaptation needs step data: parked with B4 (below).
+- Data for the constants the task fits leave open (anticipation, news about later moments,
+  memory beyond minutes, adaptation steps): candidates, access and order in
+  `notes/datasets.md`.
 
 ## Follow-up lines
 
@@ -207,12 +210,9 @@ Independent research, not prerequisites for the post.
 - **Hedonic adaptation, B4** (`notes/adaptation.md`). Left: the Dartmouth step test and a
   frequency-principle test in the Great Brain Experiment (does a rating track the current
   payoff's rank among recent payoffs beyond its value?).
-  - Dartmouth download, parked mid-way for memory pressure: approved for the Dartmouth
-    College Experience Study, Zenodo record 22953080 (v2.0.0 of concept 17348144). Only
-    `0040_nepal_codebook_2.csv` is in `data/dartmouth/` (md5 checked). Still to fetch and
-    md5-check: `0040_nepal_ts.tsv` (25,205,478 bytes, `3edfef152aa9f0af348f8466ef9ef6e2`)
-    and `0040_nepal_codebook.csv` (`c739cf843dc0eb4975fc63e59c3b8c72`), from
-    `https://zenodo.org/api/records/22953080/files/<name>/content`. The test's design is in
-    the note.
+  - The Dartmouth College Experience Study (Zenodo record 22953080) is in `data/dartmouth/`,
+    every file md5-checked. Its `affect` column is the PAM picture index, not valence:
+    confirm the rubric before the step test (`notes/datasets.md`). The test's design is in
+    the adaptation note.
 - **The C1 toy** (actions leaking into affect): the menu, C1.
 - **A felt forecaster in a Bates world**, a separate project: `notes/bates.md`.

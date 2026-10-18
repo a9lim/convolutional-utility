@@ -244,7 +244,9 @@ core; one of those should be renamed when this reaches core.
     prompts a day, a blinded antidepressant taper; a ramp, N = 1.
 - Gated: UCL COVID-19 Social Study and Understanding Society (UK Data Service
   registration), SOEP (contract), HILDA (application), GLOBEM (PhysioNet credentialing),
-  How We Feel (on request).
+  How We Feel (on request). SOEP and HRS forbid LLM processing of their data outright.
+- In-task steps at the minutes scale (Keren et al. 2021, Jangraw et al. 2023) and a
+  randomized sustained step (the OpenResearch cash study): `datasets.md`.
 - The Great Brain Experiment's design switch (July 2013) is no step test: 626 people
   played under both designs, and the change in stakes was small (payoff s.d. 56 → 60) and
   confounded with the design.
