@@ -56,7 +56,9 @@ at `22c5c4f`).
   numerics change on purpose.
 - Claims made in chat get checked before they reach the docs. Wrong first: dread pricing
   information in the direct model, CDT/FDT as the mortality/eternity split, "no adaptation
-  at task scales", conservation taming copy-counted anthropics.
+  at task scales", conservation taming copy-counted anthropics, asymmetric updating from the
+  Bates flow band (a shifted symmetric band), Bayesian forecasts adding dread there (they
+  lower the reference).
 - Fresh-eyes rounds (three so far) found overreaching headlines and no sinking hole; the
   linear backbone stands.
 - A felt-against-payoff comparison needs matched temperature: a fixed entropy bonus against a
@@ -169,3 +171,11 @@ requests: `next-steps.md`, the post's citations and the companion's prior art.
   skipped §3, and found it only when archiving the full text (lesson above).
   The invasion rerun reproduced every earlier arm exactly. Results: README, `learning.md` D9,
   the adaptation note.
+- **2026-10-18 (later).** a9 asked what the Bates world looks like with the martingale as base
+  utility. The flow reading (`notes/bates.md`): a move is news about every remaining moment,
+  realization tethers the felt display through the arrival kink, and the band is linear in
+  `σ`. Codex (`cu-extensions`) verified the band by smooth fit and the loop multiplier, and
+  corrected three of my chat claims: the lopsided band is a constant offset, not asymmetric
+  updating; a display that varies by horizon makes welfare unbounded (its counterexample);
+  Bayesian forecasts lower the news cost rather than adding dread. The terminal reading's DP,
+  never archived, is rebuilt in `notes/bates.py` beside the flow checks.

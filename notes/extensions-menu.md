@@ -50,7 +50,8 @@ so a tethered felt display of a martingale forecast is a reflected martingale, h
     control; it continues `experiments/learned_expectations/`.
 - **A7. Mood inertia as a dead zone.** *speculation; empirical*
   - The band predicts hysteresis: affect changes cluster at zero, with moves concentrated
-    at the band's edges, not AR(1) shrinkage. Width grows with `λ`, as `(λ−1)^{1/3}`.
+    at the band's edges, not AR(1) shrinkage. Width grows with `λ`, as `(λ−1)^{1/3}` in the
+    terminal reading.
     Emotional inertia predicts maladjustment (Kuppens et al. 2010); the model reads that
     as loss-averse felt news. Testable on experience-sampling data.
 
