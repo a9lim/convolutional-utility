@@ -127,7 +127,10 @@ Independent research, not prerequisites for the post.
 
 - **Decision theory by learning** (`experiments/learned_expectations/`, `notes/empathy.md`).
   A possible post of its own: twins and altruists look alike in symmetric self-play, and a
-  copy signal or inferred dependence separates them.
+  copy signal or inferred dependence separates them. Canonically one event's felt welfare is
+  `α·m(q) + β·m(p)`, so felt play is payoff play at scale and felt empathy is altruism at a
+  `J`-set weight; what remains is belief choice, `J`, and play across events. Guilt that
+  depends on expectations, sticky profiles and promises are loss-averse-news (X4) questions.
   - **Unknown adversaries** (`adversary.py`). No handshake at 3000 steps: longer training, a
     larger share of copies, partners that do not punish probing, the dependence signal or
     cheap talk (does a twin use them?). Test the twin as an altruist toward lookalikes (an
@@ -139,20 +142,23 @@ Independent research, not prerequisites for the post.
     (discount `γ`, Codex).
   - **Partners** (`notes/empathy.md`). Dependence without identity labels, from randomized
     probes against a common-cause confound (Codex's design); heterogeneous strangers to break
-    the `σw` equivalence; the trust game as learners (expectation-dependent honesty at
-    `J = 0`, promises); donation games and the sign of `R + P − S − T`; guilt toward a
-    partner's felt history in iterated play (F7).
+    the `σw` equivalence; donation games and the sign of `R + P − S − T`; guilt toward a
+    partner's felt history in iterated play (F7). Under X4 only: the trust game as learners
+    (expectation-dependent honesty at `J = 0`, promises).
   - **Agents not yet built.** The twin dial in hidden repeated games; reliability (D6) and
     the self-Newcomb as environments; the observer with attention as a choice (batching, N2,
     D7), dread or rumination asymmetry (information avoidance, D5) and saturating news near
     the threshold; in the game distribution, whether the affect policy prefers not to tell
-    games apart early (D7).
+    games apart early (D7). The observer in the canonical model (`run_observer.py` at `λ = 1`:
+    no kink, so no frozen beliefs; does `α`'s sign decide optimism, as in the game agent?).
   - **The generalist.** Every head on one trunk across wings: does affect trained in one
     context change action in another (D8 across tasks)? After the per-task baselines.
-  - **Evolving felt parameters.** Is `λ`'s neutrality the consolation term undoing its
-    bracing (evolve `λ` with `n` fixed, and with consolation removed)? Longer lifetimes,
-    where escape speed matters less; welfare (felt) against fitness (payoff) of the evolved
-    populations; run-level uncertainty.
+  - **Evolving felt parameters.** The level reading of the invasions, tested: the focal
+    critic's level against realized payoffs in each arm, and invasions against an offset
+    critic of the same level (if the asymmetries act only through the level, they vanish
+    there). Rumination's rise under coevolution with felt agents, absent locally: a linked
+    gene or a non-local optimum? Longer lifetimes, where escape speed matters less; welfare
+    (felt) against fitness (payoff) of the evolved populations; observed dispositions (menu F4).
   - **Well-foundedness as a learning failure.** The canonical critic at `a = 0.3, ν = 0.8`
     (anticipation mass 1.2) diverged; map where TD on felt utility diverges against
     `M + N < 1`, and `M + λN < 1` with loss-averse news.
@@ -161,7 +167,8 @@ Independent research, not prerequisites for the post.
     observer's tree-solver and finite-difference checks; report the consolation gap
     stratified by round (pooled 0.33 overstates it by a quarter or so); an initialization
     ablation for credible-plan selection (only 4 of 16 draws are informative); seeds for the
-    game agent's motivated-belief pattern (one run).
+    game agent's motivated-belief pattern (one run), and for X4's residual lean to risk
+    dominance over the matched-temperature control (+0.014, 4 of 5 seeds).
 - **Shared-state critics** (`formalism/learning.md`, D8).
   - **Two channels for optimism.** Through the policy's baseline the critic's level does
     nothing detectable at batch 2048. Next: small batches, where a baseline's level should

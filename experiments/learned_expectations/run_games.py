@@ -1,5 +1,9 @@
 """Train the game-playing agent in each variant and evaluate on held-out random 2x2 games.
-Run: python experiments/learned_expectations/run_games.py   (writes games_report.txt and games.png)"""
+Run: python experiments/learned_expectations/run_games.py   (writes games_report.txt and games.png)
+
+Variants in the canonical model (lam = 1) and under loss-averse news (X4). Equilibrium selection over seeds is a
+four-way control: payoffs; payoffs at the calibrated felt agent's scale alpha + beta (the same temperature against
+the entropy bonus); calibrated felt utility, canonical (the matched payoff agent up to rounding); and X4."""
 import os
 import sys
 import time
@@ -10,22 +14,40 @@ import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
 from games import CLASSES, classify, pure_nash, risk_dominant, sample_games, views  # noqa: E402
+from felt import EVENT, X4, Event  # noqa: E402
 from oneshot import objectives, play, train  # noqa: E402
 
-VARIANTS = ["payoff", "calibrated", "free", "coupled"]
 HERE = os.path.dirname(__file__)
+X4_EVENT = dict(EVENT, **X4)
+ALPHA, BETA = Event(**EVENT).weights()
+RUNS = {                                                   # label: (variant, training keywords)
+    "payoff": ("payoff", {}),
+    "calibrated": ("calibrated", {}),
+    "free": ("free", {}),
+    "coupled": ("coupled", {}),
+    "calibrated, X4": ("calibrated", dict(feel=X4_EVENT)),
+    "free, X4": ("free", dict(feel=X4_EVENT)),
+    "coupled, X4": ("coupled", dict(feel=X4_EVENT)),
+}
+SWEEP = {
+    "payoff": ("payoff", {}),
+    "payoff, matched": ("payoff", dict(scale=ALPHA + BETA)),
+    "calibrated": ("calibrated", {}),
+    "calibrated, X4": ("calibrated", dict(feel=X4_EVENT)),
+}
 
 
 def selection_seed(job):
     """Equilibrium play and the risk-dominant share for one variant and seed (the seed sweep)."""
-    v, seed = job
+    label, seed = job
+    v, kw = SWEEP[label]
     torch.set_num_threads(2)
     gen = torch.Generator().manual_seed(2026)
     A, Bm = sample_games(20000, gen)
     ne, cls = pure_nash(A, Bm), classify(A, Bm)
     rd, pd = risk_dominant(A, Bm, ne)
     sel = (rd >= 0) & (pd >= 0) & (rd != pd)
-    net, felt = train(v, steps=6000, batch=1024, seed=seed)
+    net, felt = train(v, steps=6000, batch=1024, seed=seed, **kw)
     with torch.no_grad():
         _, (pi1, _, pi2, _) = objectives(net, felt, A, Bm, v)
     i1, i2 = (pi1 < 0.5).long(), (pi2 < 0.5).long()
@@ -34,7 +56,7 @@ def selection_seed(job):
         eqs = [(i, j) for i in (0, 1) for j in (0, 1) if ne[b, i, j]]
         if (int(i1[b]), int(i2[b])) in eqs:
             chosen[b] = eqs.index((int(i1[b]), int(i2[b])))
-    return v, seed, float((chosen[sel] == rd[sel]).float().sum() / (chosen[sel] >= 0).float().sum().clamp_min(1))
+    return label, seed, float((chosen[sel] == rd[sel]).float().sum() / (chosen[sel] >= 0).float().sum().clamp_min(1))
 
 
 def probe(X, y, Xt, yt, steps=3000):
@@ -63,14 +85,16 @@ if __name__ == "__main__":
     sel = (rd >= 0) & (pd >= 0) & (rd != pd)               # risk- and payoff-dominance disagree
     say(f"held-out games: " + ", ".join(f"{c} {int((cls == k).sum())}" for k, c in enumerate(CLASSES))
         + f"; two-equilibrium games where risk and payoff dominance disagree: {int(sel.sum())}")
+    say(f"Canonical felt welfare alpha m(q) + beta m(p): alpha {ALPHA:.4f}, beta {BETA:.4f}, scale {ALPHA + BETA:.4f}; "
+        f"X4: lam {X4['lam']}")
     res = {}
-    for v in VARIANTS:
-        net, felt = train(v, steps=6000, batch=1024)
+    for label, (v, kw) in RUNS.items():
+        net, felt = train(v, steps=6000, batch=1024, **kw)
         with torch.no_grad():
             (o1, o2), (pi1, q1, pi2, q2) = objectives(net, felt, A, Bm, v)
             (m1, t1), _ = views(A, Bm)
             _, _, h = play(net, m1, t1)
-        res[v] = (net, felt, pi1, q1, pi2, q2, h)
+        res[label] = (net, felt, pi1, q1, pi2, q2, h)
         i1, i2 = (pi1 < 0.5).long(), (pi2 < 0.5).long()
         hit = ne[torch.arange(len(cls)), i1, i2]
         accs = [float(hit[cls == k].float().mean()) for k in (1, 2, 3)]
@@ -81,7 +105,7 @@ if __name__ == "__main__":
             if (int(i1[b]), int(i2[b])) in eqs:
                 chosen[b] = eqs.index((int(i1[b]), int(i2[b])))
         rd_share = float((chosen[sel] == rd[sel]).float().sum() / (chosen[sel] >= 0).float().sum().clamp_min(1))
-        say(f"[{v}] plays a pure equilibrium: unique-efficient {accs[0]:.1%}, PD-like {accs[1]:.1%}, "
+        say(f"[{label}] plays a pure equilibrium: unique-efficient {accs[0]:.1%}, PD-like {accs[1]:.1%}, "
             f"two-equilibrium {accs[2]:.1%}; where risk and payoff dominance disagree, picks the risk-dominant "
             f"one {rd_share:.1%}; cyclic games: mean |P(move 0) - 1/2| {float((pi1[cls == 0] - 0.5).abs().mean()):.3f}")
         if v in ("free", "coupled"):
@@ -94,15 +118,16 @@ if __name__ == "__main__":
             say(f"    belief tilt toward the outcome good for me (q - p): " + ", ".join(
                 f"{CLASSES[k]} {float(tilt[cls == k].mean()):+.3f}" for k in range(4)))
     # a looser tether: motivated beliefs at tau = 30
-    for v in ("free", "coupled"):
-        net, felt = train(v, steps=6000, batch=1024, tau=30.0)
+    for label in ("free", "coupled", "free, X4", "coupled, X4"):
+        v, kw = RUNS[label]
+        net, felt = train(v, steps=6000, batch=1024, tau=30.0, **kw)
         with torch.no_grad():
             _, (pi1, q1, pi2, q2) = objectives(net, felt, A, Bm, v, tau=30.0)
         i1, i2 = (pi1 < 0.5).long(), (pi2 < 0.5).long()
         hit = ne[torch.arange(len(cls)), i1, i2]
         good = (A[torch.arange(len(cls)), i1, 0] < A[torch.arange(len(cls)), i1, 1]).long()
         tilt = torch.where(good == 0, q1, 1 - q1) - torch.where(good == 0, pi2, 1 - pi2)
-        say(f"[{v}, tau = 30] pure equilibrium: unique-efficient {float(hit[cls == 1].float().mean()):.1%}, "
+        say(f"[{label}, tau = 30] pure equilibrium: unique-efficient {float(hit[cls == 1].float().mean()):.1%}, "
             f"PD-like {float(hit[cls == 2].float().mean()):.1%}, two-equilibrium {float(hit[cls == 3].float().mean()):.1%}; "
             "belief tilt toward the good outcome: " + ", ".join(f"{CLASSES[k]} {float(tilt[cls == k].mean()):+.3f}" for k in range(4)))
     # do they tell games apart? probe class from the hidden layer vs from raw payoffs
@@ -110,20 +135,23 @@ if __name__ == "__main__":
     n_tr = 15000
     raw = probe(X_raw[:n_tr], cls[:n_tr], X_raw[n_tr:], cls[n_tr:])
     say(f"linear probe for game class: raw payoffs {raw:.1%}; " + ", ".join(
-        f"{v} hidden layer {probe(res[v][6][:n_tr], cls[:n_tr], res[v][6][n_tr:], cls[n_tr:]):.1%}" for v in VARIANTS))
+        f"{v} hidden layer {probe(res[v][6][:n_tr], cls[:n_tr], res[v][6][n_tr:], cls[n_tr:]):.1%}" for v in RUNS))
     # differences in play: felt variants against the payoff baseline
     base = (res["payoff"][2] < 0.5)
-    for v in ("calibrated", "free", "coupled"):
+    for v in [x for x in RUNS if x != "payoff"]:
         diff = ((res[v][2] < 0.5) != base)
         say(f"[{v}] modal move differs from the payoff agent in: " + ", ".join(
             f"{CLASSES[k]} {float(diff[cls == k].float().mean()):.1%}" for k in range(4)))
-    # equilibrium selection over seeds: payoff against calibrated felt utility
+    # equilibrium selection over seeds: the four-way control
     with ProcessPoolExecutor(10) as ex:
-        sweep = list(ex.map(selection_seed, [(v, s) for v in ("payoff", "calibrated") for s in range(5)]))
-    by = {v: [x for v_, _, x in sweep if v_ == v] for v in ("payoff", "calibrated")}
-    say("risk-dominant share over 5 seeds: payoff " + " ".join(f"{x:.3f}" for x in by["payoff"])
-        + f" (mean {np.mean(by['payoff']):.3f}); calibrated " + " ".join(f"{x:.3f}" for x in by["calibrated"])
-        + f" (mean {np.mean(by['calibrated']):.3f}); calibrated higher in {sum(c > p for p, c in zip(by['payoff'], by['calibrated']))}/5 seeds")
+        sweep = list(ex.map(selection_seed, [(v, s) for v in SWEEP for s in range(5)]))
+    by = {v: [x for v_, _, x in sweep if v_ == v] for v in SWEEP}
+    say("risk-dominant share over 5 seeds: " + "; ".join(
+        f"{v} " + " ".join(f"{x:.3f}" for x in by[v]) + f" (mean {np.mean(by[v]):.3f})" for v in SWEEP))
+    pairs = (("calibrated, X4", "payoff, matched"), ("calibrated, X4", "payoff"), ("payoff, matched", "payoff"),
+             ("calibrated", "payoff, matched"))
+    say("    higher by seed: " + "; ".join(f"{a} over {b} {sum(x > y for x, y in zip(by[a], by[b]))}/5" for a, b in pairs)
+        + f"; calibrated against payoff, matched, max |difference| {max(abs(x - y) for x, y in zip(by['calibrated'], by['payoff, matched'])):.1e}")
     # figure: PCA of the free agent's hidden layer, coloured by class; belief tilt by class
     import matplotlib
     matplotlib.use("Agg")
@@ -137,17 +165,19 @@ if __name__ == "__main__":
     for k in range(4):
         sel_k = cls[:4000] == k
         axes[0].scatter(Z[sel_k, 0], Z[sel_k, 1], s=4, alpha=0.5, color=cols[k], label=CLASSES[k])
-    axes[0].set_title("Felt agent's hidden layer (PCA), by game class", fontsize=10)
+    axes[0].set_title("Felt agent's hidden layer (PCA, free beliefs, canonical), by game class", fontsize=10)
     axes[0].legend(fontsize=8, markerscale=3, frameon=False)
-    for j, v in enumerate(("free", "coupled")):
+    tilts = ("free", "coupled", "free, X4", "coupled, X4")
+    for j, v in enumerate(tilts):
         pi1, q1, pi2 = res[v][2], res[v][3], res[v][4]
         i1 = (pi1 < 0.5).long()
         good = (A[torch.arange(len(cls)), i1, 0] < A[torch.arange(len(cls)), i1, 1]).long()
         tilt = torch.where(good == 0, q1, 1 - q1) - torch.where(good == 0, pi2, 1 - pi2)
         means = [float(tilt[cls == k].mean()) for k in range(4)]
-        axes[1].bar(np.arange(4) + 0.38 * j, means, width=0.38, label=v, color=["#3182bd", "#9ecae1"][j])
+        axes[1].bar(np.arange(4) + 0.2 * j, means, width=0.2, label=v,
+                    color=["#3182bd", "#9ecae1", "#e6550d", "#fdae6b"][j])
     axes[1].axhline(0, color="#777", lw=0.8)
-    axes[1].set_xticks(np.arange(4) + 0.19, ["cyclic", "unique\nefficient", "PD-like", "two eq."], fontsize=8)
+    axes[1].set_xticks(np.arange(4) + 0.3, ["cyclic", "unique\nefficient", "PD-like", "two eq."], fontsize=8)
     axes[1].set_ylabel("belief tilt toward the good outcome (q − p)")
     axes[1].set_title("Motivated beliefs about the other player", fontsize=10)
     axes[1].legend(fontsize=8, frameon=False)

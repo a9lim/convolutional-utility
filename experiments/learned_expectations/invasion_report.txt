@@ -1,0 +1,19 @@
+Population 8, lifetime 1200 steps, 8 seeds; the focal learner (member 0) carries the ratio at e^-eps, 1, e^eps (eps = log 2), residents at 1. Lifetime payoff x1000, mean (s.e. over seeds): the focal's
+slope per unit log ratio and curvature, and the residents' mean slope (spillover). Canonical focal payoff and its s.d. over seeds set the scale.
+[felt critic, rosy (a 0.3, n 0.3)] canonical focal 138.9 (s.d. 1.8)
+    lam        slope   +5.88 ( 1.51)  curvature   -6.31 ( 3.11)  residents' slope  +0.35 (0.20)  focal higher at e^eps in 8/8, equal in 0
+    dread      slope  +20.52 ( 2.70)  curvature  -41.09 ( 7.67)  residents' slope  +1.10 (0.16)  focal higher at e^eps in 8/8, equal in 0
+    rumination slope   +0.00 ( 0.00)  curvature   +0.00 ( 0.00)  residents' slope  +0.00 (0.00)  focal higher at e^eps in 0/8, equal in 8
+[felt critic, braced (a 0.02, n 0.3)] canonical focal 167.9 (s.d. 3.9)
+    lam        slope   -2.36 ( 3.27)  curvature  -33.56 ( 8.02)  residents' slope  +0.33 (0.22)  focal higher at e^eps in 2/8, equal in 0
+    dread      slope   +1.21 ( 0.29)  curvature   -4.43 ( 4.94)  residents' slope  +0.07 (0.09)  focal higher at e^eps in 8/8, equal in 0
+    rumination slope   +0.00 ( 0.00)  curvature   +0.00 ( 0.00)  residents' slope  +0.00 (0.00)  focal higher at e^eps in 0/8, equal in 8
+[felt agents, rosy (a 0.3, n 0.3)] canonical focal 142.3 (s.d. 2.6)
+    lam        slope   +6.39 ( 1.43)  curvature   -8.46 ( 3.58)  residents' slope  -0.10 (0.38)  focal higher at e^eps in 8/8, equal in 0
+    dread      slope  +12.99 ( 5.16)  curvature  -19.93 (14.70)  residents' slope  +0.82 (0.20)  focal higher at e^eps in 6/8, equal in 0
+    rumination slope   -0.40 ( 0.37)  curvature   +0.87 ( 0.89)  residents' slope  +0.09 (0.20)  focal higher at e^eps in 4/8, equal in 0
+[felt agents, braced (a 0.02, n 0.3)] canonical focal 170.7 (s.d. 9.4)
+    lam        slope   -7.25 ( 2.91)  curvature  -18.12 (10.09)  residents' slope  +1.25 (0.25)  focal higher at e^eps in 0/8, equal in 0
+    dread      slope   +3.08 ( 2.17)  curvature   +2.76 ( 4.07)  residents' slope  -0.25 (0.19)  focal higher at e^eps in 7/8, equal in 0
+    rumination slope   +1.36 ( 1.45)  curvature   +1.70 ( 2.68)  residents' slope  +0.15 (0.14)  focal higher at e^eps in 3/8, equal in 0
+done in 4636s

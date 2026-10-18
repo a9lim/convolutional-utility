@@ -16,7 +16,8 @@ and the history.
 - Critic (the iterated layout: one head reads the policy's state): "honest", TD toward my payoffs with its level
   outside the network; or motivated, also ascending felt utility (felt.rounds_direct) on the shared state,
   "rosy" (a = 0.3) or "braced" (a = 0.02), the policy ascending payoffs: does a rosy critic make a sucker
-  (formalism/learning.md D8)?
+  (formalism/learning.md D8)? Both under loss-averse news (felt.X4), as reported; at lam = 1 a motivated critic is
+  a fixed offset, and a = 0.02 braces by a third as much (a nu against n lam (1 - nu)).
 """
 import copy
 import math
@@ -24,7 +25,7 @@ import math
 import torch
 
 from agents import Agent, balanced_probe
-from felt import ROUNDS, rounds_direct
+from felt import ROUNDS, X4, rounds_direct
 from rounds import (PARTNERS, Iterated, alternate, generous_tit_for_tat, grim, iterated_layout, reactive, rollout,
                     suspicious_tit_for_tat, tit_for_two_tats, win_stay_lose_shift)
 
@@ -32,7 +33,8 @@ torch.set_default_dtype(torch.float64)
 
 CAPS = {"fixed": 10, "geometric": 30, "uniform": 15}
 CONTINUE = 0.9
-FELT = {"honest": dict(ROUNDS, nu=0.9), "rosy": dict(ROUNDS, a=0.3, nu=0.9), "braced": dict(ROUNDS, a=0.02, nu=0.9)}
+FELT = {"honest": dict(ROUNDS, nu=0.9), "rosy": dict(ROUNDS, a=0.3, nu=0.9, **X4),
+        "braced": dict(ROUNDS, a=0.02, nu=0.9, **X4)}
 WEIGHTS = dict(copy=0.25, past=0.25, scripts=0.5)
 POOL = dict(PARTNERS, **{"grim": grim, "win-stay lose-shift": win_stay_lose_shift,
                          "suspicious tit for tat": suspicious_tit_for_tat, "generous tit for tat": generous_tit_for_tat})

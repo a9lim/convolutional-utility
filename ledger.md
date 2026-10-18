@@ -35,7 +35,9 @@ at `22c5c4f`).
   Kőszegi & Rabin's preferred credible plan, credited.
 - **Anthropics**: measure-weighted anticipation, assumed (the conserved-measure horn);
   aggregation is a separate axiom. Sleeping Beauty cut.
-- **Learners** (a9): the observer's beliefs are tethered by a KL cost of self-deception.
+- **Learners** (a9): the observer's beliefs are tethered by a KL cost of self-deception. The
+  calibrations follow the symmetric core (`λ = 1`); loss-averse news is the override `felt.X4`,
+  and runners whose reports rest on it pin it explicitly (2026-10-17).
 - **Horizons** (a9): a waking day, a life, an LLM context window and session (a9's wife
   studies the peak-end effect in LLMs).
 - **Parked by a9**: the Bates world, as its own project; additive against displacement echo (only additive and Z survive);
@@ -57,6 +59,9 @@ at `22c5c4f`).
   at task scales", conservation taming copy-counted anthropics.
 - Fresh-eyes rounds (three so far) found overreaching headlines and no sinking hole; the
   linear backbone stands.
+- A felt-against-payoff comparison needs matched temperature: a fixed entropy bonus against a
+  rescaled reward moved equilibrium selection by 2.6 of the 4 points once credited to felt
+  utility. Linear felt utility is payoffs at scale, so the matched payoff agent is the control.
 - Learners: Adam stalls on saturated sigmoids (fixed by preconditioning each self's
   gradient by reach and slope); population-based training confounds selection with
   inherited weights, so evolution is generational (born untrained).
@@ -134,3 +139,15 @@ requests: `next-steps.md`, the post's citations and the companion's prior art.
   life's), and dropped conditions from the bracing (symmetric errors), threshold
   (`1/λ < κ < 1`), shape (the linear stationary class), risk (confounded, not decided) and
   carryover (intervals include zero from hours on) claims. All fixed; checks pass (45).
+- **2026-10-17 (evening).** The learner arm moved to the symmetric core, at a9's request.
+  Canonically one event's felt welfare is `α·m(q) + β·m(p)` (Codex verified the closed form),
+  so the felt game, twin and empathy agents reduce to payoff ones and the trust game's
+  expectation-dependent guilt is X4's; the same `α` decides whether optimism pays and whether
+  `J = 1` cares more (Codex: a corollary of linearity; the empathy reduction holds toward a
+  fixed partner policy or at `J = 1`, a counterexample now in the checks). `BeliefPath`
+  crashed at `λ = 1` (its branch test read slopes, equal there), so the observer had never
+  run canonically. The matched-temperature control moved most of felt utility's lean to risk
+  dominance onto the entropy bonus (lesson above). Evolution got sign ratios centred on 1;
+  Codex's design review added paired invasions, which show selection on dread and `λ`
+  following the critic's level. Runners whose reports rest on `λ > 1` pin it; reruns that
+  kept their configuration reproduced their reports exactly.

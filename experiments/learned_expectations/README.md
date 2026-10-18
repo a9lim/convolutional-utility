@@ -11,6 +11,16 @@ revisions share a sign. Expected return under the true environment is then the o
 expectation of the felt life-sum: Brunnermeier & Parker's well-being, learned. Open items:
 `next-steps.md`, the follow-up lines.
 
+The calibrations are canonical, linear in every channel (`λ = 1`); loss-averse news (core X4) is
+an override at its choice-revealed strength, `λ = 2`, and every result under it says so. In the
+canonical model one event's felt welfare is bilinear, `W(q, p) = α·m(q) + β·m(p)`, with `m` the
+expected outcome under the belief `q` or the actual probability `p`; `β` weighs what happens, `α` a
+forecast held from the announcement (at the game calibration `α = 0.71`, `β = 1.84`). So a
+calibrated felt game agent is a payoff agent at scale `α + β`, and felt empathy toward a partner
+whose policy it takes as given is altruism at weight `w(β + Jα)/(α + β)`: what felt utility adds to
+one-shot games, canonically, is belief choice and `J`. [checked: `python felt.py`,
+`python partners.py`; Codex verified `α`, `β` in closed form]
+
 ## Role in the project
 
 Most of this directory is a follow-up line, not evidence for the post (`outline.md`). The
@@ -56,11 +66,13 @@ trainer on top of them, with a runner per experiment.
 
 - `felt.py`, the felt engine: kernels and resolvents; `news_root`, the exact felt news of a
   revision; `Event`, one event with a held belief in closed form, batched (the game, partners,
-  dependence and trust agents); `BeliefPath`, the event under any belief path (the observer);
-  `rounds_direct` and `rounds_canonical`, felt utility per round from a critic (the rounds agents);
-  `kl`; the calibrations `LIFE`, `EVENT` and `ROUNDS`. `python felt.py` checks `Event` against
-  `BeliefPath` (1e-15), `news_root` against a damped iteration, and `rounds_canonical` against its
-  fixed point.
+  dependence and trust agents), and `Event.weights`, its `α, β` at `λ = 1`; `BeliefPath`, the event
+  under any belief path (the observer); `rounds_direct` (with optional sign asymmetries: dread,
+  rumination) and `rounds_canonical`, felt utility per round from a critic (the rounds agents);
+  `kl`; the calibrations `LIFE`, `EVENT` and `ROUNDS`, and the override `X4`. `python felt.py`
+  checks `Event` against `BeliefPath` (1e-15, canonical and X4), `Event`'s bilinear form (7e-16),
+  `news_root` against a damped iteration, `rounds_canonical` against its fixed point, and
+  `rounds_direct`'s signed echoes against a loop.
 - `games.py`: random bimatrix games and their analysis (equilibria, classes, risk dominance); the
   one-shot agents' symmetric families (prisoner's dilemmas with `2R > T + S` and stag hunts with hare
   risk-dominant, by rejection); the iterated agent's four families, assigned by rank alone, in each
@@ -85,7 +97,8 @@ Changing a belief revises forecasts, so it is felt as news. Realization is news 
 last belief. Forecasts are rational given the current belief and naive about the self's own
 later revisions: at each `t` it expects to keep `q_t` until `s`. The objective is the
 objective expected life-sum minus a cost of self-deception, `Σ_t KL(q_t ‖ p) / τ`; without
-it, beliefs at the felt calibrations run to N3's corners.
+it, beliefs at the felt calibrations run to N3's corners. The reported paths are under loss-averse
+news at `λ = 1.5` (`observer.FEEL`).
 
 - `felt.BeliefPath`: the model in closed form (core N3, canonical), differentiable in the belief
   path. Checked against an independent Bayesian tree solver at `q = p` (welfare to 1e-10) and
@@ -98,10 +111,10 @@ it, beliefs at the felt calibrations run to N3's corners.
   felt welfare across random events and compared with the reference optimum on held-out events
   (writes its weights to `observer_net.pt`, not versioned).
 
-The objective has a kink wherever two consecutive beliefs agree (a zero revision, priced at
-`λ` on one side), so optimal beliefs are sticky and smooth optimizers stall on them; the
-reference optimizer uses Adam with a decaying rate from several starts, including the best
-step-shaped path.
+Under loss-averse news the objective has a kink wherever two consecutive beliefs agree (a zero
+revision, priced at `λ` on one side), so optimal beliefs are sticky and smooth optimizers stall on
+them; the reference optimizer uses Adam with a decaying rate from several starts, including the
+best step-shaped path. Linear news has no kink.
 
 ### The scheduling agent (`decision.md`, D3)
 
@@ -125,9 +138,9 @@ differences (1e-9) and the reduced form on deterministic plans (7e-12).
 
 ## Single-self results
 
-- **Observer** (chosen beliefs under a tether, not D7's affect filtration). Optimal beliefs
-  at the life calibration stay calibrated far from the event, brace as it nears, and freeze
-  over the last few periods; optimism never pays there. A
+- **Observer** (chosen beliefs under a tether, not D7's affect filtration; loss-averse news,
+  `λ = 1.5`). Optimal beliefs at the life calibration stay calibrated far from the event, brace
+  as it nears, and freeze over the last few periods; optimism never pays there. A
   network trained on felt welfare captures a median 71% of the reference optimizer's gain on
   ten held-out events (one training run; the reference has no optimality certificate).
 - **Scheduling: a gradient dial reproduces the fixed-past and commitment benchmarks.** Over
@@ -166,7 +179,10 @@ batched (`felt.Event`, checked against `felt.BeliefPath` to 1e-15).
   felt with free beliefs (tethered belief choice); felt with action coupled to belief (a soft
   best response to one's own belief).
 - `run_games.py`: equilibrium play by game class, equilibrium selection, motivated beliefs, and
-  linear probes for game class on the hidden layer; writes `games_report.txt` and `games.png`.
+  linear probes for game class on the hidden layer, canonical and under X4; equilibrium selection
+  over seeds as a four-way control (payoffs; payoffs at scale `α + β`, the calibrated felt agent's
+  temperature against the entropy bonus; calibrated felt, canonical; and X4); writes
+  `games_report.txt` and `games.png`.
 - `run_twin.py`: the `J` dial in symmetric games, where the other player is a copy of one's own
   policy. `w = 0` (the other's policy held fixed) against `w = 1` (gradient through the twin),
   and the graded dial on prisoner's dilemmas against its analytic thresholds.
@@ -181,7 +197,8 @@ learns by REINFORCE against the batch mean, so the critic reaches it only throug
 they share.
 
 - Variants: payoffs only; felt with an honest (TD-only) critic; felt with a motivated critic,
-  which also ascends felt utility, tethered by its TD loss. Critic controls: a fixed per-round
+  which also ascends felt utility, tethered by its TD loss. Felt variants as reported are under
+  loss-averse news (`λ = 2`) unless marked `λ = 1`. Critic controls: a fixed per-round
   offset in the TD loss, expectile TD, a canonical critic that forecasts felt utility itself,
   rewards shifted for the learners only, a critic detached from the shared state, and the
   critic as the policy's baseline.
@@ -190,8 +207,10 @@ they share.
   level does, eighteen critics over seeds; `braced_report.txt`, `braced.png`); `run_alignment.py` (value
   and staying share a direction in the state; `alignment_report.txt`); `run_channels.py` (the
   critic's level through the state, through the policy's baseline, or both;
-  `channels_report.txt`); `run_evolve.py` (heritable felt parameters under selection on
-  lifetime payoff; `evolve_report.txt`, `evolve.png`).
+  `channels_report.txt`); `run_evolve.py` (heritable felt strengths and sign ratios under
+  selection on lifetime payoff; `evolve_report.txt`, `evolve.png`, `evolve_runs.json`);
+  `run_invasion.py` (local selection on each sign ratio at the canonical model, by paired
+  invasions; `invasion_report.txt`, `invasion_runs.json`).
 
 ### The iterated-games agent
 
@@ -237,8 +256,8 @@ the gradient through a copy's policy (the twin); `w_E`, the weight on the partne
 felt welfare (empathy); `J`, the gradient through the partner's forecast of my policy.
 
 - `partners.py` (model, trainer, local-stability slopes; `python partners.py` checks that no gradient
-  leaks between networks, that a copy at `w_T = 0` trains like a mirror, and the
-  twin–empathizer identity); `run_partners.py` (the variants against the analytic stability classes;
+  leaks between networks, that a copy at `w_T = 0` trains like a mirror, the
+  twin–empathizer identity, and the canonical reduction to payoffs, with its counterexample); `run_partners.py` (the variants against the analytic stability classes;
   `partners_report.txt`, `partners.png`); `run_trust.py` (a trust game with felt empathy and the
   interpersonal `J`, analytic; `trust_report.txt`).
 - Inferred dependence: a twin told only a noisy similarity signal adds its dependence gradient, evaluated
@@ -253,14 +272,23 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
 
 ### Decision theory by learning
 
-- **Games.** One network plays random 2×2 games at 87–96% equilibrium play (prisoner's-dilemma-like
-  games lowest), and a linear probe recovers game class from its hidden layer at 81–89% against
+- **Games.** One network plays random 2×2 games at 87–99% equilibrium play (prisoner's-dilemma-like
+  games lowest), and a linear probe recovers game class from its hidden layer at 80–89% against
   71% from raw payoffs (highest with free beliefs): it tells games apart, felt or not (the
-  payoff-only agent: 82.5%; one run). Felt utility shifts equilibrium selection toward risk dominance: 97.4% against
-  93.4% over five seeds, higher in every seed. Motivated beliefs appear almost only in cyclic
-  games, where outcomes are uncertain, as optimism about the other's move, strongly only when
-  action is coupled to belief (`q − p` +0.27 against +0.02 free; single training run;
-  `games_report.txt`, `games.png`).
+  payoff-only agent: 82.5%; one run).
+- **Felt utility's lean toward risk dominance is mostly the learner's temperature.** Calibrated felt
+  utility picks the risk-dominant equilibrium more often than payoffs do (0.960 against 0.934 over
+  five seeds, higher in every seed), but canonically it is the payoff agent at scale `α + β`, and a
+  payoff agent at that scale picks identically in every seed: the fixed entropy bonus weighs less
+  against a larger reward, and the colder learner selects risk dominance more. Loss-averse news adds
+  a little (X4: 0.974, above the matched agent in 4 of 5 seeds, by 0.014 on average).
+- **Motivated beliefs: optimism wherever the other's move is uncertain.** Canonically a held
+  forecast is worth `α > 0` more than its letdown costs, so optimism pays, bounded only by the
+  tether: `q − p` +0.08 in cyclic games with free beliefs, +0.32 with action coupled to belief, at
+  most +0.08 elsewhere (`τ = 3`); at a looser tether (`τ = 30`) it spreads to prisoner's-dilemma-like
+  games (+0.38 free, against +0.37 in cyclic games). Loss-averse news restrains it, since the
+  letdown is felt at `λ` (X4: +0.02 free and +0.26 coupled in cyclic games at `τ = 3`; +0.08 free at
+  `τ = 30`). Single training runs (`games_report.txt`, `games.png`).
 - **The twin dial.** In symmetric games, `w = 0` defects in prisoner's dilemmas and hunts hare;
   `w = 1` cooperates and hunts stag. Graded `w` matches the analytic thresholds game by game:
   all-cooperate is stable iff `w ≥ (T−R)/(R−S)`, all-defect iff `w ≤ (P−S)/(T−P)` (known in
@@ -276,13 +304,19 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   0.01–0.07 where only the second (2 populations × 4 networks per variant; `partners_report.txt`).
   Oesterheld et al. (2023) needed pretraining to get this split from naive learners; the twin's gate
   on true identity supplies it.
-- **Felt empathy.** With felt utility, a twin is an empathizer whose partner's forecast tracks its
-  policy (`J = 1`), exactly at symmetric profiles; the felt twin and that empathizer play alike with
-  copies (0.50, 0.50) and differ with strangers (0.00 against 0.46). Felt news makes pure profiles
-  sticky between copies. In the trust game, the temptation an empathizer resists is about its empathy
-  weight at `J = 1` in every calibration; at `J = 0` it depends on what the partner expects (guilt makes
-  trust self-fulfilling), and exceeds `J = 1`'s under the game agent's strong loss-averse news (1.45
-  against 1.14 per unit of empathy), not at the felt calibration (0.75 against 1.02).
+- **Felt empathy is altruism, canonically.** With felt utility, a twin is an empathizer whose
+  partner's forecast tracks its policy (`J = 1`), exactly at symmetric profiles. Canonically both
+  reduce to payoffs, as `α, β` predict: the felt twin plays as the payoff twin (prisoner's
+  dilemmas with copies 0.51 against 0.52, identical stability classes), the `J = 1` empathizer as
+  the altruist at its weight (0.52 against 0.51 with strangers, identical classes), the `J = 0`
+  empathizer as an altruist at 0.72 of it (0.34). Under loss-averse news (X4) pure profiles turn
+  sticky between copies (both locally stable in 76% of prisoner's dilemmas, against 46%), and the
+  felt twin and the `J = 1` empathizer split with strangers (0.00 against 0.46). In the trust game,
+  canonically `J = 0` resists `β/(α + β)` of its empathy weight whatever the partner expects and
+  `J = 1` all of it, so `J = 1` is the more trustworthy iff `α > 0` (0.72 against 1.00 at the game
+  calibration; reversed with weak anticipation). Guilt that depends on what the partner expects,
+  and trust made self-fulfilling by it, needs X4 (`λ = 2`: 1.45 per unit of empathy when the
+  partner expects honor, 0.72 when she expects a grab; `trust_report.txt`).
 - **Inferred dependence is as good as knowing it, when calibrated.** Told only a noisy similarity signal,
   Bayesian and learned twins match the identity oracle in cooperation at every signal and in payoff (within
   0.0005, 4 seeds), as their equal expected gradients predict; the learned head recovers the posterior.
@@ -341,7 +375,7 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
     the end game, altruists cooperate with everyone, always-defect included. On the geometric
     horizon all nine pairings cooperate fully.
   - A rosy critic makes a defector, not a sucker. With the motivated critic at `a = 0.3` on the
-    shared state, prisoner's dilemma cooperation stays at 0.10–0.19 against every partner, copies
+    shared state (under X4, `λ = 2`; at `λ = 1` a motivated critic is a fixed offset), prisoner's dilemma cooperation stays at 0.10–0.19 against every partner, copies
     and tit for tat included (self-play payoff 0.27 against 0.40): stuck in the early defection
     basin, as the hidden-game agent stays complacent (D8). Its state tells partners apart better
     (0.55 after five rounds): defection draws distinct replies. A braced critic (`a = 0.02`) ends
@@ -395,24 +429,36 @@ felt welfare (empathy); `J`, the gradient through the partner's forecast of my p
   restores 4/4 (`repeated_report.txt`, 4 seeds each). Escaped agents' states tell game classes
   apart better (linear probe 41–45% balanced accuracy by round 10, chance 25%; complacent 34%).
 - **Which ways of feeling survive?** Populations of learners born untrained, with heritable
-  `(a, n, λ)`, selected on lifetime payoff over ten generations (weights not inherited; 3 runs
-  per variant, 240 learners each). Whether affect shapes only the critic or also the policy's
-  reward, selection runs against anticipation and for felt news, with no detectable selection
-  on loss aversion: lifetime payoff (×1000) per s.d. of log `a` −4.4 and −5.4, of log `n` +4.0
-  and +3.4, of log `(λ − 1)` +0.1 and −0.2 (pooled s.e. 0.8 each, which treat learners as
-  independent despite shared games and ancestry; run-level uncertainty is larger, with 3 runs
-  per variant); a neutral control shows none (all within one s.e.). Only anticipation moves
-  the population: final `a` 0.025 and 0.038 against the neutral control's 0.134. Final `n`
-  (0.10, 0.17) sits near the founders' median 0.1, inside the neutral control's drift (IQR
-  0.017–0.25), so selection for news shows within generations, not above drift. Populations
-  recover the 10% of lifetime payoff their founders' affect cost. Critics trained at the
-  final medians sit slightly below payoffs (−0.03 to −0.13; a 3-seed, 1000-step check in the
-  2026-10-15 review) against +0.79 at the founders' median: selection removes the rosy push
-  and leaves critics roughly honest, which escape complacency as braced ones do (7/8 against
-  8/8, D8). Loss aversion adds bracing before outcomes and consolation after them, which
-  may be why it is not selected. Fitness is payoff over a short lifetime, mostly escape
-  speed, and the report ran with 1200 steps, 10 generations and 3 runs, not the script's
-  defaults (`evolve_report.txt`).
+  strengths `a, n` and the three sign ratios the rounds engine carries, each 1 in the canonical
+  model: dread `a⁻/a⁺` (X1), rumination `m⁻/m⁺` (X2) and the news loss/gain ratio `λ` (X4),
+  founders log-uniform on [1/3, 3]. Selected on lifetime payoff over ten generations (8 learners,
+  weights not inherited; 6 runs per variant; `evolve_report.txt`, `evolve.png`, raw histories in
+  `evolve_runs.json`). Per-run selection gradients, lifetime payoff (×1000) per s.d. of each log
+  gene, with the felt critic and with felt agents: against anticipation (−4.9 and −6.9, s.e. 0.7
+  and 1.4), for news (+3.3 and +2.3, s.e. about 1), for dread (+2.5 (0.5) and +2.2 (1.3)); `λ`
+  +1.7 (0.6) with the felt critic only; rumination, which has no gradient path in the felt critic,
+  nothing there (−0.2 (1.0)) and +1.5 (0.7) with felt agents. The neutral control shows none (all
+  within 1.1 s.e.). Above drift only dread and rumination move the population: final dread 2.9
+  [1.9, 3.7] and 2.3 against the neutral control's 0.8, rumination 1.9 with felt agents against
+  1.0; final `λ` (1.10, 1.14) and `a` (about 0.03 in all three) sit inside the neutral control's
+  drift. Populations recover the 8–9% of lifetime payoff their founders' affect cost. Fitness is
+  payoff over a short lifetime, mostly escape speed. Coevolution in small populations measures
+  associations, not local selection: founders range widely and genes are linked (Codex).
+- **Selection at the canonical model follows the critic's level** (paired invasions;
+  `run_invasion.py`, `invasion_report.txt`, raw fits in `invasion_runs.json`). One focal learner
+  among canonical residents carries one ratio at 1/2, 1 or 2, everything else held (initial
+  weights, games, pairings, sampling draws; rumination with the felt critic gives exactly zero, as
+  it must). Over a rosy critic (`a 0.3, n 0.3`) dread and loss-averse news are both selected in
+  every seed: slope per unit log ratio +20.5 (2.7) and +5.9 (1.5) with the felt critic, +13.0
+  (5.2) and +6.4 (1.4) with felt agents, dread concave (a quadratic through the three points
+  peaks near a ratio of 1.6). Over a braced critic (`a 0.02`) `λ` is under stabilizing selection
+  at 1 with the felt critic (slope −2.4 (3.3), curvature −34 (8)) and selected below 1 with felt
+  agents (−7.3 (2.9); no seed favours 2), and dread barely matters (+1.2 (0.3)). Canonical focal
+  payoff 139–171, s.d. over seeds 2–9. A reading, untested on the critics' levels: each asymmetry
+  is selected as a correction to the critic's level (D8). Dread weakens anticipation's upward
+  push on positive forecasts and loss-averse news strengthens news's downward push after
+  letdowns, so both help a rosy critic escape complacency. Rumination's rise under coevolution is
+  not seen locally (−0.4 (0.4) rosy, +1.4 (1.5) braced).
 - **Consolation.** At `λ = 2` the motivated critic braces before outcomes and consoles itself
   after bad ones: just after a negative TD error it sits 0.18 below realized payoffs, after a
   positive one 0.51 below. At `λ = 1` the gap vanishes (0.33 against 0.29), as the critic's

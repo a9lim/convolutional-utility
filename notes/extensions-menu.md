@@ -179,13 +179,22 @@ Strack 2017 (expectation-based loss aversion in strategic interaction); Duraj & 
 information design with news utility); Todorov, ten Napel & Müller 2026 (parametric
 open-source games, coupling thresholds for cooperation, close to the twin dial).
 
+In the canonical model the question has a sharp answer for one event: its felt welfare is
+`α·m(q) + β·m(p)` (`experiments/learned_expectations/README.md`), so a calibrated felt agent
+plays payoffs at scale and felt empathy is altruism at a weight set by `J`. What needs temporal
+feeling, canonically, is belief choice (`α`), `J`, and play spanning more than one event. F1,
+F2, F4, F5, F8 and F11 rest on loss-averse news (X4).
+
 - ★ **F1. Why felt utility favours risk dominance.** *synthesis*
   - Realization news on a binary payoff costs `(λ−1) p(1−p) |x₁ − x₀|`, so
     `V_C − V_D = p(R−T) + (1−p)(S−P) − n(λ−1) p(1−p)(|R−S| − |T−P|)`: news penalizes the
     action with the larger payoff spread. That is usually the payoff-dominant one, but not
     always (`R = 4, S = 0, T = 2, P = 1`: stag is risk-dominant and also wider).
-  - First: on the trained networks, split held-out games where spread and risk dominance
-    disagree. Cheap, and it turns the 97.4% against 93.4% into a mechanism.
+  - The control (`run_games.py`) shrank the target: of 97.4% against 93.4%, a payoff agent at
+    the felt agent's scale (the same temperature against the entropy bonus) already gives
+    96.0%, as does canonical felt utility, identically. Loss-averse news adds about 1.4
+    points (4 of 5 seeds). Splitting held-out games where spread and risk dominance disagree
+    now tests the residual, with more seeds first.
 - ★ **F2. Expectations as commitment in iterated games.** *synthesis*
   - Add felt news to the iterated agent (it has none). D3 predicts plans become sticky:
     stickier cooperation, but also stickier hostility. A two-date toy gives the threshold:
@@ -201,9 +210,10 @@ open-source games, coupling thresholds for cooperation, close to the twin dial).
     expectation-based commitment F2 relies on. The LessWrong angle on D7, with C1's
     leakage constraint built in.
 - ★ **F4. Observable dispositions and evolution.** *synthesis*
-  - Partners see my `(a, n, λ)` (true, noisy, or not). Prediction: loss aversion, neutral
-    when hidden, is selected when observed (a credible holdout), and selection against
-    anticipation may reverse. First: an invasion-payoff matrix over a grid, then a run.
+  - Partners see my `(a, n, λ)` (true, noisy, or not). Prediction: loss aversion is selected
+    when observed (a credible holdout), and selection against anticipation may reverse.
+    Hidden, `λ`'s selection already follows the critic's level (for it over a rosy critic,
+    held at 1 or against it over a braced one; `run_invasion.py`), so the test is the shift. First: an invasion-payoff matrix over a grid, then a run.
   - Extension: concealment and mimicry. Does the felt cost of actually feeling make the
     signal honest? Test the incentive constraints; do not assume them.
   - Prior art: Frank 1988; the indirect evolutionary approach; Dekel, Ely & Yilankaya 2007.

@@ -9,18 +9,20 @@
 - `rounds_direct`, `rounds_canonical`: felt utility per round from realized payoffs and a critic's forecasts, the
   reinforcement-learning reading (the rounds agents).
 - `kl`, the cost of self-deception; calibrations `LIFE` (weekly), `EVENT` (one game as an event) and `ROUNDS`
-  (rounds of play).
-`python felt.py` checks Event against BeliefPath, news_root against a damped iteration, and rounds_canonical
-against its defining fixed point.
+  (rounds of play), all canonical (linear news, lam = 1); `X4`, loss-averse news at its choice-revealed strength,
+  as an override (`dict(EVENT, **X4)`).
+`python felt.py` checks Event against BeliefPath (canonical and X4), Event's bilinear form at lam = 1, news_root
+against a damped iteration, rounds_canonical against its defining fixed point, and rounds_direct's signed echoes.
 """
 import numpy as np
 import torch
 
 torch.set_default_dtype(torch.float64)
 
-LIFE = dict(a=0.0643, al=0.7, m=0.3967, mu=0.3, n=0.2, nu=0.7, lam=1.5)              # formalism/calibration.md, weekly
-EVENT = dict(T=16, s=8, a=0.15, al=0.8, m=0.1, mu=0.6, n=0.3, nu=0.7, lam=2.0)       # one game as an event
-ROUNDS = dict(a=0.3, m=0.2, mu=0.6, n=0.3, nu=0.8, lam=2.0)                          # per round; nu is the critic's discount
+LIFE = dict(a=0.0643, al=0.7, m=0.3967, mu=0.3, n=0.2, nu=0.7, lam=1.0)              # formalism/calibration.md, weekly
+EVENT = dict(T=16, s=8, a=0.15, al=0.8, m=0.1, mu=0.6, n=0.3, nu=0.7, lam=1.0)       # one game as an event
+ROUNDS = dict(a=0.3, m=0.2, mu=0.6, n=0.3, nu=0.8, lam=1.0)                          # per round; nu is the critic's discount
+X4 = dict(lam=2.0)              # loss-averse news (core X4) at the choice-revealed strength; felt news is 1.0-1.2
 
 
 def kernel_parts(T, a, al, m, mu, n, nu):
@@ -125,6 +127,15 @@ class Event:
         post_B = base.sum(1) + (zB + self.psi(zB - Ez - Nb)) * g1
         return e_pre.sum(1) + p * post_A + (1 - p) * post_B
 
+    def weights(self):
+        """At lam = 1 welfare is bilinear, alpha m(q) + beta m(p) with m(x) = x z_A + (1 - x) z_B: beta weighs what
+        happens (the outcome, its memory and the news it brings), alpha the forecast held from the announcement
+        (its anticipation and jolt, less the letdown it sets up). Kinked news has no such form."""
+        if self.lam != 1.0:
+            raise ValueError("bilinear only at lam = 1")
+        one, zero = torch.ones(1), torch.zeros(1)
+        return float(self.welfare(one, zero, one, zero)[0]), float(self.welfare(zero, one, one, zero)[0])
+
 
 class BeliefPath:
     """The observer's event under a belief path: at each t < s the self holds q_t, forecasts its felt life
@@ -156,10 +167,11 @@ class BeliefPath:
         Piecewise linear in Nbar: solve each branch pair in closed form and keep the consistent one."""
         Ez = q * zh + (1 - q) * zl
         ah, al_ = zh - Ez, zl - Ez
-        for ch in (1.0, self.lt):
-            for cl in (1.0, self.lt):
+        for gh in (True, False):                              # which outcomes are gains against the forecast
+            for gl in (True, False):
+                ch, cl = (1.0 if gh else self.lt), (1.0 if gl else self.lt)
                 N = self.kt * (q * ch * ah + (1 - q) * cl * al_) / (1 + self.kt * (q * ch + (1 - q) * cl))
-                if ((ah - N >= 0) == (ch == 1.0)) and ((al_ - N >= 0) == (cl == 1.0)):
+                if ((ah - N >= 0) == gh) and ((al_ - N >= 0) == gl):
                     return N
         raise RuntimeError("no consistent branch")
 
@@ -197,19 +209,31 @@ class BeliefPath:
         return W, e_pre, post[0], post[1]
 
 
+def signed(x, k, ratio=1.0):
+    """k x, kinked at zero with loss/gain strength ratio at geometric mean k: gains k / sqrt(ratio), losses
+    k sqrt(ratio) (core X1-X2)."""
+    if ratio == 1.0:
+        return k * x
+    return torch.where(x >= 0, k / ratio ** 0.5 * x, k * ratio ** 0.5 * x)
+
+
 def rounds_direct(r, C, feel=ROUNDS):
     """Felt utility per round from realized payoffs r (G, K) and critic forecasts C (direct echoes, news over base
     payoffs; a first pass, not the canonical model):
-      e_k = r_k + a nu C_{k+1} + sum_j m mu^j r_{k-j} + n phi_lam(delta_k),   delta_k = r_k + nu C_{k+1} - C_k,
-    anticipation as the critic's forecast of what is to come and news as its felt TD error."""
+      e_k = r_k + nu A(C_{k+1}) + sum_j mu^j M(r_{k-j}) + n phi_lam(delta_k),   delta_k = r_k + nu C_{k+1} - C_k,
+    anticipation as the critic's forecast of what is to come and news as its felt TD error. Canonically A(x) = a x
+    and M(x) = m x; the optional sign asymmetries kink them at payoff zero with loss/gain ratios `dread` (a-/a+,
+    X1) and `rumination` (m-/m+, X2) at geometric means a and m. The aggregate forecast is kinked, not each
+    round it forecasts, as the news is."""
     G, K = r.shape
     Cn = torch.cat([C[:, 1:], torch.zeros(G, 1)], 1)                 # C_{k+1}, zero after the last round
     delta = r + feel["nu"] * Cn - C
     news = torch.where(delta >= 0, delta, feel["lam"] * delta) * feel["n"]
+    M = signed(r, feel["m"], feel.get("rumination", 1.0))
     mem = torch.zeros_like(r)
     for k in range(1, K):
-        mem[:, k] = sum(feel["m"] * feel["mu"] ** j * r[:, k - j] for j in range(1, k + 1))
-    return r + feel["a"] * feel["nu"] * Cn + mem + news
+        mem[:, k] = sum(feel["mu"] ** j * M[:, k - j] for j in range(1, k + 1))
+    return r + feel["nu"] * signed(Cn, feel["a"], feel.get("dread", 1.0)) + mem + news
 
 
 def rounds_canonical(r, C, feel=ROUNDS):
@@ -229,14 +253,21 @@ def rounds_canonical(r, C, feel=ROUNDS):
 
 if __name__ == "__main__":
     gen = torch.Generator().manual_seed(0)
-    ev, gap = Event(**EVENT), 0.0
-    path = BeliefPath(**EVENT)
-    for _ in range(40):
-        q, p = torch.rand(2, generator=gen).unbind()
-        zA, zB = (torch.rand(2, generator=gen) * 2 - 1).unbind()
-        W = path.run(torch.full((EVENT["s"],), float(q)), float(zA), float(zB), float(p))[0]
-        gap = max(gap, abs(float(W - ev.welfare(q[None], p[None], zA[None], zB[None])[0])))
-    print(f"Event against BeliefPath at held beliefs, 40 events: {gap:.1e}")
+    for name, cal in (("canonical", EVENT), ("X4", dict(EVENT, **X4))):
+        ev, path, gap = Event(**cal), BeliefPath(**cal), 0.0
+        for _ in range(40):
+            q, p = torch.rand(2, generator=gen).unbind()
+            zA, zB = (torch.rand(2, generator=gen) * 2 - 1).unbind()
+            W = path.run(torch.full((cal["s"],), float(q)), float(zA), float(zB), float(p))[0]
+            gap = max(gap, abs(float(W - ev.welfare(q[None], p[None], zA[None], zB[None])[0])))
+        print(f"Event against BeliefPath at held beliefs, 40 events, {name}: {gap:.1e}")
+    ev = Event(**EVENT)
+    al, be = ev.weights()
+    q, p, zA, zB = torch.rand(4, 2000, generator=gen)
+    zA, zB = 2 * zA - 1, 2 * zB - 1
+    m = lambda x: x * zA + (1 - x) * zB  # noqa: E731
+    res = float((ev.welfare(q, p, zA, zB) - al * m(q) - be * m(p)).abs().max())
+    print(f"Event at lam = 1 as alpha m(q) + beta m(p), alpha {al:.4f}, beta {be:.4f}, 2000 events: {res:.1e}")
     kn, g = torch.tensor(0.08 * 0.7 ** np.arange(12)), torch.rand(12, generator=gen) + 0.5     # lam kappa < 1
     d = torch.randn(200, 12, generator=gen)
     s = news_root(d, g, kn, 2.0)
@@ -245,9 +276,21 @@ if __name__ == "__main__":
         x = 0.5 * x + 0.5 * (phi(d + x[:, None] * g, 2.0) @ kn)
     print(f"news_root against a damped iteration: {float((s - x).abs().max()):.1e}")
     r, C = torch.randn(50, 10, generator=gen), torch.randn(50, 10, generator=gen)
-    e = rounds_canonical(r, C)
     Cn = torch.cat([C[:, 1:], torch.zeros(50, 1)], 1)
-    mem = torch.stack([sum(ROUNDS["m"] * ROUNDS["mu"] ** j * e[:, k - j] for j in range(1, k + 1)) if k else torch.zeros(50)
-                       for k in range(10)], 1)
-    res = e - (r + ROUNDS["a"] * ROUNDS["nu"] * Cn + mem + ROUNDS["n"] * phi(e + ROUNDS["nu"] * Cn - C, ROUNDS["lam"]))
-    print(f"rounds_canonical against its fixed point: {float(res.abs().max()):.1e}")
+    for name, f in (("canonical", ROUNDS), ("X4", dict(ROUNDS, **X4))):
+        e = rounds_canonical(r, C, f)
+        mem = torch.stack([sum(f["m"] * f["mu"] ** j * e[:, k - j] for j in range(1, k + 1)) if k else torch.zeros(50)
+                           for k in range(10)], 1)
+        res = e - (r + f["a"] * f["nu"] * Cn + mem + f["n"] * phi(e + f["nu"] * Cn - C, f["lam"]))
+        print(f"rounds_canonical against its fixed point, {name}: {float(res.abs().max()):.1e}")
+    f = dict(ROUNDS, dread=3.0, rumination=0.5, **X4)
+    e, gap = rounds_direct(r, C, f), 0.0
+    for i in range(50):
+        for k in range(10):
+            c = float(Cn[i, k])
+            ant = f["a"] * f["nu"] * c * (3.0 ** 0.5 if c < 0 else 3.0 ** -0.5)
+            mem = sum(f["m"] * f["mu"] ** j * float(r[i, k - j]) * (0.5 ** 0.5 if r[i, k - j] < 0 else 0.5 ** -0.5)
+                      for j in range(1, k + 1))
+            dl = float(r[i, k]) + f["nu"] * c - float(C[i, k])
+            gap = max(gap, abs(float(e[i, k]) - (float(r[i, k]) + ant + mem + f["n"] * dl * (f["lam"] if dl < 0 else 1.0))))
+    print(f"rounds_direct with dread 3, rumination 0.5, X4 against a loop: {gap:.1e}")

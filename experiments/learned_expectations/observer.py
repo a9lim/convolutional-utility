@@ -8,6 +8,8 @@ objective expected life-sum, less a cost of self-deception sum_t KL(q_t || p) / 
   optimality).
 - The learned observer: one network maps an event's features to a tilt of the calibrated belief at each period,
   q_t = sigmoid(logit p + f(features)), trained on felt welfare across random events (`train`).
+The reported paths are under loss-averse news (core X4) at lam = 1.5 (`FEEL`); the canonical LIFE calibration has
+no kink at a zero revision.
 """
 import functools
 
@@ -18,6 +20,7 @@ from agents import Agent
 from felt import LIFE, BeliefPath, kl
 
 torch.set_default_dtype(torch.float64)
+FEEL = dict(LIFE, lam=1.5)                       # as reported: loss-averse news (X4) at lam = 1.5
 
 
 def objective(path, q, zh, zl, p, tau):
@@ -70,7 +73,7 @@ LAYOUT = dict(trunks={"main": ("mlp", 6, (64, 64))}, heads={"tilt": dict(trunk="
 
 @functools.cache
 def event_path(s):
-    return BeliefPath(s + 10, s, **LIFE)
+    return BeliefPath(s + 10, s, **FEEL)
 
 
 def sample_event(rng):

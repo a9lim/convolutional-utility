@@ -12,6 +12,9 @@ Variants:
                 beliefs move play (Brunnermeier & Parker's trade-off).
 Training is simultaneous gradient play: each player's objective takes the other's policy as given, or, with the
 dial w, lets the gradient through it (in a symmetric game, play against a copy: the twin).
+In the canonical model (lam = 1) felt welfare is alpha m(q) + beta m(p) (felt.Event.weights), so "calibrated" is
+"payoff" at scale alpha + beta, except that the entropy bonus weighs less against it; `scale` gives the payoff
+agent the same temperature. Under loss-averse news (felt.X4) it is not.
 """
 import torch
 
@@ -41,7 +44,7 @@ def felt_values(ev, q, p, mine):
     return torch.stack([ev.welfare(q, p, mine[:, i, 0], mine[:, i, 1]) for i in (0, 1)], 1)
 
 
-def objectives(agent, ev, A, Bm, variant, tau=3.0, beta=8.0, ent=0.02, w=0.0):
+def objectives(agent, ev, A, Bm, variant, tau=3.0, beta=8.0, ent=0.02, w=0.0, scale=1.0):
     """Each player's objective. The other's policy enters as p = tie(pi, w): at w = 0 it is held fixed (causal
     play, Nash); at w = 1 the gradient also flows through it, which in a symmetric game is play against a copy of
     one's own policy (the twin). In "coupled" a player's move is its soft best response to the felt value it
@@ -54,7 +57,7 @@ def objectives(agent, ev, A, Bm, variant, tau=3.0, beta=8.0, ent=0.02, w=0.0):
     out = []
     for pi, q, mine, p in ((pi1, q1, m1, tie(pi2, w)), (pi2, q2, m2, tie(pi1, w))):
         if variant == "payoff":
-            V = torch.stack([p * mine[:, i, 0] + (1 - p) * mine[:, i, 1] for i in (0, 1)], 1)
+            V = scale * torch.stack([p * mine[:, i, 0] + (1 - p) * mine[:, i, 1] for i in (0, 1)], 1)
         else:
             V = felt_values(ev, p if variant == "calibrated" else q, p, mine)
         obj = pi * V[:, 0] + (1 - pi) * V[:, 1]
@@ -65,16 +68,17 @@ def objectives(agent, ev, A, Bm, variant, tau=3.0, beta=8.0, ent=0.02, w=0.0):
     return out, (pi1, q1, pi2, q2)
 
 
-def train(variant, steps=3000, batch=512, seed=0, lr=1e-3, tau=3.0, w=0.0, symmetric=False, separate_belief=False):
+def train(variant, steps=3000, batch=512, seed=0, lr=1e-3, tau=3.0, w=0.0, symmetric=False, separate_belief=False,
+          feel=EVENT, scale=1.0):
     gen = torch.Generator().manual_seed(seed)
     torch.manual_seed(seed)
-    agent, ev = Agent(**layout(separate_belief=separate_belief)), Event(**EVENT)
+    agent, ev = Agent(**layout(separate_belief=separate_belief)), Event(**feel)
     opt = torch.optim.Adam(agent.parameters(), lr=lr)
     for it in range(steps):
         A, Bm = sample_games(batch, gen)
         if symmetric:
             Bm = A.transpose(1, 2)
-        (o1, o2), _ = objectives(agent, ev, A, Bm, variant, tau=tau, w=w)
+        (o1, o2), _ = objectives(agent, ev, A, Bm, variant, tau=tau, w=w, scale=scale)
         loss = -(o1 + o2).mean()
         opt.zero_grad()
         loss.backward()

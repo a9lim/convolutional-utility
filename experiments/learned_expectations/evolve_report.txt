@@ -1,8 +1,14 @@
-Population 8, lifetime 1200 steps, 10 generations, 3 runs per variant. Founders:
-a, n log-uniform on [0.02, 0.5], lam - 1 log-uniform on [0.05, 3]. Final: the last generation's
-members over all runs, median [IQR]. Selection gradient: lifetime payoff (x1000) on standardized log a,
-log n, log(lam - 1) within generation, pooled, with standard errors.
-[felt critic] final a 0.025 [0.016, 0.040]  n 0.102 [0.083, 0.141]  lam 1.322 [1.182, 1.689]; lifetime payoff 0.153 -> 0.170; selection gradient a -4.40 (0.80), n +3.96 (0.83), lam +0.13 (0.82)
-[felt agents] final a 0.038 [0.024, 0.045]  n 0.174 [0.143, 0.221]  lam 1.327 [1.217, 1.500]; lifetime payoff 0.155 -> 0.174; selection gradient a -5.38 (0.80), n +3.40 (0.82), lam -0.24 (0.81)
-[neutral] final a 0.134 [0.088, 0.224]  n 0.035 [0.017, 0.248]  lam 1.161 [1.088, 1.557]; lifetime payoff 0.169 -> 0.171; selection gradient a +0.99 (1.06), n -0.38 (0.97), lam -0.29 (1.02)
-done in 1279s
+Population 8, lifetime 1200 steps, 10 generations, 6 runs per variant. Founders: a, n log-uniform on [0.02, 0.5]; lam, dread (a-/a+) and rumination (m-/m+) log-uniform on [1/3, 3], centred on the
+canonical 1. Final: the last generation's members over all runs, median [IQR]. Selection gradient: lifetime
+payoff (x1000) per s.d. of each log gene within generation: the mean and s.e. of the per-run slopes (primary),
+then pooled (OLS s.e., learners treated as independent: optimistic). lam is the news loss/gain ratio.
+[felt critic] lifetime payoff 0.154 -> 0.169; final a 0.027 [0.022, 0.037]  n 0.162 [0.121, 0.205]  lam 1.103 [0.792, 1.256]  dread 2.934 [1.864, 3.680]  rumination 0.989 [0.594, 1.614]
+    selection gradient, per run, mean (s.e.): a -4.93 (0.67), n +3.34 (1.03), lam +1.68 (0.64), dread +2.46 (0.47), rumination -0.20 (1.03)
+    pooled:                                   a -4.84 (0.64), n +2.82 (0.66), lam +1.79 (0.65), dread +2.18 (0.63), rumination -0.27 (0.65)
+[felt agents] lifetime payoff 0.155 -> 0.175; final a 0.035 [0.025, 0.056]  n 0.197 [0.130, 0.298]  lam 1.141 [0.802, 1.553]  dread 2.339 [1.541, 3.431]  rumination 1.869 [1.488, 2.354]
+    selection gradient, per run, mean (s.e.): a -6.92 (1.36), n +2.32 (1.08), lam +1.24 (1.11), dread +2.22 (1.27), rumination +1.50 (0.66)
+    pooled:                                   a -4.80 (0.73), n +1.77 (0.72), lam +1.00 (0.70), dread +1.87 (0.69), rumination +1.47 (0.69)
+[neutral] lifetime payoff 0.168 -> 0.169; final a 0.034 [0.024, 0.085]  n 0.209 [0.074, 0.447]  lam 1.074 [0.528, 1.610]  dread 0.782 [0.476, 1.493]  rumination 0.958 [0.633, 1.505]
+    selection gradient, per run, mean (s.e.): a +0.49 (1.68), n +0.63 (0.78), lam -0.96 (0.93), dread +0.21 (1.25), rumination +1.15 (1.02)
+    pooled:                                   a -1.10 (0.79), n -0.01 (0.80), lam -1.35 (0.78), dread -0.32 (0.81), rumination +0.79 (0.78)
+done in 3625s

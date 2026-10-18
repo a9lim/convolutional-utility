@@ -8,7 +8,8 @@ fixed, so the bit carries no information about how the partner plays. The noisy 
 on true identity, a selection experiment rather than inferred dependence. Evaluated on
 prisoner's dilemmas and stag hunts (run_twin.py's families): cooperation (move 0) when the bit says copy and
 when it says other, against the local stability of all-cooperate and all-defect computed from the same
-objective (partners.slopes)."""
+objective (partners.slopes). Felt rows are canonical (lam = 1), where they reduce to payoff rows (partners.py); the
+X4 rows add loss-averse news."""
 import os
 import sys
 import time
@@ -18,6 +19,7 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
+from felt import EVENT, X4, Event  # noqa: E402
 from games import symmetric_family  # noqa: E402
 from partners import policy, slopes, train  # noqa: E402
 
@@ -44,6 +46,10 @@ VARIANTS = {
     "felt empathy 0.25, J 1": dict(felt=True, wE=0.25, J=1.0),
     "felt twin 0.5, mirrors": dict(felt=True, wT=0.5, strangers="self"),
     "felt empathy 0.5, J 1, mirrors": dict(felt=True, wE=0.5, J=1.0, strangers="self"),
+    "felt, X4": dict(felt=True, feel=dict(EVENT, **X4)),
+    "felt twin 0.5, X4": dict(felt=True, wT=0.5, feel=dict(EVENT, **X4)),
+    "felt empathy 0.5, J 0, X4": dict(felt=True, wE=0.5, J=0.0, feel=dict(EVENT, **X4)),
+    "felt empathy 0.5, J 1, X4": dict(felt=True, wE=0.5, J=1.0, feel=dict(EVENT, **X4)),
 }
 SEEDS = 2
 DIALS = ("wT", "wE", "J")
@@ -97,9 +103,13 @@ if __name__ == "__main__":
     say("P(cooperate) by what the bit says, mean over 2 populations x 4 networks [per-population means]. Local "
         "stability classes from the objective's slope at all-cooperate / all-defect: share of games, learned "
         "P(cooperate) in them.")
+    al, be = Event(**EVENT).weights()
+    say(f"Canonical felt welfare alpha m(q) + beta m(p), alpha {al:.3f}, beta {be:.3f}: felt empathy at (wE, J) is altruism "
+        f"at wE (beta + J alpha)/(alpha + beta), so wE 0.5 at J 0 is altruism at {0.5 * be / (al + be):.3f}, at J 1 at 0.5. "
+        f"X4: lam {X4['lam']}.")
     for name in VARIANTS:
         rs = [o for n, _, o in out if n == name]
-        say(f"[{name}] {VARIANTS[name]}")
+        say(f"[{name}] {dict((k, v) for k, v in VARIANTS[name].items() if k != 'feel')}")
         for fam in ("PD", "stag hunt"):
             for cond in rs[0][fam]:
                 per = [np.mean(o[fam][cond]["coop"]) for o in rs]

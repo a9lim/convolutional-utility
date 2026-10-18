@@ -12,14 +12,15 @@ drawn N(1, eta^2) for copies and forgers and N(0, eta^2) for mirrors and strange
 - "learned": the same, with d(s) a head on its own small trunk (LAYOUT), fit to identities revealed
              after each match.
 With the true model, the bayes twin's expected gradient equals the oracle's, payoff or felt (Codex): the
-oracle's identity labels buy nothing in expectation; a miscalibrated d(s) does.
+oracle's identity labels buy nothing in expectation; a miscalibrated d(s) does. Canonical felt utility is payoff
+at scale (partners.py), so the felt control that tests anything is under loss-averse news (felt.X4).
 """
 import math
 
 import torch
 
 from agents import Agent, tie
-from felt import EVENT, Event
+from felt import EVENT, X4, Event
 from games import views
 from partners import policy, value
 
@@ -69,8 +70,8 @@ def objective(agent, typ, m1, t1, m2, t2, s, pj, F, mode, w, d, wE=0.0, J=0.0):
     return value(pi, pj.detach(), m1, t1, F, wE, J) + w * d * dep
 
 
-def train(mode="oracle", w=1.0, shares=None, eta=0.5, assume=None, bank=(), felt=False, steps=4000, batch=1024,
-          seed=0, lr=1e-3, wE=0.0, J=0.0):
+def train(mode="oracle", w=1.0, shares=None, eta=0.5, assume=None, bank=(), felt=False, feel=EVENT, steps=4000,
+          batch=1024, seed=0, lr=1e-3, wE=0.0, J=0.0):
     """shares: {type: share}; assume: (shares, eta) of the bayes twin's model, default the truth; bank: frozen
     networks that play strangers and forgers."""
     if mode not in ("oracle", "bayes", "learned"):
@@ -80,7 +81,7 @@ def train(mode="oracle", w=1.0, shares=None, eta=0.5, assume=None, bank=(), felt
     gen = torch.Generator().manual_seed(seed)
     torch.manual_seed(seed)
     agent = Agent(**LAYOUT)
-    F = Event(**EVENT) if felt else None
+    F = Event(**feel) if felt else None
     opt = torch.optim.Adam(agent.parameters(), lr=lr)
     a_shares, a_eta = assume if assume is not None else (shares, eta)
     for it in range(steps):
@@ -139,7 +140,7 @@ if __name__ == "__main__":
                                                      {"copy": 0.5, "stranger": 0.25, "forger": 0.25}, eta).tolist())
     for shares in ({"copy": 0.5, "mirror": 0.5}, {"copy": 0.5, "stranger": 0.5},
                    {"copy": 0.5, "stranger": 0.25, "forger": 0.25}):
-        for felt in (None, Event(**EVENT)):
+        for name, felt in (("payoff", None), ("felt", Event(**EVENT)), ("felt, X4", Event(**dict(EVENT, **X4)))):
             gap = 0.0
             for s in (0.0, 0.5, 1.0):
                 for p in (0.1, 0.9):
@@ -147,4 +148,4 @@ if __name__ == "__main__":
                     o = slope(A, felt, s, p, frozen, shares, eta, "oracle", 1.0, None)
                     b = slope(A, felt, s, p, frozen, shares, eta, "bayes", 1.0, pc)
                     gap = max(gap, float((o - b).abs().max()))
-            print(f"{shares}, {'felt' if felt else 'payoff'}: max |oracle - calibrated bayes| expected slope {gap:.1e}")
+            print(f"{shares}, {name}: max |oracle - calibrated bayes| expected slope {gap:.1e}")

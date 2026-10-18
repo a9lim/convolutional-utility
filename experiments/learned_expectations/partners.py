@@ -8,11 +8,16 @@ with probability eps, or absent). Beliefs are calibrated. Three dials:
 - wE: the weight on the partner's utility: its payoff (altruism) or its felt welfare (empathy);
 - J:  the gradient through the partner's forecast of my policy, which sets its anticipation and its news
       reference (the interpersonal J).
+In the canonical model (lam = 1) felt welfare is alpha m(q) + beta m(p) (felt.Event.weights), so the felt agent is
+the payoff agent at scale alpha + beta, the felt twin the payoff twin, and felt empathy altruism at weight
+wE (beta + J alpha) / (alpha + beta) toward a partner whose policy is held fixed, or at J = 1 (with a copy's policy
+moving at wT > 0 and J < 1, the copy route carries alpha + beta, not beta + J alpha; Codex). Loss-averse news
+(felt.X4) breaks all three.
 """
 import torch
 
 from agents import Agent, tie
-from felt import EVENT, Event
+from felt import EVENT, X4, Event
 from games import views
 
 torch.set_default_dtype(torch.float64)
@@ -69,15 +74,15 @@ def match(n1, n2, A, copy, felt, signal, eps, gen, dials):
             objective(pi2, pi1, m2, t2, copy, felt, **dials).mean())
 
 
-def train(K=4, sigma=0.5, signal=True, eps=0.0, felt=False, strangers="others", steps=4000, batch=1024, seed=0,
-          lr=1e-3, **dials):
+def train(K=4, sigma=0.5, signal=True, eps=0.0, felt=False, feel=EVENT, strangers="others", steps=4000, batch=1024,
+          seed=0, lr=1e-3, **dials):
     """strangers: "others" pairs each network with another one; "self" with a mirror: its own current policy
     under a stop-gradient, a lookalike whose play the learner treats as fixed (recomputed every step, it does
     move with the network's parameters between steps)."""
     gen = torch.Generator().manual_seed(seed)
     torch.manual_seed(seed)
     nets = [Agent(**LAYOUT) for _ in range(K)]
-    F = Event(**EVENT) if felt else None
+    F = Event(**feel) if felt else None
     opt = torch.optim.Adam([w for n in nets for w in n.parameters()], lr=lr)
     for it in range(steps):
         loss = 0.0
@@ -135,9 +140,20 @@ if __name__ == "__main__":
         print(f"{'felt' if felt else 'payoff'}: copy at wT = 0 against a mirror, max gradient difference "
               f"{max(float((x - y).abs().max()) for x, y in zip(*g)):.1e}")
     # first order, a twin is an altruist (payoffs) and an empathizer at J = 1 (felt), at symmetric profiles
-    for felt in (None, F):
-        for at in (0.1, 0.5, 0.9):
-            tw = slopes(A, felt, 0.5, dict(wT=0.6), at)["copy"]
-            em = slopes(A, felt, 0.5, dict(wE=0.6, J=1.0), at)["other"]
-            print(f"{'felt' if felt else 'payoff'}, p = {at}: max |twin - empathizer at J = 1| "
-                  f"{float((tw - em).abs().max()):.1e}")
+    for name, felt in (("payoff", None), ("felt", F), ("felt, X4", Event(**dict(EVENT, **X4)))):
+        gap = max(float((slopes(A, felt, 0.5, dict(wT=0.6), at)["copy"]
+                         - slopes(A, felt, 0.5, dict(wE=0.6, J=1.0), at)["other"]).abs().max()) for at in (0.1, 0.5, 0.9))
+        print(f"{name}, p = 0.1, 0.5, 0.9: max |twin - empathizer at J = 1| {gap:.1e}")
+    # canonical: felt slopes are alpha + beta times payoff slopes, empathy at (wE, J) as altruism at wE rho(J),
+    # toward a fixed partner policy or at J = 1; a copy moving at wT > 0 with J < 1 breaks the scalar form
+    al, be = F.weights()
+    for name, cases, keys in (("held partner or J = 1", (dict(), dict(wT=0.6), dict(wE=0.6, J=0.0), dict(wE=0.6, J=0.4),
+                                                           dict(wE=0.6, J=1.0, wT=0.3)), None),
+                              ("copy at wT 0.3, wE 0.6, J 0 (fails)", (dict(wE=0.6, J=0.0, wT=0.3),), ("copy",))):
+        gap = 0.0
+        for dials in cases:
+            pay = dict(dials, wE=dials.get("wE", 0.0) * (be + dials.get("J", 0.0) * al) / (al + be))
+            for at in (0.1, 0.5, 0.9):
+                sf, sp = slopes(A, F, 0.5, dials, at), slopes(A, None, 0.5, pay, at)
+                gap = max(gap, max(float((sf[k] / (al + be) - sp[k]).abs().max()) for k in (keys or sf)))
+        print(f"canonical felt slopes / (alpha + beta) against payoff slopes at wE rho(J), {name}: max gap {gap:.1e}")

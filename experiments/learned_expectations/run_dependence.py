@@ -8,7 +8,7 @@ half and half), "forgers" (copies 0.5, frozen strangers 0.25, frozen forgers 0.2
 copy-like signals). Signal noise 0.5. Twins at w = 1: the oracle, the bayes twin with the true model, a
 learned dependence head, a naive bayes twin that counts forgers as copies, and a credulous one that assumes
 90% of partners are copies, a universal one that treats every partner as a copy;
-felt oracle and bayes at w = 0.5 as a control. Four seeds each. Measured:
+felt oracle and bayes at w = 0.5 under loss-averse news (X4) as a control. Four seeds each. Measured:
 cooperation in prisoner's dilemmas and stag hunts by signal; the dependence estimate against the true
 posterior; payoff against each partner type; and boundary gradient signs of the expected gradient."""
 import os
@@ -22,6 +22,7 @@ import torch
 sys.path.insert(0, os.path.dirname(__file__))
 from agents import Agent  # noqa: E402
 from dependence import dependence_logit, posterior, signal, slope, train  # noqa: E402
+from felt import EVENT, X4  # noqa: E402
 from games import symmetric_family, views  # noqa: E402
 from partners import LAYOUT, policy  # noqa: E402
 from partners import train as train_partners  # noqa: E402
@@ -42,8 +43,8 @@ for env in ENV:
     VARIANTS[f"credulous, {env}"] = dict(mode="bayes", env=env, assume=CREDULOUS)
     VARIANTS[f"universal, {env}"] = dict(mode="bayes", env=env, assume=UNIVERSAL)
 VARIANTS["naive, forgers"] = dict(mode="bayes", env="forgers", assume=NAIVE)
-VARIANTS["felt oracle 0.5, forgers"] = dict(mode="oracle", w=0.5, env="forgers", felt=True)
-VARIANTS["felt bayes 0.5, forgers"] = dict(mode="bayes", w=0.5, env="forgers", felt=True)
+VARIANTS["felt oracle 0.5, X4, forgers"] = dict(mode="oracle", w=0.5, env="forgers", felt=True, feel=dict(EVENT, **X4))
+VARIANTS["felt bayes 0.5, X4, forgers"] = dict(mode="bayes", w=0.5, env="forgers", felt=True, feel=dict(EVENT, **X4))
 SEEDS, BANK = 4, 4
 GRID = (-0.5, 0.0, 0.5, 1.0, 1.5)
 D = 1e-3
@@ -84,7 +85,8 @@ def one(job):
     bank = load_bank(states)
     shares = ENV[kw["env"]]
     net, F = train(mode=kw["mode"], w=kw.get("w", 1.0), shares=shares, eta=ETA, assume=kw.get("assume"),
-                        bank=bank, felt=kw.get("felt", False), seed=seed, steps=int(os.environ.get("STEPS", "4000")))
+                        bank=bank, felt=kw.get("felt", False), feel=kw.get("feel", EVENT), seed=seed,
+                        steps=int(os.environ.get("STEPS", "4000")))
     gen = torch.Generator().manual_seed(99)
     out = {"d": [dhat(kw, net, s) for s in GRID], "fam": {}, "pay": {}}
     with torch.no_grad():
@@ -138,7 +140,7 @@ if __name__ == "__main__":
         say(f"true P(copy | s), {env}: " + " ".join(f"{float(posterior(s, shares, ETA)):.2f}" for s in GRID))
     for name, kw in VARIANTS.items():
         rs = [o for n, _, o in out if n == name]
-        say(f"[{name}] {dict((k, v) for k, v in kw.items() if k != 'env')}")
+        say(f"[{name}] {dict((k, v) for k, v in kw.items() if k not in ('env', 'feel'))}")
         say("    dependence d(s): " + " ".join(f"{np.mean([o['d'][i] for o in rs]):.2f}" for i in range(len(GRID))))
         for fam in ("PD", "stag hunt"):
             cells = []

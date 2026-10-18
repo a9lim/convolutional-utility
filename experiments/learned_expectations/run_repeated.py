@@ -1,7 +1,8 @@
 """Train the hidden-game agent in each variant over several seeds and evaluate on held-out games.
 Run: python experiments/learned_expectations/run_repeated.py   (writes repeated_report.txt, repeated.png; parallel)
 Variants: payoff (policy on payoffs, honest critic), calibrated (policy on felt utility, honest critic),
-motivated (policy on felt utility, critic also ascends it), at a = 0.3 and at weak anticipation a = 0.05."""
+motivated (policy on felt utility, critic also ascends it), at a = 0.3 and at weak anticipation a = 0.05; felt
+utility under loss-averse news (felt.X4), as reported."""
 import os
 import sys
 import time
@@ -13,14 +14,15 @@ import torch
 sys.path.insert(0, os.path.dirname(__file__))
 from games import classify, pure_nash  # noqa: E402
 from agents import balanced_probe  # noqa: E402
-from felt import ROUNDS  # noqa: E402
+from felt import ROUNDS, X4  # noqa: E402
 from rounds import Hidden, rollout, train  # noqa: E402
 
 HERE = os.path.dirname(__file__)
 K, SEEDS = 10, range(4)
-WEAK = dict(ROUNDS, a=0.05)
-VARIANTS = {"payoff": ("payoff", "honest", ROUNDS), "calibrated": ("felt", "honest", ROUNDS),
-            "motivated": ("felt", "motivated", ROUNDS), "calibrated, a = 0.05": ("felt", "honest", WEAK),
+FEEL = dict(ROUNDS, **X4)
+WEAK = dict(FEEL, a=0.05)
+VARIANTS = {"payoff": ("payoff", "honest", FEEL), "calibrated": ("felt", "honest", FEEL),
+            "motivated": ("felt", "motivated", FEEL), "calibrated, a = 0.05": ("felt", "honest", WEAK),
             "motivated, a = 0.05": ("felt", "motivated", WEAK)}
 
 

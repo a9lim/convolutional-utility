@@ -20,7 +20,9 @@ Setting: my move changes partner `j`'s payoff by `Δ = H − L` (`H` if I cooper
     `β/α = λ ≥ 1`, guilt over surprise-giving: transfers at or below what the partner expects (their
     Prop. 1). They measure surprise in transfers, against a distribution over the partner's
     expectation; with the expectation uncertain, guilt is `E[(m − π_j)₊]`, not its value at the mean.
-  - At `λ = 1` a fixed-reference surprise term is behaviourally just stronger altruism.
+  - At `λ = 1`, the canonical model, a fixed-reference surprise term is behaviourally just stronger
+    altruism: `W_j = α·m + β·π_j` with `α = A − n`, `β = 1 + B + n`. The canonical event (`felt.Event`)
+    has the same bilinear form exactly, `α = 0.71`, `β = 1.84` at the game calibration. [checked]
   - [synthesis; B&D motivate guilt by the partner's disappointment (2009 fn. 24); the decomposition
     and the pinned ratio were not found]
 - **The interpersonal `J`.** Let `j = dq/dp`, how `j`'s forecast moves under a contemplated change of
@@ -36,6 +38,13 @@ Setting: my move changes partner `j`'s payoff by `Δ = H − L` (`H` if I cooper
     grab), `J = 1` gains `(1 + A + B)Δ` and `J = 0` gains `(1 + B + nλ)Δ` when `j` expects honoring,
     `(1 + B + n)Δ` when `j` expects a grab: finite deviations favour `J = 1` iff `A > nλ`. The gap is the
     predictability term, which a move between two pure policies does not cross.
+  - Canonically the weight is `β + jα`: empathy is altruism at `w(β + jα)/(α + β)`, the same at every
+    `p` and whatever `j` expects, and `J = 1` cares more iff `α > 0`. Toward a partner whose policy is
+    taken as given, or at `J = 1`: with a copy's policy moving too (`w_T > 0`, `J < 1`) the copy route
+    carries `α + β`, so no single altruism weight fits (Codex; a counterexample in `python partners.py`). The same `α` makes optimism pay for
+    oneself (in the event, `∂W/∂q = α·Δ`; N3's corners): a forecast held from the announcement is worth
+    more felt than it costs in letdown, so raising it pays in one's own life and in a partner's.
+    A corollary of linearity, not independent evidence. [synthesis; Codex verified]
 - **Timing.** D1's Newcomb structure needs the anticipation already felt when the choice is made: the
   trust game below. In simultaneous games (`oneshot.py`, `partners.py`) `J` is forecast dependence without
   a felt past.
@@ -43,28 +52,36 @@ Setting: my move changes partner `j`'s payoff by `Δ = H − L` (`H` if I cooper
   chooses at `s`: honor gives her 0.5, grab −0.5 (outside option 0, no event); Bob gets 0.3 or
   0.3 + `t`, felt as a sure payoff. The temptation Bob resists per unit of empathy, `t*/w`:
 
-  | calibration | `J = 0`, Ann expects honor | `J = 0`, expects grab | `J = 1` |
-  |---|---|---|---|
-  | game agent's (`a 0.15, n 0.3, λ 2`) | 1.45 | 0.72 | 1.14 |
-  | felt calibration (`n 0.2, λ 1.5`) | 0.75 | 0.64 | 1.02 |
-  | weak news (`n 0.1`) | 0.66 | 0.58 | 1.02 |
-  | no news | 0.53 | 0.53 | 1.00 |
-  | linear news (`λ 1`) | 0.72 | 0.72 | 1.00 |
-  | no anticipation | 2.75 | 1.44 | 1.04 |
-  | stronger anticipation (`a 0.2`) | 1.12 | 0.55 | 1.18 |
+  | calibration | `J = 0`, Ann expects honor | `J = 0`, expects grab | `J = 1` | `α` |
+  |---|---|---|---|---|
+  | game agent's (`a 0.15, n 0.3`) | 0.72 | 0.72 | 1.00 | +0.71 |
+  | no news | 0.53 | 0.53 | 1.00 | +1.10 |
+  | news `n 0.2` | 0.64 | 0.64 | 1.00 | +0.88 |
+  | stronger anticipation (`a 0.2`) | 0.55 | 0.55 | 1.00 | +1.56 |
+  | weak anticipation (`a 0.05`) | 1.17 | 1.17 | 1.00 | −0.25 |
+  | no anticipation | 1.44 | 1.44 | 1.00 | −0.53 |
+  | X4 at felt strength (`λ 1.2`) | 0.80 | 0.72 | 1.02 | |
+  | X4 (`λ 2`) | 1.45 | 0.72 | 1.14 | |
+  | X4 (`λ 2`), `n 0.2` | 0.90 | 0.64 | 1.05 | |
+  | X4 (`λ 2`), no anticipation | 2.75 | 1.44 | 1.04 | |
 
-  - `J = 1` resists about 1 in every calibration: a predictable policy makes Ann's life deterministic,
-    and it weighs like Bob's own.
-  - `J = 0` depends on what Ann expects. Between its two thresholds Bob honors iff Ann expects him to:
-    guilt makes trust self-fulfilling, the mechanism by which promises work in Charness & Dufwenberg
-    (2006, to verify). A `J = 1` Bob's honesty does not depend on her expectation.
-  - Which is more trustworthy when trusted: `J = 0` under strong loss-averse news (the game agent's
-    calibration, any anticipation horizon from 2 to 14), `J = 1` at the felt calibration, with weak or
-    no news, or with stronger anticipation. "Parfit's hitchhiker between people" holds where the
-    partner's anticipation outweighs her loss-weighted letdown; otherwise guilt, a `J = 0` motive, does
-    more, and a `J = 1` empathizer can escape guilt by being expected to betray.
-- **Canonical marginal weights** (`felt.Event`, `EVENT`, `H = 0.7, L = −0.5`; the announcement is felt
-  against a zero prior, so these depend on payoff levels, not only on `Δ`):
+  - Canonically `J = 0` resists `β/(α + β)` whatever Ann expects and `J = 1` resists 1: a
+    predictable policy makes Ann's life deterministic, and it weighs like Bob's own. `J = 1` is the
+    more trustworthy iff `α > 0`, where Ann's anticipation of honor outweighs her letdown (weak or no
+    anticipation reverses it). "Parfit's hitchhiker between people" holds there; otherwise a `J = 0`
+    empathizer, moved by the letdown, does more.
+  - Within this event family (linear echoes and base utility), expectation-dependent guilt needs
+    loss-averse news. Under X4, `J = 0` depends on what Ann expects:
+    between its two thresholds Bob honors iff Ann expects him to, so guilt makes trust self-fulfilling,
+    the mechanism by which promises work in Charness & Dufwenberg (2006, to verify), and a `J = 1`
+    empathizer can escape guilt by being expected to betray. In the canonical model a promise that
+    raises Ann's `q` leaves a `J = 0` Bob's incentive to honor unchanged (it can still change whether
+    she trusts).
+  - Under X4 at choice-revealed strength `J = 0` is the more trustworthy when trusted (any anticipation
+    horizon from 2 to 14); at felt strength (`λ 1.2`) `J = 1` is.
+- **Marginal weights.** Canonically flat: `β = g₁(1 + κ̃) = 1.84` at `J = 0` and `α + β = 2.55` at
+  `J = 1`, at every `p` and payoff level. Under X4 (`dict(EVENT, **X4)`, `H = 0.7, L = −0.5`; the
+  announcement is felt against a zero prior, so these depend on payoff levels, not only on `Δ`):
 
   | `p` (= `q`) | 0⁺ | 0.25 | 0.5 | 0.75 | 1⁻ |
   |---|---|---|---|---|---|
@@ -104,8 +121,9 @@ Setting: my move changes partner `j`'s payoff by `Δ = H − L` (`H` if I cooper
   about a copy is, to first order, empathy routed through the copy's anticipation of me; the `J = 0`
   empathizer (surprise and guilt) is a different object. In payoffs `J` is idle. [checked: 2000 random
   symmetric games at three profiles, difference ≤ 3e-15; against `J = 0`, up to 1.6]
-- **Felt news makes certain profiles sticky for twins.** At `J = 1`, `j`'s uncertainty about my move is
-  a first-order cost off a pure profile, so between copies both all-cooperate and all-defect are more
+- **Loss-averse news makes certain profiles sticky for twins** (X4; canonically the felt twin's stability
+  classes are the payoff twin's). At `J = 1`, `j`'s uncertainty about my move is a first-order cost off a
+  pure profile, so between copies both all-cooperate and all-defect are more
   often locally stable: at `w_T = 0.5`, all-cooperate in every prisoner's dilemma of `run_twin`'s
   family and all-defect in 76% (payoff twin: 73% and 58%). The scheduling learner's "deterministic
   plans are local optima", between copies.
@@ -140,9 +158,12 @@ copy or stranger. `run_partners.py`, `partners_report.txt`, `partners.png`; chec
 | altruist 1, mirrors | 0.98 | 0.99 | 1.00 | 1.00 |
 | twin 0.5 | 0.52 | 0.01 | 0.82 | 0.08 |
 | altruist 0.5 | 0.51 | 0.51 | 0.82 | 0.83 |
-| felt twin 0.5 | 0.50 | 0.00 | 0.73 | 0.00 |
-| felt empathy 0.5, `J = 1` | 0.50 | 0.46 | 0.77 | 0.75 |
-| felt empathy 0.5, `J = 0` | 0.43 | 0.40 | 0.70 | 0.69 |
+| felt twin 0.5 | 0.51 | 0.00 | 0.82 | 0.05 |
+| felt empathy 0.5, `J = 1` | 0.53 | 0.52 | 0.85 | 0.84 |
+| felt empathy 0.5, `J = 0` | 0.36 | 0.34 | 0.72 | 0.70 |
+| felt twin 0.5, X4 | 0.50 | 0.00 | 0.73 | 0.00 |
+| felt empathy 0.5, `J = 1`, X4 | 0.50 | 0.46 | 0.77 | 0.75 |
+| felt empathy 0.5, `J = 0`, X4 | 0.43 | 0.40 | 0.70 | 0.69 |
 
 - **The bit separates twins from altruists.** Twins cooperate with copies and defect against strangers,
   including mirrors that run their own weights: the learner's gradient gate alone drives it.
@@ -154,13 +175,14 @@ copy or stranger. `run_partners.py`, `partners_report.txt`, `partners.png`; chec
 - **Learned play follows local stability.** Where only all-cooperate is locally stable, learned
   cooperation is 0.92–0.99; where only all-defect is, 0.01–0.07; bistable games are where learning
   selects (prisoner's dilemmas mostly defect, stag hunts mostly stag).
-- **Felt empathy.** At `J = 1` it matches the felt twin with copies (0.50 against 0.50) and extends to
-  strangers (0.46 against 0.00). At `w = 0.5`, `J = 1` cooperates more than `J = 0` (prisoner's
-  dilemma 0.50 against 0.43, stag hunt 0.77 against 0.70), as its stability classes predict (no
-  prisoner's dilemma where only all-defect is stable, against 8% at `J = 0`): the gradient learner follows
-  local slopes, where `J = 1` carries the predictability term. The trust game's finite comparison can
-  go the other way. At `w = 0.25` the gap (0.19 against 0.17; stag hunt 0.39 against 0.34) is within
-  run-to-run variation: rounding-level changes to the felt closed form moved felt rows by up to 0.04.
+- **Felt empathy.** Canonically it is altruism, as `α, β` predict: at `J = 1` it plays as the altruist
+  at its weight (prisoner's dilemmas 0.53 against 0.51, stag hunts 0.85 against 0.82; at `w = 0.25`,
+  0.22 against 0.21; identical stability classes), at `J = 0` as one at 0.72 of it (0.36, 0.72), and
+  the felt twin plays as the payoff twin. Under loss-averse news (X4) the classes change: pure
+  profiles turn sticky, `J = 1` has no prisoner's dilemma where only all-defect is stable
+  (canonically 12%), its play matches the felt twin with copies (0.50 against 0.50) and extends to
+  strangers (0.46 against 0.00), and `J = 0` cooperates more than canonically (0.43 against 0.36),
+  its guilt felt at `λ`. The trust game's finite comparison can go the other way.
 - A noisy bit (flipped with probability 0.2) gives graded conditioning (0.68 against 0.22); its gate
   uses true identity, so it is a selection experiment, not inferred dependence.
 
@@ -197,7 +219,8 @@ copy or stranger. `run_partners.py`, `partners_report.txt`, `partners.png`; chec
 - **Inferring dependence is as good as knowing it,** when calibrated: Bayesian and learned twins match the
   oracle in cooperation at every signal (within 0.05) and in payoff (within 0.0005), and the learned head
   recovers the posterior (0.02, 0.11, 0.50, 0.89, 0.98 against 0.02, 0.12, 0.50, 0.88, 0.98 at
-  `s = −0.5 … 1.5`). The felt oracle and the felt Bayesian twin agree too (0.3073, 0.3075 at `w = 0.5`).
+  `s = −0.5 … 1.5`). The felt oracle and the felt Bayesian twin agree too, under loss-averse news
+  (0.3073, 0.3075 at `w = 0.5`; canonical felt utility is payoff at scale, a trivial control).
 - **What pays is the real dependence.** At `w = 1` a twin with the right dependence ascends its actual
   payoff: a copy's play is computed from the same parameters. Mirrors are recomputed from those parameters
   as well, so they move with the twin under any parameter change; there the label "stranger" undercounts
@@ -225,8 +248,9 @@ copy or stranger. `run_partners.py`, `partners_report.txt`, `partners.png`; chec
   would answer probes (they share parameters). Interventions identify dependence under the declared
   intervention, not an FDT logical counterfactual.
 - Heterogeneous strangers (causal learners, scripted defectors) to show the `σw` equivalence failing.
-- The trust game as learners: does a `J = 0` population show expectation-dependent honesty, and do
-  promises (raising Ann's `q`) move it?
+- The trust game as learners, an X4 experiment (canonical `J = 0` honesty does not depend on what the
+  partner expects): does a `J = 0` population show expectation-dependent honesty, and do promises
+  (raising Ann's `q`) move it?
 - Diagnostic families: donation games, prisoner's dilemmas split by the sign of `R + P − S − T`,
   payoff offsets against the zero-prior announcement.
 - Iterated play: guilt toward a partner's felt history (F7), and twins in hidden repeated games.

@@ -2,16 +2,23 @@
 python experiments/learned_expectations/run_evolve.py   (writes evolve_report.txt, evolve.png; runs in parallel)
 
 Each generation, a population of hidden-game agents (rounds.py) is born untrained, with heritable felt
-parameters (anticipation a, news n, loss aversion lam; echoes otherwise as felt.ROUNDS), and learns for one lifetime
-of LIFE steps playing random 2x2 games against randomly paired members, each from its own seat. Fitness is
-lifetime payoff, which rewards learning fast. The top half each leave two offspring with log-normally
-mutated parameters (a, n and lam - 1); weights are not inherited. Variants:
-- "felt critic":  the policy ascends payoffs; the critic is motivated (affect shapes forecasts only);
+parameters, and learns for one lifetime of LIFE steps playing random 2x2 games against randomly paired members,
+each from its own seat. The genome: strengths of anticipation a and news n, and the three sign asymmetries the
+rounds engine carries (felt.rounds_direct; core X1, X2, X4), each a loss/gain ratio that is 1 in the canonical
+model: dread (a-/a+), rumination (m-/m+) and the news loss/gain ratio lam. Echoes otherwise as felt.ROUNDS. Fitness is
+lifetime payoff, which rewards learning fast. The top half each leave two offspring with log-normally mutated
+parameters; weights are not inherited. Variants:
+- "felt critic":  the policy ascends payoffs; the critic is motivated (affect shapes forecasts only), so the
+                  memory of payoffs, and with it rumination, does nothing (a drift control within the variant);
 - "felt agents":  the policy ascends felt utility and the critic is motivated;
 - "neutral":      the policy ascends payoffs, the critic is honest, so the parameters do nothing (drift control).
-Selection gradients: within each generation, lifetime payoff regressed on standardized log a, log n and
-log(lam - 1), pooled over generations and runs.
+Selection gradients: within each generation, lifetime payoff regressed on the standardized log genome, pooled
+over generations and runs; and per run, the spread of those slopes across runs, the primary summary (shared games
+and ancestry make pooled OLS errors optimistic). This is exploratory coevolution: founders range widely and the
+genes are linked in small populations, so it measures associations, not the local selection gradient at the
+canonical model (run_invasion.py; Codex). Raw histories go to evolve_runs.json.
 """
+import json
 import os
 import sys
 import time
@@ -26,14 +33,16 @@ from felt import ROUNDS, rounds_direct  # noqa: E402
 from rounds import Hidden, hidden_layout, rollout, td_loss  # noqa: E402
 
 P, G, K = 8, 2048, 10
-LIFE = int(os.environ.get("LIFE", "1500"))
-GENS = int(os.environ.get("GENS", "12"))
+LIFE = int(os.environ.get("LIFE", "1200"))
+GENS = int(os.environ.get("GENS", "10"))
 VARIANTS = ["felt critic", "felt agents", "neutral"]
-LO, HI = np.log([0.005, 0.005, 0.01]), np.log([0.8, 0.8, 5.0])            # bounds on log a, log n, log(lam - 1)
+GENES = ("a", "n", "lam", "dread", "rumination")
+FOUNDERS = np.log([[0.02, 0.5], [0.02, 0.5], [1 / 3, 3], [1 / 3, 3], [1 / 3, 3]])   # log-uniform ranges
+LO, HI = np.log([0.005, 0.005, 0.2, 0.2, 0.2]), np.log([0.8, 0.8, 5.0, 5.0, 5.0])
 
 
 def unpack(g):
-    return dict(a=float(np.exp(g[0])), n=float(np.exp(g[1])), lam=float(1 + np.exp(g[2])))
+    return {k: float(np.exp(x)) for k, x in zip(GENES, g)}
 
 
 def loss_of(R, f, variant):
@@ -71,64 +80,84 @@ def lifetime(genomes, variant, rng, gen):
 
 def evolve(job):
     variant, seed = job
-    torch.set_num_threads(int(os.environ.get("THREADS", "3")))
+    torch.set_num_threads(int(os.environ.get("THREADS", "2")))
     rng = np.random.default_rng(seed)
     gen = torch.Generator().manual_seed(seed)
     torch.manual_seed(seed)
-    genomes = np.column_stack([rng.uniform(np.log(0.02), np.log(0.5), P), rng.uniform(np.log(0.02), np.log(0.5), P),
-                               rng.uniform(np.log(0.05), np.log(3.0), P)])
+    genomes = np.column_stack([rng.uniform(lo, hi, P) for lo, hi in FOUNDERS])
     hist = []
     for _ in range(GENS):
         fit = lifetime(genomes, variant, rng, gen)
         hist.append(dict(genomes=genomes.tolist(), fit=fit.tolist()))
         parents = genomes[np.argsort(fit)[-(P // 2):]]
-        genomes = np.clip(np.repeat(parents, 2, axis=0) + 0.2 * rng.normal(size=(P, 3)), LO, HI)
+        genomes = np.clip(np.repeat(parents, 2, axis=0) + 0.2 * rng.normal(size=(P, len(GENES))), LO, HI)
     return variant, seed, hist
 
 
-if __name__ == "__main__":
-    t0, lines = time.time(), []
-    say = lambda s: (print(s, flush=True), lines.append(s))
-    seeds = range(int(os.environ.get("SEEDS", "4")))
-    with ProcessPoolExecutor(int(os.environ.get("PROCS", "6"))) as ex:
-        out = list(ex.map(evolve, [(v, s) for v in VARIANTS for s in seeds]))
-    say(f"Population {P}, lifetime {LIFE} steps, {GENS} generations, {len(seeds)} runs per variant. Founders:")
-    say("a, n log-uniform on [0.02, 0.5], lam - 1 log-uniform on [0.05, 3]. Final: the last generation's")
-    say("members over all runs, median [IQR]. Selection gradient: lifetime payoff (x1000) on standardized log a,")
-    say("log n, log(lam - 1) within generation, pooled, with standard errors.")
-    for v in VARIANTS:
-        runs = [h for v_, _, h in out if v_ == v]
-        last = np.array([[u["a"], u["n"], u["lam"]] for h in runs for u in map(unpack, h[-1]["genomes"])])
-        q = lambda c: f"{np.median(last[:, c]):.3f} [{np.quantile(last[:, c], .25):.3f}, {np.quantile(last[:, c], .75):.3f}]"
+def gradients(runs):
+    """Lifetime payoff (x1000) on the standardized log genome within generation: pooled slopes with OLS standard
+    errors (one intercept per run-generation), and the slopes run by run."""
+    def fit(hs):
         X, y = [], []
-        for h in runs:
+        for h in hs:
             for gen_ in h:
                 Z = np.array(gen_["genomes"])
                 X.append((Z - Z.mean(0)) / (Z.std(0) + 1e-9))
                 y.append(np.array(gen_["fit"]) - np.mean(gen_["fit"]))
+        groups = len(X)
         X, y = np.vstack(X), np.concatenate(y) * 1000
-        beta, res = np.linalg.lstsq(X, y, rcond=None)[:2]
-        se = np.sqrt(np.diag(np.linalg.inv(X.T @ X)) * float(res[0]) / (len(y) - 3))
+        beta = np.linalg.lstsq(X, y, rcond=None)[0]
+        r = y - X @ beta
+        s2 = float(r @ r) / (len(y) - groups - X.shape[1])
+        return beta, np.sqrt(np.diag(np.linalg.pinv(X.T @ X)) * s2)
+    beta, se = fit(runs)
+    return beta, se, np.array([fit([h])[0] for h in runs])
+
+
+if __name__ == "__main__":
+    t0, lines = time.time(), []
+    say = lambda s: (print(s, flush=True), lines.append(s))  # noqa: E731
+    seeds = range(int(os.environ.get("SEEDS", "6")))
+    with ProcessPoolExecutor(int(os.environ.get("PROCS", "9"))) as ex:
+        out = list(ex.map(evolve, [(v, s) for v in VARIANTS for s in seeds]))
+    json.dump(dict(config=dict(P=P, G=G, K=K, LIFE=LIFE, GENS=GENS, GENES=GENES, FOUNDERS=FOUNDERS.tolist(),
+                               LO=LO.tolist(), HI=HI.tolist()),
+                   runs=[dict(variant=v, seed=sd, history=h) for v, sd, h in out]),
+              open(os.path.join(os.path.dirname(__file__), "evolve_runs.json"), "w"))
+    say(f"Population {P}, lifetime {LIFE} steps, {GENS} generations, {len(seeds)} runs per variant. Founders: a, n "
+        "log-uniform on [0.02, 0.5]; lam, dread (a-/a+) and rumination (m-/m+) log-uniform on [1/3, 3], centred on the")
+    say("canonical 1. Final: the last generation's members over all runs, median [IQR]. Selection gradient: lifetime")
+    say("payoff (x1000) per s.d. of each log gene within generation: the mean and s.e. of the per-run slopes (primary),")
+    say("then pooled (OLS s.e., learners treated as independent: optimistic). lam is the news loss/gain ratio.")
+    for v in VARIANTS:
+        runs = [h for v_, _, h in out if v_ == v]
+        last = np.array([[u[k] for k in GENES] for h in runs for u in map(unpack, h[-1]["genomes"])])
+        q = lambda c: f"{np.median(last[:, c]):.3f} [{np.quantile(last[:, c], .25):.3f}, {np.quantile(last[:, c], .75):.3f}]"  # noqa: E731
+        beta, se, per = gradients(runs)
         fit0 = np.mean([np.mean(h[0]["fit"]) for h in runs])
         fit1 = np.mean([np.mean(h[-1]["fit"]) for h in runs])
-        say(f"[{v}] final a {q(0)}  n {q(1)}  lam {q(2)}; lifetime payoff {fit0:.3f} -> {fit1:.3f}; "
-            "selection gradient a {:+.2f} ({:.2f}), n {:+.2f} ({:.2f}), lam {:+.2f} ({:.2f})".format(
-                beta[0], se[0], beta[1], se[1], beta[2], se[2]))
+        say(f"[{v}] lifetime payoff {fit0:.3f} -> {fit1:.3f}; final " + "  ".join(f"{k} {q(c)}" for c, k in enumerate(GENES)))
+        say("    selection gradient, per run, mean (s.e.): " + ", ".join(
+            f"{k} {per[:, c].mean():+.2f} ({per[:, c].std(ddof=1) / np.sqrt(len(per)):.2f})" for c, k in enumerate(GENES)))
+        say("    pooled:                                   " + ", ".join(
+            f"{k} {beta[c]:+.2f} ({se[c]:.2f})" for c, k in enumerate(GENES)))
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    fig, axes = plt.subplots(1, 3, figsize=(13, 3.6))
+    fig, axes = plt.subplots(1, len(GENES), figsize=(4 * len(GENES), 3.6))
     cols = {"felt critic": "#2a9d8f", "felt agents": "#e76f51", "neutral": "#7f7f7f"}
     for v in VARIANTS:
         for i, h in enumerate([h for v_, _, h in out if v_ == v]):
-            med = np.array([np.median(np.array(x["genomes"]), 0) for x in h])
-            for c, (name, f) in enumerate([("a", np.exp), ("n", np.exp), ("lam", lambda z: 1 + np.exp(z))]):
-                axes[c].plot(np.arange(1, GENS + 1), f(med[:, c]), color=cols[v], alpha=0.7,
-                             label=v if i == 0 else None)
-    for c, name in enumerate(("anticipation a", "news n", "loss aversion lam")):
+            med = np.exp(np.array([np.median(np.array(x["genomes"]), 0) for x in h]))
+            for c in range(len(GENES)):
+                axes[c].plot(np.arange(1, GENS + 1), med[:, c], color=cols[v], alpha=0.6, label=v if i == 0 else None)
+    titles = ("anticipation a", "news n", "news loss/gain lam", "dread a-/a+", "rumination m-/m+")
+    for c, name in enumerate(titles):
         axes[c].set_title(f"population median: {name}", fontsize=10)
         axes[c].set_xlabel("generation")
         axes[c].set_yscale("log")
+        if c >= 2:
+            axes[c].axhline(1.0, color="#333", lw=0.8, ls=":")
     axes[0].legend(fontsize=8, frameon=False)
     fig.tight_layout()
     fig.savefig(os.path.join(os.path.dirname(__file__), "evolve.png"), dpi=120)

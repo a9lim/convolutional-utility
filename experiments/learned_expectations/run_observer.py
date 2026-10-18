@@ -8,8 +8,8 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from felt import LIFE, BeliefPath, kl  # noqa: E402
-from observer import optimal_beliefs  # noqa: E402
+from felt import BeliefPath, kl  # noqa: E402
+from observer import FEEL, optimal_beliefs  # noqa: E402
 
 T, S = 40, 30
 EVENTS = {"risky event ±1, p = 0.5": (1.0, -1.0, 0.5),
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(1, len(EVENTS), figsize=(14, 4.2), sharey=False)
     t0 = time.time()
     for ax, (name, (zh, zl, p)) in zip(axes, EVENTS.items()):
-        w = BeliefPath(T, S, **LIFE)
+        w = BeliefPath(T, S, **FEEL)
         W0 = float(w.run(torch.full((S,), p), zh, zl, p)[0])
         lead = S - np.arange(S)
         for tau, col in zip(TAUS, ("#9ecae1", "#6baed6", "#3182bd", "#08519c")):

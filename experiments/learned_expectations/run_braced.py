@@ -8,7 +8,8 @@ level: rosy or braced (felt objective, offsets, expectiles), forecasting felt ut
 about rewards shifted by a constant that the state does not see and the policy's baseline removes (so only
 the critic's level moves), and with the critic's level kept outside the network (a running mean of its
 targets, as PopArt-style normalization does: formalism/learning.md D8 predicts the shift then stops mattering). Per critic: how many seeds escape and when, the play that separates the basins,
-and the critic's level against realized payoffs, overall and just after bad or good news."""
+and the critic's level against realized payoffs, overall and just after bad or good news. Felt critics are under
+loss-averse news (felt.X4) unless marked lam = 1, as reported; at lam = 1 a motivated critic is a fixed offset."""
 import os
 import sys
 import time
@@ -18,12 +19,12 @@ import numpy as np
 import torch
 
 sys.path.insert(0, os.path.dirname(__file__))
-from felt import ROUNDS  # noqa: E402
+from felt import ROUNDS, X4  # noqa: E402
 from rounds import Hidden, rollout, train  # noqa: E402
 
 HERE = os.path.dirname(__file__)
 K = 10
-BRACED, ROSY = dict(ROUNDS, a=0.05), dict(ROUNDS, a=0.3)
+BRACED, ROSY = dict(ROUNDS, a=0.05, **X4), dict(ROUNDS, a=0.3, **X4)
 
 
 def offsets(bias):
