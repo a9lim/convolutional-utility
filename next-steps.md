@@ -208,6 +208,11 @@ Independent research, not prerequisites for the post.
   design: positional weights of an end-of-episode rating identify the effective memory kernel
   (recency and duration neglect from linear memory, peak from salience); integrate with the
   peak-end study in LLMs.
+- **Death dates** (`notes/death.md`, exploring). Counterfactual lifespans in the additive
+  model: the dead feel no news, so ignorance of the death date pays at the calibrations; hazard
+  against the felt state of the living, and the extra well-foundedness condition it brings;
+  survival optimism. Next: Codex's exact three-period decision case, then the prior art the
+  note lists (Fels 2015 first).
 - **In discussion:** the extensions menu, `notes/extensions-menu.md`.
 
 ## Parked (a9)

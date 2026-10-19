@@ -30,7 +30,10 @@ e_t = u_t                                                        base
   carry no expected future news (only the echoes of news already felt), and the
   playground's and `pathwise.py`'s unforeseen announcements (off-support events, revisions of
   the model rather than Bayesian conditioning) agree with Bayesian forecasts given the same
-  base forecasts. [Codex, the wording]
+  base forecasts. [Codex, the wording] This needs a fixed lifespan: under death risk the
+  dying branch's revision goes unfelt, so the living's felt news has a nonzero mean, the
+  news the dead would have felt with its sign flipped, and anticipated relief adds echo
+  mass (`notes/death.md`).
 - Welfare is the life-sum `W = Σ_t e_t`, scored by the objective expectation.
 - Well-foundedness, in two parts:
   - `M = aα/(1−α) + mμ/(1−μ) < 1` bounds echo uniformly over lifespans (P1).
