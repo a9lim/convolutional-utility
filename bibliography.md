@@ -762,6 +762,24 @@ Brunnermeier & Parker 2005 and Caplin & Leahy 2001 are under anticipatory utilit
     anticipated own consumption survival-weighted, `ĉ₂ = ŝc₂`, and death denial
     `ŝ = s + d(1−s)` (p. 65). Survival-weighted anticipation and survival optimism, in kind;
     denial costs effort and decisions, never news.
+- **Strulik, H. & Werner, K. (2021).** Time-inconsistent health behavior and its impact on
+  aging and longevity. *J. Health Economics* 76: 102440. doi:10.1016/j.jhealeco.2021.102440.
+  **WP** (CEGE DP 381, 2019; intro, model, results, conclusion; appendix skimmed) ·
+  `papers/strulik-2019-time-inconsistent-health-behavior-and-its-impact-on-aging-and-longevity-cege-dp381.txt`
+  - Hyperbolic discounting (Mazur, `1/(1 + α(t − t₀))`) in a health-deficit life cycle with
+    endogenous death: naive selves keep revising plans to invest in health and smoke less,
+    and die about five years earlier than planned at 20, 2% of the value of life (p. 22).
+  - With death endogenous, sin taxes and subsidies on the first-order conditions cannot
+    restore the planned path; prices can still target the planned longevity (pp. 22–23).
+  - The sequential self's under-investment in safety in `notes/death.md`, in kind, with
+    present bias assumed rather than produced by felt echoes, and no news.
+- **Macé, S. & Peter, R. (2021).** The impact of loss aversion on optimal prevention. SSRN
+  WP 3882200. **2ND** (Codex read the author-uploaded text; abstract via the University of
+  Iowa repository; not filed)
+  - Prevention under choice-acclimating Kőszegi–Rabin equilibrium: loss aversion raises
+    prevention when the loss probability is below a threshold, lowers it above. More
+    prevention makes the good outcome less elating and the bad one more disappointing:
+    `notes/death.md`'s lost relief in kind, with the bad outcome there unfelt.
 - **Yaari, M. E. (1965).** Uncertain lifetime, life insurance, and the theory of the
   consumer. *RES* 32(2): 137–150. doi:10.2307/2296058. **ABS** (publisher record; text in
   `inbox/` for a9's access)

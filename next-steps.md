@@ -211,8 +211,10 @@ Independent research, not prerequisites for the post.
 - **Death dates** (`notes/death.md`, exploring). Counterfactual lifespans in the additive
   model: the dead feel no news, so ignorance of the death date pays at the calibrations; hazard
   against the felt state of the living, and the extra well-foundedness condition it brings;
-  survival optimism. Next: Codex's exact three-period decision case. Yaari 1965 and
-  Brueckner & Fischer 1986 wait in `references/inbox/`.
+  survival optimism; the exact decision case (willingness to pay for survival by
+  evaluator, sticky safety plans under loss-averse news, sudden against warned deaths).
+  Next: dread of death as a disvalue, and a dated hazard. Yaari 1965 and Brueckner &
+  Fischer 1986 wait in `references/inbox/`.
 - **In discussion:** the extensions menu, `notes/extensions-menu.md`.
 
 ## Parked (a9)

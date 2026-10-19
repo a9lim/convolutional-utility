@@ -103,6 +103,7 @@ Death dates and mortality information (`notes/death.md`)
 - `kopczuk-2005-denial-of-death-and-economic-behavior-nber-w11485.txt` — NBER WP of Kopczuk & Slemrod 2005
 - `james-2016-an-economic-model-of-mortality-salience-in-personal-financial-decision-making.txt`
 - `gigerenzer-2017-cassandras-regret-the-psychology-of-not-wanting-to-know.txt` — publisher version via MPG.PuRe
+- `strulik-2019-time-inconsistent-health-behavior-and-its-impact-on-aging-and-longevity-cege-dp381.txt` — CEGE DP
 
 Recollection and motivated memory
 - `mitchell-1997-temporal-adjustments-in-the-evaluation-of-events-the-rosy-view-abs.txt`, `walker-1997-autobiographical-memory-unpleasantness-fades-faster-than-pleasantness-abs.txt`, `walker-2003-life-is-pleasant-and-memory-helps-to-keep-it-that-way-abs.txt`, `sedikides-2020-in-human-memory-good-can-be-stronger-than-bad-abs.txt` — abstracts

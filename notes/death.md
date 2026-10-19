@@ -162,34 +162,92 @@ Linear news unless stated; good future (`u = 1`), life calibration, death unifor
 
 ## Decisions that move the death date
 
-A risk taken off plan at `t₀` (past felt states and forecasts fixed, the decision itself news
-at `t₀`) against the same risk foreseen from birth (commitment). Life calibration, plan hazard
-0.01, `t₀ = 40`; per unit of extra death probability, life-sums seen from birth (reaching
-`t₀` has probability 0.67). *numerical*
+**The exact case.** Three moments; 0 and 1 certain, 2 alive with probability `s + aδ`; paying
+(`a = 1`) costs `c` at 1. Death sudden unless stated. Three evaluators: commitment (the plan
+foreseen at 0, life-sum), fixed past (the plan `a_p` foreseen at 0, the choice news at 1,
+remaining life-sum `e₁ + s_a e₂`), and the momentary self (`e₁`). Willingness to pay per unit
+of survival, `δ → 0`, linear news, in base-utility units (a monetary value of a statistical
+life would need a map from spending to felt utility):
 
-- **The semantics barely differ.** Fixed past −53.7, commitment −53.6: the cost is the
-  deprivation, which neither semantics moves. Commitment adds the earlier selves' lost
-  anticipation, the fixed past adds the decision's news; at linear news these nearly cancel.
-- **The momentary self feels about 1% of it**: −0.90, its lost anticipation plus the news
-  of the choice (`≈ (A + N − n)·e*`), against a survivor's remaining felt life of about 80.
-  A self choosing by its current felt state takes mortal risks almost freely, because the
-  deprivation is felt by no one. The Epicurean recklessness objection, as arithmetic.
-- **Loss-averse news** bites only once the risk exceeds the plan's own hazard: the decision
+- **Four channels**, from Codex's `W′ = w′ᵀe + wᵀ(I−H)^{−1}(b′ + H′e)`: `v = e₂[ω + Σ_t w_t
+  ∂_s K_{t2}]/w₁`, with `w` the evaluator's weights.
+  - Occupancy: the saved moment's own felt state, its memories included.
+  - Anticipation of it, by every self whose forecast the evaluator lets depend on the
+    choice: moment 1 always, moment 0 under commitment.
+  - News of the choice (`+nν`): paying for safety off plan is good news about moment 2.
+    Fixed past and momentary self only.
+  - Lost relief (`−n`): a safer life makes surviving less of a relief, the dividend
+    shrinking as fewer deaths go unfelt. Exactly `−ns/(1−n)` of every evaluator's WTP
+    (Codex): −22.5% at `s = 0.9`, −12.5% at `s = 0.5`, `n = 0.2`. It is the partial
+    effect, not news's total effect: the saved moment's occupancy already carries its own
+    relief. *Known in kind: Macé & Peter (2021), prevention under Kőszegi–Rabin loss
+    aversion makes the good outcome less elating; here the bad outcome's disappointment is
+    unfelt.*
+- **Closed forms** (Codex; `A = aα`, `B = mμ`, `A₂ = aα²`, `B₂ = mμ²`, `r = 1 − n + ns`,
+  `q = A + nν`): `v_F = e₂(1−n)(1−n+q)/(r + sB)`, `v_M = e₂(1−n)q/r`,
+  `v_C = e₂(1−n)G/Q` with `G = 1 + A + A² + A₂ + BA₂ − AB` and
+  `Q = (1+A)r + s[B(1+A₂) + B₂(A − A₂)]`. *Synthesis, exact counterpart not located;
+  checked against finite differences and the general solvers.*
+- **Life calibration, `s = 0.9`**: commitment 0.91 (occupancy 1.03, anticipation 0.09, lost
+  relief −0.21); fixed past 0.87 (0.85, 0.05, news 0.17, −0.20); momentary 0.18 (0.05, 0.17,
+  −0.04).
+  - The momentary self's share is `v_M/v_F = q(r + sB)/(r(1 − n + q))`, between zero and
+    one with no universal value: 20% here, larger with strong anticipation, about 1% over a
+    long remaining life (below).
+- **Commitment against fixed past** differs by a few percent, signed by the earlier selves'
+  anticipation (of the payment as well as the saved moment) against the news of choosing
+  (the cost's revision now as well as the good news about survival). The
+  sequential self under-invests in safety at both calibrations (0.87 against 0.91) and over-
+  invests with strong anticipation (`a = 0.4, α = 0.6, m = 0.4, μ = 0.5`: 1.24 against
+  1.21); in random draws it under-invests about two thirds of the time. *Known in kind:
+  Strulik & Werner (2021), whose hyperbolic discounters revise their health plans and die
+  about five years early; here the present bias comes from echoes, the choice is news, and
+  the sign can flip.*
+- **Loss-averse news makes safety plans sticky.** Off plan "no", paying is a felt loss now
+  (the cost at horizon 0) and a gain later; off plan "yes", skipping is a loss about
+  survival (signs provable at the thresholds, Codex). Both plans are credible between
+  `F(1 + A − λn + nν)` and `F(1 + A − n + λnν)`, `F = e₂(1−n)/(r + sB)`, a band of width
+  `Fn(λ−1)(1+ν)`. Life calibration, `λ = 2`: `[0.70, 1.00]` around the commitment 0.91, so
+  the preferred personal equilibrium is the commitment choice (D3's mechanism, for
+  mortality). *Known in kind: Kőszegi & Rabin (2009), Prop. 5, plans as their own
+  commitment device.*
+  - Containment is an inequality, `1 + A − λn + nν ≤ Θ ≤ 1 + A − n + λnν` with
+    `Θ = G(r + sB)/Q`, not a theorem: about two thirds of random draws at `λ = 2`; the
+    life calibration needs `λ ≥ 1.33`, strong anticipation 1.13.
+  - It fails with short news reach (life calibration with `ν = 0.1`: commitment 0.90 above
+    the band `[0.58, 0.77]`, so the safety plan is not credible and the sequential self
+    skips) or weak news (`n = 0.001`: 1.09 below `[1.105, 1.107]`, over-investment).
+    *Codex's counterexamples; checked*
+- **How death comes changes what safety is worth.** Commitment WTP per unit survival, life
+  calibration, three moments: sudden 0.91, warned a period ahead 1.07, foreseen from birth
+  1.09 at `λ = 1`; at `λ = 2`, 0.91, 1.27, 1.25 (eight moments, risk before the fifth:
+  2.85, 3.26, 3.32 and 2.85, 3.71, 3.49). Under sudden death the dividend makes safety
+  cost relief; a warned death's news is felt and averages out at `λ = 1`, so that channel
+  is gone, and at `λ = 2` the diagnosis is a felt loss that safety avoids. A premium for deaths after illness over sudden ones is debated in
+  the value-of-statistical-life literature ("cancer premium"; not read here). *numerical*
+- **The fixed past with a warning** (four moments, the choice at 1, the diagnosis at 2):
+  sudden, commitment 0.91 against fixed past 0.83, band `[0.64, 0.93]` at `λ = 2`; warned,
+  1.07 against 0.98, and at `λ = 2` 1.26 against `[0.92, 1.29]`. The sequential self
+  under-invests either way; a warning widens the band in step with the WTP. *numerical*
+
+**Over a long life** (risk off plan at `t₀ = 40`, plan hazard 0.01, life calibration; per unit
+of extra death probability, life-sums from birth, reaching `t₀` with probability 0.67):
+
+- Fixed past −53.7, commitment −53.6: the deprivation dominates, and neither semantics
+  moves it.
+- The momentary self feels about 1% of it: −0.90 against a survivor's remaining felt life
+  of about 80. A self choosing by its current felt state takes mortal risks almost freely,
+  because the deprivation is felt by no one: the Epicurean recklessness objection, as
+  arithmetic.
+- Loss-averse news bites only once the risk exceeds the plan's own hazard: the decision
   revises later horizons by about `h(1−h) − δ`, while arrival relief stays a gain. At
-  `δ = 0.02`, `λ = 2`: momentary −1.36, fixed past −54.1, commitment −53.6.
-- `J` alone is not the whole decision (Codex): a mortality action changes which selves
-  exist and with what probability, as well as their felt states. On a fixed tree,
-  `W′ = w′ᵀe + wᵀ(I−H)^{−1}(b′ + H′e)`, the first term the change in occupancy weights.
+  `δ = 0.02`, `λ = 2`: momentary −1.36, fixed past −54.1, commitment −53.6. *numerical*
 
 ## Open
 
-- **The exact decision case** (Codex's first computation): three periods, one costly action
-  lowering next-period mortality; advance commitment against a later choice holding past
-  experience and its forecast reference fixed; a common mortality draw coupling the
-  counterfactuals; willingness to pay under the life-sum, linear news first, then `λ = 2`.
-  It separates the value of survival, relief, lost disappointment and past anticipation.
-  Schünemann, Strulik & Trimborn (2023) is the quantitative cousin: health investment with
-  endogenous longevity and one layer of anticipation.
+- A longer horizon for the decision case, and the band's containment as a condition rather
+  than a share of draws. Schünemann, Strulik & Trimborn (2023) is the quantitative cousin
+  for health investment with endogenous longevity.
 - A known date against a dated hazard (mortality rising with age, a diagnosis with an
   uncertain lead).
 - Dread of death: anticipating zero is not bad here, so fear of death lives only in news

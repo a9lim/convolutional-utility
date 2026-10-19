@@ -323,3 +323,223 @@ report("lam = 2, warned: E sum N = 0 (the dividend) - (lam - 1) E sum k_n (-dF)_
        max(abs(Pp @ N.sum(1) + Pp @ loss.sum(1)), abs(Pp @ lin.sum(1))), tol=1e-10)
 e2 = foreseen(201, **LIFE)
 print(f"      a period added to a constant life: new first moment {e2[0]:.4f}, new last {e2[-1]:.4f}")
+
+
+# 12. The exact decision case: three moments, 0 and 1 certain, 2 alive with probability
+#     s + a delta; paying (a = 1) costs c at 1. Commitment (plan foreseen at 0) against a fixed
+#     past (plan ap foreseen at 0, the choice news at 1) and the momentary self. WTP per unit of
+#     survival by the weight formula, channel by channel; loss-averse news gives a band of
+#     credible plans.
+def three_commit(a, s, d, c, a_, al, m, mu, n, nu, u=(1.0, 1.0, 1.0)):
+    A1, A2, B1, B2 = a_ * al, a_ * al ** 2, m * mu, m * mu ** 2
+    sa = s + a * d
+    M = np.array([[1, -A1, -A2 * sa], [-B1, 1, -A1 * sa], [-B2, -B1, 1 - n * (1 - sa)]])
+    e = np.linalg.solve(M, [u[0], u[1] - c * a, u[2]])
+    if e[2] < 0:
+        raise ValueError("terminal felt state negative: relief would be a loss branch")
+    return e, e[0] + e[1] + sa * e[2]
+
+
+def three_fixed(a, ap, s, d, c, a_, al, m, mu, n, nu, lam=1.0, u=(1.0, 1.0, 1.0)):
+    """Returns (e1, e2, R = e1 + s_a e2). News at 1 is phi per horizon against the t = 0 forecast."""
+    A1, B1, B2 = a_ * al, m * mu, m * mu ** 2
+    (p0, p1, p2), _ = three_commit(ap, s, d, c, a_, al, m, mu, n, nu, u)
+    sp_, sa = s + ap * d, s + a * d
+    sols = []
+    for k0 in ((1.0, lam) if lam != 1.0 else (1.0,)):
+        for k1 in ((1.0, lam) if lam != 1.0 else (1.0,)):
+            M = np.array([[1 - k0 * n, -(A1 + k1 * n * nu) * sa], [-B1, 1 - n * (1 - sa)]])
+            rhs = [u[1] - c * a + B1 * p0 - k0 * n * p1 - k1 * n * nu * sp_ * p2, u[2] + B2 * p0]
+            e1, e2 = np.linalg.solve(M, rhs)
+            if (lam == 1.0 or ((e1 - p1 >= -1e-12) == (k0 == 1.0)
+                               and (sa * e2 - sp_ * p2 >= -1e-12) == (k1 == 1.0))) and e2 >= 0:
+                if not any(abs(e1 - x) < 1e-10 and abs(e2 - y) < 1e-10 for x, y in sols):
+                    sols.append((e1, e2))
+    if len(sols) != 1:
+        raise RuntimeError(f"{len(sols)} consistent branches")      # Codex: never pick one silently
+    e1, e2 = sols[0]
+    return e1, e2, e1 + sa * e2
+
+
+def three_channels(s, a_, al, m, mu, n, nu):
+    """WTP per unit survival (delta -> 0, linear news): occupancy, anticipation, news of the
+    choice, lost relief; for commitment, fixed past and the momentary self."""
+    A1, A2, B1, B2 = a_ * al, a_ * al ** 2, m * mu, m * mu ** 2
+    e, _ = three_commit(0, s, 0, 0, a_, al, m, mu, n, nu)
+    K = np.array([[0, A1, A2 * s], [B1, 0, A1 * s], [B2, B1, n * (1 - s)]])
+    w = np.linalg.solve(np.eye(3) - K.T, [1, 1, s])
+    KF = np.array([[n, (A1 + n * nu) * s], [B1, n * (1 - s)]])
+    wF, R = np.linalg.solve(np.eye(2) - KF.T, [1, s]), np.linalg.inv(np.eye(2) - KF)
+    return {"commitment": (e[2] / w[1], e[2] * (w[0] * A2 + w[1] * A1) / w[1], 0.0, -e[2] * w[2] * n / w[1]),
+            "fixed past": (e[2] / wF[0], e[2] * A1, e[2] * n * nu, -e[2] * n * wF[1] / wF[0]),
+            "momentary": (0.0, e[2] * A1, e[2] * n * nu, -e[2] * n * R[0, 1] / R[0, 0])}
+
+
+def three_band(s, lam, a_, al, m, mu, n, nu):
+    """Fixed past, loss-averse news: deviating from 'no' pays iff c < lower; 'yes' is kept iff
+    c < upper (per unit survival, delta -> 0)."""
+    A1, B1 = a_ * al, m * mu
+    e, _ = three_commit(0, s, 0, 0, a_, al, m, mu, n, nu)
+    out = []
+    for k0, k1 in ((lam, 1.0), (1.0, lam)):
+        KF = np.array([[k0 * n, (A1 + k1 * n * nu) * s], [B1, n * (1 - s)]])
+        w = np.linalg.solve(np.eye(2) - KF.T, [1, s])
+        out.append(e[2] * (1 + w[0] * (A1 + k1 * n * nu) - w[1] * n) / w[0])
+    return out
+
+
+def threshold(f, lo=-5.0, hi=5.0, tol=1e-14):
+    while hi - lo > tol:
+        mid = (lo + hi) / 2
+        lo, hi = (mid, hi) if f(mid) > 0 else (lo, mid)
+    return (lo + hi) / 2
+
+
+par3 = dict(LIFE, a_=LIFE["a"])
+del par3["a"]
+s3, d3 = 0.9, 0.1
+err = 0.0
+for a in (0, 1):                                     # against the general solvers
+    e3, w3 = three_commit(a, s3, d3, 0.2, **par3)
+    e, surv = sudden_line(np.array([1.0, 1.0 - 0.2 * a, 1.0]), np.array([0.0, 1 - s3 - a * d3, 1.0]), **LIFE)
+    err = max(err, np.max(np.abs(e - e3)), abs(surv @ e - w3))
+x0, rem, _, _ = deviate(np.ones(3), np.array([0.0, 1 - s3, 1.0]), 1, -d3, **LIFE)
+e1, e2, r = three_fixed(1, 0, s3, d3, 0.0, **par3)
+report("three moments: commitment = sudden_line, fixed past = deviate", max(err, abs(x0 - e1), abs(rem - r)),
+       tol=1e-12)
+dd, err = 1e-7, 0.0
+for s3 in (0.9, 0.5):
+    ch = three_channels(s3, **par3)
+    fd = [threshold(lambda c: three_commit(1, s3, dd, c, **par3)[1] - three_commit(0, s3, dd, c, **par3)[1]),
+          threshold(lambda c: three_fixed(1, 0, s3, dd, c, **par3)[2] - three_fixed(0, 0, s3, dd, c, **par3)[2]),
+          threshold(lambda c: three_fixed(1, 0, s3, dd, c, **par3)[0] - three_fixed(0, 0, s3, dd, c, **par3)[0])]
+    err = max(err, max(abs(sum(v) - f / dd) for v, f in zip(ch.values(), fd)))
+    for k, v in ch.items():
+        print(f"      s = {s3}, {k:10s}: WTP {sum(v):.3f} = occupancy {v[0]:+.3f}, anticipation {v[1]:+.3f}, "
+              f"news {v[2]:+.3f}, lost relief {v[3]:+.3f}")
+report("three moments: channel WTPs = finite-difference thresholds", err, tol=1e-5)
+err = 0.0
+for lam in (2.0, 3.0):
+    lo_, hi_ = three_band(0.9, lam, **par3)
+    num = [threshold(lambda c: three_fixed(1, ap, 0.9, dd, c, **par3, lam=lam)[2]
+                     - three_fixed(0, ap, 0.9, dd, c, **par3, lam=lam)[2]) / dd for ap in (0, 1)]
+    err = max(err, abs(lo_ - num[0]), abs(hi_ - num[1]))
+    print(f"      lam = {lam}: credible band [{lo_:.3f}, {hi_:.3f}] around commitment "
+          f"{sum(three_channels(0.9, **par3)['commitment']):.3f}")
+report("three moments: closed-form band edges = solver", err, tol=1e-5)
+
+
+# 13. How death comes changes what safety is worth: commitment WTP per unit survival when the
+#     averted death would be sudden (L = 0), warned a period ahead (L = 1), or foreseen from birth.
+def tree_wtp(T, k, s, d, L, lam, par, t_pay=1):
+    """Death before moment k with probability 1 - (s + a d), else at T; paying c at t_pay."""
+    def W(a, c):
+        P = np.zeros(T)
+        P[k - 1], P[T - 1] = 1 - (s + a * d), s + a * d
+        u = np.ones(T)
+        u[t_pay] -= c * a
+        return tree(u, P, L, **par, lam=lam)[1]
+    W0 = W(0, 0.0)
+    return threshold(lambda c: W(1, c) - W0, tol=1e-11) / d
+
+
+v3 = sum(three_channels(0.9, **par3)["commitment"])
+report("tree, sudden, three moments = the closed-form commitment WTP",
+       abs(tree_wtp(3, 2, 0.9, 1e-4, 0, 1.0, LIFE) - v3), tol=2e-4)
+for T, k in ((3, 2), (8, 5)):
+    vals = {(lam, L): tree_wtp(T, k, 0.9, 1e-3, L, lam, LIFE) for lam in (1.0, 2.0) for L in (0, 1, T)}
+    print(f"      {T} moments, risk before {k}: " + "  ".join(
+        f"lam {lam:g} {'sudden' if L == 0 else 'warned' if L == 1 else 'foreseen'} {v:.3f}"
+        for (lam, L), v in vals.items()))
+
+
+# 14. The fixed past when the averted death would be warned: four moments, 0-2 certain, 3 alive
+#     with probability s + a delta; choice at 1; with L = 1 the self at 2 knows whether 3 exists.
+def four_plan(ap, s, d, c, L, lam, par):
+    P = np.zeros(4)
+    P[2], P[3] = 1 - (s + ap * d), s + ap * d
+    u = np.ones(4)
+    u[1] -= c * ap
+    e, W, _, F = tree(u, P, L, **par, lam=lam)
+    return e, W, F
+
+
+def four_fixed(a, ap, s, d, c, L, lam, par, it=20000):
+    """Remaining expected life-sum of the self at 1 choosing a against the plan ap."""
+    kf, kb, kn = kernels(4, **par)
+    e_p, _, F = four_plan(ap, s, d, c, L, lam, par)
+    p0, F0, sa = e_p[1, 0], F[1, 1], s + a * d
+    phi = lambda x: x if x >= 0 else lam * x
+    x = np.ones(4)                                     # e1, e2 (survive), e2 (die), e3
+    for _ in range(it):
+        e1, e2S, e2D, e3 = x
+        Fe2, Fe3 = sa * e2S + (1 - sa) * e2D, sa * e3
+        n1 = kn[0] * phi(e1 - F0[1]) + kn[1] * phi(Fe2 - F0[2]) + kn[2] * phi(Fe3 - F0[3])
+        E1 = 1 - c * a + kf[1] * Fe2 + kf[2] * Fe3 + kb[1] * p0 + n1
+        if L >= 1:
+            E2S = 1 + kf[1] * e3 + kb[1] * e1 + kb[2] * p0 + kn[0] * phi(e2S - Fe2) + kn[1] * phi(e3 - Fe3)
+            E2D = 1 + kb[1] * e1 + kb[2] * p0 + kn[0] * phi(e2D - Fe2) + kn[1] * phi(-Fe3)
+            E3 = 1 + kb[1] * e2S + kb[2] * e1 + kb[3] * p0
+        else:
+            E2S = E2D = 1 + kf[1] * sa * e3 + kb[1] * e1 + kb[2] * p0 + kn[0] * phi(e2S - Fe2) \
+                + kn[1] * phi(sa * e3 - Fe3)
+            E3 = 1 + kb[1] * e2S + kb[2] * e1 + kb[3] * p0 + kn[0] * phi((1 - sa) * e3)
+        new = np.array([E1, E2S, E2D, E3])
+        if np.max(np.abs(new - x)) < 1e-13:
+            break
+        x = 0.5 * new + 0.5 * x
+    e1, e2S, e2D, e3 = x
+    return e1 + sa * e2S + (1 - sa) * e2D + sa * e3
+
+
+err = 0.0
+for L in (0, 1):
+    for lam in (1.0, 2.0):
+        e_p, _, _ = four_plan(1, 0.9, 0.05, 0.2, L, lam, LIFE)
+        R = e_p[1, 1] + 0.95 * e_p[1, 2] + 0.05 * e_p[0, 2] + 0.95 * e_p[1, 3]
+        err = max(err, abs(four_fixed(1, 1, 0.9, 0.05, 0.2, L, lam, LIFE) - R))
+report("four moments: the off-plan solver on plan = the tree", err, tol=1e-9)
+d4 = 1e-3
+for L in (0, 1):
+    for lam in (1.0, 2.0):
+        lo4, hi4 = (threshold(lambda c: four_fixed(1, ap, 0.9, d4, c, L, lam, LIFE)
+                              - four_fixed(0, ap, 0.9, d4, c, L, lam, LIFE), tol=1e-11) / d4 for ap in (0, 1))
+        cm4 = threshold(lambda c: four_plan(1, 0.9, d4, c, L, lam, LIFE)[1]
+                        - four_plan(0, 0.9, d4, 0.0, L, lam, LIFE)[1], tol=1e-11) / d4
+        print(f"      {'warned' if L else 'sudden'}, lam {lam:g}: commitment {cm4:.3f}, fixed-past band "
+              f"[{lo4:.3f}, {hi4:.3f}]")
+
+
+# 15. Codex's closed forms (cu-death): r = 1 - n + n s, q = A1 + n nu,
+#     v_F = e2 (1-n)(1-n+q)/(r + s B1), v_M = e2 (1-n) q / r, v_C = e2 (1-n) G / Q,
+#     G = 1 + A1 + A1^2 + A2 + B1 A2 - A1 B1, Q = (1+A1) r + s [B1 (1+A2) + B2 (A1 - A2)];
+#     band edges F (1 + A1 - lam n + n nu), F (1 + A1 - n + lam n nu), F = e2 (1-n)/(r + s B1);
+#     lost relief is -n s/(1-n) of every evaluator's WTP. Containment of the commitment
+#     threshold in the band is an inequality, which fails at small news reach or weak news.
+err, share = 0.0, 0.0
+for _ in range(300):
+    pr = dict(a_=rng.uniform(.01, .5), al=rng.uniform(.1, .9), m=rng.uniform(.01, .5), mu=rng.uniform(.1, .9),
+              n=rng.uniform(.01, .4), nu=rng.uniform(.1, .95))
+    s4 = rng.uniform(.3, .99)
+    A1, A2, B1, B2 = pr["a_"] * pr["al"], pr["a_"] * pr["al"] ** 2, pr["m"] * pr["mu"], pr["m"] * pr["mu"] ** 2
+    n4, nu4 = pr["n"], pr["nu"]
+    r4, q4 = 1 - n4 + n4 * s4, A1 + n4 * nu4
+    e4, _ = three_commit(0, s4, 0, 0, **pr)
+    ch = three_channels(s4, **pr)
+    G = 1 + A1 + A1 ** 2 + A2 + B1 * A2 - A1 * B1
+    Q = (1 + A1) * r4 + s4 * (B1 * (1 + A2) + B2 * (A1 - A2))
+    F4 = e4[2] * (1 - n4) / (r4 + s4 * B1)
+    lo4, hi4 = three_band(s4, 2.0, **pr)
+    err = max(err, abs(sum(ch["commitment"]) - e4[2] * (1 - n4) * G / Q),
+              abs(sum(ch["fixed past"]) - F4 * (1 - n4 + q4)), abs(sum(ch["momentary"]) - e4[2] * (1 - n4) * q4 / r4),
+              abs(lo4 - F4 * (1 + A1 - 2 * n4 + n4 * nu4)), abs(hi4 - F4 * (1 + A1 - n4 + 2 * n4 * nu4)))
+    share = max(share, max(abs(v[3] / sum(v) + n4 * s4 / (1 - n4)) for v in ch.values()))
+report("three moments: Codex's closed forms for the WTPs and band edges", err, tol=1e-12)
+report("three moments: lost relief is -n s/(1-n) of each WTP", share, tol=1e-12)
+cx3 = dict(par3, nu=0.1)                                 # Codex's counterexample: LIFE with nu = 0.1
+cC3 = threshold(lambda c: three_commit(1, 0.9, 0.05, c, **cx3)[1] - three_commit(0, 0.9, 0.05, c, **cx3)[1])
+lo3, hi3 = (threshold(lambda c: three_fixed(1, ap, 0.9, 0.05, c, **cx3, lam=2.0)[2]
+                      - three_fixed(0, ap, 0.9, 0.05, c, **cx3, lam=2.0)[2]) for ap in (0, 1))
+report("lam = 2, nu = 0.1: commitment (0.900) above the whole band [0.580, 0.773] (Codex)",
+       float(not (hi3 < cC3)) + abs(cC3 / 0.05 - 0.900339) + abs(lo3 / 0.05 - 0.580350) + abs(hi3 / 0.05 - 0.772947),
+       tol=1e-5)
