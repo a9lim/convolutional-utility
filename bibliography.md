@@ -716,6 +716,57 @@ Brunnermeier & Parker 2005 and Caplin & Leahy 2001 are under anticipatory utilit
   `papers/schweizer-2017-optimal-revelation-of-life-changing-information-kit-wp.txt`
   - Concave anticipatory utility of beliefs; information is "a gamble over anticipated
     utility outcomes" (p. 3). One-shot.
+- **Fels, M. (2015).** On the value of information: why people reject medical tests.
+  *J. Behavioral and Experimental Economics* 56: 1–12. doi:10.1016/j.socec.2015.02.006.
+  **WP** (dissertation version, Bonn 2014, ch. I and its appendix) ·
+  `papers/fels-2014-on-the-value-of-information-why-people-reject-medical-tests-dissertation-ch1.txt`
+  - Kőszegi–Rabin (2009) news utility over a health outcome realized in period 2: test at 0,
+    result at 1; prospective weights `γ₀ ≤ γ₁ ≤ 1` fall with distance to the outcome, and
+    the realization is felt at full weight (pp. 12–13).
+  - Noninstrumental information is valuable iff `γ₁ < p⁺ − p⁻` (Prop. I.1, after KR):
+    learning early moves the reference point off the realization's disappointment, at the
+    price of news weighted `γ₁`.
+  - Rejection comes from instrumentality: a treatment plan changes how the news feels (the
+    emotional differential, eqs. I.6–I.7). A patient with treatment as default can reject a
+    perfect test (Prop. I.2); screening is refused when treatment helps but does not cure
+    (Prop. I.3).
+  - Faster and earlier tests are worth more (Obs. 5). No mortality: the realization is
+    always felt, which is what a sudden death removes (`notes/death.md`).
+- **Schünemann, J., Strulik, H. & Trimborn, T. (2023).** Anticipation of deteriorating
+  health and information avoidance. *J. Health Economics* 89: 102755.
+  doi:10.1016/j.jhealeco.2023.102755. **WP** (Aarhus Economics WP 2020-14) ·
+  `papers/schunemann-2020-anticipation-of-deteriorating-health-and-information-avoidance-aarhus-wp.txt`
+  - Life-cycle model of accumulating health deficits, death at a critical level, so
+    longevity is endogenous. The anticipation stock discounts future deficits and adds a
+    death term `D_T e^{−θ(T−t)}` that grows as death nears (eq. 3, p. 6): dread of death as
+    a disvalue, one layer, multiplicative in utility (eq. 5).
+  - One possible shock at a known age; an untested agent chooses beliefs
+    (Brunnermeier–Parker). For Huntington's, denial (`b = 0`) is optimal; testing at 20
+    costs 1.5% of expected lifetime utility, $129,266 (Fig. 2, Table 3, pp. 18–21).
+  - Avoidance needs the chosen belief: at `b = p = 0.5` testing is slightly preferred
+    (threshold just below 0.5, p. 18). No news utility, memory or mortality hazard.
+- **Kopczuk, W. & Slemrod, J. (2005).** Denial of death and economic behavior. *Advances in
+  Theoretical Economics* 5(1), art. 5. doi:10.2202/1534-5963.1207. **WP** (NBER w11485;
+  §1 and the conclusions closely, the propositions skimmed) ·
+  `papers/kopczuk-2005-denial-of-death-and-economic-behavior-nber-w11485.txt`
+  - Three periods. Fear of death `F(m)`, increasing in the subjective probability of dying
+    before the next period, enters `u(C − F)` (p. 8); surviving is itself Bayesian news
+    about frailty (eq. 4, p. 11).
+  - Denial is repression of mortality signals: lower future fear for misallocated
+    consumption, hence time inconsistency; small reminders are always repressed (p. 26).
+- **James, R. N. III (2016).** An economic model of mortality salience in personal
+  financial decision making. *J. Financial Therapy* 7(2), art. 5.
+  doi:10.4148/1944-9771.1122. **FT** (model sections; applications skimmed) ·
+  `papers/james-2016-an-economic-model-of-mortality-salience-in-personal-financial-decision-making.txt`
+  - Two periods, after Brunnermeier–Parker: `W = u(c₁,R₁) + δu(ĉ₂,R₂) + sβu(c₂,R₂)`, with
+    anticipated own consumption survival-weighted, `ĉ₂ = ŝc₂`, and death denial
+    `ŝ = s + d(1−s)` (p. 65). Survival-weighted anticipation and survival optimism, in kind;
+    denial costs effort and decisions, never news.
+- **Yaari, M. E. (1965).** Uncertain lifetime, life insurance, and the theory of the
+  consumer. *RES* 32(2): 137–150. doi:10.2307/2296058. **ABS** (publisher record; text in
+  `inbox/` for a9's access)
+  - Expected lifetime utility weights each period by the survival probability, the
+    standard behind survival-weighted anticipation in `notes/death.md`.
 - **Bénabou, R. & Tirole, J. (2002).** Self-confidence and personal motivation. *QJE*
   117(3): 871–915. doi:10.1162/003355302760193913. **WP** (2001; intro, §§I, IV, V.B) ·
   `papers/benabou-2002-self-confidence-and-personal-motivation-wp.txt`
@@ -757,6 +808,15 @@ Brunnermeier & Parker 2005 and Caplin & Leahy 2001 are under anticipatory utilit
     anticipation; testing destroys the option to hold chosen beliefs (Prop. 3).
   - Corrigendum (*AER* 106(6): 1562–65, 2016; **ABS**): corrected risk series shows less
     over-optimism, concentrated at advanced symptoms. The AER sample may differ from the WP.
+- **Gigerenzer, G. & Garcia-Retamero, R. (2017).** Cassandra's regret: the psychology of not
+  wanting to know. *Psychological Review* 124(2): 179–196. doi:10.1037/rev0000055. **FT**
+  (publisher version) · `papers/gigerenzer-2017-cassandras-regret-the-psychology-of-not-wanting-to-know.txt`
+  - Representative samples in Germany (n ≈ 1,000) and Spain (1,002): 87.7% of Germans
+    would not want to know "today when you will die" (4.2% would); 86–90% across five
+    negative events (p. 186). Spain replicates (1.5 points lower overall).
+  - Theory: minimax anticipated regret (Luce & Raiffa). Time-to-event: the nearer the
+    event, the less it is wanted, with age as the proxy; for the time of one's own death the
+    age effect does not survive controls (p. 192).
 - **Karlsson, N., Loewenstein, G. & Seppi, D. (2009).** The ostrich effect: selective
   attention to information. *J. Risk and Uncertainty* 38(2): 95–115.
   doi:10.1007/s11166-009-9060-6. **FT** (OCR) ·

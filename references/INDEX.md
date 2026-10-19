@@ -97,6 +97,13 @@ Recursive gain-loss
 - `caplin-2003-aids-policy-and-psychology-a-mechanism-design-approach.txt` — JSTOR-stamped copy on a co-author's page
 - `schweizer-2017-optimal-revelation-of-life-changing-information-kit-wp.txt` — WP of Schweizer & Szech 2018
 
+Death dates and mortality information (`notes/death.md`)
+- `fels-2014-on-the-value-of-information-why-people-reject-medical-tests-dissertation-ch1.txt` — dissertation chapter of Fels 2015, read through the browser with pdf.js; math mangled
+- `schunemann-2020-anticipation-of-deteriorating-health-and-information-avoidance-aarhus-wp.txt` — WP of Schünemann, Strulik & Trimborn 2023
+- `kopczuk-2005-denial-of-death-and-economic-behavior-nber-w11485.txt` — NBER WP of Kopczuk & Slemrod 2005
+- `james-2016-an-economic-model-of-mortality-salience-in-personal-financial-decision-making.txt`
+- `gigerenzer-2017-cassandras-regret-the-psychology-of-not-wanting-to-know.txt` — publisher version via MPG.PuRe
+
 Recollection and motivated memory
 - `mitchell-1997-temporal-adjustments-in-the-evaluation-of-events-the-rosy-view-abs.txt`, `walker-1997-autobiographical-memory-unpleasantness-fades-faster-than-pleasantness-abs.txt`, `walker-2003-life-is-pleasant-and-memory-helps-to-keep-it-that-way-abs.txt`, `sedikides-2020-in-human-memory-good-can-be-stronger-than-bad-abs.txt` — abstracts
 - `hoehne-2024-predicting-the-likelihood-and-amount-of-fading-fixed-flourishing-flexible-affect.txt`, `hoehne-2025-evidence-for-a-fading-affect-bias-in-subjectively-assessed-affect-changes.txt`

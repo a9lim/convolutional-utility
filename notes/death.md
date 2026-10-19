@@ -19,8 +19,8 @@ by Codex (thread `cu-death`), whose corrections and counterexamples are folded i
   depend on `D`, and actions are fixed (a warning has no value for preparation), except in
   the decisions section.
 - Constant hazard `h` makes survival-weighted anticipation a shorter reach,
-  `aα^j → aα^j(1−h)^j`. *standard for expected lifetime utility (Yaari 1965); applied to
-  felt anticipation, synthesis*
+  `aα^j → aα^j(1−h)^j`. *standard for expected lifetime utility (Yaari 1965, text
+  unread); inside felt anticipation known in kind (James 2016, two periods: `ĉ₂ = ŝc₂`)*
 
 ## The dead feel no news
 
@@ -31,7 +31,9 @@ by Codex (thread `cu-death`), whose corrections and counterexamples are folded i
   revision no one feels is the dying branch's; already-dead branches revise nothing.
   Recursion does not break it: expected future relief is inside the forecasts. Warned
   deaths have their forecasts at zero beforehand, so with warnings the term is zero.
-  *synthesis, exact counterpart not located; checked, recursive and direct; Codex's proof*
+  *not found (in Kőszegi & Rabin 2009 and Fels 2015 the realization is always felt; Kopczuk
+  & Slemrod 2005 and Schünemann et al. 2023 have no news term); checked, recursive and
+  direct; Codex's proof*
 - This is raw felt news, not its welfare: zero expected news with a warning still moves
   welfare through echoes (below).
 - **Pathwise**: every survived period is a little good news (relief at
@@ -68,6 +70,11 @@ Linear news unless stated; good future (`u = 1`), life calibration, death unifor
   on knowing's side. *checked against the tree, 147 draws*
   - In D5's example (`a = m = ½`, `ν = 0.7`) knowing always wins; its value dips from 1/7
     at `n = 0` to 0.137 at `n = 0.1`, then rises (0.47 at `n = 0.5`).
+- **Against Kőszegi–Rabin.** With news over a felt realization, timing is neutral at
+  `λ = 1`, and at `λ > 1`, `γ < 1` early full information is preferred: the realization's
+  disappointment is felt at full weight, news ahead of it at `γ` (Fels 2015, Prop. I.1,
+  after Kőszegi & Rabin 2009, Prop. 2). Mortality removes that realization in the dying
+  branch, so the dividend exists at `λ = 1` and ignorance can beat early knowledge.
 - **At the calibrations, ignorance wins.** Sudden death beats foreseen-from-birth by +0.68
   (about 2% of welfare); direct echoes +0.45; without news −0.035 (D5's route alone).
   Knowing wins with weak news and strong echoes (`n = 0.05`, `M = 0.9`: +0.7 to +2.4 by
@@ -79,7 +86,9 @@ Linear news unless stated; good future (`u = 1`), life calibration, death unifor
   k_n(j)(−ΔF_t^{t+j})₊`, both terms on the same loss-averse fixed point (Codex): the
   uncancelled death boundary against the losses actually felt.
   - At the calibrations (`λ = 2`): sudden +0.68 > foreseen from birth 0 > long warning
-    (−0.11 at `L = 8`) > short warning (−0.54 at `L = 1`).
+    (−0.11 at `L = 8`) > short warning (−0.54 at `L = 1`). Among warnings, earlier beats
+    later, Fels's Obs. 5 for medical tests under Kőszegi–Rabin news *known in kind*; the
+    sudden end on top is the unfelt realization.
   - Not a theorem. With weak news and strong echoes the order reverses (Codex: `n = 0.01,
     a = 0.4, m = 0.5`, death uniform on 1–8: sudden 10.43 < `L = 1` 10.82 < `L = 4`
     11.23 < foreseen 11.27). And a diagnosis's jolt is not just news about horizons `L`
@@ -87,9 +96,12 @@ Linear news unless stated; good future (`u = 1`), life calibration, death unifor
     a diagnosis not arriving is news too.
 - **Bad future (`u = −0.5`)**: at `λ = 1` the linear model reverses exactly (sudden −0.34);
   at `λ = 2` foreseen from birth is best and sudden worst (−0.77).
-- The hook: most people say they would not want to know (Gigerenzer & Garcia-Retamero
-  2017, unverified). The model gives a reason before any loss aversion, and predicts the
-  preference reverses for those who expect their future to be worse than zero.
+- **The hook.** In a representative German sample 87.7% would not want to know "today when
+  you will die" and 4.2% would; Spain replicates (Gigerenzer & Garcia-Retamero 2017,
+  p. 186). They explain it by anticipated regret, and find, with age as the proxy, that the
+  nearer an event the less it is wanted, though not robustly for one's own death date. The
+  model gives a reason before any loss aversion, and predicts the preference reverses for
+  those who expect their future to be worse than zero.
 
 ## Hazard and the felt state of the living
 
@@ -98,7 +110,10 @@ Linear news unless stated; good future (`u = 1`), life calibration, death unifor
 - Hazard shortens anticipation and adds relief:
   `M_h − M_0 = h[n/(1−ν+νh) − aα/((1−α)(1−α+αh))]`.
   - Near zero the sign is `N − M₁⁺`: news mass `n/(1−ν)` against anticipation's first
-    moment `aα/(1−α)²`. *checked on random draws*
+    moment `aα/(1−α)²`. *not found; checked on random draws*
+  - Nearest: Kopczuk & Slemrod (2005) make surviving Bayesian news about one's frailty,
+    which lowers fear (eq. 4). Relief here needs no frailty to learn about; a known
+    constant hazard is enough.
   - At finite `h` it can flip (Codex: `a = 0.1, α = ½, m = 0, n = 0.03, ν = 0.9`, `N > M₁⁺`,
     yet `e*` falls below `e*(0)` at `h = 0.2`).
   - With `α = ν` the sign is constant, and the felt state is invariant at every `h` iff
@@ -118,6 +133,10 @@ Linear news unless stated; good future (`u = 1`), life calibration, death unifor
   - A restricted subjective-belief extension, not a Bayesian result: coherent immortal
     forecasts of its own experience, no informative decline or diagnosis, no separate cost
     of holding a false belief (Codex).
+  - Death denial as optimism about survival is known in kind: James (2016,
+    `ŝ = s + d(1−s)` inside anticipation), Kopczuk & Slemrod (2005, repressed mortality
+    signals), Schünemann et al. (2023, denial of a Huntington's shock, corrected at onset).
+    In each, denial costs decisions or effort; never being corrected by news: *not found*.
   - Menu D2 (quantum immortality prices doom news), in the linear model.
 
 ## Where death's harm lands
@@ -134,8 +153,10 @@ Linear news unless stated; good future (`u = 1`), life calibration, death unifor
   of the attitude asymmetry (learning of a later death revises forecasts, learning of an
   earlier birth does not), not the whole: an earlier birth can change what is remembered,
   news about one's past can change forecasts, and the retrospective comparison involves
-  `J`. Brueckner & Fischer's bias toward future goods, partly located in the news kernel.
-  *synthesis; prior art from memory*
+  `J`. The future-bias reply is Parfit's (1984; Brueckner & Fischer 1986, unread), here
+  partly located in the news kernel, and the life-sum's symmetry is the SEP's point that a
+  preference for future life is irrational for "the life- or pleasure-gourmand" (Luper
+  2026, §5.2). *synthesis; Parfit via Luper*
 - **Hedonic zero is load-bearing** for every comparison here, as for any comparison across
   lifespans (core, Objects).
 
@@ -167,21 +188,15 @@ at `t₀`) against the same risk foreseen from birth (commitment). Life calibrat
   experience and its forecast reference fixed; a common mortality draw coupling the
   counterfactuals; willingness to pay under the life-sum, linear news first, then `λ = 2`.
   It separates the value of survival, relief, lost disappointment and past anticipation.
+  Schünemann, Strulik & Trimborn (2023) is the quantitative cousin: health investment with
+  endogenous longevity and one layer of anticipation.
 - A known date against a dated hazard (mortality rising with age, a diagnosis with an
   uncertain lead).
 - Dread of death: anticipating zero is not bad here, so fear of death lives only in news
-  (a diagnosis), or needs a kink or a disvalue of dying.
-- **Prior art.** Read in full before any priority claim:
-  - Fels 2015, "On the value of information: why people reject medical tests":
-    Kőszegi–Rabin news utility applied to testing, disappointment and timing; close to the
-    loss-averse ordering (abstract seen by Codex).
-  - Schünemann, Strulik & Trimborn 2023 (*J. Health Econ.*): anticipatory utility and
-    endogenous beliefs in a life-cycle model of health and longevity, Huntington's testing
-    included; relevant to the decision case.
-  - Kőszegi 2003 (health anxiety and avoided information); Caplin & Leahy 2001.
-  - Oster, Shoulson & Dorsey 2013 and the corrigendum: less overoptimism than first
-    reported, concentrated among people with more advanced symptoms; genetic status is not
-    a death date.
-  - James 2016, an economic model of mortality salience and death denial (abstract only).
-  - Yaari 1965 (record verified, text not); Brueckner & Fischer 1986; Nagel 1970;
-    Gigerenzer & Garcia-Retamero 2017.
+  (a diagnosis), or needs a disvalue. The literature has two: an anticipated terminal
+  deficit that weighs more as death nears (Schünemann et al. 2023, eq. 3), and fear
+  increasing in the perceived hazard (Kopczuk & Slemrod 2005). Either adds a felt cost of
+  hazard to set against the relief here.
+- **Prior art still unread** (`references/inbox/`): Yaari 1965; Brueckner & Fischer 1986;
+  the journal version of Fels 2015. What was read is in `bibliography.md`, value of
+  information (economics) and field evidence.
