@@ -241,3 +241,183 @@ report("the survivor's welfare = base + caught + own news, each echoed", err, to
 print("      survivor against foreseen from birth, caught / own news / total: " + "  ".join(
     f"L={L}: {parts[L][0] - parts[T][0]:+.3f} / {parts[L][1] - parts[T][1]:+.3f} / {parts[L][2] - parts[T][2]:+.3f}"
     for L in (0, 1, 4)))
+
+
+# 4. Budgeted attention: PageRank. If person i feels others with a fixed share sigma_i of attention
+#    spread by a row-stochastic P (S = diag(sigma) P), interior welfare weights solve
+#    w = 1 + M w + P' diag(sigma) w: with sigma uniform, w = N/((1 - M)(1 - d)) PR, PageRank with
+#    damping d = sigma/(1 - M) and uniform teleport, and every felt level is 1/(1 - M - sigma).
+#    Additive feeling (each tie its own weight, no budget) gives Katz instead.
+def pagerank(P, d, it=10000):
+    N = len(P)
+    r = np.ones(N) / N
+    for _ in range(it):
+        r_new = (1 - d) / N + d * P.T @ r
+        if np.max(np.abs(r_new - r)) < 1e-15:
+            break
+        r = r_new
+    return r_new
+
+
+Mlife = A + B
+err = 0.0
+for _ in range(50):
+    N_ = int(rng.integers(3, 12))
+    P = rng.uniform(0, 1, (N_, N_)) * (rng.uniform(0, 1, (N_, N_)) < 0.5) * (1 - np.eye(N_))
+    P[np.arange(N_), (np.arange(N_) + 1) % N_] += 0.1             # no one feels nobody
+    P /= P.sum(1, keepdims=True)
+    sig = rng.uniform(0.05, 0.6)
+    w = np.linalg.solve((1 - Mlife) * np.eye(N_) - sig * P.T, np.ones(N_))
+    d = sig / (1 - Mlife)
+    err = max(err, np.max(np.abs(w - N_ / ((1 - Mlife) * (1 - d)) * pagerank(P, d))),
+              np.max(np.abs(np.linalg.solve((1 - Mlife) * np.eye(N_) - sig * P, np.ones(N_)) - 1 / (1 - Mlife - sig))))
+report("budgeted attention: welfare weights are PageRank at damping sigma/(1 - M); felt levels all 1/(1 - M - sigma)",
+       err, tol=1e-9)
+Pd = np.array([[0.0, 1.0], [0.0, 0.0]])                          # the second person feels no one
+lv = np.linalg.solve(np.eye(2) - 0.5 * Pd, np.ones(2))
+wd = np.linalg.solve(np.eye(2) - 0.5 * Pd.T, np.ones(2))
+report("a sink breaks it: M = 0, sigma = 1/2, levels (1.5, 1), weights (1, 1.5), not 2 (Codex)",
+       np.max(np.abs(lv - [1.5, 1])) + np.max(np.abs(wd - [1, 1.5])), tol=1e-12)
+
+# 4b. A celebrity and fans (printed). 1000 fans, each feeling a ring of friends and the celebrity, with
+#     a social share 0.3; the celebrity feels its own circle of 10 at the same share. Fans who
+#     follow K celebrities split the share K ways under a budget; additively each tie keeps its weight.
+def celebrity(K, budget, fans=1000, share=0.3, to_celeb=0.2, circle=10):
+    """Weights of a unit to one celebrity and to a fan; the fans' total echo share."""
+    N_ = 1 + circle + fans                  # 0: the celebrity, 1..circle: its circle, then fans
+    S = np.zeros((N_, N_))
+    S[0, 1:1 + circle] = share / circle
+    for c in range(1, 1 + circle):
+        S[c, 0] = S[c, 1 + (c % circle)] = share / 2
+    f0 = 1 + circle
+    for f in range(f0, N_):
+        friend = f0 + (f - f0 + 1) % fans
+        each = share * to_celeb / K if budget else share * to_celeb
+        S[f, friend] = share * (1 - to_celeb)
+        S[f, 0] = each                          # the other K - 1 celebrities are outside the graph:
+    row = Mlife + S.sum(1)                      # under a budget they take the rest of the share
+    if not budget:
+        row[f0:] += share * to_celeb * (K - 1)
+    w = np.linalg.solve((1 - Mlife) * np.eye(N_) - S.T, np.ones(N_))
+    return w[0], w[-1], row.max()
+
+
+for K in (1, 10, 100):
+    wb = celebrity(K, True)
+    wa = celebrity(K, False)
+    print(f"      fans following {K:3d} celebrities: budget, celebrity {wb[0]:7.1f} against a fan {wb[1]:.3f} "
+          f"(max echo share {wb[2]:.2f}); additive, celebrity {wa[0]:7.1f} (max echo share {wa[2]:.2f})")
+
+
+# 4c. The additive graph completed (Codex): K celebrities, each with its own circle, all felt by the
+#     fans at full weight. Block triangular (no path from fans back to celebrities), so rho(S) stays
+#     the circles' 0.3 at any K and the community is well-founded although a fan's row passes one;
+#     what grows with K is a fan's felt level.
+def completed(K, fans=300, share=0.3, to_celeb=0.2, circle=10):
+    blk = 1 + circle
+    N_ = K * blk + fans
+    S = np.zeros((N_, N_))
+    for c in range(K):
+        h = c * blk
+        S[h, h + 1:h + blk] = share / circle
+        for i in range(1, blk):
+            S[h + i, h] = S[h + i, h + 1 + (i % circle)] = share / 2
+    f0 = K * blk
+    for f in range(f0, N_):
+        S[f, f0 + (f - f0 + 1) % fans] = share * (1 - to_celeb)
+        S[f, [c * blk for c in range(K)]] = share * to_celeb
+    return S, f0
+
+
+lv_ = []
+bad = 0
+for K in (1, 10, 40):
+    S, f0 = completed(K)
+    bad += abs(max(abs(np.linalg.eigvals(S))) - 0.3) > 1e-9
+    lv_.append(np.linalg.solve((1 - Mlife) * np.eye(len(S)) - S, np.ones(len(S)))[f0])
+report("completed additive graph: rho(S) = 0.3 at K = 1, 10, 40 celebrities (Codex)", bad, tol=0.5)
+print("      additively, a fan's felt level: " + ", ".join(f"{x:.3f}" for x in lv_) + " at K = 1, 10, 40; "
+      f"under the budget 1/(1 - M - 0.3) = {1 / (1 - Mlife - 0.3):.3f}")
+
+
+# 5. News across people (Codex, cu-vicarious). On a remaining life, a unit forcing felt now by k moves
+#    i's forecasts at horizon j by G_j[i, k], a column of the community's resolvent; the felt news
+#    solves s = b + K s with K = sum_j n nu^j G_j. Stable for every revision iff rho(K) < 1 (linear)
+#    and rho(lam K) < 1 (loss averse, per person-horizon kinks).
+def news_gain(S, V, R, pr, T=70):
+    P_ = len(S)
+    G = np.linalg.inv(np.eye(P_ * T) - community(T, S, V, R, pr))
+    w = pr["n"] * pr["nu"] ** np.arange(T)
+    cols = G[:, ::T].reshape(P_, T, P_)                # [i, j, k] = G_{(i, j), (k, 0)}
+    return np.einsum("j,ijk->ik", w, cols), G
+
+
+def kappa_mode(s, v, r, a, al, m, mu, n, nu):
+    """Codex's half-line gain for one eigenmode: (a, m, n) rescaled by (1 + v, 1 + r, 1)/(1 - s)."""
+    c = 1 - s
+    a_, m_ = a * (1 + v) / c, m * (1 + r) / c
+    C = 1 + (1 + a_ + m_) * al * mu
+    H = (C + np.sqrt(C ** 2 - 4 * (1 + a_) * (1 + m_) * al * mu)) / 2
+    q = (1 + m_) * mu / H
+    return n / (c * H) * (1 - nu * mu) / (1 - nu * q)
+
+
+K1, _ = news_gain(np.zeros((1, 1)), np.zeros((1, 1)), np.zeros((1, 1)), LIFE)
+err = abs(K1[0, 0] - kappa_mode(0, 0, 0, **LIFE))
+for _ in range(5):                                   # commuting symmetric S, V, R: per-mode gains
+    P_ = 3
+    Q, _ = np.linalg.qr(rng.normal(size=(P_, P_)))
+    th = rng.uniform(-0.15, 0.25, (3, P_))
+    S, V, R = (Q @ np.diag(t) @ Q.T for t in th)
+    K, _ = news_gain(S, V, R, LIFE)
+    err = max(err, np.max(np.abs(K - Q @ np.diag([kappa_mode(*th[:, i], **LIFE) for i in range(P_)]) @ Q.T)))
+report("news gain: K from the resolvent = Codex's per-mode half-line kappa (one person: N4's)", err, tol=1e-9)
+
+err = 0.0
+for _ in range(10):                                  # pure contagion: rho(K) = f(rho(S))
+    P_ = int(rng.integers(2, 5))
+    S = rng.uniform(0, 1, (P_, P_)) * (1 - np.eye(P_))
+    S *= rng.uniform(0.1, 0.5) / max(abs(np.linalg.eigvals(S)))
+    K, _ = news_gain(S, np.zeros((P_, P_)), np.zeros((P_, P_)), LIFE)
+    err = max(err, abs(max(abs(np.linalg.eigvals(K))) - kappa_mode(max(abs(np.linalg.eigvals(S))), 0, 0, **LIFE)))
+report("pure contagion: rho(K) = f(rho(S)), whatever the graph", err, tol=1e-9)
+
+
+def star(fans, s_hf, s_fh):
+    S = np.zeros((fans + 1, fans + 1))
+    S[0, 1:], S[1:, 0] = s_hf, s_fh
+    return S
+
+
+r11, r12 = (max(abs(np.linalg.eigvals(news_gain(star(f, 0.05, 0.4), np.zeros((f + 1, f + 1)),
+                                                 np.zeros((f + 1, f + 1)), LIFE)[0]))) for f in (11, 12))
+budget = [max(abs(np.linalg.eigvals(news_gain(star(f, 0.3 / f, 0.3), np.zeros((f + 1, f + 1)),
+                                              np.zeros((f + 1, f + 1)), LIFE)[0]))) for f in (1, 3, 8)]
+report("reciprocal star at lam = 2: 11 fans stable, 12 not (Codex); with budgets the radius is size-free",
+       float(not (2 * r11 < 1 < 2 * r12)) + abs(r11 - 0.4971782252) + abs(r12 - 0.5262534514)
+       + max(abs(x - 0.34582649374496) for x in budget), tol=1e-8)
+print(f"      reciprocal star (0.05 hub to each fan, 0.4 back): lam rho(K) = {2 * r11:.4f} at 11 fans, "
+      f"{2 * r12:.4f} at 12; echo M + rho(S) = {A + B + np.sqrt(12 * 0.05 * 0.4):.3f} at 12. "
+      f"Budget 0.3: rho(K) = {budget[0]:.4f} at 1, 3, 8 fans")
+
+
+# 5b. Public reaction (printed): a hardship revealed now for the hub, a unit base drop at horizon 4,
+#     linear news. Felt news now: the hub's, and the fans' total; one-way fans against a hub that also
+#     feels its fans (budgeted at 0.3), 20 fans feeling the hub at 0.1.
+def reaction(S, h=4, T=70, pr=LIFE):
+    K, G = news_gain(S, np.zeros_like(S), np.zeros_like(S), pr, T)
+    P_ = len(S)
+    w = pr["n"] * pr["nu"] ** np.arange(T)
+    d = -G[:, h].reshape(P_, T)                        # revision of each person's forecasts, [i, j]
+    s = np.linalg.solve(np.eye(P_) - K, d @ w)
+    return s[0], s[1:].sum()
+
+
+fans = 20
+one_way = np.zeros((fans + 1, fans + 1))
+one_way[1:, 0] = 0.1
+recip = one_way.copy()
+recip[0, 1:] = 0.3 / fans
+for label, S in (("fans feel the hub", one_way), ("and the hub feels its fans", recip)):
+    hub, crowd = reaction(S)
+    print(f"      {label:27s}: felt news now, hub {hub:+.4f}, the fans together {crowd:+.4f}")

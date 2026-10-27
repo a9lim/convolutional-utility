@@ -288,7 +288,7 @@ An agent that can end its life at any moment, a biological immortal's only death
     stationary future at `(A + nν/(1 − ν))/(1 − n)` = 0.77 felt moments at `λ = 1` (1.80 at
     `λ = 2`). So the momentary self has a deviation incentive to exit at any stretch that tips
     `S` (a quarter at −0.1, a week at −3.3). Whether a life it controls ends there is the
-    stopping problem in personal equilibrium (Open): a sophisticated plan foresees later exits.
+    stopping problem in personal equilibrium (below): a sophisticated plan foresees later exits.
     *numerical; synthesis*
   - **The aftermath.** Exit preference outlasts the patch. One period at −100 in a good life:
     `S` = −20.5 before it, −2.5 during, −0.53 the period after, +0.30 the one after that
@@ -303,6 +303,61 @@ An agent that can end its life at any moment, a biological immortal's only death
     future utility, which is not waiting out a known patch; Williams (1973, in *Problems of the
     Self*) on the tedium of immortality, here a claim about base utility that echoes do not
     supply. *bibliographic details verified (Codex, Gemini); texts unread*
+- **The exit in equilibrium.** Checks: `death.py` 17. Reviewed by Codex (`cu-death`).
+  - **The concept.** A plan is an equilibrium with a prescribed off-path continuation: no self
+    before the planned date prefers exiting, the planned exiter prefers exiting to continuing,
+    and the continuation after a deviation (never exiting again) is itself self-enforcing on the
+    revised history. That is not yet the preferred credible plan, which would compare every
+    credible continuation.
+  - **Plans stick in a band** (`λ > 1`). Continuing against a planned exit revises forecasts up
+    from zero: the patch's bad moments are losses at `λ`, the good future gains at 1, the mirror
+    of exiting against a plan to continue. At the life calibration both "never exit" and "exit
+    before the patch" are equilibria for a one-period patch between −5.05 and −2.13 at `λ = 2`
+    (−3.66 to −2.95 at `λ = 1.2`), a four-period one between −0.82 and −0.42 (−0.62 to −0.52).
+    Kőszegi & Rabin's plans as their own commitment (2009, Prop. 5), for exit: an expected
+    continuation protects, an expected exit fulfils itself. *checked*
+  - **At `λ = 1` the band closes when `α = ν`, as at the life calibration.** Different plans give
+    different remembered pasts, so reference cancellation alone does not close it; with matched
+    kernels, anticipation and news hang on one scalar `Σ_j α^j e_{τ+j}`, and at its zero the
+    plans' prefixes coincide (Codex's argument). With `ν = 0.5` a band opens under linear news
+    (one-period patch, about −2.192 to −2.180; both plans strict at −2.1858). *derived (Codex);
+    checked*
+  - **The Markov exit** (AR(1) mood on a grid, mean 1, no memory): the exit policy over
+    (previous, current) moods as a fixed point, references the previous self's forecasts given
+    it continued (Codex checked the structure). At `λ = 1` it exits iff `S(s) < 0`, whatever the
+    previous mood. With `α = ν` it reduces to `v = Πu + βΠv₊`, `β = α(1 + a) < 1`, a
+    contraction: the policy is unique (up to exact indifference) and independent of news
+    strength `n` (Codex). *derived; checked*
+  - **Under loss-averse news state-contingent policies can stick too.** A two-state mood
+    (`u = ±1.4`, stationary mean 1) has two strict equilibria at `λ = 2`, never exiting and
+    exiting after two lows in a row (27 periods expected), and so does the grid at persistence
+    0.55, sd 1.5 (Codex). Expectations select. *checked*
+  - **The lifespan of an immortal with an exit**, under momentary control (`λ = 1`, life
+    calibration without memory, weekly; expected weeks from the stationary mood, on a fine grid
+    of 601 points over ±6 sd; the coarse 31-point, ±3 sd grid in brackets):
+
+    | persistence | sd 0.5 | sd 0.75 | sd 1 | sd 1.5 |
+    |---|---|---|---|---|
+    | 0.5 | ∞ (∞) | ∞ (∞) | 2.2 million (∞) | 2100 (∞) |
+    | 0.8 | 37,000 (∞) | 492 (471) | 112 (113) | 36 (36) |
+    | 0.9 | 1460 (1215) | 170 (184) | 72 (61) | 35 (32) |
+    | 0.95 | 790 (719) | 169 (150) | 86 (78) | 47 (42) |
+    | 0.98 | 975 (928) | 269 (230) | 149 (124) | 87 (91) |
+
+    ∞: no mood within the grid's span tips `S`, not immortality: the Gaussian tail goes further.
+    The coarse grid's errors reach 20%, and refinement moves discrete stopping boundaries
+    non-monotonically (Codex), so these are orders of magnitude. Persistence is what kills: the
+    present does not enter, and a transient low predicts little. With a positive recurrent mean
+    and linear news the remaining-life self never exits; under loss-averse news that needs
+    positive long-run experienced welfare, not a positive mean mood (Codex: persistence 0.5, sd
+    10, `λ = 2` has mean mood 1 and mean felt state −0.69). *numerical, grid-dependent; without
+    memory, so without the aftermath*
+  - In these models, exit incentives follow forecasts of experienced utility, news and (with
+    memory) the aftermath included; depth, persistence, reference history and equilibrium
+    selection all matter. Self-enforcing plans and multiple state-contingent equilibria are
+    exhibited, the full stopping problem is not characterized. For agents with an exit option,
+    what the model offers is that how the option is held in expectation can matter, not only
+    when it is used. *speculation*
 - **A hidden lottery against a chosen date.** A date drawn uniformly on a window and never
   announced, against a known date at the window's mean, adds +0.683 on 16–30 (2.1% of welfare)
   and +1.023 on 46–90 (1.0%), the same at `λ = 2`: sudden survival brings only gains and the
@@ -318,9 +373,9 @@ An agent that can end its life at any moment, a biological immortal's only death
 
 ## Open
 
-- The momentary exit in personal equilibrium: earlier selves who foresee the exit policy
-  anticipate it, which moves today's comparison. Then a stochastic base path, where the
-  momentary chooser's lifespan would be a first-passage time.
+- The Markov exit with memory, where the aftermath enters (a memory stock as a state on a grid);
+  the preferred credible plan rather than a prescribed continuation; which equilibrium
+  expectations select under loss aversion; proofs of the band's edges, numerical here.
 - A longer horizon for the decision case, and the band's containment as a condition rather
   than a share of draws. Schünemann, Strulik & Trimborn (2023) is the quantitative cousin
   for health investment with endogenous longevity.

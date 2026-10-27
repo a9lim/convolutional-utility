@@ -693,3 +693,205 @@ for lo_, T_ in ((16, 30), (46, 90)):
     Emax = max(eh.max(), ek.max())
     bad += not (min(eh.min(), ek.min()) >= 0 and abs(Wh - ek.sum()) <= Emax * (Nm + Jm) / (1 - Mm))
 report(f"the hidden lottery's gain within E_max (N + J)/(1 - M) = {Emax * (Nm + Jm) / (1 - Mm):.2f} (Codex)", bad, tol=0.5)
+
+
+# 17. The momentary exit in personal equilibrium. (a) Plans: a foreseen bad patch of k periods at
+#     level x in a good life (T = 160, patch after 60). A plan to exit at tau is a personal
+#     equilibrium if no self before tau prefers exiting (S >= 0 on the plan's path) and self tau
+#     prefers exiting to continuing, its continuation never exiting again (itself checked to be
+#     one). Continuing against a planned exit revises forecasts up from zero: good moments are
+#     gains, bad ones losses at lam, the mirror of exiting against a planned continuation.
+def continue_from(u, P, tau, lam, a, al, m, mu, n, nu):
+    """Self tau planned to exit (plan path P on 0..tau) and continues; later selves never exit.
+    Returns the felt path from tau on."""
+    T = len(u)
+    kf, kb, kn = kernels(T, a, al, m, mu, n, nu)
+    r = T - tau
+    K, b = np.zeros((r, r)), u[tau:].copy()
+    for k in range(r):
+        K[k, k + 1:] += kf[1:r - k]
+        K[k, :k] += kb[1:k + 1][::-1]
+        b[k] += kb[tau + k - np.arange(tau)] @ P[:tau]
+    c = np.ones(r)
+    for _ in range(50):
+        Kn, bn = K.copy(), b.copy()
+        Kn[0, 0] += n * c[0]
+        bn[0] -= n * c[0] * P[tau]
+        Kn[0, 1:] += kn[1:r] * c[1:]
+        x = np.linalg.solve(np.eye(r) - Kn, bn)
+        cn = np.where(np.r_[x[0] - P[tau], x[1:]] >= 0, 1.0, lam)
+        if np.all(cn == c):
+            return x
+        c = cn
+    raise RuntimeError("sign iteration")
+
+
+def plan_equilibria(xp, k, lam, pr=LIFE, T=160, t0=60):
+    """Whether never exiting is an equilibrium, and the exit dates near the patch that are."""
+    u = np.ones(T)
+    u[t0 + 1:t0 + 1 + k] = xp
+    e = foreseen(u, **pr)
+    never = all(exit_now(u, e, t, lam, **pr)[3] >= 0 for t in range(T - 1))
+    exits = []
+    for tau in range(t0 - 2, t0 + 4):
+        P = foreseen(u[:tau + 1], **pr)
+        if not all(exit_now(u[:tau + 1], P, t, lam, **pr)[3] >= 0 for t in range(tau)):
+            continue
+        x = continue_from(u, P, tau, lam, **pr)
+        full = np.r_[P[:tau], x]
+        if x[0] <= P[tau] and all(exit_now(u, full, s, lam, **pr)[3] >= 0 for s in range(tau + 1, T - 1)):
+            exits.append(tau)
+    return never, exits
+
+
+def edge(f, lo, hi, steps=14):
+    """The x where f flips from False (below) to True (above)."""
+    for _ in range(steps):
+        mid = (lo + hi) / 2
+        lo, hi = (lo, mid) if f(mid) else (mid, hi)
+    return (lo + hi) / 2
+
+
+# Above x_lo the never-exit continuation is itself an equilibrium, so the exit plans' upper edge
+# x_hi is searched there; below x_lo a deviation's continuation would need its own exit date.
+print("      plans: never exiting is an equilibrium above x_lo; exiting before the patch too, up to x_hi")
+bad = 0
+for k, lo_, hi_ in ((1, -7.0, 0.0), (4, -1.5, 0.0)):
+    for lam in (1.0, 1.2, 2.0):
+        x_lo = edge(lambda xp: plan_equilibria(xp, k, lam)[0], lo_, hi_)
+        x_hi = edge(lambda xp: not plan_equilibria(xp, k, lam)[1], x_lo + 1e-9, hi_)
+        band = x_hi - x_lo
+        print(f"        k = {k}, lam {lam:g}: x_lo {x_lo:+.3f}, x_hi {x_hi:+.3f}, band {band:.3f}")
+        if lam == 1.0:
+            bad += band > 1e-3
+        else:
+            nv, ex = plan_equilibria((x_lo + x_hi) / 2, k, lam)
+            bad += not (band > 1e-3 and nv and ex)
+report("plans, LIFE (alpha = nu): a band where both are equilibria opens at lam > 1, closes at lam = 1", bad, tol=0.5)
+nv, ex = plan_equilibria(-2.1858, 1, 1.0, pr=dict(LIFE, nu=0.5))
+report("unmatched kernels (nu = 0.5), lam = 1, x = -2.1858: both plans are equilibria (Codex)",
+       float(not (nv and ex)), tol=0.5)
+
+
+# 17b. A Markov mood (AR(1), Tauchen grid, mean 1), no memory (m = 0): the momentary exit policy over
+#      (previous, current) moods as a fixed point, and the expected lifespan from the stationary mood,
+#      a first-passage time. References are the previous self's forecasts given it continued.
+def tauchen(N, rho, sd, mean=1.0, width=3.0):
+    from scipy.special import ndtr
+    grid = np.linspace(-width * sd, width * sd, N)
+    se, h = sd * np.sqrt(1 - rho ** 2), grid[1] - grid[0]
+    z = grid[None, :] - rho * grid[:, None]
+    up = np.where(np.arange(N) < N - 1, ndtr((z + h / 2) / se), 1.0)
+    lo = np.where(np.arange(N) > 0, ndtr((z - h / 2) / se), 0.0)
+    return mean + grid, up - lo
+
+
+def markov_exit(u, Pi, lam, a, al, n, nu, J=90, X0=None, damp=0.5, **_):
+    """Returns (felt states e[sp, s], exit policy X[sp, s], forecasts F[j-1, s] given continuing)."""
+    N = len(u)
+    ka, kn = a * al ** np.arange(1, J + 1), n * nu ** np.arange(0, J + 1)
+    phi = lambda x: np.where(x >= 0, x, lam * x)
+    h0 = lambda Xv, Rv: np.where((Xv - n * Rv) / (1 - n) >= Rv, (Xv - n * Rv) / (1 - n),
+                                 (Xv - lam * n * Rv) / (1 - lam * n))   # e = Xv + n phi(e - Rv)
+    X = np.zeros((N, N), bool) if X0 is None else X0.copy()
+    e = np.tile(u, (N, 1)).astype(float)
+    for _ in range(200):
+        for _ in range(4000):
+            F = np.zeros((J + 1, N))
+            F[0] = (Pi * e).sum(1)
+            for j in range(1, J + 1):
+                F[j] = (Pi * ~X) @ F[j - 1]
+            ec = h0(u[None, :] + (ka @ F[:J])[None, :]
+                    + (kn[1:, None, None] * phi(F[:J, None, :] - F[1:, :, None])).sum(0), F[0][:, None])
+            ee = h0(u[None, :] + (kn[1:, None, None] * phi(-F[1:, :, None])).sum(0), F[0][:, None])
+            new = np.where(X, ee, ec)
+            err = np.max(np.abs(new - e))
+            e = damp * new + (1 - damp) * e
+            if err < 1e-11:
+                break
+        else:
+            raise RuntimeError(f"felt states did not converge, err {err:.1e}")
+        Xn = ee > ec + 1e-12
+        if np.array_equal(Xn, X):
+            return e, X, F, ee - ec
+        X = Xn
+    raise RuntimeError("policy cycle")
+
+
+def lifespan(Pi, X):
+    """Expected periods lived from the stationary mood: absorbing chain over pairs."""
+    N = len(Pi)
+    if not X.any():
+        return np.inf
+    w, v = np.linalg.eig(Pi.T)
+    pi = np.real(v[:, np.argmin(abs(w - 1))])
+    pi /= pi.sum()
+    A = np.eye(N * N)
+    for sp in range(N):
+        for s in range(N):
+            if not X[sp, s]:
+                A[sp * N + s, s * N:(s + 1) * N] -= Pi[s]
+    return (pi[:, None] * Pi).ravel() @ np.linalg.solve(A, np.ones(N * N))
+
+
+MOOD = dict(a=LIFE["a"], al=LIFE["al"], n=LIFE["n"], nu=LIFE["nu"])
+J_ = 90
+ka_, kn_ = MOOD["a"] * MOOD["al"] ** np.arange(1, J_ + 1), MOOD["n"] * MOOD["nu"] ** np.arange(1, J_ + 1)
+
+
+def matched_policy(u, Pi, a, al, it=100000, **_):
+    """Codex's reduction for m = 0, lam = 1, al = nu: v = Pi u + beta Pi v_+, beta = al (1 + a), a
+    contraction; exit iff v(s) < 0, whatever n."""
+    v = Pi @ u
+    for _ in range(it):
+        v_new = Pi @ u + al * (1 + a) * Pi @ np.maximum(v, 0)
+        if np.max(np.abs(v_new - v)) < 1e-13:
+            return v_new < 0
+        v = v_new
+    raise RuntimeError("no convergence")
+
+
+def state_lifespan(Pi, exit_s):
+    """Expected periods lived from the stationary mood when the policy depends on the current mood."""
+    if not exit_s.any():
+        return np.inf
+    w, vec = np.linalg.eig(Pi.T)
+    pi = np.real(vec[:, np.argmin(abs(w - 1))])
+    pi /= pi.sum()
+    return pi @ np.linalg.solve(np.eye(len(Pi)) - Pi * ~exit_s[:, None], np.ones(len(Pi)))
+
+
+bad = 0
+for rho, sd in ((0.9, 1.0), (0.95, 0.75), (0.8, 1.5)):
+    u, Pi = tauchen(31, rho, sd)
+    pols = [markov_exit(u, Pi, 1.0, **dict(MOOD, n=n_))[1] for n_ in (0.05, 0.2, 0.3)]
+    F = markov_exit(u, Pi, 1.0, **MOOD)[2]
+    bad += not (np.all(pols[1] == pols[1][:1]) and np.array_equal(pols[1][0], (ka_ + kn_) @ F[:J_] < 0))
+    bad += not all(np.array_equal(P_[0], matched_policy(u, Pi, **MOOD)) for P_ in pols)
+report("Markov, lam = 1, alpha = nu: exit iff S(s) < 0, = Codex's contraction v = Pi u + beta Pi v+, any n", bad,
+       tol=0.5)
+
+# Multiplicity under loss-averse news (Codex): a two-state mood and a Tauchen case, two strict equilibria each.
+u2, Pi2 = np.array([-1.4, 1.4]), np.array([[0.7, 0.3], [0.05, 0.95]])
+_, Xa, _, ma = markov_exit(u2, Pi2, 2.0, **MOOD)
+_, Xb, _, mb = markov_exit(u2, Pi2, 2.0, X0=np.array([[True, False], [False, False]]), **MOOD)
+u3, Pi3 = tauchen(31, 0.55, 1.5)
+_, Xc, _, mc = markov_exit(u3, Pi3, 2.0, **MOOD)
+_, Xd, _, md = markov_exit(u3, Pi3, 2.0, X0=np.tile(u3 < 0, (31, 1)), **MOOD)
+strict = min(np.min(np.abs(x)) for x in (ma, mb, mc, md))
+report(f"lam = 2: two strict equilibria in a two-state mood (never exit; exit after two lows, lives "
+       f"{lifespan(Pi2, Xb):.2f}) and at rho 0.55, sd 1.5 (Codex)",
+       float(not (not Xa.any() and Xb[0, 0] and not np.array_equal(Xc, Xd) and strict > 1e-3)), tol=0.5)
+
+# The lifespan table at lam = 1, by the contraction on a fine grid (601 points, 6 sd) against the
+# coarse one (31 points, 3 sd); the coarse grid misses stops in the tails.
+print("      Markov mood, lam = 1: expected weeks from the stationary mood, fine grid (coarse grid)")
+print("        persistence \\ sd   0.5               0.75              1                 1.5")
+for rho in (0.5, 0.8, 0.9, 0.95, 0.98):
+    cells_ = []
+    for sd in (0.5, 0.75, 1.0, 1.5):
+        uf, Pf = tauchen(601, rho, sd, width=6.0)
+        uc, Pc = tauchen(31, rho, sd)
+        Lf, Lc = state_lifespan(Pf, matched_policy(uf, Pf, **MOOD)), state_lifespan(Pc, matched_policy(uc, Pc, **MOOD))
+        cells_.append(f"{Lf:9.3g} ({Lc:6.3g})")
+    print(f"        {rho:<11}" + "  ".join(cells_))

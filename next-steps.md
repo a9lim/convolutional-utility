@@ -214,15 +214,24 @@ Independent research, not prerequisites for the post.
   survival optimism; the exact decision case (willingness to pay for survival by
   evaluator, sticky safety plans under loss-averse news, sudden against warned deaths);
   chosen dates (an extension pays iff the added moment feels good; the momentary self's exit
-  incentive rests on a short kernel-weighted forecast and outlasts a patch through memory).
-  Next: dread of death as a disvalue, a dated hazard, the momentary exit in personal
-  equilibrium. Yaari 1965 and Brueckner & Fischer 1986 wait in `references/inbox/`.
+  incentive rests on a short kernel-weighted forecast and outlasts a patch through memory;
+  plans to continue or to exit both stick in a band under loss-averse news; an immortal under
+  momentary control lives a first-passage time set by mood persistence). Next: dread of death
+  as a disvalue, a dated hazard, the Markov exit with memory. Yaari 1965 and Brueckner &
+  Fischer 1986 wait in `references/inbox/`.
 - **Vicarious echoes** (`notes/vicarious.md`, exploring; menu B7). Contagion, vicarious
   anticipation and memory between people: joint well-foundedness by echo shares, welfare
-  weight as centrality (the hedonic reading counts sympathy where felt), grief among
-  survivors (under loss-averse news a widely felt death is better foreseen). Next:
-  cross-person news gains, whether to tell someone of their coming misfortune (against Caplin
-  & Leahy 2004), and the prior art listed there.
+  weight as centrality (Katz additively, PageRank under attention budgets; the hedonic
+  reading counts sympathy where felt), news across people (the matrix loop gain; reciprocity
+  makes the loop, budgets make stability size-free), grief among survivors (under loss-averse
+  news a widely felt death is better foreseen). Next: delays along the graph, whether to tell
+  someone of their coming misfortune (against Caplin & Leahy 2004), the prior art listed there.
+- **Persons as soft clusters** (`notes/persons.md`, exploring). With vicarious kernels,
+  kernel weight runs between bodies: what a moment is made of (a partner at coupling 0.2 as
+  much as one's own past and future), momentary, egoistic and total hedonism as row, cluster and
+  global sums, forks as Ys whose branches stay weakly connected through the trunk; a measure of
+  affective integration, whose relation to personhood is the hypothesis. Next: soft clustering
+  proper, and the commensurability test (rated overlap, future-self continuity, coupling).
 - **In discussion:** the extensions menu, `notes/extensions-menu.md`.
 
 ## Parked (a9)

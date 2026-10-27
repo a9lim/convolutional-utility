@@ -34,10 +34,6 @@ corrections and counterexamples are folded in.
   `q` and the community's echoes are well-founded at every lifespan, with dead person-moments
   removed too; infinitely many people need the uniform margin `q`. *standard: Bergstrom's
   dominant diagonal on the person × time graph, P1's bound; checked on random draws*
-- **News needs its own joint condition.** Mutual contagion 0.9 with contemporaneous news 0.2
-  has echo radius 0.9 and a news loop of 0.2, yet a common revelation's loop
-  `δe = δu + (S + nI)δe` has radius 1.1 (Codex). N4 needs a matrix of cross-person news gains
-  before the whole community is well-founded. *checked*
 - **Stable separately, unstable jointly.** Contagion alone is a Kronecker sum on a common
   person × time domain, `ρ(I ⊗ K + S ⊗ I) = ρ(K) + ρ(S)` for nonnegative matrices; unequal
   lifespans break the exact structure. Two people at `M = 0.6` (alone `ρ < 0.6` at every length,
@@ -50,6 +46,36 @@ corrections and counterexamples are folded in.
   - Prior art to read: emotional contagion (Hatfield, Cacioppo & Rapson 1994); co-rumination,
     which goes with both closer friendships and more depression and anxiety (Rose 2002).
     *bibliographic details verified (Codex, Gemini); texts unread*
+- **News across people** (Codex, `cu-vicarious`). A unit forcing felt now by `k` moves `i`'s
+  forecasts at horizon `j` by `G_j[i, k]`, a column of the community's remaining-life
+  resolvent; felt news solves `s = b + Ks` with `K = Σ_j nν^j G_j`, N4's `κ` as a matrix.
+  *derived; checked*
+  - Linear news: stable for every revision iff `ρ(K) < 1`. Loss-averse news, kinked per person
+    and horizon: `ρ(λK) < 1` is sufficient and necessary for that guarantee, and with
+    `ρ(K) < 1 ≤ λρ(K)` a strict all-loss revision has no felt state at all. A particular mixed
+    revision can still have a stable root above the threshold (Codex's two-period
+    counterexample); its test is the Jacobian `Σ_j nν^j D_j G_j`, `D_j` the slopes in use.
+  - **Modes.** When `S, V, R` are simultaneously diagonalizable, each eigenmode is one person
+    with `a, m, n` scaled by `(1 + v_θ)/(1 − s_θ)`, `(1 + r_θ)/(1 − s_θ)`, `1/(1 − s_θ)` and the
+    rates unchanged: `κ_θ = n/((1 − s_θ)H_θ) · (1 − νμ)/(1 − νq_θ)`. Under pure contagion
+    `ρ(K) = f(ρ(S))` on any graph. *derived; checked against the full resolvent*
+  - Mutual contagion 0.9 with contemporaneous news 0.2 and no temporal echo: `K = n(I − S)⁻¹`,
+    `ρ(K) = 2` (the unreduced loop `S + nI` has radius 1.1), although echoes alone (0.9) and
+    each person's news (0.2) are stable.
+- **Reciprocity, not reach, makes the loop.** One-way ties (fans who feel a hub) are triangular:
+  every diagonal block is a single person, so no one's loop changes, however large the
+  response. A reciprocal star has `ρ(S) = (Σ_f s_hf s_fh)^{1/2}`, so fixed ties cross the news
+  threshold as the crowd grows: at the life calibration, the hub feeling each fan at 0.05 and
+  each fan the hub at 0.4, `λ = 2`, is stable with 11 fans (`λρ(K)` = 0.994) and not with 12
+  (1.053), while echoes stay well-founded (`M + ρ(S)` = 0.81). The hub's own diagonal gain
+  misses it; the instability runs through the fans' reactions. *derived (Codex); checked*
+  - Reading: a public figure who feels the crowd that feels them can be destabilized by many
+    weak ties. *speculation*
+- **Attention budgets make stability size-free.** If every person's social rows sum to fixed
+  budgets (`S1 = σ1`, `V1 = v1`, `R1 = r1`), the constant vector is invariant and
+  `ρ(K) = κ(a(1 + v)/(1 − σ), m(1 + r)/(1 − σ), n/(1 − σ))` whatever the size and topology:
+  0.346 at `σ = 0.3` for stars of 1, 3 and 8 fans. Normalization alone is not safety, since an
+  unsafe budget stays unsafe at every size. *derived (Codex); checked*
 
 ## Whose moments count
 
@@ -70,8 +96,34 @@ corrections and counterexamples are folded in.
   life-sum, the weight of a person's base utility rises with how widely they are felt: a loved
   person's suffering costs more than a stranger's equal suffering, by the dread and grief it
   causes in others. Equal concern for persons, unequal weight on their base utility. §3's "a
-  good moment counts more than once", between people; feature or reductio is a question for
-  the post. *synthesis*
+  good moment counts more than once", between people. a9 reads it as a feature: a beloved
+  figure's hardship draws more reaction than a stranger's. *synthesis*
+- **Additive or budgeted feeling: Katz or PageRank.** Additive ties, each with its own weight,
+  give the column sums above, Katz centrality. If each person instead feels others with a fixed
+  share `σ` of attention spread by a row-stochastic `P`, welfare weights are PageRank with
+  damping `σ/(1 − M)` and uniform teleport, `w = N/((1 − M)(1 − d)) PR`, and every felt level
+  under equal base utility is `1/(1 − M − σ)`: for uniform base utility a budget moves where
+  welfare is felt, not how much. This needs everyone to feel someone; a sink breaks it (Codex:
+  `M = 0`, `σ = ½`, one person feeling the other, levels 1.5 and 1, weights 1 and 1.5).
+  *standard identity; the reading synthesis; checked*
+  - A budget is not displacement. Budgeted social echo still adds to base utility and
+    amplifies it; full displacement, `e = (1 − M − σ)u + Ge`, keeps equal-base levels at 1, with
+    welfare weights of the same PageRank shape. Centrality does not tell the readings apart
+    (Codex).
+- **A celebrity.** A thousand fans each give 0.3 of their attention to others, a fifth of that
+  to one celebrity and the rest to a friend; the celebrity feels its own circle of ten. A unit
+  of the celebrity's base utility adds 236 to welfare, a fan's 2.3. Fans who follow ten
+  celebrities split the fifth: 29; a hundred: 8.8. Additively the celebrity keeps 236, and a
+  fan following ten has a row sum past one, yet the completed graph (each celebrity with its own
+  circle, fans feeling all of them) is block triangular, so `ρ(S)` stays 0.3 and the community is
+  well-founded at any number of celebrities. What grows is the fan's felt level: 2.64, 5.88,
+  16.7 at 1, 10, 40 celebrities (Codex). A budget keeps parasocial feeling from inflating the
+  fan, not from diverging. *numerical; checked*
+- **Public reaction.** A hardship revealed now for a hub, a unit drop four periods ahead, linear
+  news: twenty fans feeling the hub at 0.1 together feel 3.6 times its own felt news (−0.33
+  against −0.093; news terms only, not the whole change in felt state). If the hub feels its fans too, at a budget of 0.3, its own news is 10% worse
+  (−0.102): the crowd's grief, reflected. The reaction a9 points to is the news part of the
+  column. *numerical*
 
 ## The two examples
 
@@ -157,7 +209,8 @@ per-time news).
 
 ## Open
 
-- Cross-person news gains in N4: when is a community with news well-founded?
+- Delays along the graph: information reaching fans at their distance from the hub, and
+  whether a cascade's felt news depends on its path under loss aversion.
 - Others' grief inside the momentary window (death.md, chosen dates): does vicarious
   anticipation of a survivor's grief deter a momentary exit more than the exiter's own future?
   A rough count says not at the life calibration unless `V` is large: own news weighs
