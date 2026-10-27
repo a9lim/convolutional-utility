@@ -117,15 +117,17 @@ def cells(P, L):
     return W
 
 
-def grief_tree(P, L, S, V, R, a, al, m, mu, n, nu, lam=1.0, tol=1e-12, damp=0.5, it=100000, src=None):
+def grief_tree(P, L, S, V, R, a, al, m, mu, n, nu, lam=1.0, tol=1e-12, damp=0.5, it=100000, src=None, h=0.0, g=0.9):
     """Person 0 dies at D ~ P, warned L ahead; the others live to T and learn what person 0 learns, and
     the death when it happens. Returns (e[person, branch, t], expected welfare per person, felt news).
     src replaces base utility and the social and news terms with a fixed source (echoes only)."""
     T = len(P)
     kf, kb, kn = kernels(T, a, al, m, mu, n, nu)
+    kc = np.where(np.arange(T) > 0, h * (1 - g) / g * g ** np.arange(T), 0.0)       # biphasic: adaptation, own only
     s, t = np.meshgrid(np.arange(T), np.arange(T))
     KF = np.where(s > t, kf[np.clip(s - t, 0, T - 1)], 0.0)
     KB = np.where(s < t, kb[np.clip(t - s, 0, T - 1)], 0.0)
+    KC = np.where(s < t, kc[np.clip(t - s, 0, T - 1)], 0.0)
     KN = np.where(s >= t, kn[np.clip(s - t, 0, T - 1)], 0.0)
     Ds, Pp = np.arange(1, T + 1)[P > 0], P[P > 0]
     alive = np.stack([(np.arange(T)[None, :] < Ds[:, None]).astype(float)] + [np.ones((len(Ds), T))] * (len(S) - 1))
@@ -138,11 +140,12 @@ def grief_tree(P, L, S, V, R, a, al, m, mu, n, nu, lam=1.0, tol=1e-12, damp=0.5,
         F = np.einsum("tdk,iks->itds", W, e)
         N = np.einsum("ts,itds->idt", KN, phi(F[:, 1:] - F[:, :-1])) * alive
         ant = np.einsum("ts,itds->idt", KF, F[:, 1:])
-        mem = e @ KB.T
+        mem = e @ KB.T                                   # afterglow, the channel vicarious memory reads
+        own = mem - e @ KC.T                             # own memory, adaptation included (h for everyone)
         if src is None:
-            new = (U + ant + mem + N + soc(S, e) + soc(V, ant) + soc(R, mem)) * alive
+            new = (U + ant + own + N + soc(S, e) + soc(V, ant) + soc(R, mem)) * alive
         else:
-            new = (src + ant + mem) * alive
+            new = (src + ant + own) * alive
         err = np.max(np.abs(new - e))
         e = damp * new + (1 - damp) * e
         if err < tol:
@@ -421,3 +424,58 @@ recip[0, 1:] = 0.3 / fans
 for label, S in (("fans feel the hub", one_way), ("and the hub feels its fans", recip)):
     hub, crowd = reaction(S)
     print(f"      {label:27s}: felt news now, hub {hub:+.4f}, the fans together {crowd:+.4f}")
+
+
+# 6. Grief under biphasic memory (notes/adaptation.md: afterglow minus adaptation c g^j, mass h). A survivor feels
+#    the dying person by contagion; once they are gone the survivor's reference, built on the shared level, sits
+#    above its new level, so its felt state undershoots and recovers as the reference adapts down. Without
+#    adaptation it steps down and stays.
+def pair_foreseen_bi(D, T, s_, pr, h, g):
+    """Person 0 dies after D - 1 (foreseen), the survivor lives to T, contagion s_ one way; signed memory."""
+    c = h * (1 - g) / g
+    r = np.subtract.outer(np.arange(T), np.arange(T))
+    K = np.where(r < 0, pr["a"] * pr["al"] ** (-r), 0.0) + np.where(r > 0, pr["m"] * pr["mu"] ** np.abs(r)
+                                                                   - c * g ** np.abs(r), 0.0)
+    J = np.zeros((2 * T, 2 * T))
+    J[:T, :T] = J[T:, T:] = K
+    J[T + np.arange(T), np.arange(T)] = s_
+    keep = np.r_[np.arange(D), T + np.arange(T)]
+    return np.linalg.solve(np.eye(len(keep)) - J[np.ix_(keep, keep)], np.ones(len(keep)))[D:]
+
+
+gy = 1 - 1 / 52
+out, bad = [], 0
+for s_ in (0.2, 0.5):
+    for h in (0.0, 0.5):
+        e = pair_foreseen_bi(400, 1100, s_, LIFE, h, gy)
+        before, after = e[300:390].mean(), e[750:850].mean()
+        trough, tmin = e[400:750].min(), int(np.argmin(e[400:750]))
+        rec = int(np.flatnonzero(np.abs(e[400:750] - after) < 0.1 * (before - after))[0])
+        out.append((s_, h, before, after, trough, tmin, rec))
+        bad += (h == 0.0 and trough < after - 1e-9) or (h == 0.5 and trough > after - 0.05)
+report("grief, foreseen death: an undershoot below the new level with adaptation, none without", bad, tol=0.5)
+for s_, h, before, after, trough, tmin, rec in out:
+    print(f"      contagion {s_}, h {h}: before {before:.3f}, after {after:.3f}, lowest {trough:.3f} at +{tmin} weeks, "
+          f"within 10% of the step after {rec} weeks")
+
+# 6b. Sudden death, against the same death foreseen from birth (the tree, death on 41..50 of 100, a survivor to
+#     100; contagion 0.5; adaptation over about 15 periods). The survivor's felt state in the branch dying at 45.
+Ds6 = np.arange(1, 101)
+P6 = ((Ds6 >= 41) & (Ds6 <= 50)).astype(float)
+P6 /= P6.sum()
+br = int(np.flatnonzero(Ds6[P6 > 0] == 45)[0])
+print("      sudden death at 45 (death uniform on 41..50 of 100), survivor's felt state at 40, 44, 45, 48, 60, 90:")
+paths6 = {}
+for lam in (1.0, 2.0):
+    for h in (0.0, 0.5):
+        cells_ = []
+        for L, label in ((0, "sudden"), (100, "foreseen")):
+            e, W, N = grief_tree(P6, L, np.array([[0, 0], [0.5, 0]]), Z, Z, **LIFE, lam=lam, h=h, g=1 - 1 / 15)
+            paths6[(lam, h, L)] = e[1, br]
+            cells_.append(f"{label} " + ", ".join(f"{e[1, br, t]:+.2f}" for t in (40, 44, 45, 48, 60, 90))
+                          + f" (W {W[1]:.1f})")
+        print(f"        lam {lam:g}, h {h}: " + " | ".join(cells_))
+p0, p5 = paths6[(1.0, 0.0, 0)], paths6[(1.0, 0.5, 0)]
+report("grief, sudden death: a shock then a flat new level without adaptation, a shock then recovery with it",
+       float(not (abs(p0[48] - p0[60]) < 0.02 and p5[48] < p5[60] - 0.05 < p5[90] - 0.05)), tol=0.5)
+

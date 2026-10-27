@@ -265,3 +265,31 @@ L0 = simulate(memory_exit(u, Pi, 1.0, **dict(MOOD, m=0.0, mu=0.3), Hlim=(-1, 1),
 L1 = simulate(memory_exit(u, Pi, 1.0, **dict(MOOD, m=0.4, mu=0.3), Hlim=(-5, 8), NH=53), u, Pi, 0.3)[0]
 report(f"lam = 1, 15 moods, persistence 0.9, sd 0.9: short memory {L1:.1f} weeks against none {L0:.1f} (Codex)",
        float(not L1 < 0.6 * L0), tol=0.5)
+
+
+# 4. Adaptation (biphasic memory's slow lobe, notes/adaptation.md, no afterglow): the one-stock solver with the
+#    stock as the adaptation sum, m = -c and mu = g (a year, g = 1 - 1/52), h = c g/(1 - g). Expected remaining
+#    weeks at persistence 0.9, sd 1, for mean moods 1 and 2, and with the mean raised so that the stationary
+#    felt mean of the never-exit life, E[u]/(1 - A + h), matches the unadapted one (Codex: exact for that
+#    counterfactual, not the mean among living selves; it does not isolate a single channel).
+ga = 1 - 1 / 52
+Aa = MOOD["a"] * MOOD["al"] / (1 - MOOD["al"])
+
+
+def adapted_life(rho, sd, mean, h, seed=0):
+    u, Pi = tauchen(31, rho, sd, mean=mean)
+    if h == 0:
+        sol = memory_exit(u, Pi, 1.0, **dict(MOOD, m=0.0, mu=0.3), Hlim=(-1, 1), NH=3)
+        return simulate(sol, u, Pi, 0.3, seed=seed)
+    c = h * (1 - ga) / ga
+    sol = memory_exit(u, Pi, 1.0, **dict(MOOD, m=-c, mu=ga), Hlim=(-60, 60 + 60 * mean), NH=121)
+    return simulate(sol, u, Pi, ga, burn=600, seed=seed)
+
+
+ad = {(mean, h): adapted_life(0.9, 1.0, mean, h)[0] for mean in (1.0, 2.0) for h in (0.0, 0.5, 2.0)}
+matched = {h: adapted_life(0.9, 1.0, (1 - Aa + h) / (1 - Aa), h)[0] for h in (0.5, 2.0)}
+ratios = [ad[(2.0, h)] / ad[(1.0, h)] for h in (0.0, 0.5, 2.0)]
+report("adaptation flattens the lifespan's dependence on the mean mood (ratio of mean 2 to mean 1 falls with h)",
+       float(not ratios[0] > ratios[1] > ratios[2]), tol=0.5)
+print("      expected remaining weeks, persistence 0.9, sd 1, mean mood 1 / 2 / felt mean matched: " + "  ".join(
+    f"h {h}: {ad[(1.0, h)]:.0f} / {ad[(2.0, h)]:.0f}" + (f" / {matched[h]:.0f}" if h else "") for h in (0.0, 0.5, 2.0)))

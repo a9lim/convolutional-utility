@@ -403,6 +403,59 @@ An agent that can end its life at any moment, a biological immortal's only death
     exhibited, the full stopping problem is not characterized. For agents with an exit option,
     what the model offers is that how the option is held in expectation can matter, not only
     when it is used. *speculation*
+- **Under biphasic memory** (`adaptation.md`'s chosen form: afterglow minus a slow adaptation lobe
+  `c γ^j` of mass `h`; a year's adaptation, `h = ½`). Checks: `death.py` 18, `exit.py` 4. Reviewed
+  by Codex (`cu-death`).
+  - The momentary rule is unchanged: signed memory is common to both branches and cancels from
+    `S`, though it changes the felt path `S` reads. Stability: `Re(1 − K̂) ≥ 1 − A − B₊ − h(1 − g)/
+    (1 + g)` on the unit circle, 0.67 at this calibration, so no zeros and winding zero (Codex).
+    *derived*
+  - **Positive levels can become intolerable after a large enough relative drop.** A foreseen
+    permanent drop from 1 to `y` after 400 weeks: at `y = 0.3` the felt state is negative for 16
+    weeks (lowest −0.12) though base utility stays positive, and the momentary self has an exit
+    incentive on 14 dates, from just before the drop; at `y = 0.1`, 56 and 55; at `y ≥ 0.5`,
+    none. Without adaptation, none at any positive `y`. The remembered high is the bar: a
+    contrast trough. Levels still count: an equal drop from 2 to 1.3 opens none (lowest +0.73).
+    And highs can hurt: a year at 4 followed by a return to 1 gives exit incentives on 16 dates
+    after the high ends (Codex). *checked*
+  - **The planner looks through the trough.** Its increments are negative for lives ending at
+    402 to 417 weeks and welfare is back above the best earlier ending at 435: no single
+    crossing, so "extend while the next moment feels good" holds only locally (its multiplier,
+    1.20 here, is no longer positive by construction under signed memory; Codex checked it). A
+    short epilogue at a lower level loses and a long one pays, as in `adaptation.md`'s EMA case.
+    *checked*
+  - **Thresholds become relative.** For downward patches, never exiting stops being an
+    equilibrium below levels of −1.60 for a week (−3.29 without adaptation), +0.05 for four
+    weeks (−0.57), +0.35 for a quarter (−0.05), +0.37 for a year (0): a patch at positive base
+    utility ends it when it sits far enough below the bar. These are lower thresholds only:
+    for a year-long patch never exiting holds only up to 3.01, above which the high's end
+    triggers exit incentives (Codex). *checked*
+  - **An aftermath, then rebound relief.** After four weeks at −2, against a life without the
+    crisis on the same dates: 0.41 against 0.86 a week after, then 1.01 against 0.86 for weeks 4
+    to 13, as the adaptation stock falls: the bar dropped during the crisis. Without adaptation
+    there is only the aftermath (0.83 against 1.47), then the old level. *checked*
+  - **Markov, with the adaptation lobe only** (expected remaining weeks; 31 moods, coarse):
+
+    | persistence, sd | `h` | mean mood 1 | mean mood 2 | felt mean matched |
+    |---|---|---|---|---|
+    | 0.9, 1 | 0 | 60 | 1218 | |
+    | 0.9, 1 | 0.5 | 31 | 175 | 78 |
+    | 0.9, 1 | 2 | 14 | 33 | 166 |
+    | 0.95, 0.75 | 0 | 149 | ∞ on the grid | |
+    | 0.95, 0.75 | 0.5 | 63 | 592 | 210 |
+    | 0.95, 0.75 | 2 | 24 | 84 | 1161 |
+
+    - **Adaptation flattens the dependence on the mean mood** (mean 2 against mean 1: ×20,
+      ×5.7, ×2.3 at persistence 0.9): the hazard follows changes more than levels.
+    - **At a fixed mean mood adaptation shortens lives in these examples; matching the
+      stationary felt mean of the no-exit models reverses the order.** That mean is exactly
+      `E[u]/(1 − A + h)` for a stationary never-exit life under linear news (Codex), not the mean
+      among living selves under exits. Raising the mean mood to match it (1.59 at `h = ½`, 3.35
+      at `h = 2`), adaptation lengthens lives (78 and 166 against 60 at persistence 0.9; 210 and
+      1161 against 149 at 0.95). So adaptation's other dynamics, adaptation to long lows among
+      them, can more than offset its contrast effects; the comparison does not isolate a single
+      channel. Stock grid, domain and burn-in checked by Codex. *numerical*
+  - Afterglow and adaptation together need a second memory stock (a two-dimensional grid): open.
 - **A hidden lottery against a chosen date.** A date drawn uniformly on a window and never
   announced, against a known date at the window's mean, adds +0.683 on 16–30 (2.1% of welfare)
   and +1.023 on 46–90 (1.0%), the same at `λ = 2`: sudden survival brings only gains and the

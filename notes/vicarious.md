@@ -195,6 +195,39 @@ per-time news).
   with contagion 0.2 the survivor gets 23% (adding vicarious anticipation, 34%; vicarious
   memory, 35%). With vicarious memory the survivors remember the life after it ends; the extra
   experience is theirs, the dead acquire none. *numerical*
+- **Grief under biphasic memory** (`vicarious.py` 6; adaptation as in `adaptation.md`, own memory
+  only, the same `h` for both people). The survivor's reference was built on the shared level and
+  sits above its new one, so its felt state undershoots and recovers as the reference adapts
+  down. Reviewed by Codex (`cu-vicarious`). *checked*
+  - **The mechanism needs no foreknowledge** (Codex): with `e_t = X_t − h r_t` and `r` the EMA of
+    felt states, a permanent downward step in `X` gives `e_t = e_after + (e_death − e_after)
+    [g − h(1 − g)]^t`, starting below the new level whenever `h > 0`. *derived*
+  - Foreseen, contagion 0.5, `h = ½` with a primitive mean lag of a year: from 1.21 to 0.63 three
+    weeks after the death, settling at 0.85, within 10% of the step after 58 weeks (a calibration
+    result, not a recovery-time prediction); without adaptation, from 2.56 down to 1.47 and
+    flat. The step shrinks with adaptation (−30% against −42%), as `s/(d + s)` with
+    `d = 1 − A − B₊ + h`: both the survivor's amplification and the deceased's adapted level
+    fall. *checked*
+  - Sudden (death uniform on 41–50 of 100, adaptation over about 15 periods, contagion 0.5), in
+    the branch dying at 45: a shock, then slow recovery (0.51 at the death, 0.68 three periods
+    later, 0.81 after fifteen, toward the steady state 0.85) against a shock and a fast return
+    without adaptation (1.28, then 1.48). At `λ = 2` the shock deepens (0.24). The undershoot
+    survives a survivor horizon of 240 and deaths moved to 141–150 (Codex). Survivor welfare,
+    sudden minus foreseen: +0.13 at `λ = 1`, −0.04 at `λ = 2`, out of about 107. *checked*
+  - What biphasic memory adds is the slow undershoot from the negative lobe; the positive-memory
+    model already has a shock and a fast recovery.
+  - Signed memory changes the stability test: linear news needs `ρ(K) < 1` in moduli, and the
+    loss-averse bound becomes `ρ(λH) < 1` with `H = Σ_j nν^j |G_j|`, absolute responses summed
+    over horizons (sufficient; Codex's two-period counterexample has `λK = 0.96` and an unstable
+    root). The calibrations here pass with room (`H` 0.25 and 0.23, so 0.50 and 0.47 at
+    `λ = 2`). *derived (Codex); checked by Codex*
+  - It resembles one bereavement trajectory, an undershoot then recovery toward a lower level,
+    but longitudinal studies find heterogeneous trajectories (Bonanno et al. 2002: resilience
+    the largest group, 46%, common grief 11%, chronic 16%, assessed at six and eighteen months),
+    life satisfaction recovering over years, partly (Lucas, Clark, Georgellis & Diener 2003),
+    and complete adaptation to widowhood not rejected in another panel (Clark, Diener, Georgellis
+    & Lucas 2008). Their measures do not identify this kernel or its recovery time. *synthesis;
+    papers checked by Codex; texts unread here*
 - Lindemann (1944) named anticipatory grief; a historical lead, not support for any ranking
   here. *bibliographic details verified; text unread*
 

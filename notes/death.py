@@ -92,10 +92,12 @@ def sudden_line(u, h, a, al, m, mu, n, nu):
     return np.linalg.solve(np.eye(T) - K, u), surv
 
 
-def foreseen(u, a, al, m, mu, **_):
-    """The felt path of a foreseen life with base path u (no uncertainty, so no news)."""
+def foreseen(u, a, al, m, mu, h=0.0, g=1 - 1 / 52, **_):
+    """The felt path of a foreseen life with base path u (no uncertainty, so no news); h > 0 adds biphasic
+    memory's adaptation lobe c g^j of mass h (notes/adaptation.md)."""
     i, j = np.meshgrid(np.arange(len(u)), np.arange(len(u)), indexing="ij")
-    K = np.where(j > i, a * al ** np.abs(j - i), 0) + np.where(j < i, m * mu ** np.abs(j - i), 0)
+    c = h * (1 - g) / g
+    K = np.where(j > i, a * al ** np.abs(j - i), 0) + np.where(j < i, m * mu ** np.abs(j - i) - c * g ** np.abs(j - i), 0)
     return np.linalg.solve(np.eye(len(u)) - K, u)
 
 
@@ -802,3 +804,92 @@ for k, edge1 in ((1, -3.287), (4, -0.566)):
                     bad += res != (xp > edge1, True)
 report("selection: the momentary preferred equilibrium switches at the lam = 1 edge; the life-sum never exits",
        bad, tol=0.5)
+
+
+# 18. Biphasic memory (notes/adaptation.md): afterglow m mu^j minus adaptation c g^j, mass h = c g/(1 - g), a
+#     year's adaptation (g = 1 - 1/52), h = 1/2. The momentary exit rule S does not involve memory, but the felt
+#     path it reads does: after a drop the remembered high is the bar.
+def S_path(e, t, lam=1.0, a=LIFE["a"], al=LIFE["al"], n=LIFE["n"], nu=LIFE["nu"], **_):
+    j = np.arange(1, len(e) - t)
+    f = e[t + j]
+    return (a * al ** j * f).sum() + (n * nu ** j * np.where(f > 0, lam * f, f)).sum()
+
+
+# 18a. A foreseen permanent drop from 1 to y after 400 weeks of a 900-week life. With adaptation the felt
+#      state goes negative for a while though base utility stays positive (a contrast trough), and the
+#      momentary self has an exit incentive through it; without adaptation, none. The planner's increments go
+#      negative through the trough and positive after, so first failure is not its optimum.
+T, t0 = 900, 400
+rows, bad = [], 0
+for h in (0.0, 0.5):
+    for y in (0.8, 0.5, 0.3, 0.1):
+        u = np.r_[np.ones(t0), y * np.ones(T - t0)]
+        e = foreseen(u, **LIFE, h=h)
+        neg = int((e[t0:700] < 0).sum())
+        inc = sum(S_path(e, t) < 0 for t in range(t0 - 20, 700))
+        rows.append((h, y, neg, inc, e[t0:700].min()))
+        bad += (h == 0.0) and (neg > 0 or inc > 0)
+bad += not all(r[3] > 0 for r in rows if r[0] == 0.5 and r[1] <= 0.3)
+u = np.r_[np.ones(t0), 0.3 * np.ones(T - t0)]
+Wd = np.array([foreseen(u[:D], **LIFE, h=0.5).sum() for D in range(t0, t0 + 60)])
+dips = np.flatnonzero(np.diff(Wd) < 0) + t0 + 1
+peak = Wd[:dips.min() - t0].max()                      # the best life ending before the trough
+back = t0 + int(np.flatnonzero((Wd > peak) & (np.arange(len(Wd)) > dips.max() - t0))[0])
+bad += not (len(dips) > 0 and back > dips.max())
+report("biphasic: drops to a positive level open a contrast trough and an exit incentive; the planner dips, "
+       "then gains", bad, tol=0.5)
+for h, y, neg, inc, mn in rows:
+    print(f"      h {h}, drop to {y}: {neg} weeks felt negative (lowest {mn:+.2f}), exit incentive at {inc} dates")
+print(f"      planner, drop to 0.3, h 0.5: increments negative for lives ending at {dips.min()}..{dips.max()}, "
+      f"welfare back above the best life ending before them at {back}")
+
+# 18b. Thresholds become relative: the lowest patch level at which never exiting is an equilibrium (every self's
+#      S >= 0), without and with adaptation (T = 300, patch after 120).
+def x_lo_bi(k, h, lam=1.0, T=300, t0=120):
+    lo, hi = -50.0, 1.0
+    for _ in range(40):
+        x = (lo + hi) / 2
+        u = np.ones(T)
+        u[t0 + 1:t0 + 1 + k] = x
+        e = foreseen(u, **LIFE, h=h)
+        lo, hi = (lo, x) if all(S_path(e, t, lam) >= 0 for t in range(t0 - 30, min(T - 1, t0 + k + 150))) else (x, hi)
+    return hi
+
+
+xs = {(k, h): x_lo_bi(k, h) for k in (1, 4, 13, 52) for h in (0.0, 0.5)}
+report("biphasic: a 4-week patch at a positive level ends the never-exit equilibrium",
+       float(not (xs[(4, 0.5)] > 0 > xs[(4, 0.0)])), tol=0.5)
+print("      lowest patch level with never exiting an equilibrium, no adaptation / h 0.5: "
+      + "  ".join(f"k={k}: {xs[(k, 0.0)]:+.3f} / {xs[(k, 0.5)]:+.3f}" for k in (1, 4, 13, 52)))
+
+# 18c. After a crisis: a 4-week patch at -2, against the same dates of a life without it. With adaptation an
+#      initial aftermath gives way to rebound relief as the adaptation stock falls; without, aftermath only.
+u = np.ones(300)
+u[121:125] = -2.0
+e0, e5 = foreseen(u, **LIFE), foreseen(u, **LIFE, h=0.5)
+b0, b5 = foreseen(np.ones(300), **LIFE), foreseen(np.ones(300), **LIFE, h=0.5)
+report("biphasic: after a crisis, aftermath then rebound above the no-crisis life with adaptation; aftermath only "
+       "without (Codex's baseline)",
+       float(not (e5[125] < b5[125] and (e5[128:138] > b5[128:138]).all() and (e0[125:200] <= b0[125:200] + 1e-9).all())),
+       tol=0.5)
+print("      after a 4-week patch at -2, weeks +1, +4, +13, +26, against the no-crisis life: no adaptation "
+      + ", ".join(f"{e0[124 + d]:+.2f} ({b0[124 + d]:+.2f})" for d in (1, 4, 13, 26)) + "; h 0.5 "
+      + ", ".join(f"{e5[124 + d]:+.2f} ({b5[124 + d]:+.2f})" for d in (1, 4, 13, 26)))
+
+# 18d. Levels still count, and highs can hurt (Codex): an equal drop from a higher level opens no trough, and a
+#      year at 4 followed by a return to 1 gives the momentary self exit incentives after the high ends.
+def incentives(u, h=0.5, lo=0, hi=None):
+    e = foreseen(u, **LIFE, h=h)
+    return int(sum(S_path(e, t) < 0 for t in range(lo, hi or len(u) - 1))), e.min()
+
+
+n_low, m_low = incentives(np.r_[np.ones(400), 0.3 * np.ones(500)], lo=380, hi=700)
+n_high, m_high = incentives(np.r_[2 * np.ones(400), 1.3 * np.ones(500)], lo=380, hi=700)
+ug = np.ones(300)
+ug[121:173] = 4.0
+n_gold, _ = incentives(ug, lo=100, hi=280)
+report("biphasic: 1 -> 0.3 opens a trough, 2 -> 1.3 does not; a golden year's end brings exit incentives",
+       float(not (n_low > 0 and n_high == 0 and n_gold > 0)), tol=0.5)
+print(f"      drop 1 -> 0.3: {n_low} incentive dates (lowest felt {m_low:+.2f}); 2 -> 1.3: {n_high} ({m_high:+.2f}); "
+      f"a year at 4 then 1: {n_gold} dates")
+
