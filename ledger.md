@@ -58,7 +58,10 @@ at `22c5c4f`).
   information in the direct model, CDT/FDT as the mortality/eternity split, "no adaptation
   at task scales", conservation taming copy-counted anthropics, asymmetric updating from the
   Bates flow band (a shifted symmetric band), Bayesian forecasts adding dread there (they
-  lower the reference).
+  lower the reference); and on 2026-10-27: sudden death beating any warning for the pair, a
+  wait as long as the patch filtering it, stickiness needing a plan, the band closing at
+  `λ = 1` (only for matched kernels), an attention budget as displacement, welfare following
+  connectedness alone, and "drops, not levels".
 - Fresh-eyes rounds (three so far) found overreaching headlines and no sinking hole; the
   linear backbone stands.
 - A felt-against-payoff comparison needs matched temperature: a fixed entropy bonus against a
@@ -80,7 +83,10 @@ at `22c5c4f`).
 `cu-displacement`, `cu-disc-ext` (menu G), `cu-games-ext` (menu F), `cu-c1-leakage` (D7's
 leakage bullets), `cu-framework`, `cu-empathy`, `cu-restructure` (the post's architecture and
 triage), `cu-novelty-audit` (attribution, row by row), `bracing-review` (concave bracing),
-`adaptation-replay` (the felt reference, replay, score centering, the invasion controls). Job replies under `~/.gaslamp/jobs/`; the premise reply, source of P4–P6's
+`adaptation-replay` (the felt reference, replay, score centering, the invasion controls),
+`cu-death` (death dates, chosen dates, the exit in equilibrium, biphasic exits), `cu-vicarious`
+(vicarious echoes, news across people, grief), `cu-persons` (persons in the echo graph,
+clustering). Job replies under `~/.gaslamp/jobs/`; the premise reply, source of P4–P6's
 closed forms, is `cx-20261012-230641-77eb/reply.md`.
 
 ## Blocked sources, not circumvented
@@ -179,3 +185,15 @@ requests: `next-steps.md`, the post's citations and the companion's prior art.
   updating; a display that varies by horizon makes welfare unbounded (its counterexample);
   Bayesian forecasts lower the news cost rather than adding dread. The terminal reading's DP,
   never archived, is rebuilt in `notes/bates.py` beside the flow checks.
+- **2026-10-27.** a9's questions on death dates, chosen deaths and vicarious feelings grew
+  three notes. `death.md` gained chosen dates (the planner's increment rule; the momentary
+  self's exit rule, its plan equilibria, preference selection, the Markov exit with and
+  without memory in `notes/exit.py`, and biphasic memory's contrast troughs); `vicarious.md`
+  (contagion, vicarious anticipation and memory: joint stability, news across people, Katz
+  against PageRank weights, grief among survivors, with and without adaptation) and
+  `persons.md` (what a moment is made of, forks, and why fading-memory persons fail whole-life
+  clustering) are new. Codex reviewed every round and withdrew several first claims (lessons
+  above); Gemini verified the prior art bibliographically. The exit learner
+  (`experiments/learned_expectations/exits.py`, `run_exits.py`) is sketched with predictions
+  written, not run. Parked for a later session: the two-stock Markov exit, the learner run,
+  and the notes' Open items.
