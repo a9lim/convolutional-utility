@@ -471,6 +471,8 @@ An agent that can end its life at any moment, a biological immortal's only death
 
 ## Open
 
+- The Markov exit with afterglow and adaptation together (two memory stocks, a two-dimensional
+  grid), and with heavier adaptation than `h = 2`.
 - Learning selection: does a fixed-past learner, which lands on the earliest credible plan in
   D3, learn to exit? Sketched in `experiments/learned_expectations/exits.py` and `run_exits.py`,
   predictions written there, not yet run. The preferred credible plan in the full sense, rather than a prescribed

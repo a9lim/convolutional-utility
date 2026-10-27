@@ -217,15 +217,19 @@ Independent research, not prerequisites for the post.
   incentive rests on a short kernel-weighted forecast and outlasts a patch through memory;
   plans to continue or to exit both stick in a band under loss-averse news, and selection by
   preference undoes it; an immortal under momentary control lives a first-passage time set by
-  mood persistence, longer with long memory, shorter with remembered loss-averse jolts). Next:
-  dread of death as a disvalue, a dated hazard, whether learners learn to exit. Yaari 1965 and
+  mood persistence, longer with long memory, shorter with remembered loss-averse jolts; under
+  biphasic memory, contrast troughs after drops open exit incentives at positive levels, while
+  at a matched felt mean adaptation lengthens lives). Next: dread of death as a disvalue, a
+  dated hazard, afterglow and adaptation together (two memory stocks), and the exit learner
+  (`experiments/learned_expectations/run_exits.py`, sketched, not run). Yaari 1965 and
   Brueckner & Fischer 1986 wait in `references/inbox/`.
 - **Vicarious echoes** (`notes/vicarious.md`, exploring; menu B7). Contagion, vicarious
   anticipation and memory between people: joint well-foundedness by echo shares, welfare
   weight as centrality (Katz additively, PageRank under attention budgets; the hedonic
   reading counts sympathy where felt), news across people (the matrix loop gain; reciprocity
   makes the loop, budgets make stability size-free), grief among survivors (under loss-averse
-  news a widely felt death is better foreseen). Next: delays along the graph, whether to tell
+  news a widely felt death is better foreseen; under biphasic memory an undershoot after the
+  loss, then recovery). Next: delays along the graph, whether to tell
   someone of their coming misfortune (against Caplin & Leahy 2004), the prior art listed there.
 - **Persons in the echo graph** (`notes/persons.md`, exploring). With vicarious kernels,
   kernel weight runs between bodies: what a moment is made of (a partner at coupling 0.2 as
