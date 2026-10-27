@@ -6,7 +6,8 @@ top picks for interest × tractability.
 
 Taken up so far: B4 (`adaptation.md`, parked), C1 (absorbed into decision.md D7; its toy
 parked below), G (`displacement.md`, parked), F6 and the twin half of F9 (`empathy.md`, in progress), G1 under
-the additive reading, widened to death dates (`death.md`, exploring).
+the additive reading, widened to death dates, chosen ones included (`death.md`, exploring), B7 as felt
+vicarious echoes (`vicarious.md`, exploring).
 
 ## A. The felt forecaster in a Bates world
 

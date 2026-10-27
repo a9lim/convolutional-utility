@@ -1,8 +1,8 @@
 # Death dates: counterfactual lifespans in the additive model
 
-**Status: exploring (2026-10-18); a9's question after the menu's G1, not the post.** How the
-canonical model handles a death date that varies: across foreseen lifespans, under risk, and
-with information about it. Additive reading throughout (`displacement.md`: additive, Z and
+**Status: exploring (2026-10-18; chosen dates 2026-10-27); a9's questions after the menu's G1,
+not the post.** How the canonical model handles a death date that varies: across foreseen
+lifespans, under risk, with information about it, and by choice. Additive reading throughout (`displacement.md`: additive, Z and
 survival-weighted Pr coincide here). Checks: `death.py` (`python notes/death.py`). Reviewed
 by Codex (thread `cu-death`), whose corrections and counterexamples are folded in.
 
@@ -243,8 +243,84 @@ of extra death probability, life-sums from birth, reaching `t₀` with probabili
   revises later horizons by about `h(1−h) − δ`, while arrival relief stays a gain. At
   `δ = 0.02`, `λ = 2`: momentary −1.36, fixed past −54.1, commitment −53.6. *numerical*
 
+## Chosen death dates
+
+An agent that can end its life at any moment, a biological immortal's only death. Checks:
+`death.py` 16. Reviewed by Codex (`cu-death`).
+
+- **The planner's increment.** Appending a moment to a foreseen life changes the life-sum by
+  the new moment's own felt state times `1 + 1ᵀR_D k_f`, the earlier selves' anticipation of
+  it, echoed (1.20 at the life calibration: the 83% above). An extension pays iff the moment it
+  adds would feel good, its memories of the life included. *standard block algebra; checked*
+  - That signs adjacent comparisons, not the optimum: with `u = (1, −2, 10)` the first failed
+    extension is at `D = 1`, the best date `D = 3` (Codex). First failure is the optimum under
+    single crossing, which holds for a nonincreasing, nonpositive base tail with geometric
+    memory: once an appended moment feels bad, every later one does (Codex's argument).
+    *derived; checked on random tails*
+  - With nonnegative kernels and base utility above zero, extending always pays. The readings
+    that could quit while ahead (Tr, Rn, Pr; full adaptation) are already out
+    (`displacement.md`, `adaptation.md`), so in the surviving model a good immortal life is
+    never worth ending.
+  - **Living on memories.** Base utility 1 for 100 periods, then `−c`: the planner lives on
+    past the crossing for 3, 2, 1, 0 periods (`c` = 0.02, 0.05, 0.1, 0.3) at the life
+    calibration, 28, 17, 10, 0 with memory reach `μ = 0.9` at the same mass, and 155, 113, 83,
+    39 with `μ = 0.95`, `B = 0.5`. At fixed mass, reach buys the time. *numerical*
+- **The momentary self's exit.** Its past fixed on a foreseen plan, choosing death at `t₀ + 1`:
+  its felt state falls by `S/(1 − λn)` if `S > 0`, `S/(1 − n)` if not (with `λn < 1`), where
+  `S = Σ_{j≥1} [aα^j e_{t₀+j} + nν^j ψ_λ(e_{t₀+j})]` and `ψ_λ` has slope `λ` on positive felt
+  states (losing a good moment is a felt loss), the kink taken per horizon as in X4. It prefers
+  exit iff `S < 0`, a kernel-weighted forecast of its own felt states, mostly the next ten
+  periods at the life calibration. Its present base utility cancels between the branches and
+  enters only through the memories it leaves. *derived; checked*
+  - At `λ = 1` the same functional rule holds when the coming states were just learned: the
+    revision against the old forecasts is common to both branches (Codex). The continuation's
+    felt states must then be solved from the actual past and the announcement's news, not the
+    foreseen path. *derived*
+  - **A temporary patch.** `k` periods at base level `x` in a good life (`u = 1`), 500 left.
+    The momentary self prefers exit below `x*` = −3.29, −0.57, −0.095, −0.069 (`k` = 1, 4,
+    13, 52); the remaining-life self below −489, −122, −37, −8.6. With 2000 left the
+    momentary thresholds agree to every printed digit (geometric tails, so asymptotically) and
+    the remaining-life ones scale with the life left (−1957, −492, −152, −37). At `λ = 2` the
+    momentary self is a little more reluctant (−5.05, −0.82, −0.117, −0.087). *numerical*
+  - **Immortality with an exit.** With summable kernels and an eventually uniformly positive
+    base path, a finite patch leaves the remaining life-sum infinite, so the remaining-life
+    self never exits, while the momentary threshold does not move. The momentary self values a
+    stationary future at `(A + nν/(1 − ν))/(1 − n)` = 0.77 felt moments at `λ = 1` (1.80 at
+    `λ = 2`). So the momentary self has a deviation incentive to exit at any stretch that tips
+    `S` (a quarter at −0.1, a week at −3.3). Whether a life it controls ends there is the
+    stopping problem in personal equilibrium (Open): a sophisticated plan foresees later exits.
+    *numerical; synthesis*
+  - **The aftermath.** Exit preference outlasts the patch. One period at −100 in a good life:
+    `S` = −20.5 before it, −2.5 during, −0.53 the period after, +0.30 the one after that
+    (Codex). Remembered distress lowers the near future, so a wait as long as the patch does not
+    filter it, and the delay needed can grow with depth (logarithmically, with geometric memory).
+    Reassessment after a delay helps only if the later self must renew the request. Cooling-off
+    periods, in the model, need to cover the patch's remembered tail as well as the patch.
+    *checked; Codex's counterexample*
+  - Prior art: Hamermesh & Soss (1974, *JPE* 82(1): 83–98), exit when discounted remaining
+    lifetime utility falls below a threshold, the remaining-life rule; Becker & Posner (2004,
+    an unpublished draft marked not for citation), the option value of waiting under uncertain
+    future utility, which is not waiting out a known patch; Williams (1973, in *Problems of the
+    Self*) on the tedium of immortality, here a claim about base utility that echoes do not
+    supply. *bibliographic details verified (Codex, Gemini); texts unread*
+- **A hidden lottery against a chosen date.** A date drawn uniformly on a window and never
+  announced, against a known date at the window's mean, adds +0.683 on 16–30 (2.1% of welfare)
+  and +1.023 on 46–90 (1.0%), the same at `λ = 2`: sudden survival brings only gains and the
+  known date no news. Against revelation at birth it is +0.682 and +1.023 (+0.684 on 16–30 at
+  `λ = 2`, where revelation brings felt losses); that comparison changes echoes as well as news,
+  so it is not a clean split. No optimization over death distributions, and under constant
+  positive utility both lose to living on. *numerical*
+  - **The gain is bounded in the mean lifespan** (Codex): with felt states in `[0, E_max]` for
+    both lives, `|E W_hidden − W_known| ≤ E_max(N + J)/(1 − M)`, `N = Σ_j k_n(j)`,
+    `J = Σ_j j (k_f(j) + k_b(j))` (3.07 at 46–90). An `O(1)` gain, a vanishing share of a long
+    life, under uniform stability (which `M < 1` alone does not give, 6b). *derived; checked*
+- With other people, a death is news to those who feel it: `vicarious.md`, grief.
+
 ## Open
 
+- The momentary exit in personal equilibrium: earlier selves who foresee the exit policy
+  anticipate it, which moves today's comparison. Then a stochastic base path, where the
+  momentary chooser's lifespan would be a first-passage time.
 - A longer horizon for the decision case, and the band's containment as a condition rather
   than a share of draws. Schünemann, Strulik & Trimborn (2023) is the quantitative cousin
   for health investment with endogenous longevity.

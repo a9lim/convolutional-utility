@@ -92,10 +92,11 @@ def sudden_line(u, h, a, al, m, mu, n, nu):
     return np.linalg.solve(np.eye(T) - K, u), surv
 
 
-def foreseen(D, a, al, m, mu, **_):
-    i, j = np.meshgrid(np.arange(D), np.arange(D), indexing="ij")
+def foreseen(u, a, al, m, mu, **_):
+    """The felt path of a foreseen life with base path u (no uncertainty, so no news)."""
+    i, j = np.meshgrid(np.arange(len(u)), np.arange(len(u)), indexing="ij")
     K = np.where(j > i, a * al ** np.abs(j - i), 0) + np.where(j < i, m * mu ** np.abs(j - i), 0)
-    return np.linalg.solve(np.eye(D) - K, np.ones(D))
+    return np.linalg.solve(np.eye(len(u)) - K, u)
 
 
 def stationary(h, a, al, m, mu, n, nu):
@@ -259,7 +260,7 @@ for win in ((2, 10), (21, 30)):
         print(f"        death on {win}, M = {Mc:.2f}: " + "  ".join(f"n={n}: {v:+.3f}" for n, v in zip((0.05, 0.2, 0.5), row)))
 
 # 9. Where a foreseen death's harm lands: one more period, D = 200 -> 201, life calibration.
-e1, e2 = foreseen(200, **LIFE), foreseen(201, **LIFE)
+e1, e2 = foreseen(np.ones(200), **LIFE), foreseen(np.ones(201), **LIFE)
 dW, own = e2.sum() - e1.sum(), e2[-1]
 report("a foreseen extra period adds the interior weight 1/(1-M)", abs(dW - 1 / (1 - 0.32)), tol=5e-3)
 print(f"      dW {dW:.4f}: the new moment's own felt state {own:.4f} ({own / dW:.0%}), "
@@ -321,7 +322,7 @@ loss = np.einsum("ts,tds->dt", KN, np.maximum(-(F[1:] - F[:-1]), 0)) * alive
 lin = np.einsum("ts,tds->dt", KN, F[1:] - F[:-1]) * alive
 report("lam = 2, warned: E sum N = 0 (the dividend) - (lam - 1) E sum k_n (-dF)_+",
        max(abs(Pp @ N.sum(1) + Pp @ loss.sum(1)), abs(Pp @ lin.sum(1))), tol=1e-10)
-e2 = foreseen(201, **LIFE)
+e2 = foreseen(np.ones(201), **LIFE)
 print(f"      a period added to a constant life: new first moment {e2[0]:.4f}, new last {e2[-1]:.4f}")
 
 
@@ -543,3 +544,152 @@ lo3, hi3 = (threshold(lambda c: three_fixed(1, ap, 0.9, 0.05, c, **cx3, lam=2.0)
 report("lam = 2, nu = 0.1: commitment (0.900) above the whole band [0.580, 0.773] (Codex)",
        float(not (hi3 < cC3)) + abs(cC3 / 0.05 - 0.900339) + abs(lo3 / 0.05 - 0.580350) + abs(hi3 / 0.05 - 0.772947),
        tol=1e-5)
+
+
+# 16. Chosen death dates. (a) Appending a moment to a foreseen life changes the life-sum by that
+#     moment's own felt state times 1 + 1'R_D k_f, the earlier selves' anticipation of it, echoed: a
+#     planner extends iff the moment it adds would feel good, its memories of the life included.
+def Kfore(D, a, al, m, mu, **_):
+    i, j = np.meshgrid(np.arange(D), np.arange(D), indexing="ij")
+    return np.where(j > i, a * al ** np.abs(j - i), 0) + np.where(j < i, m * mu ** np.abs(j - i), 0)
+
+
+def last_gain(D, pr):
+    """1 + 1'R_D k_f: what a unit of the appended moment's felt state adds to the life-sum."""
+    return 1 + np.linalg.solve((np.eye(D) - Kfore(D, **pr)).T, np.ones(D)) @ (pr["a"] * pr["al"] ** np.arange(D, 0, -1))
+
+
+err = 0.0
+for _ in range(300):
+    pr = dict(a=rng.uniform(0, .5), al=rng.uniform(.1, .9), m=rng.uniform(0, .5), mu=rng.uniform(.1, .9))
+    if pr["a"] * pr["al"] / (1 - pr["al"]) + pr["m"] * pr["mu"] / (1 - pr["mu"]) > 0.9:
+        continue
+    D = int(rng.integers(2, 40))
+    u = rng.normal(0, 1, D + 1)
+    eD, eD1 = foreseen(u[:D], **pr), foreseen(u, **pr)
+    err = max(err, abs(eD1.sum() - eD.sum() - eD1[-1] * last_gain(D, pr)))
+report("chosen date: W(D+1) - W(D) = the appended moment's felt state x (1 + 1'R_D k_f)", err, tol=1e-10)
+print(f"      life calibration, D = 200: 1 + 1'R_D k_f = {last_gain(200, LIFE):.4f}")
+Wc = [foreseen(np.array([1.0, -2.0, 10.0])[:D], **LIFE).sum() for D in (1, 2, 3)]
+report("first failure is not the optimum: u = (1, -2, 10), W = 1, -0.974841, 9.714593 (Codex)",
+       float(not (Wc[1] < Wc[0] < Wc[2])) + abs(Wc[1] + 0.974841) + abs(Wc[2] - 9.714593), tol=1e-6)
+# 16a'. Single crossing (Codex): geometric memory and a nonincreasing, nonpositive base tail keep every
+#       appended felt state negative once one is.
+bad = 0
+for _ in range(100):
+    pr = dict(a=rng.uniform(0, .4), al=rng.uniform(.1, .9), m=rng.uniform(0, .5), mu=rng.uniform(.1, .95))
+    if pr["a"] * pr["al"] / (1 - pr["al"]) + pr["m"] * pr["mu"] / (1 - pr["mu"]) > 0.9:
+        continue
+    tail = -np.cumsum(rng.exponential(0.02, 80)) * rng.uniform(0, 1)
+    u = np.r_[rng.uniform(0.5, 2, 30), tail]
+    last = np.array([foreseen(u[:D + 1], **pr)[-1] for D in range(30, 110)])
+    neg = np.flatnonzero(last <= 0)
+    bad += len(neg) > 0 and bool(np.any(last[neg[0]:] > 0))
+report("single crossing: after the first non-positive appended state, all are negative (Codex)", bad, tol=0.5)
+
+# 16b. Living on memories: base utility 1 for 100 periods, then -c; the planner's chosen date
+#      past the zero crossing, by memory reach (printed). The argmax is where the appended
+#      moment's felt state first turns negative.
+mB = lambda B, mu: B * (1 - mu) / mu
+bad = 0
+for label, pr in (("life calibration (mu 0.3, B 0.17)", LIFE), ("mu 0.9, same B", dict(LIFE, m=mB(0.4 * 0.3 / 0.7, 0.9), mu=0.9)),
+                  ("mu 0.95, B 0.5", dict(LIFE, m=mB(0.5, 0.95), mu=0.95))):
+    row = []
+    for c in (0.02, 0.05, 0.1, 0.3):
+        last = [foreseen(np.r_[np.ones(100), -c * np.ones(D - 99)], **pr)[-1] for D in range(100, 300)]
+        Ws = [foreseen(np.r_[np.ones(100), -c * np.ones(D - 100)], **pr).sum() for D in range(100, 300)]
+        row.append(int(np.argmax(Ws)))
+        bad += row[-1] != int(np.argmax(np.array(last) < 0))
+    print(f"      {label:34s} c = 0.02, 0.05, 0.1, 0.3: lives on {row} periods past the crossing")
+report("chosen date: the argmax is where the appended moment first feels bad", bad, tol=0.5)
+
+
+# 16c. The momentary self at t0, its past fixed on the plan, choosing death at t0 + 1 (the plan
+#      foreseen, so the choice is news). Its felt state falls by S/(1 - lam n) if S > 0, S/(1 - n)
+#      if not, S = sum_{j>=1} [a al^j e_{t0+j} + n nu^j psi(e_{t0+j})], psi of slope lam on
+#      positive e (losing a good moment is a loss). It chooses by the sign of S, a kernel-weighted
+#      forecast of its own felt states; its present base utility does not enter.
+def exit_now(u, e, t0, lam, a, al, m, mu, n, nu):
+    """Felt state at t0 on plan, choosing death at t0 + 1, the remaining life-sum on plan, and S."""
+    T = len(u)
+    kf, kb, kn = kernels(T, a, al, m, mu, n, nu)
+    fut = e[t0 + 1:]
+    X = u[t0] + kb[1:t0 + 1][::-1] @ e[:t0] + kn[1:T - t0] @ np.where(fut > 0, -lam * fut, -fut)
+    up, dn = (X - n * e[t0]) / (1 - n), (X - lam * n * e[t0]) / (1 - lam * n)
+    ed = up if up >= e[t0] else dn
+    S = kf[1:T - t0] @ fut + kn[1:T - t0] @ np.where(fut > 0, lam * fut, fut)
+    return e[t0], ed, e[t0:].sum(), S
+
+
+err = 0.0
+for _ in range(300):
+    pr = dict(a=rng.uniform(0, .4), al=rng.uniform(.1, .9), m=rng.uniform(0, .4), mu=rng.uniform(.1, .9),
+              n=rng.uniform(0, .4), nu=rng.uniform(.1, .9))
+    lam = rng.choice([1.0, 2.0])
+    if pr["a"] * pr["al"] / (1 - pr["al"]) + pr["m"] * pr["mu"] / (1 - pr["mu"]) > 0.9:
+        continue
+    u = rng.normal(0.3, 1, 40)
+    ec, ed, _, S = exit_now(u, foreseen(u, **pr), 20, lam, **pr)
+    err = max(err, abs(ec - ed - S / (1 - (lam if S > 0 else 1) * pr["n"])))
+report("momentary exit: its felt state falls by S/(1 - lam n) or S/(1 - n), S the weighted forecast", err, tol=1e-10)
+u = np.ones(150)
+u[51] = -100.0
+e = foreseen(u, **LIFE)
+Ss = [exit_now(u, e, t, 1.0, **LIFE)[3] for t in (50, 51, 52, 53)]
+report("a wait outlasting the patch does not filter it: S = -20.46, -2.49, -0.53, +0.30 at 50..53 (Codex)",
+       max(abs(x - y) for x, y in zip(Ss, (-20.458522, -2.493839, -0.532714, 0.297476))), tol=1e-6)
+
+
+# 16d. A foreseen bad patch of k periods at base level x in a long good life (u = 1): the level x*
+#      below which each self prefers death at t0 + 1. The momentary threshold does not depend on
+#      the length of the life left; the remaining-life self's falls with it (printed).
+def patch_thresholds(k, lam, rem, pr, t0=300):
+    T = t0 + 1 + rem
+    one, pat = np.ones(T), np.zeros(T)
+    pat[t0 + 1:t0 + 1 + k] = 1
+    e1, ep = foreseen(one, **pr), foreseen(pat, **pr)
+    out = []
+    for which in ("momentary", "remaining"):
+        lo, hi = 0.0, 1e4
+        for _ in range(100):
+            b = (lo + hi) / 2
+            ec, ed, rem_sum, S = exit_now(one - b * pat, e1 - b * ep, t0, lam, **pr)
+            lo, hi = (b, hi) if (S if which == "momentary" else rem_sum - ed) > 0 else (lo, b)
+        out.append(lo)
+    return [1 - b for b in out]
+
+
+print("      bad patch of k periods at level x in a good life; x* for momentary / remaining-life self:")
+for lam in (1.0, 2.0):
+    for rem in (500, 2000):
+        cells_ = [patch_thresholds(k, lam, rem, LIFE) for k in (1, 4, 13, 52)]
+        print(f"        lam {lam:g}, {rem} periods left: " + "  ".join(f"k={k}: {m_:.3f} / {r_:.1f}" for k, (m_, r_)
+                                                                    in zip((1, 4, 13, 52), cells_)))
+
+# 16e. A hidden lottery against a chosen date: death uniform on a window, unannounced (sudden), against
+#      a known date at the window's mean, life calibration (printed).
+for lo_, T_ in ((16, 30), (46, 90)):
+    Ds_ = np.arange(1, T_ + 1)
+    P_ = ((Ds_ >= lo_) & (Ds_ <= T_)).astype(float)
+    P_ /= P_.sum()
+    Wk = foreseen(np.ones((lo_ + T_) // 2), **LIFE).sum()
+    for lam in (1.0, 2.0):
+        Wh, Wf = tree(np.ones(T_), P_, 0, **LIFE, lam=lam)[1], tree(np.ones(T_), P_, T_, **LIFE, lam=lam)[1]
+        print(f"      death on {lo_}..{T_}, lam {lam:g}: hidden - known mean date {Wh - Wk:+.3f} "
+              f"(hidden - foreseen from birth {Wh - Wf:+.3f}); W {Wk:.1f}")
+# 16f. Codex's bound: with felt states in [0, E_max] for both lives, |E W_hidden - W_known| <=
+#      E_max (N + J)/(1 - M), N = sum_j k_n(j), J = sum_j j (k_f(j) + k_b(j)): bounded in the mean
+#      lifespan under uniform stability.
+kf_, kb_, kn_ = kernels(400, **LIFE)
+jj = np.arange(400)
+Nm, Jm, Mm = kn_.sum(), jj @ (kf_ + kb_), kf_.sum() + kb_.sum()
+bad = 0
+for lo_, T_ in ((16, 30), (46, 90)):
+    Ds_ = np.arange(1, T_ + 1)
+    P_ = ((Ds_ >= lo_) & (Ds_ <= T_)).astype(float)
+    P_ /= P_.sum()
+    eh, Wh, _, _ = tree(np.ones(T_), P_, 0, **LIFE)
+    ek = foreseen(np.ones((lo_ + T_) // 2), **LIFE)
+    Emax = max(eh.max(), ek.max())
+    bad += not (min(eh.min(), ek.min()) >= 0 and abs(Wh - ek.sum()) <= Emax * (Nm + Jm) / (1 - Mm))
+report(f"the hidden lottery's gain within E_max (N + J)/(1 - M) = {Emax * (Nm + Jm) / (1 - Mm):.2f} (Codex)", bad, tol=0.5)

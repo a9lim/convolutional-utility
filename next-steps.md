@@ -212,9 +212,17 @@ Independent research, not prerequisites for the post.
   model: the dead feel no news, so ignorance of the death date pays at the calibrations; hazard
   against the felt state of the living, and the extra well-foundedness condition it brings;
   survival optimism; the exact decision case (willingness to pay for survival by
-  evaluator, sticky safety plans under loss-averse news, sudden against warned deaths).
-  Next: dread of death as a disvalue, and a dated hazard. Yaari 1965 and Brueckner &
-  Fischer 1986 wait in `references/inbox/`.
+  evaluator, sticky safety plans under loss-averse news, sudden against warned deaths);
+  chosen dates (an extension pays iff the added moment feels good; the momentary self's exit
+  incentive rests on a short kernel-weighted forecast and outlasts a patch through memory).
+  Next: dread of death as a disvalue, a dated hazard, the momentary exit in personal
+  equilibrium. Yaari 1965 and Brueckner & Fischer 1986 wait in `references/inbox/`.
+- **Vicarious echoes** (`notes/vicarious.md`, exploring; menu B7). Contagion, vicarious
+  anticipation and memory between people: joint well-foundedness by echo shares, welfare
+  weight as centrality (the hedonic reading counts sympathy where felt), grief among
+  survivors (under loss-averse news a widely felt death is better foreseen). Next:
+  cross-person news gains, whether to tell someone of their coming misfortune (against Caplin
+  & Leahy 2004), and the prior art listed there.
 - **In discussion:** the extensions menu, `notes/extensions-menu.md`.
 
 ## Parked (a9)
