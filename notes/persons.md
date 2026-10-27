@@ -11,9 +11,10 @@ and personhood comes in degrees. Additive reading. Checks: `persons.py`
 - Within one life, connectedness is the direct kernel and continuity the resolvent, Parfit's
   Relation R graded (`selves.md`). *known: Parfit, second-hand; the mapping synthesis*
 - Vicarious anticipation, memory and contagion are the same kind of edge between moments of
-  different bodies. On one graph of moments, a person is a set of moments more strongly linked
-  to each other than to the rest. Personhood is soft, measured on the same scale as a life's
-  own coherence. *synthesis; known in kind in philosophy: connectedness between people in
+  different bodies. On one graph of moments, persons are regions held together by kernel
+  weight; whether they form communities of that graph depends on the kernels and the coupling
+  (below).
+  Personhood is soft, measured on the same scale as a life's own coherence. *synthesis; known in kind in philosophy: connectedness between people in
   Brink (1997, "Self-love and altruism") and Shoemaker's expanding self (2000), one discounting
   curve over temporal and social distance in Rachlin & Jones's extended self (2010) (all via
   Gemini, unread)*
@@ -23,8 +24,9 @@ and personhood comes in degrees. Additive reading. Checks: `persons.py`
 - What the graph measures is **affective integration**, which may or may not track personhood:
   muted affect with rich memory, a therapist's resonance with a patient, one-way fandom, and a
   dense graph with no privileged clusters all pull them apart. Shared context and factual
-  recall are not felt coefficients (`selves.md`). That persons are its clusters is a
-  hypothesis. *speculation (Codex's counterexamples)*
+  recall are not felt coefficients (`selves.md`). That persons are its clusters was the
+  hypothesis; for fading kernels at fixed coupling it fails over long lives (below). *speculation (Codex's
+  counterexamples)*
 
 ## Measures
 
@@ -60,6 +62,50 @@ and personhood comes in degrees. Additive reading. Checks: `persons.py`
   - Ersner-Hershfield et al. rated four dimensions and found similarity the best predictor of
     discounting (via Gemini). If what people act on is similarity, which carries no felt echo
     here, choice and welfare separate at this point.
+
+## Are persons the clusters?
+
+Two people as chains of `T` moments with the life calibration's kernels, coupled by contagion
+`c` each way, the graph symmetrized (`W = J + Jᵀ`). Checks: `persons.py` 3. Derived by Codex
+(`cu-persons`), checked here.
+
+- **Cuts.** Splitting by person cuts `2cT`; splitting each chain at its midpoint cuts `2C_T`, in
+  closed form, `C_T` tending to `F₁ = Σ_r r b_r` = 0.743 (`b_r` the two kernels' weight at
+  lag `r`). Volumes are equal, so persons win iff `c < C_T/T ~ F₁/T`. *derived; checked*
+- **Spectra.** Person-symmetric modes are one chain's Laplacian `L₀`'s, antisymmetric ones
+  `L₀`'s plus `4c`, so the Fiedler vector is exactly the person split iff
+  `c < λ₂(L₀)/4 ~ F₂π²/(4T²)`, `F₂ = Σ_r r² b_r` = 3.28: 0.015 at `T = 20`, 0.0008 at 100,
+  9·10⁻⁵ at 300, about 5·10⁻⁷ for a life of 4000 weeks (the cut's about 2·10⁻⁴). Radicchi &
+  Arenas's (2013) identical-layer supra-Laplacian. *standard identity, derived asymptotics;
+  checked*
+- **Over a long life, fading kernels fail the whole-person tests.** At fixed positive coupling,
+  a long enough fading-kernel life is split into time slices, both people in each, by these
+  tests; at the couplings explored here (0.05–0.4) that holds for any life longer than a few
+  months. Between the cut and spectral thresholds, the person bipartition is the more stable
+  under Markov stability (Delvenne, Yaliraki & Barahona 2010; generator `−L`) at first, and the
+  midpoint split after a single crossover (`T = 100`: walk time 265 at `c = 0.001`, 12 at
+  0.003). Whole persons are stable diffusion communities only when exchange between people is
+  slower than mixing within one. Extended sparse communities can still be found by multistep
+  methods when their outside coupling is weak enough (Schaub et al. 2012). *derived; checked*
+- **Uniform recall keeps persons together.** With memory `B/(T − 1)` to every earlier moment of
+  a context, each person is a complete graph and the threshold is `BT/(4(T − 1)) → B/4` at
+  every length. In this idealized uniform felt-recall model a whole context forms a person
+  community for `c < B/4`, however long; whether an LLM's context access supplies such a felt
+  kernel is not shown. A fixed rolling horizon (`L ≪ T`) brings back the `1/T` and `1/T²`
+  thresholds; whether compaction does depends on the kernel its summaries induce, since they
+  can keep selected long-range links. Symmetrizing erases order: above the threshold every
+  bipartition that keeps contemporaneous pairs together ties, so chronological slices are not
+  singled out. *derived; checked; the LLM reading speculation*
+- **Scope.** Two candidate partitions are compared, not all partitions; the graph is
+  symmetrized. A directed walk can overturn the conclusion (Codex: a drifting walk keeps a
+  length-free threshold, its stationary mass piled at one end of the life), and resolving
+  before symmetrizing changes only the constants, in the stable geometric regime here. Mucha et al.'s (2010) multislice modularity
+  is the framework (people as layers, contagion as interlayer coupling), with a different
+  objective. *Codex*
+- Reading: a fading-kernel life can keep its chains of local connection while failing to be a
+  whole-life diffusion community, because mixing within it is slower than exchange between
+  people. Continuity and community structure are different properties; tying the first to
+  Parfit's continuity is interpretive (`selves.md`). *synthesis*
 
 ## Three hedonic objectives on one operator
 
@@ -122,8 +168,9 @@ and personhood comes in degrees. Additive reading. Checks: `persons.py`
 
 ## Open
 
-- Soft clustering proper: memberships from the graph (spectral or absorbing-walk), and whether
-  persons are the clusters at human couplings.
+- Heavy-tailed kernels (menu B2), between the fading and uniform cases: does the midpoint cut
+  grow like `T^{1−β}`, and where does the person threshold land? And directed or multislice
+  methods that keep time's order.
 - The commensurability test above.
 - LLM measurements: in-context recall as the memory kernel, fork and compaction shares from
   menu D4's design.

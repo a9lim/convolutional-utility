@@ -773,125 +773,32 @@ report("unmatched kernels (nu = 0.5), lam = 1, x = -2.1858: both plans are equil
        float(not (nv and ex)), tol=0.5)
 
 
-# 17b. A Markov mood (AR(1), Tauchen grid, mean 1), no memory (m = 0): the momentary exit policy over
-#      (previous, current) moods as a fixed point, and the expected lifespan from the stationary mood,
-#      a first-passage time. References are the previous self's forecasts given it continued.
-def tauchen(N, rho, sd, mean=1.0, width=3.0):
-    from scipy.special import ndtr
-    grid = np.linspace(-width * sd, width * sd, N)
-    se, h = sd * np.sqrt(1 - rho ** 2), grid[1] - grid[0]
-    z = grid[None, :] - rho * grid[:, None]
-    up = np.where(np.arange(N) < N - 1, ndtr((z + h / 2) / se), 1.0)
-    lo = np.where(np.arange(N) > 0, ndtr((z - h / 2) / se), 0.0)
-    return mean + grid, up - lo
-
-
-def markov_exit(u, Pi, lam, a, al, n, nu, J=90, X0=None, damp=0.5, **_):
-    """Returns (felt states e[sp, s], exit policy X[sp, s], forecasts F[j-1, s] given continuing)."""
-    N = len(u)
-    ka, kn = a * al ** np.arange(1, J + 1), n * nu ** np.arange(0, J + 1)
-    phi = lambda x: np.where(x >= 0, x, lam * x)
-    h0 = lambda Xv, Rv: np.where((Xv - n * Rv) / (1 - n) >= Rv, (Xv - n * Rv) / (1 - n),
-                                 (Xv - lam * n * Rv) / (1 - lam * n))   # e = Xv + n phi(e - Rv)
-    X = np.zeros((N, N), bool) if X0 is None else X0.copy()
-    e = np.tile(u, (N, 1)).astype(float)
-    for _ in range(200):
-        for _ in range(4000):
-            F = np.zeros((J + 1, N))
-            F[0] = (Pi * e).sum(1)
-            for j in range(1, J + 1):
-                F[j] = (Pi * ~X) @ F[j - 1]
-            ec = h0(u[None, :] + (ka @ F[:J])[None, :]
-                    + (kn[1:, None, None] * phi(F[:J, None, :] - F[1:, :, None])).sum(0), F[0][:, None])
-            ee = h0(u[None, :] + (kn[1:, None, None] * phi(-F[1:, :, None])).sum(0), F[0][:, None])
-            new = np.where(X, ee, ec)
-            err = np.max(np.abs(new - e))
-            e = damp * new + (1 - damp) * e
-            if err < 1e-11:
-                break
-        else:
-            raise RuntimeError(f"felt states did not converge, err {err:.1e}")
-        Xn = ee > ec + 1e-12
-        if np.array_equal(Xn, X):
-            return e, X, F, ee - ec
-        X = Xn
-    raise RuntimeError("policy cycle")
-
-
-def lifespan(Pi, X):
-    """Expected periods lived from the stationary mood: absorbing chain over pairs."""
-    N = len(Pi)
-    if not X.any():
-        return np.inf
-    w, v = np.linalg.eig(Pi.T)
-    pi = np.real(v[:, np.argmin(abs(w - 1))])
-    pi /= pi.sum()
-    A = np.eye(N * N)
-    for sp in range(N):
-        for s in range(N):
-            if not X[sp, s]:
-                A[sp * N + s, s * N:(s + 1) * N] -= Pi[s]
-    return (pi[:, None] * Pi).ravel() @ np.linalg.solve(A, np.ones(N * N))
-
-
-MOOD = dict(a=LIFE["a"], al=LIFE["al"], n=LIFE["n"], nu=LIFE["nu"])
-J_ = 90
-ka_, kn_ = MOOD["a"] * MOOD["al"] ** np.arange(1, J_ + 1), MOOD["n"] * MOOD["nu"] ** np.arange(1, J_ + 1)
-
-
-def matched_policy(u, Pi, a, al, it=100000, **_):
-    """Codex's reduction for m = 0, lam = 1, al = nu: v = Pi u + beta Pi v_+, beta = al (1 + a), a
-    contraction; exit iff v(s) < 0, whatever n."""
-    v = Pi @ u
-    for _ in range(it):
-        v_new = Pi @ u + al * (1 + a) * Pi @ np.maximum(v, 0)
-        if np.max(np.abs(v_new - v)) < 1e-13:
-            return v_new < 0
-        v = v_new
-    raise RuntimeError("no convergence")
-
-
-def state_lifespan(Pi, exit_s):
-    """Expected periods lived from the stationary mood when the policy depends on the current mood."""
-    if not exit_s.any():
-        return np.inf
-    w, vec = np.linalg.eig(Pi.T)
-    pi = np.real(vec[:, np.argmin(abs(w - 1))])
-    pi /= pi.sum()
-    return pi @ np.linalg.solve(np.eye(len(Pi)) - Pi * ~exit_s[:, None], np.ones(len(Pi)))
+# 17b. Which equilibrium do expectations select? Foreseen plans carry no news, so the preferred
+#      equilibrium of a self at t_f compares lam-free foreseen paths (selves at the same date in two
+#      foreseen lives, not a choice with one past held fixed). Every prefix self ranks two plans by the
+#      sign of Z = sum_j al^j e_{tau+j} (Codex), so formation time does not matter; with al = nu that
+#      sign is the lam = 1 exit criterion, hence the switch at the lam = 1 edge. The life-sum prefers
+#      never exiting throughout. (The Markov exit is in exit.py.)
+def preferred(xp, k, lam, tf, pr=LIFE, T=160, t0=60):
+    """Among the equilibria (never exit, and exits near the patch), the momentary choice at t_f and the
+    life-sum's; None if the two kinds do not coexist."""
+    never, exits = plan_equilibria(xp, k, lam, pr, T, t0)
+    if not (never and exits):
+        return None
+    u = np.ones(T)
+    u[t0 + 1:t0 + 1 + k] = xp
+    paths = {T - 1: foreseen(u, **pr)} | {p: foreseen(u[:p + 1], **pr) for p in exits}
+    tf = min(tf, min(exits))
+    return (max(paths, key=lambda p: paths[p][tf]) == T - 1, max(paths, key=lambda p: paths[p].sum()) == T - 1)
 
 
 bad = 0
-for rho, sd in ((0.9, 1.0), (0.95, 0.75), (0.8, 1.5)):
-    u, Pi = tauchen(31, rho, sd)
-    pols = [markov_exit(u, Pi, 1.0, **dict(MOOD, n=n_))[1] for n_ in (0.05, 0.2, 0.3)]
-    F = markov_exit(u, Pi, 1.0, **MOOD)[2]
-    bad += not (np.all(pols[1] == pols[1][:1]) and np.array_equal(pols[1][0], (ka_ + kn_) @ F[:J_] < 0))
-    bad += not all(np.array_equal(P_[0], matched_policy(u, Pi, **MOOD)) for P_ in pols)
-report("Markov, lam = 1, alpha = nu: exit iff S(s) < 0, = Codex's contraction v = Pi u + beta Pi v+, any n", bad,
-       tol=0.5)
-
-# Multiplicity under loss-averse news (Codex): a two-state mood and a Tauchen case, two strict equilibria each.
-u2, Pi2 = np.array([-1.4, 1.4]), np.array([[0.7, 0.3], [0.05, 0.95]])
-_, Xa, _, ma = markov_exit(u2, Pi2, 2.0, **MOOD)
-_, Xb, _, mb = markov_exit(u2, Pi2, 2.0, X0=np.array([[True, False], [False, False]]), **MOOD)
-u3, Pi3 = tauchen(31, 0.55, 1.5)
-_, Xc, _, mc = markov_exit(u3, Pi3, 2.0, **MOOD)
-_, Xd, _, md = markov_exit(u3, Pi3, 2.0, X0=np.tile(u3 < 0, (31, 1)), **MOOD)
-strict = min(np.min(np.abs(x)) for x in (ma, mb, mc, md))
-report(f"lam = 2: two strict equilibria in a two-state mood (never exit; exit after two lows, lives "
-       f"{lifespan(Pi2, Xb):.2f}) and at rho 0.55, sd 1.5 (Codex)",
-       float(not (not Xa.any() and Xb[0, 0] and not np.array_equal(Xc, Xd) and strict > 1e-3)), tol=0.5)
-
-# The lifespan table at lam = 1, by the contraction on a fine grid (601 points, 6 sd) against the
-# coarse one (31 points, 3 sd); the coarse grid misses stops in the tails.
-print("      Markov mood, lam = 1: expected weeks from the stationary mood, fine grid (coarse grid)")
-print("        persistence \\ sd   0.5               0.75              1                 1.5")
-for rho in (0.5, 0.8, 0.9, 0.95, 0.98):
-    cells_ = []
-    for sd in (0.5, 0.75, 1.0, 1.5):
-        uf, Pf = tauchen(601, rho, sd, width=6.0)
-        uc, Pc = tauchen(31, rho, sd)
-        Lf, Lc = state_lifespan(Pf, matched_policy(uf, Pf, **MOOD)), state_lifespan(Pc, matched_policy(uc, Pc, **MOOD))
-        cells_.append(f"{Lf:9.3g} ({Lc:6.3g})")
-    print(f"        {rho:<11}" + "  ".join(cells_))
+for k, edge1 in ((1, -3.287), (4, -0.566)):
+    for lam in (1.2, 2.0):
+        for xp in (edge1 - 0.03, edge1 + 0.03):
+            for tf in (0, 40, 55, 60):
+                res = preferred(xp, k, lam, tf)
+                if res is not None:
+                    bad += res != (xp > edge1, True)
+report("selection: the momentary preferred equilibrium switches at the lam = 1 edge; the life-sum never exits",
+       bad, tol=0.5)

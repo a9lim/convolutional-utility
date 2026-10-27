@@ -303,7 +303,8 @@ An agent that can end its life at any moment, a biological immortal's only death
     future utility, which is not waiting out a known patch; Williams (1973, in *Problems of the
     Self*) on the tedium of immortality, here a claim about base utility that echoes do not
     supply. *bibliographic details verified (Codex, Gemini); texts unread*
-- **The exit in equilibrium.** Checks: `death.py` 17. Reviewed by Codex (`cu-death`).
+- **The exit in equilibrium.** Checks: `death.py` 17 (plans), `exit.py` (the Markov exit).
+  Reviewed by Codex (`cu-death`).
   - **The concept.** A plan is an equilibrium with a prescribed off-path continuation: no self
     before the planned date prefers exiting, the planned exiter prefers exiting to continuing,
     and the continuation after a deviation (never exiting again) is itself self-enforcing on the
@@ -322,6 +323,18 @@ An agent that can end its life at any moment, a biological immortal's only death
     plans' prefixes coincide (Codex's argument). With `ν = 0.5` a band opens under linear news
     (one-period patch, about −2.192 to −2.180; both plans strict at −2.1858). *derived (Codex);
     checked*
+  - **Which equilibrium expectations select.** Foreseen plans carry no news, so a self that picks
+    the equilibrium best for itself compares foreseen felt paths that do not depend on `λ` (selves
+    at the same date in two foreseen lives, not a choice with one past held fixed). Every prefix
+    self ranks two plans by the sign of `Z_τ = Σ_j α^j e_{τ+j}` (Codex), so formation time does
+    not matter; with `α = ν` that sign is the `λ = 1` exit criterion, and the pick switches
+    exactly at the `λ = 1` edge (−3.29 for one period, −0.57 for four). The preferred-equilibrium
+    refinement thus selects one branch within these matched-kernel bands; it does not remove the
+    other equilibrium, and loss aversion decides only where expectations are set by something
+    else, such as history, habit or a stated plan. The life-sum prefers never exiting
+    throughout. *derived (Codex); checked*
+    - D3's fixed-past learner lands on the earliest credible plan; here that would be the exit.
+      *speculation, untested*
   - **The Markov exit** (AR(1) mood on a grid, mean 1, no memory): the exit policy over
     (previous, current) moods as a fixed point, references the previous self's forecasts given
     it continued (Codex checked the structure). At `λ = 1` it exits iff `S(s) < 0`, whatever the
@@ -331,7 +344,12 @@ An agent that can end its life at any moment, a biological immortal's only death
   - **Under loss-averse news state-contingent policies can stick too.** A two-state mood
     (`u = ±1.4`, stationary mean 1) has two strict equilibria at `λ = 2`, never exiting and
     exiting after two lows in a row (27 periods expected), and so does the grid at persistence
-    0.55, sd 1.5 (Codex). Expectations select. *checked*
+    0.55, sd 1.5 (Codex). Expectations select, and momentary selves disagree about which: in the
+    two-state case selves in good moods prefer the equilibrium with exits (by 0.0018 and 0.00003)
+    and selves in bad moods never exiting (by 0.0022 and 0.0036). The good-mood preference comes
+    through felt news, their anticipation falling slightly (Codex). Never exiting has the
+    higher mean over stationary mood pairs, and positive stationary welfare, so an infinite
+    life-sum. *checked*
   - **The lifespan of an immortal with an exit**, under momentary control (`λ = 1`, life
     calibration without memory, weekly; expected weeks from the stationary mood, on a fine grid
     of 601 points over ±6 sd; the coarse 31-point, ±3 sd grid in brackets):
@@ -352,6 +370,33 @@ An agent that can end its life at any moment, a biological immortal's only death
     positive long-run experienced welfare, not a positive mean mood (Codex: persistence 0.5, sd
     10, `λ = 2` has mean mood 1 and mean felt state −0.69). *numerical, grid-dependent; without
     memory, so without the aftermath*
+  - **With memory.** The stock `H_{t+1} = μ(H_t + e_t)` joins the state, on a grid (converged:
+    262.0 against 261.9 weeks at 121 and 241 points). A self's own felt state is remembered, so
+    its continuation depends on it, and through its news on the previous mood even at `λ = 1`.
+    Worse memories, exits at better moods: at persistence 0.9, sd 1, the highest exiting mood is
+    −0.2 with the worst stock on the grid, −1.0 with the best. Expected remaining weeks after a
+    forced-continuation start (300 weeks in which every self continues, then exits allowed;
+    Codex checked 100 and 1000), on 31 moods, the coarse grid; no memory / the life
+    calibration's `μ = 0.3`, `B = 0.17` / `μ = 0.9` at the same mass / `μ = 0.9`, `B = 0.5`:
+
+    | `λ` | persistence, sd | none | `μ` 0.3 | `μ` 0.9 | `μ` 0.9, `B` 0.5 |
+    |---|---|---|---|---|---|
+    | 1 | 0.9, 1 | 60 | 60 | 91 | 260 |
+    | 1 | 0.95, 0.75 | 149 | 149 | 202 | 492 |
+    | 2 | 0.9, 1 | 60 | 44 | 64 | 142 |
+    | 2 | 0.95, 0.75 | 148 | 106 | 155 | 322 |
+
+    - **Long memory protects**: the agent lives on its memories through a low, about four times
+      longer with slow, heavier memory. A finer mood grid moves both ends together (65 against
+      265 at 61 moods).
+    - **Short memory can go either way.** In the two cases shown it leaves first exits unchanged
+      under linear news, the stock still holding the good weeks before the dip when the mood
+      first reaches the exit line; that is not general: on a 15-mood grid (persistence 0.9, sd
+      0.9) it halves the expected lifespan, 121 to 58 weeks (Codex).
+    - **Under loss-averse news short strong memory hastened exit** in both cases (60 to 44
+      weeks). A remembered downturn jolt is the plausible channel, not isolated from the
+      changes in anticipation, references and policy. *numerical; the domain and spacing of the
+      memory grid checked (Codex)*
   - In these models, exit incentives follow forecasts of experienced utility, news and (with
     memory) the aftermath included; depth, persistence, reference history and equilibrium
     selection all matter. Self-enforcing plans and multiple state-contingent equilibria are
@@ -373,9 +418,9 @@ An agent that can end its life at any moment, a biological immortal's only death
 
 ## Open
 
-- The Markov exit with memory, where the aftermath enters (a memory stock as a state on a grid);
-  the preferred credible plan rather than a prescribed continuation; which equilibrium
-  expectations select under loss aversion; proofs of the band's edges, numerical here.
+- Learning selection: does a fixed-past learner, which lands on the earliest credible plan in
+  D3, learn to exit? The preferred credible plan in the full sense, rather than a prescribed
+  continuation; proofs of the band's edges, numerical here.
 - A longer horizon for the decision case, and the band's containment as a condition rather
   than a share of draws. Schünemann, Strulik & Trimborn (2023) is the quantitative cousin
   for health investment with endogenous longevity.

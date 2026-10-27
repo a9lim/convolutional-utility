@@ -215,10 +215,11 @@ Independent research, not prerequisites for the post.
   evaluator, sticky safety plans under loss-averse news, sudden against warned deaths);
   chosen dates (an extension pays iff the added moment feels good; the momentary self's exit
   incentive rests on a short kernel-weighted forecast and outlasts a patch through memory;
-  plans to continue or to exit both stick in a band under loss-averse news; an immortal under
-  momentary control lives a first-passage time set by mood persistence). Next: dread of death
-  as a disvalue, a dated hazard, the Markov exit with memory. Yaari 1965 and Brueckner &
-  Fischer 1986 wait in `references/inbox/`.
+  plans to continue or to exit both stick in a band under loss-averse news, and selection by
+  preference undoes it; an immortal under momentary control lives a first-passage time set by
+  mood persistence, longer with long memory, shorter with remembered loss-averse jolts). Next:
+  dread of death as a disvalue, a dated hazard, whether learners learn to exit. Yaari 1965 and
+  Brueckner & Fischer 1986 wait in `references/inbox/`.
 - **Vicarious echoes** (`notes/vicarious.md`, exploring; menu B7). Contagion, vicarious
   anticipation and memory between people: joint well-foundedness by echo shares, welfare
   weight as centrality (Katz additively, PageRank under attention budgets; the hedonic
@@ -226,12 +227,14 @@ Independent research, not prerequisites for the post.
   makes the loop, budgets make stability size-free), grief among survivors (under loss-averse
   news a widely felt death is better foreseen). Next: delays along the graph, whether to tell
   someone of their coming misfortune (against Caplin & Leahy 2004), the prior art listed there.
-- **Persons as soft clusters** (`notes/persons.md`, exploring). With vicarious kernels,
+- **Persons in the echo graph** (`notes/persons.md`, exploring). With vicarious kernels,
   kernel weight runs between bodies: what a moment is made of (a partner at coupling 0.2 as
   much as one's own past and future), momentary, egoistic and total hedonism as row, cluster and
   global sums, forks as Ys whose branches stay weakly connected through the trunk; a measure of
-  affective integration, whose relation to personhood is the hypothesis. Next: soft clustering
-  proper, and the commensurability test (rated overlap, future-self continuity, coupling).
+  affective integration. Over a long life, fading kernels fail the whole-person clustering
+  tests: couples split into time slices unless `c ≲ 8/T²`; idealized uniform recall keeps
+  persons together at every length below `c = B/4`. Next: heavy-tailed kernels between the two, and the
+  commensurability test (rated overlap, future-self continuity, coupling).
 - **In discussion:** the extensions menu, `notes/extensions-menu.md`.
 
 ## Parked (a9)

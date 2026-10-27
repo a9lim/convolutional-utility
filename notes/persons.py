@@ -100,3 +100,90 @@ for label, pr in (("mu 0.95, B 0.5", dict(LIFE, m=0.5 * 0.05 / 0.95, mu=0.95)),
             row = Rl[L_ + tau]
             out.append(f"{tau}: {row[bl == 0].sum() / row.sum():.1%} / {row[bl == 2].sum() / row.sum():.2%}")
         print(f"      {label}, trunk and branches of {L_}: trunk / sibling share at " + ", ".join(out))
+
+
+# 3. Are persons the clusters? Two people as chains of T moments (the life calibration's kernels, no
+#    news), coupled by contagion c each way, symmetrized: W = [[B, 2cI], [2cI, B]], B_ij =
+#    a al^|i-j| + m mu^|i-j|. (Codex, cu-persons.)
+from scipy.linalg import eigh
+
+
+def chains(T, c, a=LIFE["a"], al=LIFE["al"], m=LIFE["m"], mu=LIFE["mu"]):
+    r = np.abs(np.subtract.outer(np.arange(T), np.arange(T)))
+    Bm = np.where(r > 0, a * al ** r + m * mu ** r, 0.0)
+    return Bm, np.block([[Bm, 2 * c * np.eye(T)], [2 * c * np.eye(T), Bm]])
+
+
+def ncut(W, side):
+    cut = W[np.ix_(side, ~side)].sum()
+    return cut / W[side].sum() + cut / W[~side].sum()
+
+
+aa, al_, mm, mu_ = LIFE["a"], LIFE["al"], LIFE["m"], LIFE["mu"]
+F1 = aa * al_ / (1 - al_) ** 2 + mm * mu_ / (1 - mu_) ** 2
+F2 = aa * al_ * (1 + al_) / (1 - al_) ** 3 + mm * mu_ * (1 + mu_) / (1 - mu_) ** 3
+
+# 3a. Candidate cuts: by person (2cT) against each chain at its midpoint (2 C_T, C_T in closed form),
+#     equal volumes, so the person split wins iff c < C_T/T ~ F1/T.
+err, bad = 0.0, 0
+for T in (8, 12, 14, 40):
+    n_ = T // 2
+    Bm, W = chains(T, 0.05)
+    CT = aa * al_ * (1 - al_ ** n_) ** 2 / (1 - al_) ** 2 + mm * mu_ * (1 - mu_ ** n_) ** 2 / (1 - mu_) ** 2
+    err = max(err, abs(Bm[:n_, n_:].sum() - CT))
+    person = np.r_[np.ones(T, bool), np.zeros(T, bool)]
+    time_ = np.r_[np.arange(T) < n_, np.arange(T) < n_]
+    bad += (ncut(W, person) < ncut(W, time_)) != (0.05 < CT / T)
+report("cuts: the midpoint cut C_T in closed form; person beats time iff c < C_T/T (c = 0.05: T <= 12)",
+       err + bad, tol=1e-12)
+
+# 3b. Spectra: person-symmetric modes are L0's, antisymmetric ones L0's + 4c, so the Fiedler value is
+#     min(lambda_2(L0), 4c) and the Fiedler vector is (1, -1) below c = lambda_2(L0)/4 ~ F2 pi^2/(4T^2).
+lap = lambda W: np.diag(W.sum(1)) - W
+err = 0.0
+rows = []
+for T in (20, 40, 100, 300):
+    Bm, _ = chains(T, 0.0)
+    l2 = eigh(lap(Bm), eigvals_only=True)[1]
+    for c in (0.5 * l2 / 4, 2 * l2 / 4):
+        _, W = chains(T, c)
+        w_, v_ = eigh(lap(W))
+        err = max(err, abs(w_[1] - min(l2, 4 * c)))
+        if c < l2 / 4:
+            fv = v_[:, 1] * np.sign(v_[0, 1])
+            err = max(err, np.max(np.abs(fv - np.r_[np.ones(T), -np.ones(T)] / np.sqrt(2 * T))))
+    rows.append((T, F1 / T, l2 / 4, F2 * np.pi ** 2 / (4 * T ** 2)))
+report("spectra: Fiedler value min(lambda_2(L0), 4c), Fiedler vector (1, -1) below lambda_2(L0)/4", err, tol=1e-9)
+print("      whole-person thresholds on c: cut ~F1/T, spectral lambda_2(L0)/4 (asymptotic F2 pi^2/(4T^2)):")
+for T, cut_, sp, asy in rows:
+    print(f"        T = {T:3d}: cut {cut_:.5f}, spectral {sp:.3g} ({asy:.3g})")
+print(f"        a life of 4000 weeks: cut {F1 / 4000:.2e}, spectral ~{F2 * np.pi ** 2 / (4 * 4000 ** 2):.1e}")
+
+# 3c. Uniform recall over a whole context (memory B/L to every earlier moment, L = T - 1): each person
+#     is a complete graph and the threshold is B T/(4L) -> B/4 at every length (Codex).
+for T, B_ in ((20, 0.4), (100, 0.4)):
+    Bm = np.where(np.subtract.outer(np.arange(T), np.arange(T)) != 0, B_ / (T - 1), 0.0)
+    l2 = eigh(lap(Bm), eigvals_only=True)[1]
+    err = max(err, abs(l2 / 4 - B_ * T / (4 * (T - 1))))
+report("uniform recall: whole-person threshold B T/(4(T - 1)), 0.1053 at T = 20, 0.1010 at 100", err, tol=1e-9)
+
+# 3d. Markov stability (continuous-time walk with generator -L, uniform stationary measure): the person
+#     partition's autocovariance is e^{-4ct}/2, the midpoint split's a mix of temporal modes; between the
+#     two thresholds persons win first and lose after one crossover (T = 100; Codex: 264.9 at c = 0.001,
+#     12.21 at c = 0.003).
+T = 100
+Bm, _ = chains(T, 0.0)
+lam_, vec_ = eigh(lap(Bm))
+q = np.r_[np.ones(T // 2), -np.ones(T // 2)]
+ak = (vec_.T @ q) ** 2 / T
+r_time = lambda t: 0.5 * np.sum(ak[1:] * np.exp(-lam_[1:] * t))
+cross = []
+for c in (0.001, 0.003):
+    f = lambda t: 0.5 * np.exp(-4 * c * t) - r_time(t)
+    lo, hi = 1e-6, 1e5
+    for _ in range(200):
+        mid = np.sqrt(lo * hi)
+        lo, hi = (mid, hi) if f(mid) > 0 else (lo, mid)
+    cross.append(lo)
+report("Markov stability, T = 100: persons first, slices after t* = 264.9 (c 0.001), 12.21 (c 0.003)",
+       abs(cross[0] - 264.901) + abs(cross[1] - 12.2108), tol=1e-2)
