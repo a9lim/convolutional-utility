@@ -136,6 +136,26 @@ differences (1e-9) and the reduced form on deterministic plans (7e-12).
   exact fixed-past and commitment dates, and the dial; writes `scheduling_dial.png`);
   `run_selection.py` (which credible plan learning selects under loss-averse news).
 
+### The exit agent (`notes/death.md`, chosen dates; sketched, not yet run)
+
+Does a learner learn to exit? A good life with a foreseen bad patch and a tabular exit policy; world `τ` is
+the last lived moment, and later moments do not exist (no felt state, anticipation, memory or news). The engine
+is the scheduling agent's with the dead masked out, optional biphasic memory (`notes/adaptation.md`), and a
+prior before birth, so the first self feels news only of its own deviation. Learners: momentary (each self
+ascends its own felt state, exiting against continuing, past forecasts fixed), remaining-life (`w = 0` on the
+life-sum) and planner (`w = 1`). Exact benchmarks come from the same engine: an off-path world's felt states are
+a deviation's, so one solve tests every one-shot deviation from a plan. `python exits.py` checks the never-exit
+plan against a direct foreseen solve, the `λ = 1` exit incentive against `death.md`'s `S/(1 − n)` (3e-13) and
+the `w = 1` gradient against finite differences (8e-10); its plan equilibria agree with `notes/death.py`'s in ten
+cases at `T = 30`, including the `λ = 2` band.
+
+- `exits.py` (model, learners, benchmarks); `run_exits.py` (the sweep: `λ` 1 and 2, with and without biphasic
+  memory, patches below, inside and above the band; three starts for the momentary learner; writes
+  `exits_report.txt`). CPU-only.
+- Predictions, in `run_exits.py` before any run: one outcome per patch at `λ = 1`; at `λ = 2` inside the band, a
+  naive start stays alive and a uniform or primed start learns to exit (D3's earliest credible plan, carried to
+  exit); the remaining-life learner and planner never exit; biphasic memory moves the band up.
+
 ## Single-self results
 
 - **Observer** (chosen beliefs under a tether, not D7's affect filtration; loss-averse news,

@@ -419,7 +419,8 @@ An agent that can end its life at any moment, a biological immortal's only death
 ## Open
 
 - Learning selection: does a fixed-past learner, which lands on the earliest credible plan in
-  D3, learn to exit? The preferred credible plan in the full sense, rather than a prescribed
+  D3, learn to exit? Sketched in `experiments/learned_expectations/exits.py` and `run_exits.py`,
+  predictions written there, not yet run. The preferred credible plan in the full sense, rather than a prescribed
   continuation; proofs of the band's edges, numerical here.
 - A longer horizon for the decision case, and the band's containment as a condition rather
   than a share of draws. Schünemann, Strulik & Trimborn (2023) is the quantitative cousin
